@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SideBarOption from "../components/ui/SideBarOption";
+import SideBarOption from "../components/ui/dashboard/SideBarOption";
 import jackieSarlLogo from "./../assets/images/logo.png";
 import { BsBellFill, BsChatTextFill, BsPlusCircleFill } from "react-icons/bs";
 
@@ -109,7 +109,7 @@ function Dashboard() {
             </select>
             <p className="mx-3">Au</p>
             <select
-              className="px-2.5 py-1 bg-transparent border border-gray-200 outline-non"
+              className="px-2.5 py-1 bg-transparent border border-gray-200 outline-none"
               name="first-date"
               id="first-date"
             >
@@ -130,6 +130,88 @@ function Dashboard() {
             <option value="option4">Option 4</option>
           </select>
         </div>
+        {/* ======================== FORM CARD ======================== */}
+
+        <div
+          className="flex flex-col self-center justify-center items-center my-10 w-[300px] p-3 shadow-lg
+"
+        >
+          <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-[#d55f5a] text-white">
+            Remise de chèque
+          </div>
+
+          <div className="my-2 w-full">
+            <input
+              id="date"
+              name="date"
+              type="date"
+              autoComplete="date"
+              placeholder="Date"
+              required
+              className="w-full text-black text-md rounded-sm bg-transparent py-1.5 px-2 border border-orange-400 focus:rounded-sm focus:bg-[#d55f5a]  focus:outline-none focus:border-2  cursor-orange-400 "
+            />
+          </div>
+          <div className="my-2 w-full">
+            <textarea
+              id="description"
+              name="description"
+              autoComplete="description"
+              placeholder="Description"
+              required
+              className="w-full text-black text-md rounded-sm bg-transparent py-1.5 px-2 border border-orange-400 focus:rounded-sm focus:bg-[#d55f5a]  focus:outline-none focus:border-2  cursor-orange-400 "
+            ></textarea>
+          </div>
+          <div className="my-2 w-full">
+            <input
+              id="banque"
+              name="banque"
+              type="text"
+              autoComplete="banque"
+              placeholder="Banque"
+              required
+              className="w-full text-black text-md rounded-sm bg-transparent py-1.5 px-2 border border-orange-400 focus:rounded-sm focus:bg-[#d55f5a]  focus:outline-none focus:border-2  cursor-orange-400 "
+            />
+          </div>
+          <div className="my-2 w-full">
+            <input
+              id="montant"
+              name="montant"
+              type="text"
+              autoComplete="montant"
+              placeholder="Montant"
+              required
+              className="w-full text-black text-md rounded-sm bg-transparent py-1.5 px-2 border border-orange-400 focus:rounded-sm focus:bg-[#d55f5a]  focus:outline-none focus:border-2  cursor-orange-400 "
+            />
+          </div>
+          <div className="my-2 w-full">
+            <input
+              id="reste"
+              name="reste"
+              type="text"
+              autoComplete="reste"
+              placeholder="Reste"
+              required
+              className="w-full text-black text-md rounded-sm bg-transparent py-1.5 px-2 border border-orange-400 focus:rounded-sm focus:bg-[#d55f5a]  focus:outline-none focus:border-2  cursor-orange-400 "
+            />
+          </div>
+
+          <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
+            <button
+              type="button"
+              className="text-white bg-[#d55f5a] shadow-md hover:border-none"
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              className="text-white bg-[#d55f5a] shadow-md hover:border-none"
+            >
+              Valider
+            </button>
+          </div>
+        </div>
+
+        <div className="my-5">Space</div>
       </div>
     </div>
   );

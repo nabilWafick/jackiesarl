@@ -1,45 +1,63 @@
-import PositionCard from "../components/ui/PositionCard";
-import administrateur from "./../assets/images/administrateur.png";
-import chargeClientele from "./../assets/images/charge-clientele.png";
-import chargeRecouvrement from "./../assets/images/charge-recouvrement.png";
-import comptable from "./../assets/images/comptable.png";
-import secretaire from "./../assets/images/secretaire.png";
-import autres from "./../assets/images/autres.png";
+import PositionCard from "../components/ui/position/PositionCard";
+import { JSImages } from "../utils/images";
+
+const positionsData = [
+  {
+    image: JSImages.administrateur,
+    name: "Administrateur",
+    alt: "Administrateur",
+    onClick: () => {},
+  },
+  {
+    image: JSImages.chargeRecouvrement,
+    name: "Charge Recouvrement",
+    alt: "Charge Recouvrement",
+    onClick: () => {},
+  },
+  {
+    image: JSImages.secretaire,
+    name: "Secretaire",
+    alt: "Secretaire",
+    onClick: () => {},
+  },
+  {
+    image: JSImages.chargeClientele,
+    name: "Charge Clientele",
+    alt: "Charge Clientele",
+    onClick: () => {},
+  },
+  {
+    image: JSImages.comptable,
+    name: "Comptable",
+    alt: "Comptable",
+    onClick: () => {},
+  },
+
+  {
+    image: JSImages.autres,
+    name: "Autres",
+    alt: "Autres",
+    onClick: () => {},
+  },
+];
 
 function Position() {
   return (
     <div className=" h-screen w-screen flex flex-col justify-center justify-items-center items-center self-center content-center">
-      <h2 className=" mb-12 self-center text-center text-2xl text-gray-400">
+      <h2 className=" mb-12 self-center text-center text-2xl text-gray-500">
         Choisissez votre Poste
       </h2>
 
       <div className=" grid grid-flow-row grid-cols-3">
-        <PositionCard
-          image={administrateur}
-          positionName="Administrateur"
-          alt="Administrateur"
-        />
-        <PositionCard
-          image={chargeRecouvrement}
-          positionName="Charge Recouvrement"
-          alt="Charge Recouvrement"
-        />
-        <PositionCard
-          image={secretaire}
-          positionName="Secretaire"
-          alt="Secretaire"
-        />
-        <PositionCard
-          image={chargeClientele}
-          positionName="Charge Clientele"
-          alt="Charge Clientele"
-        />
-        <PositionCard
-          image={comptable}
-          positionName="Comptable"
-          alt="Comptable"
-        />
-        <PositionCard image={autres} positionName="Autres" alt="Autres" />
+        {positionsData.map((position) => (
+          <PositionCard
+            key={position.name}
+            image={position.image}
+            name={position.name}
+            alt={position.alt}
+            onClick={position.onClick}
+          />
+        ))}
       </div>
     </div>
   );
