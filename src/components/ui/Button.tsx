@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { JSColors } from "../../utils/colors";
 
 interface JsButtonProps {
   name: string;
@@ -11,7 +10,7 @@ const JsButton: FC<JsButtonProps> = ({ name, type, onClick }) => {
   return (
     <button
       type={type}
-      className={`text-white bg-[${JSColors.secondary}] shadow-md hover:border-none`}
+      className={`text-white bg-secondary shadow-md py-2 px-4 border-2 border-secondary hover:border-none focus:outline-none`}
       onClick={() => onClick()}
     >
       {name}

@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { JSColors } from "../../utils/colors";
 
 interface AuthenticationButtonProps {
   name: string;
@@ -13,7 +12,7 @@ const AuthenticationButton: FC<AuthenticationButtonProps> = ({
   return (
     <button
       type="submit"
-      className={`flex mt-4 w-full justify-center rounded-md bg-[#D55F5A] [${JSColors.secondary}] px-3 py-1.5 text-md font-semibold text-white shadow-sm hover:shadow-lg  hover:border-none`}
+      className={`flex mt-4 w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-md font-semibold text-white shadow-sm hover:shadow-lg  hover:border-none`}
       onClick={onClick}
     >
       {name}

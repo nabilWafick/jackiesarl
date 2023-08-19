@@ -1,6 +1,4 @@
 import { FC } from "react";
-import { JSColors } from "../../utils/colors";
-
 interface JsOutlineButtonProps {
   name: string;
   type: "submit" | "button" | undefined;
@@ -11,7 +9,7 @@ const JsOutlineButton: FC<JsOutlineButtonProps> = ({ name, type, onClick }) => {
   return (
     <button
       type={type}
-      className={`text-[${JSColors.secondary}] bg-white border-[${JSColors.secondary}] border-2 shadow-md hover:border-none`}
+      className={`text-secondary bg-white border-secondary py-2 px-4 border-2 shadow-md hover:border-none hover:bg-secondary hover:text-white focus:outline-none `}
       onClick={() => onClick()}
     >
       {name}

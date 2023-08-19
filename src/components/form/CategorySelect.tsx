@@ -14,7 +14,7 @@ interface JSCategorySelectProps {
 const JSCategorySelect: FC<JSCategorySelectProps> = ({ id, name, options }) => {
   return (
     <select
-      className="px-3 py-2 bg-[#d55f5a] rounded-md text-white border border-gray-200 outline-none"
+      className="px-3 py-2 bg-secondary rounded-md text-white border border-gray-200 outline-none"
       name={name}
       id={id}
     >
