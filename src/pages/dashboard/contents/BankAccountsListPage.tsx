@@ -17,7 +17,7 @@ const BankAccountsListPage = () => {
             { value: "decreasing", label: "Ordre décroissant" },
           ]}
         /> */}
-        <AddingButton option="Solde" onClick={() => {}} />
+        <AddingButton option="Banque" onClick={() => {}} />
       </div>
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped">

@@ -21,10 +21,12 @@ const HorizontalDoughnutStatCard: FC<HorizontalDoughnutStatCardProps> = ({
   data,
 }) => {
   return (
-    <div className={`h-full w-1/2 bg-white p-3 doughnut shadow-md rounded-lg `}>
+    <div
+      className={`h-full w-1/2 bg-slate-50 p-3 doughnut shadow-md rounded-lg `}
+    >
       <div className="flex mb-3 justify-between ">
         <p className="font-medium text-lg">{name}</p>
-        <p className="font-bold text-xl">{value}</p>
+        <p className="font-bold text-xl text-secondary ">{value}</p>
       </div>
       <div className=" bg-black h-[1px] mb-[35px] w-full"></div>
       <div className=" h-3/4 w-full flex flex-row justify-center items-center content-center">
@@ -35,7 +37,7 @@ const HorizontalDoughnutStatCard: FC<HorizontalDoughnutStatCardProps> = ({
           {data.map((_data) => (
             <div className="flex justify-between items-center">
               <div className="flex items-center">
-                <FaDotCircle className="mr-3 text-slate-300" size={12} />
+                <FaDotCircle className="mr-3 text-secondary" size={12} />
                 <p>{_data.name}</p>
               </div>
               <div className="flex items-center">

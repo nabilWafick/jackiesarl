@@ -17,7 +17,7 @@ const StatistiqueCard: FC<StatistiqueCardProps> = ({
   value,
 }) => {
   return (
-    <div className="h-full w-full bg-white flex flex-col justify-between items-between content-between shadow-md rounded-[30px] p-3">
+    <div className="h-full w-full bg-slate-50 flex flex-col justify-between items-between content-between shadow-md rounded-[30px] p-3">
       <div className="w-full flex justify-between items-center ">
         {icon}
         <div className="flex">

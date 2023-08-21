@@ -8,7 +8,9 @@ interface TableBordPeriodeProps {
 const TableBordPeriode: FC<TableBordPeriodeProps> = ({ periode, onClick }) => {
   return (
     <div
-      className="text-xs rounded-full py-3 px-4 mx-3 bg-white shadow-md"
+      className={`text-xs rounded-full py-3 px-4 mx-3 ${
+        periode == "Aujourd'hui" ? "bg-secondary text-white" : "bg-slate-100"
+      } shadow-md`}
       onClick={onClick}
     >
       {periode}

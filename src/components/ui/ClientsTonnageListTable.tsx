@@ -1,10 +1,8 @@
-import "../assets/css/bootstrap.min.css";
-
-function TableListeNombreTonnagesClient() {
+function ClientsTonnageListTable() {
   return (
-    <div className="h-screen w-screen flex p-10 items-center">
-      <div className="flex flex-col justify-start w-full ">
-        <h2 className=" text-sm my-3 p-2 bg-gray-100 w-max">01-04-2025</h2>
+    <div className="flex flex-col justify-start w-full ">
+      <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
+      <div className="flex flex-col justify-start w-full my-7  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped">
           <tbody>
             <tr>
@@ -24,7 +22,6 @@ function TableListeNombreTonnagesClient() {
                   </tr>
                 );
               }
-
               return (
                 <tr key={index}>
                   <td>Tobby PATO</td>
@@ -47,4 +44,4 @@ function TableListeNombreTonnagesClient() {
   );
 }
 
-export default TableListeNombreTonnagesClient;
+export default ClientsTonnageListTable;

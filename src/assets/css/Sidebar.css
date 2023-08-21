@@ -1,7 +1,7 @@
 
 .sidebar{
     scrollbar-width: 5px;
-    scrollbar-color: #fae5e5 #f1f1f1 ;
+    scrollbar-color: #d55f5a #f1f1f1 ;
 }
 
 .sidebar::-webkit-scrollbar{ 
@@ -13,7 +13,7 @@ background-color: #f1f1f1;
 }
 
 .sidebar::-webkit-scrollbar-thumb{
-    background-color: #fae5e5;
+    background-color: #d55f5a;
     border-radius: 50px;
 }
 

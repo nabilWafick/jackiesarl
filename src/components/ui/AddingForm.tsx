@@ -5,9 +5,10 @@ import JsButton from "./Button";
 interface AddingButtonProps {
   option: string;
   inputs: ReactNode[];
+  onValidate: () => void;
 }
 
-const AddingForm: FC<AddingButtonProps> = ({ option, inputs }) => {
+const AddingForm: FC<AddingButtonProps> = ({ option, inputs, onValidate }) => {
   return (
     <div
       className="flex flex-col self-center justify-center bg-white items-center my-10 w-[300px] p-3 shadow-xl
@@ -23,7 +24,7 @@ const AddingForm: FC<AddingButtonProps> = ({ option, inputs }) => {
 
       <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
         <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
-        <JsButton type="button" name="Valider" onClick={() => {}} />
+        <JsButton type="button" name="Valider" onClick={onValidate} />
       </div>
     </div>
   );

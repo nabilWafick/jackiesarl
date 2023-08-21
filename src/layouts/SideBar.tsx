@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SideBarOption from "../components/ui/SideBarOption";
-import "./Sidebar.css";
+import "../assets/css/Sidebar.css";
 import { BsCart3, BsHandbag, BsHouse, BsPersonWorkspace } from "react-icons/bs";
 import {
   BiBook,
@@ -76,17 +76,26 @@ function SideBar() {
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [
         {
+          to: "/clients/achats",
           name: "Achats",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
         },
         {
+          to: "/clients/paiements",
           name: "Paiements",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
         },
         {
+          to: "/clients/soldes",
           name: "Soldes",
+          currentActiveSideBarSubOption: currentActiveSideBarSubOption,
+          onSideBarSubOptionClick: onSideBarSubOptionClick,
+        },
+        {
+          to: "/clients/remise-de-cheque",
+          name: "Remises de chèque",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
         },
@@ -102,11 +111,13 @@ function SideBar() {
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [
         {
+          to: "/stock/bon-commande",
           name: "Stock Bon Commande",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
         },
         {
+          to: "/stock/camion",
           name: "Stock Camion",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
@@ -123,6 +134,7 @@ function SideBar() {
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [
         {
+          to: "/vente/statistiques",
           name: "Statistiques",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
@@ -139,6 +151,7 @@ function SideBar() {
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [
         {
+          to: "/paiements/validations",
           name: "Validations",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
@@ -148,7 +161,7 @@ function SideBar() {
     },
     {
       to: "/avance",
-      icon: <GiPayMoney />,
+      icon: <GiPayMoney size={20} className=" text-gray-500" />,
       name: "Avance",
       index: 5,
       isOpen: false,
@@ -175,11 +188,13 @@ function SideBar() {
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [
         {
+          to: "/modifications/cette-semaine",
           name: "Cette Semaine",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
         },
         {
+          to: "/modifications/ce-mois",
           name: "Ce Mois",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
@@ -248,7 +263,7 @@ function SideBar() {
       onSideBarOptionClick: onSideBarOptionClick,
     },
     {
-      to: "autorisations",
+      to: "/autorisations",
       icon: <BsPersonWorkspace size={20} className=" text-gray-500" />,
       name: "Autorisations",
       index: 14,
@@ -271,20 +286,20 @@ function SideBar() {
 
   return (
     <div
-      className="h-full w-[240px] flex flex-col shadow-sm  bg-white fixed top-0 left-0 overflow-scroll overflow-x-hidden sidebar "
+      className="h-screen w-2/12 flex flex-col shadow-lg  bg-white fixed top-0 left-0 overflow-scroll overflow-x-hidden sidebar "
       //style={{ width: "30vh" }}
     >
-      <div className="h-28">
+      <div className="h-28 w-2/12 bg-white fixed z-0">
         <SideBarUserInfosCard
           name="KOFFI Jean Paul"
           position="ADMINISTRATEUR"
         />
+        <p className="flex w-full justify-center items-center font-bold  text-gray-400 bg-white">
+          MENU
+        </p>
       </div>
 
-      <div className="flex flex-col justify-center px-3">
-        <h2 className=" self-center mt-4 mb-3 font-bold  text-gray-400">
-          MENU
-        </h2>
+      <div className="flex flex-col mt-40  justify-center px-3">
         {sideBarData.map((sideBarOptionData) => (
           <SideBarOption
             key={sideBarOptionData.name}

@@ -9,16 +9,16 @@ function ModificationsTable() {
               if (index % 2 == 0) {
                 return (
                   <tr key={index}>
-                    <td>
-                      Sabine KLAUS à modifié l'achat NOCIBE du client FASSINOU à
-                      20 tonnes{" "}
+                    <td className="text-[15px]">
+                      Sabine KLAUS à modifiépx l'achat NOCIBE du client FASSINOU
+                      à 20 tonnes
                     </td>
                   </tr>
                 );
               }
               return (
                 <tr key={index}>
-                  <td>
+                  <td className="text-[15px]">
                     David PEACE KLAUS à modifié l'achat NOCIBE du client
                     Fassinou à 30 tonnes
                   </td>

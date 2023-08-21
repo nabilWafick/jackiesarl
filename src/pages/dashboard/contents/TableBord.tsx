@@ -43,28 +43,28 @@ const periods = [
 const statsData = [
   {
     name: "Avance",
-    icon: <FaHandHoldingUsd size={40} />,
+    icon: <FaHandHoldingUsd className="text-secondary" size={40} />,
     percentage: 12,
     increase: true,
     value: "250 000 Md",
   },
   {
     name: "Vente",
-    icon: <BsHandbag size={40} />,
+    icon: <BsHandbag className="text-secondary" size={40} />,
     percentage: 12,
     increase: true,
     value: "5 000 tonnes",
   },
   {
     name: "Clients Inscrits",
-    icon: <BiUser size={40} />,
+    icon: <BiUser className="text-secondary" size={40} />,
     percentage: 45,
     increase: true,
     value: "70",
   },
   {
     name: "Créances",
-    icon: <GiReceiveMoney size={40} />,
+    icon: <GiReceiveMoney className="text-secondary" size={40} />,
     percentage: 35,
     increase: false,
     value: "500 000 M",
@@ -192,9 +192,9 @@ function TableBord() {
 
       {/* Line 1 Stats */}
 
-      <div className="flex h-[500px] w-full my-4 justify-between ">
+      <div className="flex h-[500px] w-full my-4 justify-between items-center content-center ">
         <TransactionChartCard />
-        <div className="h-full w-1/2 statistique grid grid-flow-row grid-cols-2 p-3">
+        <div className="h-full w-1/2 statistique grid grid-flow-row grid-cols-2 ml-3 p-">
           {statsData.map((stat) => (
             <div className="grid-element m-3" key={stat.name}>
               <StatistiqueCard

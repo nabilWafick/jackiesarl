@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 //import { JSColors } from "../../utils/colors";
 
 interface SideBarSubOption {
+  to: string;
   name: string;
   currentActiveSideBarSubOption: string;
   onSideBarSubOptionClick: (name: string) => void;
@@ -62,18 +63,19 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
       {isOpen && subOptions.length != 0 && (
         <div className="flex flex-col my-1 w-full">
           {subOptions.map((subOption) => (
-            <div
+            <Link
+              to={subOption.to}
               key={subOption.name}
               className={`ml-[40px] my-[2px] py-2 pl-[10px] rounded-md flex items-center text-[12px] ${
                 subOption.currentActiveSideBarSubOption == subOption.name &&
                 "bg-primary"
-              } hover:cursor-pointer`}
+              } hover:cursor-pointer text-black hover:text-black`}
               onClick={() => {
                 subOption.onSideBarSubOptionClick(subOption.name);
               }}
             >
               {subOption.name}
-            </div>
+            </Link>
           ))}
         </div>
       )}

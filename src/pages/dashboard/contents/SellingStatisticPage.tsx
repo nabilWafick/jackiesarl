@@ -7,11 +7,10 @@ const SellingStatisticsPage = () => {
       <div className="flex my-1 justify-between items-center">
         <p className="text-lg   ">Statistique des ventes</p>
         <div className="flex flex-row text-sm p-2 bg-white border border-primary items-center    ">
-          Juin 2023 <FaCalendar size={25} className="pl-3 text-secondary" />
+          Juin 2024 <FaCalendar size={25} className="pl-3 text-secondary" />
         </div>
       </div>
-
-      <div className="h-[400px] w-full my-3 flex justify-center">
+      <div className="h-[400px] w-12/12 my-3 flex justify-center">
         <LineBarChart />
       </div>
     </div>
