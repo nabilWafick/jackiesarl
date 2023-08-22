@@ -35,7 +35,7 @@ import FormsPage from "./contents/FormsPage";
 function Dashboard() {
   return (
     <div
-      className=" h-screen w-screen flex flex-row justify-center relative overflow-x-hidden sidebar bg-stone-100 "
+      className=" h-screen w-screen flex flex-row justify-center relative overflow-x-hidden sidebar bg-stone-100' "
       //    style={{ width: "" }}
     >
       {/*=============================== SIDEBAR ==============================*/}

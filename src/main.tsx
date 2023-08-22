@@ -10,6 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       {/* <App /> */}
       <Dashboard />
+      {/* <Test /> */}
     </BrowserRouter>
   </React.StrictMode>
 );

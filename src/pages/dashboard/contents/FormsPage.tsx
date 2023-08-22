@@ -1,11 +1,20 @@
+import { ReactNode } from "react";
 import JSInput from "../../../components/form/Input";
 import JsTextarea from "../../../components/form/Textarea";
 import AddingForm from "../../../components/ui/AddingForm";
+import { toggleModal } from "../../../components/ui/Modal";
 
-const FormsPage = () => {
-  return (
-    <div className="h-full w-full justify-center items-center content-center p-5 grid grid-cols-3">
+export interface FormStructure {
+  label: string;
+  form: ReactNode;
+}
+
+export const forms: FormStructure[] = [
+  {
+    label: "client-adding-form",
+    form: (
       <AddingForm
+        label="client-adding-form"
         option="Client"
         inputs={[
           <JSInput
@@ -38,8 +47,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "purchase-adding-form",
+    form: (
       <AddingForm
+        label="purchase-adding-form"
         option="Achat"
         inputs={[
           <JSInput
@@ -86,8 +102,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "payment-adding-form",
+    form: (
       <AddingForm
+        label="payment-adding-form"
         option="Paiement"
         inputs={[
           <JSInput
@@ -127,8 +150,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "purchase-order-stock-adding-form",
+    form: (
       <AddingForm
+        label="purchase-order-stock-adding-form"
         option="Stock Bon de Commande"
         inputs={[
           <JSInput
@@ -175,8 +205,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
-      />{" "}
+        onCancel={toggleModal}
+      />
+    ),
+  },
+  {
+    label: "truck-stock-adding-form",
+    form: (
       <AddingForm
+        label="truck-stock-adding-form"
         option="Stock Camion"
         inputs={[
           <JSInput
@@ -216,8 +253,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "advance-adding-form",
+    form: (
       <AddingForm
+        label="advance-adding-form"
         option="Avance"
         inputs={[
           <JSInput
@@ -236,8 +280,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "fog-adding-form",
+    form: (
       <AddingForm
+        label="fog-adding-form"
         option="Brouillard"
         inputs={[
           <JSInput
@@ -282,8 +333,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "expense-adding-form",
+    form: (
       <AddingForm
+        label="expense-adding-form"
         option="Dépenses"
         inputs={[
           <JsTextarea
@@ -308,8 +366,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "order-adding-form",
+    form: (
       <AddingForm
+        label="order-adding-form"
         option="Commandes"
         inputs={[
           <JSInput
@@ -349,8 +414,15 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+  {
+    label: "current-balence-adding-form",
+    form: (
       <AddingForm
+        label="current-balence-adding-form"
         option="Soldes Courants"
         inputs={[
           <JSInput
@@ -376,7 +448,18 @@ const FormsPage = () => {
           />,
         ]}
         onValidate={() => {}}
+        onCancel={toggleModal}
       />
+    ),
+  },
+];
+
+const FormsPage = () => {
+  return (
+    <div className="h-full w-full justify-center items-center content-center p-5 grid grid-cols-3">
+      {forms.map((form) => (
+        <div key={form.label}>{form.form}</div>
+      ))}
     </div>
   );
 };

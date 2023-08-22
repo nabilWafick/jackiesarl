@@ -17,7 +17,7 @@ const PurchasesPage = () => {
           id="category-ciment"
           name="category-ciment"
           options={categories}
-        />{" "}
+        />
       </div>
       <PurchasesTable />
     </div>
