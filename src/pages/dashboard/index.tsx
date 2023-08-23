@@ -30,7 +30,7 @@ import SellingStatisticsPage from "./contents/SellingStatisticPage";
 import PaymentsValidationsPage from "./contents/PaymentsValidationsPage";
 import ClientsChartPage from "./contents/ClientsChartPage";
 import ClientsTonnageListPage from "./contents/ClientsTonnageListPage";
-import FormsPage from "./contents/FormsPage";
+import DebtsChartPage from "./contents/DebtsChartPage";
 
 function Dashboard() {
   return (
@@ -97,20 +97,21 @@ function Dashboard() {
                 path="/modifications/ce-mois"
                 Component={ModificationsPage}
               />
-              <Route path="/creances" Component={DebtsListPage} />
+              <Route path="/creances" Component={DebtsChartPage} />
+              <Route path="/creances/liste" Component={DebtsListPage} />
               <Route path="/brouillard" Component={FogPage} />
               <Route path="/depenses" Component={ExpensesPage} />
               <Route path="/rapports" Component={RapportsPage} />
               <Route path="/commandes" Component={OrdersPage} />
               <Route
                 path="/soldes-courants/"
-                Component={/*CurrentsBalencePage*/ BankAccountsListPage}
+                Component={BankAccountsListPage}
               />
-              <Route path="/soldes-courants/" Component={CurrentsBalencePage} />
               <Route
-                path="/autorisations"
-                Component={/*AutorisationsPage*/ FormsPage}
+                path="/soldes-courants/details"
+                Component={CurrentsBalencePage}
               />
+              <Route path="/autorisations" Component={AutorisationsPage} />
               <Route path="/se-deconnecter" Component={LogoutPage} />
               <Route path="" Component={NotFoundPage} /> // empty ""
               <Route path="*" Component={NotFoundPage} /> // star *

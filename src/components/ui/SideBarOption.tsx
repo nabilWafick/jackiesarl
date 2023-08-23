@@ -69,7 +69,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
               className={`ml-[40px] my-[2px] py-2 pl-[10px] rounded-md flex items-center text-[12px] ${
                 subOption.currentActiveSideBarSubOption == subOption.name &&
                 "bg-primary"
-              } hover:cursor-pointer text-black hover:text-black`}
+              } hover:cursor-pointer font-normal text-black hover:text-black`}
               onClick={() => {
                 subOption.onSideBarSubOptionClick(subOption.name);
               }}

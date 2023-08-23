@@ -155,6 +155,45 @@ export const forms: FormStructure[] = [
     ),
   },
   {
+    label: "check-remittance-adding-form",
+    form: (
+      <AddingForm
+        label="check-remittance-adding-form"
+        option="Remise de Chèque"
+        inputs={[
+          <JsTextarea
+            name="description"
+            id="description"
+            placeholder="Description"
+          />,
+          <JSInput
+            name="bank"
+            id="bank"
+            type="text"
+            placeholder="Banque"
+            autoComplete="bank"
+          />,
+          <JSInput
+            name="amount"
+            id="amount"
+            type="number"
+            placeholder="Montant"
+            autoComplete="amount"
+          />,
+          <JSInput
+            name="rest"
+            id="rest"
+            type="number"
+            placeholder="Reste"
+            autoComplete="rest"
+          />,
+        ]}
+        onValidate={() => {}}
+        onCancel={toggleModal}
+      />
+    ),
+  },
+  {
     label: "purchase-order-stock-adding-form",
     form: (
       <AddingForm
@@ -422,8 +461,8 @@ export const forms: FormStructure[] = [
     label: "current-balence-adding-form",
     form: (
       <AddingForm
-        label="current-balence-adding-form"
-        option="Soldes Courants"
+        label="bank-adding-form"
+        option="Solde Courant"
         inputs={[
           <JSInput
             name="bank"
@@ -445,6 +484,81 @@ export const forms: FormStructure[] = [
             type="number"
             placeholder="Solde Actuel"
             autoComplete="current-balence"
+          />,
+        ]}
+        onValidate={() => {}}
+        onCancel={toggleModal}
+      />
+    ),
+  },
+  {
+    label: "current-balence-details-adding-form",
+    form: (
+      <AddingForm
+        label="current-balence-details-adding-form"
+        option="Soldes Courants"
+        inputs={[
+          <JsTextarea
+            name="description"
+            id="description"
+            placeholder="Description"
+          />,
+
+          <JSInput
+            name="credit"
+            id="credit"
+            type="number"
+            placeholder="Crédit"
+            autoComplete="credit"
+          />,
+          <JSInput
+            name="debit"
+            id="debit"
+            type="number"
+            placeholder="Débit"
+            autoComplete="debit"
+          />,
+          <JSInput
+            name="account-number"
+            id="account-number"
+            type="number"
+            placeholder="Numéro de compte"
+            autoComplete="account-number"
+          />,
+        ]}
+        onValidate={() => {}}
+        onCancel={toggleModal}
+      />
+    ),
+  },
+  {
+    label: "debt-adding-form",
+    form: (
+      <AddingForm
+        label="debt-adding-form"
+        option="Créance"
+        inputs={[
+          <JSInput
+            name="fullname"
+            id="fullname"
+            type="text"
+            placeholder="Client"
+            autoComplete="fullname"
+          />,
+          <JSInput
+            name="cim-benin-debt"
+            id="cim-benin-debt"
+            type="number"
+            placeholder="Créance CIM BENIN"
+            autoComplete="cim-benin-debt"
+          />,
+
+          <JSInput
+            name="nocibe-debt"
+            id="nocibe-debt"
+            type="number"
+            placeholder="Créance NOCIBE"
+            autoComplete="nocibe-debt"
           />,
         ]}
         onValidate={() => {}}

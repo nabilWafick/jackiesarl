@@ -6,8 +6,8 @@ const RapportsPage = () => {
     <div className="w-full h-full flex justify-around items-center row-auto">
       <div className="flex justify-center my-3 row-auto">
         <div className="users col-span-4 mx-5">
-          <div className="flex justify-center p-2 shadow-md rounded-md bg-secondary text-white">
-            Les Utilisateurs
+          <div className="flex justify-center p-2 shadow-md rounded-md bg-secondary text-white  font-semibold">
+            Utilisateurs
           </div>
           <RapportUserCard />
           <RapportUserCard />
@@ -17,8 +17,8 @@ const RapportsPage = () => {
           <RapportUserCard />
         </div>
         <div className="files col-span-4 mx-5">
-          <div className="flex justify-center p-2 shadow-md rounded-md bg-secondary text-white">
-            Les Rapports
+          <div className="flex justify-center p-2 shadow-md rounded-md bg-secondary text-white font-semibold">
+            Rapports
           </div>
           <RapportFileUploadedCard />
           <RapportFileUploadedCard />

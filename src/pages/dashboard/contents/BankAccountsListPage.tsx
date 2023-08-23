@@ -1,10 +1,18 @@
+import { Link } from "react-router-dom";
 import "../../../assets/css/table.css";
 import AddingButton from "../../../components/ui/AddingButton";
 import FilterOptionButton from "../../../components/ui/FilterOptionButton";
+import { toggleModal } from "../../../components/ui/Modal";
+import { forms } from "./FormsPage";
 
 const BankAccountsListPage = () => {
   return (
     <div className="h-full w-full flex flex-col">
+      <Link to="/soldes-courants/details">
+        <div className="p-2 my-2 bg-secondary text-white rounded-md shadow-md   w-max">
+          Banque
+        </div>
+      </Link>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <div className="flex self-start">
           <FilterOptionButton />
@@ -17,7 +25,13 @@ const BankAccountsListPage = () => {
             { value: "decreasing", label: "Ordre décroissant" },
           ]}
         /> */}
-        <AddingButton option="Banque" onClick={() => {}} />
+        <AddingButton
+          option="une nouvelle banque"
+          onClick={() => {
+            toggleModal("bank-adding-form");
+          }}
+        />
+        {forms.find((form) => form.label === "bank-adding-form")?.form}
       </div>
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped">

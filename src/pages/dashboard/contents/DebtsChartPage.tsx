@@ -1,5 +1,6 @@
 import { FaArrowRight, FaCalendar } from "react-icons/fa";
 import { LineBarChart } from "../../../pages_/charts/LineBarChart";
+import { Link } from "react-router-dom";
 
 const DebtsChartPage = () => {
   return (
@@ -15,12 +16,17 @@ const DebtsChartPage = () => {
         <LineBarChart />
       </div>
 
-      <div className="my-10 flex self-start items-center p-2 border-2 border-primary text-sm">
-        Voir la liste des créances
-        <div className="flex items-center  p-1 rounded-sm border border-primary ml-5 shadow-sm text-secondary ">
-          Aller à la page <FaArrowRight className="ml-3 p-1" size={20} />
+      <Link
+        className="w-max text-black hover:text-black font-normal"
+        to="/creances/liste"
+      >
+        <div className="my-10 flex self-start items-center p-2 border-2 border-primary text-sm">
+          Voir la liste des créances
+          <div className="flex items-center  p-1 rounded-sm border border-primary ml-5 shadow-sm text-secondary ">
+            Aller à la page <FaArrowRight className="ml-3 p-1" size={20} />
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

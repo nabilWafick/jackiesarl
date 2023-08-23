@@ -2,6 +2,8 @@ import DateIntervall from "../../../components/ui/DateIntervall";
 import "../../../assets/css/table.css";
 import AddingButton from "../../../components/ui/AddingButton";
 import OrdersTable from "../../../components/ui/OrdersTable";
+import { toggleModal } from "../../../components/ui/Modal";
+import { forms } from "./FormsPage";
 
 const OrdersPage = () => {
   return (
@@ -16,7 +18,13 @@ const OrdersPage = () => {
             { value: "decreasing", label: "Ordre décroissant" },
           ]}
         /> */}
-        <AddingButton option="Commande" onClick={() => {}} />
+        <AddingButton
+          option="une nouvelle commande"
+          onClick={() => {
+            toggleModal("order-adding-form");
+          }}
+        />
+        {forms.find((form) => form.label === "order-adding-form")?.form}
       </div>
       <OrdersTable />
     </div>

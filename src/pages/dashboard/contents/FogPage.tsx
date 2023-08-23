@@ -2,6 +2,8 @@ import DateIntervall from "../../../components/ui/DateIntervall";
 import "../../../assets/css/table.css";
 import AddingButton from "../../../components/ui/AddingButton";
 import FogTable from "../../../components/ui/FogTable";
+import { toggleModal } from "../../../components/ui/Modal";
+import { forms } from "./FormsPage";
 
 const FogPage = () => {
   return (
@@ -16,7 +18,13 @@ const FogPage = () => {
             { value: "decreasing", label: "Ordre décroissant" },
           ]}
         /> */}
-        <AddingButton option="activité" onClick={() => {}} />
+        <AddingButton
+          option="une nouvelle activité"
+          onClick={() => {
+            toggleModal("fog-adding-form");
+          }}
+        />
+        {forms.find((form) => form.label === "fog-adding-form")?.form}
       </div>
       <FogTable />
     </div>
