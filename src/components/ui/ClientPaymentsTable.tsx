@@ -8,6 +8,7 @@ function ClientPaymentsTable() {
         <table className="table table-striped">
           <tbody>
             <tr>
+              <td className="font-medium">Numéro BC</td>
               <td className="font-medium">Categorie </td>
               <td className="font-medium">Montant</td>
               <td className="font-medium">Banque</td>
@@ -20,6 +21,7 @@ function ClientPaymentsTable() {
               if (index % 2 == 0) {
                 return (
                   <tr key={index}>
+                    <td>110</td>
                     <td>CIM BENIN</td>
                     <td>78 000</td>
                     <td>BOA</td>
@@ -41,6 +43,7 @@ function ClientPaymentsTable() {
               }
               return (
                 <tr key={index}>
+                  <td>115</td>
                   <td>NOCIBE</td>
                   <td>78 000</td>
                   <td>UBA</td>

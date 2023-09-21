@@ -3,7 +3,7 @@ function PurchaseOrderStockTable() {
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
-        <table className="table table-striped ">
+        <table className="table table-striped">
           <tbody>
             <tr>
               <td className="font-medium">Bon de Commande</td>
@@ -11,7 +11,7 @@ function PurchaseOrderStockTable() {
               <td className="font-medium">Quantite Achetee</td>
               <td className="font-medium">Stock Initial</td>
               <td className="font-medium">Vente</td>
-              <td className="font-medium">Stock Final </td>
+              <td className="font-medium">Stock Actuelle </td>
             </tr>
             {Array.from({ length: 5 }, (_: number, index: number) => {
               return (

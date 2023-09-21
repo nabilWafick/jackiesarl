@@ -4,9 +4,9 @@ import JSCategorySelect from "../../../components/form/CategorySelect";
 import { BiArrowBack } from "react-icons/bi";
 import DebtsTable from "../../../components/ui/DebtsTable";
 import { Link } from "react-router-dom";
-import AddingButton from "../../../components/ui/AddingButton";
-import { toggleModal } from "../../../components/ui/Modal";
-import { forms } from "./FormsPage";
+// import AddingButton from "../../../components/ui/AddingButton";
+// import { toggleModal } from "../../../components/ui/Modal";
+// import { forms } from "./FormsPage";
 
 const DebtsListPage = () => {
   return (
@@ -21,13 +21,13 @@ const DebtsListPage = () => {
             la page précédente
           </div>
         </Link>
-        <AddingButton
+        {/* <AddingButton
           option="une nouvelle créance"
           onClick={() => {
             toggleModal("debt-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "debt-adding-form")?.form}
+        {forms.find((form) => form.label === "debt-adding-form")?.form} */}
       </div>
 
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">

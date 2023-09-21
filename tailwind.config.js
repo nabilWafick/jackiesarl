@@ -4,6 +4,7 @@ export default {
     
     "./src/**/*.{js,jsx,ts,tsx}",
     "./src/components/form/**/*.{js,jsx,ts,tsx}",
+    "./src/components/form/forms/**/*.{js,jsx,ts,tsx}",
     "./src/components/ui/**/*.{js,jsx,ts,tsx}",
     "./src/components/ui/dashboard/**/*.{js,jsx,ts,tsx}",
     "./src/components/ui/position/**/*.{js,jsx,ts,tsx}",

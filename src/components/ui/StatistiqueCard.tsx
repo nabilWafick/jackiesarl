@@ -1,5 +1,5 @@
 import { FC, ReactElement } from "react";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+//import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
 interface StatistiqueCardProps {
   name: string;
@@ -12,15 +12,15 @@ interface StatistiqueCardProps {
 const StatistiqueCard: FC<StatistiqueCardProps> = ({
   name,
   icon,
-  percentage,
-  increase,
+  //   percentage,
+  //  increase,
   value,
 }) => {
   return (
     <div className="h-full w-full bg-slate-50 flex flex-col justify-between items-between content-between shadow-md rounded-[30px] p-3">
       <div className="w-full flex justify-between items-center ">
         {icon}
-        <div className="flex">
+        {/* <div className="flex">
           <div className="flex flex-col items-center">
             {increase ? (
               <FaCaretUp color="green" className="mx-1" />
@@ -30,7 +30,7 @@ const StatistiqueCard: FC<StatistiqueCardProps> = ({
           </div>
 
           <p>{percentage}%</p>
-        </div>
+        </div> */}
       </div>
 
       <p className="text-center text-[30px] font-bold">{value}</p>

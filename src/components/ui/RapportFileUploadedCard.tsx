@@ -2,7 +2,7 @@ import { FaFileUpload } from "react-icons/fa";
 
 const RapportFileUploadedCard = () => {
   return (
-    <div className="h-[75 px] w-52 p-2 flex flex-row bg-white justify-center  items-center content-between my-3 shadow-md">
+    <div className="h-[75 px] w-52 p-2 flex flex-row bg-white justify-center  items-center content-between my-3 shadow-md mx-2">
       <FaFileUpload
         className="mr-2 shadow-sm flex self-start text-primary shad"
         size={65}

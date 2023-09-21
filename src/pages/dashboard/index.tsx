@@ -16,7 +16,7 @@ import OrdersPage from "./contents/OrdersPage";
 import CurrentsBalencePage from "./contents/CurrentsBalencePage";
 import AutorisationsPage from "./contents/AutorisationsPage";
 import LogoutPage from "../LogoutPage";
-import FogPage from "./contents/FogPage";
+import FogInformationsPage from "./contents/FogDetailsPage";
 import "../../assets/css/Sidebar.css";
 import BankAccountsListPage from "./contents/BankAccountsListPage";
 import NotFoundPage from "../NotFoundPage";
@@ -31,6 +31,8 @@ import PaymentsValidationsPage from "./contents/PaymentsValidationsPage";
 import ClientsChartPage from "./contents/ClientsChartPage";
 import ClientsTonnageListPage from "./contents/ClientsTonnageListPage";
 import DebtsChartPage from "./contents/DebtsChartPage";
+import ExpensesValidationsPage from "./contents/ExpensesValidationPage";
+import FogPage from "./contents/FogPage";
 
 function Dashboard() {
   return (
@@ -100,7 +102,15 @@ function Dashboard() {
               <Route path="/creances" Component={DebtsChartPage} />
               <Route path="/creances/liste" Component={DebtsListPage} />
               <Route path="/brouillard" Component={FogPage} />
+              <Route
+                path="/brouillard/details"
+                Component={FogInformationsPage}
+              />
               <Route path="/depenses" Component={ExpensesPage} />
+              <Route
+                path="/depenses/validations"
+                Component={ExpensesValidationsPage}
+              />
               <Route path="/rapports" Component={RapportsPage} />
               <Route path="/commandes" Component={OrdersPage} />
               <Route

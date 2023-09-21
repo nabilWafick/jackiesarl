@@ -8,7 +8,7 @@ function TableRemiseCheque() {
         <table className="table table-striped ">
           <tbody>
             <tr>
-              <td className="font-medium">Descriptiion</td>
+              <td className="font-medium">Description</td>
               <td className="font-medium">Banque</td>
               <td className="font-medium">Montant</td>
               <td className="font-medium">Reste</td>

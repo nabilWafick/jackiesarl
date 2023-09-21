@@ -3,7 +3,7 @@ import { FC } from "react";
 interface JsButtonProps {
   name: string;
   type: "submit" | "button" | undefined;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const JsButton: FC<JsButtonProps> = ({ name, type, onClick }) => {

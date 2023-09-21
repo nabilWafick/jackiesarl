@@ -33,7 +33,7 @@ const CurrentsBalencePage = () => {
           ]}
         /> */}
         <AddingButton
-          option="une nouveau solde courant"
+          option="Passer une écriture"
           onClick={() => {
             toggleModal("current-balence-details-adding-form");
           }}

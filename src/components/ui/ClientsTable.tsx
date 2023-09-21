@@ -6,10 +6,9 @@ function ClientsTable() {
         <tbody className="">
           <tr>
             <td className="font-medium">Client</td>
-            <td className="font-medium">Numero Matricule</td>
+            <td className="font-medium">Numero IFU</td>
             <td className="font-medium">Numero de telephone</td>
             <td className="font-medium">Adresse Email</td>
-            <td className="font-medium">Valeur Net</td>
           </tr>
           {Array.from({ length: 5 }, (_: number, index: number) => {
             if (index % 2 == 0) {
@@ -19,7 +18,6 @@ function ClientsTable() {
                   <td>18454</td>
                   <td>54 85 54 55</td>
                   <td>sidoine@contact.bj</td>
-                  <td>15 000 000</td>
                 </tr>
               );
             }
@@ -30,7 +28,6 @@ function ClientsTable() {
                 <td>19454</td>
                 <td>97 85 54 55</td>
                 <td>fassinou@contact.bj</td>
-                <td>10 000 000</td>
               </tr>
             );
           })}

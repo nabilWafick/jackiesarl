@@ -18,7 +18,10 @@ const ClientPaymentsPage = () => {
             toggleModal("payment-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "payment-adding-form")?.form}
+        {
+          forms.find((form) => form.label === "client-payment-adding-form")
+            ?.form
+        }
       </div>
       <ClientPaymentsTable />
     </div>

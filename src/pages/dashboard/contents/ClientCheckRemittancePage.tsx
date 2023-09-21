@@ -20,8 +20,9 @@ const ClientCheckRemittancePage = () => {
           }}
         />
         {
-          forms.find((form) => form.label === "check-remittance-adding-form")
-            ?.form
+          forms.find(
+            (form) => form.label === "client-check-remittance-adding-form"
+          )?.form
         }
       </div>
       <ClientCheckRemittanceTable />

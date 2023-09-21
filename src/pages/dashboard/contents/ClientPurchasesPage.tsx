@@ -15,7 +15,7 @@ const ClientPurchasesPage = () => {
         <AddingButton
           option="un nouveau achat"
           onClick={() => {
-            toggleModal("purchase-adding-form");
+            toggleModal("client-purchase-adding-form");
           }}
         />
         {forms.find((form) => form.label === "purchase-adding-form")?.form}

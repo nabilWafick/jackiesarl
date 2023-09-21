@@ -1,4 +1,4 @@
-import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
+import { FaCheck, FaCheckCircle, FaEdit, FaTrash } from "react-icons/fa";
 
 function TableValidationDepense() {
   return (
@@ -17,6 +17,34 @@ function TableValidationDepense() {
               <td className="font-medium"></td>
             </tr>
             {Array.from({ length: 5 }, (_: number, index: number) => {
+              if (index % 2 == 0) {
+                return (
+                  <tr key={index}>
+                    {/* <td>01-04-2025</td> */}
+                    <td>Achat de quelque chose</td>
+                    <td>2 340 000</td>
+                    <td>Relevé.pdf</td>
+                    <td>
+                      <i
+                        // type="button"
+                        className="flex justify-end"
+                      >
+                        <FaCheckCircle className="text-secondary" size={20} />
+                      </i>
+                    </td>
+                    <td>
+                      <i className="flex justify-end">
+                        <FaEdit color="green" />
+                      </i>
+                    </td>
+                    <td>
+                      <i className="flex justify-end">
+                        <FaTrash color="red" />
+                      </i>
+                    </td>
+                  </tr>
+                );
+              }
               return (
                 <tr key={index}>
                   {/* <td>01-04-2025</td> */}

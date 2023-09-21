@@ -9,9 +9,10 @@ const GrantedRules = () => {
           menu
           <p className="ml-1 font-medium">Client</p>
         </h2>
-        <ul>
-          <li className="text-sm">
-            Le droit d'ajouter, de modifier et de supprimer des achats
+
+        <ul className="ml-7">
+          <li className="text-sm ">
+            Le droit d'ajouter, de modifier et de supprimer des achats &nsp
           </li>
           <li className="text-sm">Le doit d'ajouer des paiements</li>
           <li className="text-sm">

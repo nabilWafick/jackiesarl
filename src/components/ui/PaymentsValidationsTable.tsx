@@ -13,6 +13,7 @@ function PaymentsValidationsTable() {
               <td className="font-medium">Banque</td>
               <td className="font-medium">Reference</td>
               <td className="font-medium">Categorie </td>
+              <td className="font-medium">Bon de commande </td>
               <td className="font-medium">Bordereau</td>
               <td></td>
               <td></td>
@@ -27,6 +28,7 @@ function PaymentsValidationsTable() {
                     <td>BOA</td>
                     <td>2567</td>
                     <td>CIM BENIN</td>
+                    <td>110</td>
                     <td>7534U</td>
                     <td className="w-min">
                       <i className="flex justify-end">
@@ -53,6 +55,7 @@ function PaymentsValidationsTable() {
                   <td>UBA</td>
                   <td>2567</td>
                   <td>NOCIBE</td>
+                  <td>115</td>
                   <td>7534U</td>
                   <td className="w-min">
                     <i className="flex justify-end">

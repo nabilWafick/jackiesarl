@@ -14,7 +14,7 @@ const AddingButton: FC<AddingButtonProps> = ({ option, onClick }) => {
         onClick={onClick}
       >
         <div className=" flex flex-row items-center font-medium">
-          Ajouter {option}
+          {option}
           <BsPlusCircleFill size={20} className={`ml-3 text-secondary`} />
         </div>
       </div>

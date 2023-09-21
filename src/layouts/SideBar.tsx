@@ -187,18 +187,13 @@ function SideBar() {
       isOpen: false,
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [
-        {
-          to: "/modifications/cette-semaine",
-          name: "Cette Semaine",
-          currentActiveSideBarSubOption: currentActiveSideBarSubOption,
-          onSideBarSubOptionClick: onSideBarSubOptionClick,
-        },
-        {
+        /*  {
           to: "/modifications/ce-mois",
           name: "Ce Mois",
           currentActiveSideBarSubOption: currentActiveSideBarSubOption,
           onSideBarSubOptionClick: onSideBarSubOptionClick,
         },
+      */
       ],
       onSideBarOptionClick: onSideBarOptionClick,
     },
@@ -229,7 +224,14 @@ function SideBar() {
       index: 10,
       isOpen: false,
       currentActiveSideBarOption: currentActiveSideBarOption,
-      subOptions: [],
+      subOptions: [
+        {
+          to: "/depenses/validations",
+          name: "Validations",
+          currentActiveSideBarSubOption: currentActiveSideBarSubOption,
+          onSideBarSubOptionClick: onSideBarSubOptionClick,
+        },
+      ],
       onSideBarOptionClick: onSideBarOptionClick,
     },
     {

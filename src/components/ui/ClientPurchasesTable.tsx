@@ -14,7 +14,7 @@ function ClientPurchasesTable() {
               <td className="font-medium">Montant</td>
               <td className="font-medium">Numero CTP</td>
               <td className="font-medium">Bordereau </td>
-              <td className="font-medium">Numero BC</td>
+              <td className="font-medium">Bon de Commande</td>
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
