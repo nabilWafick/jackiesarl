@@ -1,0 +1,150 @@
+import useFogDetailsAddingForm from "../../../../hooks/form/fog_details_adding/useFogDetailsAddingForm";
+import Modal from "../../../ui/dashboard/widgets/Modal";
+import JsButton from "../../../ui/widgets/Button";
+import JsOutlineButton from "../../../ui/widgets/OutlineButton";
+import JSInput from "../../widgets/Input";
+import JsTextarea from "../../widgets/Textarea";
+
+const FogDetailsAdding = () => {
+  const { formData, formErrors, onInputDataChange, onFormSubmit } =
+    useFogDetailsAddingForm();
+  return (
+    <Modal label="fog-details-adding-form">
+      <form onSubmit={onFormSubmit}>
+        <div
+          className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl
+        "
+        >
+          <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
+            Détails Brouillard
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.quantityBeforeSelling.toString()}
+                name="quantityBeforeSelling"
+                id="quantityBeforeSelling"
+                type="number"
+                placeholder="Quantité Avant Vente"
+                autoComplete="quantityBeforeSelling"
+              />
+            </div>
+            {formErrors.quantityBeforeSelling && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.quantityBeforeSelling}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.sale.toString()}
+                name="sale"
+                id="sale"
+                type="number"
+                placeholder="Vente"
+                autoComplete="sale"
+              />
+            </div>
+            {formErrors.sale && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.sale}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.currentQuantity.toString()}
+                name="currentQuantity"
+                id="currentQuantity"
+                type="number"
+                placeholder="Quantité Actuelle"
+                autoComplete="currentQuantity"
+              />
+            </div>
+            {formErrors.currentQuantity && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.currentQuantity}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.payment.toString()}
+                name="payment"
+                id="payment"
+                type="number"
+                placeholder="Versement"
+                autoComplete="payment"
+              />
+            </div>
+            {formErrors.payment && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.payment}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.expense.toString()}
+                name="expense"
+                id="expense"
+                type="number"
+                placeholder="Dépense"
+                autoComplete="expense"
+              />
+            </div>
+            {formErrors.expense && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.expense}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JsTextarea
+                onChange={() => {}}
+                value={formData.observation}
+                name="observation"
+                id="observation"
+                placeholder="Observation"
+              />
+            </div>
+            {formErrors.observation && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.observation}
+              </p>
+            )}
+          </div>
+
+          <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
+            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsButton type="submit" name="Valider" />
+          </div>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
+export default FogDetailsAdding;

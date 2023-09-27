@@ -1,0 +1,133 @@
+import useTruckStockAddingForm from "../../../../hooks/form/truck_stock_adding/useTruckStockAddingForm";
+import Modal from "../../../ui/dashboard/widgets/Modal";
+import JsButton from "../../../ui/widgets/Button";
+import JsOutlineButton from "../../../ui/widgets/OutlineButton";
+import JSInput from "../../widgets/Input";
+
+const TruckStockAdding = () => {
+  const { formData, formErrors, onInputDataChange, onFormSubmit } =
+    useTruckStockAddingForm();
+
+  return (
+    <Modal label="truck-stock-adding-form">
+      <form onSubmit={onFormSubmit}>
+        <div
+          className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl
+        "
+        >
+          <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
+            Stock Camion
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.truckNumber}
+                name="truckNumber"
+                id="truckNumber"
+                type="text"
+                placeholder="Num Camiom"
+                autoComplete="truckNumber"
+              />
+            </div>
+            {formErrors.truckNumber && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.truckNumber}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.category}
+                name="category"
+                id="category"
+                type="text"
+                placeholder="Catégorie"
+                autoComplete="category"
+              />
+              ,
+            </div>
+            {formErrors.category && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.category}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.driverNumber.toString()}
+                name="driverNumber"
+                id="driverNumber"
+                type="number"
+                placeholder="Num Chauffeur"
+                autoComplete="driverNumber"
+              />
+              ,
+            </div>
+            {formErrors.driverNumber && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.driverNumber}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              {" "}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.bcNumber.toString()}
+                name="bcNumber"
+                id="bcNumber"
+                type="number"
+                placeholder="Bon de Commande"
+                autoComplete="bcNumber"
+              />
+            </div>
+            {formErrors.bcNumber && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.bcNumber}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.quantity.toString()}
+                name="quantity"
+                id="quantity"
+                type="number"
+                placeholder="Quantité"
+                autoComplete="quantity"
+              />
+            </div>
+            {formErrors.quantity && (
+              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+                {formErrors.quantity}
+              </p>
+            )}
+          </div>
+
+          <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
+            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsButton type="submit" name="Valider" />
+          </div>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
+export default TruckStockAdding;

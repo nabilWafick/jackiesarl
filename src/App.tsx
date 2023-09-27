@@ -1,12 +1,12 @@
 import "./assets/css/App.css";
 import { Routes, Route } from "react-router-dom";
-import SplashPage from "./pages/SplashPage";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import PositionsPage from "./pages/PositionsPage";
-import WelcomePage from "./pages/WelcomePage";
-import LogoutPage from "./pages/LogoutPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import SplashPage from "./pages/splash/SplashPage";
+import LoginPage from "./pages/login/LoginPage";
+import SignupPage from "./pages/signup/SignupPage";
+import PositionsPage from "./pages/positions/PositionsPage";
+import WelcomePage from "./pages/welcome/WelcomePage";
+import LogoutPage from "./pages/logout/LogoutPage";
+import NotFoundPage from "./pages/unfounded_page/404";
 import Dashboard from "./pages/dashboard";
 function App() {
   // const [count, setCount] = useState(0);

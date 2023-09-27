@@ -1,6 +1,6 @@
 import { toggleModal } from "../components/ui/Modal";
 import JSInput from "../components/form/Input";
-import AddingForm from "../components/ui/AddingForm";
+import AddingForm from "../components/ui/widgets/AddingForm";
 
 const Test = () => {
   return (

@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import JSInput from "../../../components/form/Input";
-import JsTextarea from "../../../components/form/Textarea";
-import AddingForm from "../../../components/ui/AddingForm";
-import { toggleModal } from "../../../components/ui/Modal";
+import JSInput from "../../../components/form/widgets/Input";
+import JsTextarea from "../../../components/form/widgets/Textarea";
+import AddingForm from "../../../components/ui/dashboard/widgets/AddingForm";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 
 export interface FormStructure {
   label: string;
@@ -18,7 +18,8 @@ export const forms: FormStructure[] = [
         option="Client"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="fullname"
             id="fullname"
             type="text"
@@ -26,7 +27,8 @@ export const forms: FormStructure[] = [
             autoComplete="fullname"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="ifuNumber"
             id="ifuNumber"
             type="number"
@@ -34,7 +36,8 @@ export const forms: FormStructure[] = [
             autoComplete="ifuNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="email"
             id="email"
             type="email"
@@ -42,7 +45,8 @@ export const forms: FormStructure[] = [
             autoComplete="email"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="netValue"
             id="netValue"
             type="number"
@@ -62,7 +66,8 @@ export const forms: FormStructure[] = [
         option="Achat"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="quantity"
             id="quantity"
             type="number"
@@ -70,7 +75,8 @@ export const forms: FormStructure[] = [
             autoComplete="quantity"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="category"
             id="category"
             type="text"
@@ -78,7 +84,8 @@ export const forms: FormStructure[] = [
             autoComplete="category"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="amount"
             id="amount"
             type="number"
@@ -86,7 +93,8 @@ export const forms: FormStructure[] = [
             autoComplete="amount"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="ctpNumber"
             id="ctpNumber"
             type="number"
@@ -94,7 +102,8 @@ export const forms: FormStructure[] = [
             autoComplete="ctpNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="slip" // slip === bordereau
             id="slip"
             type="text"
@@ -102,7 +111,8 @@ export const forms: FormStructure[] = [
             autoComplete="slip"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bcNumber"
             id="bcNumber"
             type="number"
@@ -118,11 +128,12 @@ export const forms: FormStructure[] = [
     label: "client-payment-adding-form",
     form: (
       <AddingForm
-        label="payment-adding-form"
+        label="client-payment-adding-form"
         option="Paiement"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bcNumber"
             id="bcNumber"
             type="number"
@@ -130,7 +141,8 @@ export const forms: FormStructure[] = [
             autoComplete="bcNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="category"
             id="category"
             type="text"
@@ -138,7 +150,8 @@ export const forms: FormStructure[] = [
             autoComplete="category"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="amount"
             id="amount"
             type="number"
@@ -146,7 +159,8 @@ export const forms: FormStructure[] = [
             autoComplete="amount"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bank"
             id="bank"
             type="text"
@@ -154,7 +168,8 @@ export const forms: FormStructure[] = [
             autoComplete="bank"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="reference"
             id="reference"
             type="text"
@@ -162,7 +177,8 @@ export const forms: FormStructure[] = [
             autoComplete="reference"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="slip" // slip === bordereau
             id="slip"
             type="text"
@@ -182,13 +198,15 @@ export const forms: FormStructure[] = [
         option="Remise de Chèque"
         inputs={[
           <JsTextarea
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="description"
             id="description"
             placeholder="Description"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bank"
             id="bank"
             type="text"
@@ -196,7 +214,8 @@ export const forms: FormStructure[] = [
             autoComplete="bank"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="amount"
             id="amount"
             type="number"
@@ -204,7 +223,8 @@ export const forms: FormStructure[] = [
             autoComplete="amount"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="rest"
             id="rest"
             type="number"
@@ -224,7 +244,8 @@ export const forms: FormStructure[] = [
         option="Stock Bon de Commande"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bcNumber"
             id="bcNumber"
             type="number"
@@ -232,7 +253,8 @@ export const forms: FormStructure[] = [
             autoComplete="bcNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="category"
             id="category"
             type="text"
@@ -240,7 +262,8 @@ export const forms: FormStructure[] = [
             autoComplete="category"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="purchasedQuantity"
             id="purchasedQuantity"
             type="number"
@@ -248,7 +271,8 @@ export const forms: FormStructure[] = [
             autoComplete="purchasedQuantity"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="initialStock"
             id="initialStock"
             type="number"
@@ -256,7 +280,8 @@ export const forms: FormStructure[] = [
             autoComplete="initialStock"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="sale"
             id="sale"
             type="number"
@@ -264,7 +289,8 @@ export const forms: FormStructure[] = [
             autoComplete="sale"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="currentstock"
             id="currentstock"
             type="number"
@@ -284,7 +310,8 @@ export const forms: FormStructure[] = [
         option="Stock Camion"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="truckNumber"
             id="truckNumber"
             type="text"
@@ -292,7 +319,8 @@ export const forms: FormStructure[] = [
             autoComplete="truckNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="category"
             id="category"
             type="text"
@@ -300,7 +328,8 @@ export const forms: FormStructure[] = [
             autoComplete="category"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="driverNumber"
             id="driverNumber"
             type="number"
@@ -308,7 +337,8 @@ export const forms: FormStructure[] = [
             autoComplete="driverNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bcNumber"
             id="bcNumber"
             type="number"
@@ -316,7 +346,8 @@ export const forms: FormStructure[] = [
             autoComplete="bcNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="quantity"
             id="quantity"
             type="number"
@@ -336,7 +367,8 @@ export const forms: FormStructure[] = [
         option="Stock Bon de Commande"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bcNumber"
             id="bcNumber"
             type="number"
@@ -345,7 +377,8 @@ export const forms: FormStructure[] = [
           />,
 
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="purchasedQuantity"
             id="purchasedQuantity"
             type="number"
@@ -354,7 +387,8 @@ export const forms: FormStructure[] = [
           />,
 
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="amount"
             id="amount"
             type="number"
@@ -362,7 +396,8 @@ export const forms: FormStructure[] = [
             autoComplete="amount"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bank"
             id="bank"
             type="text"
@@ -370,7 +405,8 @@ export const forms: FormStructure[] = [
             autoComplete="bank"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="check"
             id="check"
             type="number"
@@ -378,7 +414,8 @@ export const forms: FormStructure[] = [
             autoComplete="check"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="slip"
             id="slip"
             type="text"
@@ -398,7 +435,8 @@ export const forms: FormStructure[] = [
         option="Avance"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="fullname"
             id="fullname"
             type="text"
@@ -406,7 +444,8 @@ export const forms: FormStructure[] = [
             autoComplete="fullname"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="amount"
             id="amount"
             type="number"
@@ -426,7 +465,8 @@ export const forms: FormStructure[] = [
         option="Dépot"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="deposit"
             id="deposit"
             type="text"
@@ -434,7 +474,8 @@ export const forms: FormStructure[] = [
             autoComplete="deposit"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="currentStock"
             id="currentStock"
             type="number"
@@ -443,7 +484,8 @@ export const forms: FormStructure[] = [
           />,
 
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="managerName"
             id="managerName"
             type="text"
@@ -451,7 +493,8 @@ export const forms: FormStructure[] = [
             autoComplete="managerName"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="managerNumber"
             id="managerNumber"
             type="number"
@@ -471,7 +514,8 @@ export const forms: FormStructure[] = [
         option="Brouillard"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="quantityBeforeSelling"
             id="quantityBeforeSelling"
             type="number"
@@ -479,7 +523,8 @@ export const forms: FormStructure[] = [
             autoComplete="quantityBeforeSelling"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="sale"
             id="sale"
             type="number"
@@ -487,7 +532,8 @@ export const forms: FormStructure[] = [
             autoComplete="sale"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="currentQuantity"
             id="currentQuantity"
             type="number"
@@ -495,7 +541,8 @@ export const forms: FormStructure[] = [
             autoComplete="currentQuantity"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="payment"
             id="payment"
             type="number"
@@ -503,7 +550,8 @@ export const forms: FormStructure[] = [
             autoComplete="payment"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="expense"
             id="expense"
             type="number"
@@ -511,7 +559,8 @@ export const forms: FormStructure[] = [
             autoComplete="expense"
           />,
           <JsTextarea
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="observation"
             id="observation"
             placeholder="Observation"
@@ -529,14 +578,16 @@ export const forms: FormStructure[] = [
         option="Dépenses"
         inputs={[
           <JsTextarea
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="description"
             id="description"
             placeholder="Description"
           />,
 
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="amount"
             id="amount"
             type="number"
@@ -544,7 +595,8 @@ export const forms: FormStructure[] = [
             autoComplete="amount"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="piece"
             id="piece"
             type="text"
@@ -564,7 +616,8 @@ export const forms: FormStructure[] = [
         option="Commandes"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="fullname"
             id="fullname"
             type="text"
@@ -572,7 +625,8 @@ export const forms: FormStructure[] = [
             autoComplete="fullname"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="quantity"
             id="quantity"
             type="number"
@@ -580,7 +634,8 @@ export const forms: FormStructure[] = [
             autoComplete="quantity"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="destination"
             id="destination"
             type="text"
@@ -588,7 +643,8 @@ export const forms: FormStructure[] = [
             autoComplete="destination"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="orderDate"
             id="orderDate"
             type="date"
@@ -596,7 +652,8 @@ export const forms: FormStructure[] = [
             autoComplete="orderDate"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="deliveryDate"
             id="deliveryDate"
             type="date"
@@ -604,7 +661,8 @@ export const forms: FormStructure[] = [
             autoComplete="deliveryDate"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="category"
             id="category"
             type="text"
@@ -624,7 +682,8 @@ export const forms: FormStructure[] = [
         option="Banque"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="bank"
             id="bank"
             type="text"
@@ -632,7 +691,8 @@ export const forms: FormStructure[] = [
             autoComplete="bank"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="accountNumber"
             id="accountNumber"
             type="number"
@@ -640,7 +700,8 @@ export const forms: FormStructure[] = [
             autoComplete="accountNumber"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="currentBalance"
             id="currentBalance"
             type="number"
@@ -660,13 +721,15 @@ export const forms: FormStructure[] = [
         option="Soldes Courants"
         inputs={[
           <JsTextarea
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="description"
             id="description"
             placeholder="Description"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="debit"
             id="debit"
             type="number"
@@ -674,7 +737,8 @@ export const forms: FormStructure[] = [
             autoComplete="debit"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="credit"
             id="credit"
             type="number"
@@ -683,7 +747,8 @@ export const forms: FormStructure[] = [
           />,
 
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="currentBalence"
             id="currentBalence"
             type="number"
@@ -703,7 +768,8 @@ export const forms: FormStructure[] = [
         option="Créance"
         inputs={[
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="fullname"
             id="fullname"
             type="text"
@@ -711,7 +777,8 @@ export const forms: FormStructure[] = [
             autoComplete="fullname"
           />,
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="cim-benin-debt"
             id="cim-benin-debt"
             type="number"
@@ -720,7 +787,8 @@ export const forms: FormStructure[] = [
           />,
 
           <JSInput
-            // onChange={()=>{}}
+            onChange={() => {}}
+            value={""}
             name="nocibe-debt"
             id="nocibe-debt"
             type="number"
