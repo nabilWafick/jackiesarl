@@ -2,8 +2,8 @@ import ExpensesTable from "../../../../components/ui/dashboard/expenses/Expenses
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import { forms } from "../FormsPage";
 import "../../../../assets/css/table.css";
+import ExpenseAdding from "../../../../components/form/forms/expense_adding/ExpenseAdding";
 
 const ExpensesPage = () => {
   return (
@@ -19,12 +19,13 @@ const ExpensesPage = () => {
           ]}
         /> */}
         <AddingButton
-          option="une nouvelle dépense"
+          option="Ajouter une dépense"
           onClick={() => {
             toggleModal("expense-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "expense-adding-form")?.form}
+
+        <ExpenseAdding description="" amount="" piece="" />
       </div>
       <ExpensesTable />
     </div>

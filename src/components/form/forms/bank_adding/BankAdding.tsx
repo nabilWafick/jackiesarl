@@ -1,12 +1,28 @@
+import { FC } from "react";
 import useBankAddingForm from "../../../../hooks/form/bank_adding/useBankAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const BankAdding = () => {
+interface BankAddingProps {
+  bank: string;
+  accountNumber: string;
+  currentBalence: string;
+}
+
+const BankAdding: FC<BankAddingProps> = ({
+  bank,
+  accountNumber,
+  currentBalence,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useBankAddingForm();
+    useBankAddingForm({
+      bank: bank,
+      accountNumber: accountNumber,
+      currentBalence: currentBalence,
+    });
   return (
     <Modal label="bank-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -31,7 +47,7 @@ const BankAdding = () => {
               />
             </div>
             {formErrors.bank && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bank}
               </p>
             )}
@@ -39,7 +55,6 @@ const BankAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.accountNumber.toString()}
@@ -51,7 +66,7 @@ const BankAdding = () => {
               />
             </div>
             {formErrors.accountNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.accountNumber}
               </p>
             )}
@@ -59,7 +74,6 @@ const BankAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.currentBalence.toString()}
@@ -71,14 +85,18 @@ const BankAdding = () => {
               />
             </div>
             {formErrors.currentBalence && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.currentBalence}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("bank-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

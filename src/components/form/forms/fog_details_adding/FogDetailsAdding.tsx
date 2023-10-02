@@ -1,13 +1,38 @@
+import { FC } from "react";
 import useFogDetailsAddingForm from "../../../../hooks/form/fog_details_adding/useFogDetailsAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
 import JsTextarea from "../../widgets/Textarea";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const FogDetailsAdding = () => {
+interface FogDetailsAddingProps {
+  quantityBeforeSelling: string;
+  sale: string;
+  quantityAfterSelling: string;
+  payment: string;
+  expense: string;
+  observation: string;
+}
+
+const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
+  quantityBeforeSelling,
+  sale,
+  quantityAfterSelling,
+  payment,
+  expense,
+  observation,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useFogDetailsAddingForm();
+    useFogDetailsAddingForm({
+      quantityBeforeSelling: quantityBeforeSelling,
+      sale: sale,
+      quantityAfterSelling: quantityAfterSelling,
+      payment: payment,
+      expense: expense,
+      observation: observation,
+    });
   return (
     <Modal label="fog-details-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -21,7 +46,6 @@ const FogDetailsAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.quantityBeforeSelling.toString()}
@@ -33,7 +57,7 @@ const FogDetailsAdding = () => {
               />
             </div>
             {formErrors.quantityBeforeSelling && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.quantityBeforeSelling}
               </p>
             )}
@@ -41,7 +65,6 @@ const FogDetailsAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.sale.toString()}
@@ -53,7 +76,7 @@ const FogDetailsAdding = () => {
               />
             </div>
             {formErrors.sale && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.sale}
               </p>
             )}
@@ -61,27 +84,25 @@ const FogDetailsAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.currentQuantity.toString()}
-                name="currentQuantity"
-                id="currentQuantity"
+                value={formData.quantityAfterSelling.toString()}
+                name="quantityAfterSelling"
+                id="quantityAfterSelling"
                 type="number"
-                placeholder="Quantité Actuelle"
-                autoComplete="currentQuantity"
+                placeholder="Quantité Après Vente"
+                autoComplete="quantityAfterSelling"
               />
             </div>
-            {formErrors.currentQuantity && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
-                {formErrors.currentQuantity}
+            {formErrors.quantityAfterSelling && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.quantityAfterSelling}
               </p>
             )}
           </div>
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.payment.toString()}
@@ -93,7 +114,7 @@ const FogDetailsAdding = () => {
               />
             </div>
             {formErrors.payment && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.payment}
               </p>
             )}
@@ -101,7 +122,6 @@ const FogDetailsAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.expense.toString()}
@@ -113,7 +133,7 @@ const FogDetailsAdding = () => {
               />
             </div>
             {formErrors.expense && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.expense}
               </p>
             )}
@@ -121,7 +141,6 @@ const FogDetailsAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JsTextarea
                 onChange={() => {}}
                 value={formData.observation}
@@ -131,14 +150,18 @@ const FogDetailsAdding = () => {
               />
             </div>
             {formErrors.observation && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.observation}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

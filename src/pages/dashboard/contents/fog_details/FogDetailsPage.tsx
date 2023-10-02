@@ -2,10 +2,10 @@ import FogDetailsTable from "../../../../components/ui/dashboard/fog_details/Fog
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import { forms } from "../FormsPage";
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import "../../../../assets/css/table.css";
+import FogDetailsAdding from "../../../../components/form/forms/fog_details_adding/FogDetailsAdding";
 
 const FogDetailsPage = () => {
   return (
@@ -33,12 +33,20 @@ const FogDetailsPage = () => {
           ]}
         /> */}
         <AddingButton
-          option="une nouvelle activité"
+          option="Ajouter une activité"
           onClick={() => {
             toggleModal("fog-details-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "fog-details-adding-form")?.form}
+
+        <FogDetailsAdding
+          quantityBeforeSelling=""
+          sale=""
+          quantityAfterSelling=""
+          payment=""
+          expense=""
+          observation=""
+        />
       </div>
       <FogDetailsTable />
     </div>

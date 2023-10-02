@@ -2,9 +2,9 @@ import FogTable from "../../../../components/ui/dashboard/fog/FogTable";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import { forms } from "../FormsPage";
 import { Link } from "react-router-dom";
 import "../../../../assets/css/table.css";
+import FogAdding from "../../../../components/form/forms/fog_adding/FogAdding";
 
 const FogPage = () => {
   return (
@@ -31,7 +31,8 @@ const FogPage = () => {
             toggleModal("fog-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "fog-adding-form")?.form}
+
+        <FogAdding deposit="" currentStock="" managerName="" managerNumber="" />
       </div>
       <FogTable />
     </div>

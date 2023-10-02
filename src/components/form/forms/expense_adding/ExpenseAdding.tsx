@@ -1,13 +1,29 @@
+import { FC } from "react";
 import useExpenseAddingForm from "../../../../hooks/form/expense_adding/useExpenseAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
 import JsTextarea from "../../widgets/Textarea";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const ExpenseAdding = () => {
+interface ExpenseAddingProps {
+  description: string;
+  amount: string;
+  piece: string;
+}
+
+const ExpenseAdding: FC<ExpenseAddingProps> = ({
+  description,
+  amount,
+  piece,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useExpenseAddingForm();
+    useExpenseAddingForm({
+      description: description,
+      amount: amount,
+      piece: piece,
+    });
 
   return (
     <Modal label="expense-adding-form">
@@ -32,7 +48,7 @@ const ExpenseAdding = () => {
               ,
             </div>
             {formErrors.description && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.description}
               </p>
             )}
@@ -40,7 +56,6 @@ const ExpenseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.amount.toString()}
@@ -52,7 +67,7 @@ const ExpenseAdding = () => {
               />
             </div>
             {formErrors.amount && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.amount}
               </p>
             )}
@@ -60,7 +75,6 @@ const ExpenseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.piece}
@@ -72,14 +86,18 @@ const ExpenseAdding = () => {
               />
             </div>
             {formErrors.piece && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.piece}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

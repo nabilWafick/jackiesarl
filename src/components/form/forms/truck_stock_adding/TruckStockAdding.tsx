@@ -1,12 +1,34 @@
+import { FC } from "react";
 import useTruckStockAddingForm from "../../../../hooks/form/truck_stock_adding/useTruckStockAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const TruckStockAdding = () => {
+interface TruckStockAddingProps {
+  truckNumber: string;
+  category: string;
+  driverNumber: string;
+  bcNumber: string;
+  quantity: string;
+}
+
+const TruckStockAdding: FC<TruckStockAddingProps> = ({
+  truckNumber,
+  category,
+  driverNumber,
+  bcNumber,
+  quantity,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useTruckStockAddingForm();
+    useTruckStockAddingForm({
+      truckNumber: truckNumber,
+      category: category,
+      driverNumber: driverNumber,
+      bcNumber: bcNumber,
+      quantity: quantity,
+    });
 
   return (
     <Modal label="truck-stock-adding-form">
@@ -21,7 +43,6 @@ const TruckStockAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.truckNumber}
@@ -33,7 +54,7 @@ const TruckStockAdding = () => {
               />
             </div>
             {formErrors.truckNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.truckNumber}
               </p>
             )}
@@ -41,7 +62,6 @@ const TruckStockAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.category}
@@ -54,7 +74,7 @@ const TruckStockAdding = () => {
               ,
             </div>
             {formErrors.category && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.category}
               </p>
             )}
@@ -62,7 +82,6 @@ const TruckStockAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.driverNumber.toString()}
@@ -75,7 +94,7 @@ const TruckStockAdding = () => {
               ,
             </div>
             {formErrors.driverNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.driverNumber}
               </p>
             )}
@@ -83,7 +102,6 @@ const TruckStockAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.bcNumber.toString()}
@@ -95,7 +113,7 @@ const TruckStockAdding = () => {
               />
             </div>
             {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bcNumber}
               </p>
             )}
@@ -114,14 +132,18 @@ const TruckStockAdding = () => {
               />
             </div>
             {formErrors.quantity && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.quantity}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

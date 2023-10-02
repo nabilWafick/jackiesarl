@@ -1,13 +1,32 @@
-import useClientCheckRemittanceAddingForm from "../../../../hooks/form/check_remittance/useClientCheckRemittance";
+import { FC } from "react";
+import useClientCheckRemittanceAddingForm from "../../../../hooks/form/client_check_remittance/useClientCheckRemittance";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
 import JsTextarea from "../../widgets/Textarea";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const ClientCheckRemittanceAdding = () => {
+interface ClientCheckRemittanceAddingProps {
+  description: string;
+  bank: string;
+  amount: string;
+  rest: string;
+}
+
+const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
+  description,
+  bank,
+  amount,
+  rest,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useClientCheckRemittanceAddingForm();
+    useClientCheckRemittanceAddingForm({
+      description: description,
+      bank: bank,
+      amount: amount,
+      rest: rest,
+    });
   return (
     <Modal label="client-check-remittance-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -30,7 +49,7 @@ const ClientCheckRemittanceAdding = () => {
               />
             </div>
             {formErrors.description && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.description}
               </p>
             )}
@@ -38,7 +57,6 @@ const ClientCheckRemittanceAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.bank}
@@ -51,7 +69,7 @@ const ClientCheckRemittanceAdding = () => {
               ,
             </div>
             {formErrors.bank && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bank}
               </p>
             )}
@@ -59,7 +77,6 @@ const ClientCheckRemittanceAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.amount.toString()}
@@ -71,7 +88,7 @@ const ClientCheckRemittanceAdding = () => {
               />
             </div>
             {formErrors.amount && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.amount}
               </p>
             )}
@@ -79,7 +96,6 @@ const ClientCheckRemittanceAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.rest.toString()}
@@ -91,14 +107,18 @@ const ClientCheckRemittanceAdding = () => {
               />
             </div>
             {formErrors.rest && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.rest}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-check-remittance-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

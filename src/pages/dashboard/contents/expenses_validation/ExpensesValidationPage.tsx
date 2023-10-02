@@ -8,15 +8,7 @@ const ExpensesValidationsPage = () => {
     <div className="h-full w-full flex flex-col">
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />
-        {/* <JSCategorySelect
-          id="categoty"
-          name="category"
-          options={[
-            { value: "increasing", label: "Ordre croissant" },
-            { value: "decreasing", label: "Ordre décroissant" },
-          ]}
-        /> */}
-        <AddingButton option="activité" onClick={() => {}} />
+        <AddingButton option="Ajouter une activité" onClick={() => {}} />
       </div>
       <ExpensesValidationTable />
     </div>

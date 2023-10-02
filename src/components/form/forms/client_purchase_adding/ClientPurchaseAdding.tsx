@@ -1,12 +1,37 @@
+import { FC } from "react";
 import useClientPurchaseAddingForm from "../../../../hooks/form/client_purchase_adding/useClientPurchaseAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const ClientPurchaseAdding = () => {
+interface ClientPurchaseAddingProps {
+  quantity: string;
+  category: string;
+  amount: string;
+  ctpNumber: string;
+  slip: string;
+  bcNumber: string;
+}
+
+const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
+  quantity,
+  category,
+  amount,
+  ctpNumber,
+  slip,
+  bcNumber,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useClientPurchaseAddingForm();
+    useClientPurchaseAddingForm({
+      quantity: quantity,
+      category: category,
+      amount: amount,
+      ctpNumber: ctpNumber,
+      slip: slip,
+      bcNumber: bcNumber,
+    });
   return (
     <Modal label="client-purchase-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -20,7 +45,6 @@ const ClientPurchaseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.quantity.toString()}
@@ -32,7 +56,7 @@ const ClientPurchaseAdding = () => {
               />
             </div>
             {formErrors.quantity && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.quantity}
               </p>
             )}
@@ -40,7 +64,6 @@ const ClientPurchaseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.quantity.toString()}
@@ -52,7 +75,7 @@ const ClientPurchaseAdding = () => {
               />
             </div>
             {formErrors.quantity && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.quantity}
               </p>
             )}
@@ -60,7 +83,6 @@ const ClientPurchaseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.quantity.toString()}
@@ -72,7 +94,7 @@ const ClientPurchaseAdding = () => {
               />
             </div>
             {formErrors.category && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.category}
               </p>
             )}
@@ -80,7 +102,6 @@ const ClientPurchaseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.amount.toString()}
@@ -92,7 +113,7 @@ const ClientPurchaseAdding = () => {
               />
             </div>
             {formErrors.amount && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.amount}
               </p>
             )}
@@ -100,7 +121,6 @@ const ClientPurchaseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.ctpNumber.toString()}
@@ -112,7 +132,7 @@ const ClientPurchaseAdding = () => {
               />
             </div>
             {formErrors.ctpNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.ctpNumber}
               </p>
             )}
@@ -120,7 +140,6 @@ const ClientPurchaseAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.slip}
@@ -132,7 +151,7 @@ const ClientPurchaseAdding = () => {
               />
             </div>
             {formErrors.slip && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.slip}
               </p>
             )}
@@ -151,14 +170,18 @@ const ClientPurchaseAdding = () => {
               />
             </div>
             {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bcNumber}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

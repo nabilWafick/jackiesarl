@@ -1,12 +1,37 @@
+import { FC } from "react";
 import useCompanyPurchaseForm from "../../../../hooks/form/company_purchase_adding/useCompanyPurchaseAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const CompanyPurchasseAdding = () => {
+interface CompanyPurchasseAddingProps {
+  bcNumber: string;
+  purchasedQuantity: string;
+  amount: string;
+  bank: string;
+  check: string;
+  slip: string;
+}
+
+const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
+  bcNumber,
+  purchasedQuantity,
+  amount,
+  bank,
+  check,
+  slip,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useCompanyPurchaseForm();
+    useCompanyPurchaseForm({
+      bcNumber: bcNumber,
+      purchasedQuantity: purchasedQuantity,
+      amount: amount,
+      bank: bank,
+      check: check,
+      slip: slip,
+    });
   return (
     <Modal label="company-purchase-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -31,7 +56,7 @@ const CompanyPurchasseAdding = () => {
               />
             </div>
             {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bcNumber}
               </p>
             )}
@@ -50,7 +75,7 @@ const CompanyPurchasseAdding = () => {
               />{" "}
             </div>
             {formErrors.purchasedQuantity && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.purchasedQuantity}
               </p>
             )}
@@ -69,7 +94,7 @@ const CompanyPurchasseAdding = () => {
               />
             </div>
             {formErrors.amount && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.amount}
               </p>
             )}
@@ -88,7 +113,7 @@ const CompanyPurchasseAdding = () => {
               />
             </div>
             {formErrors.bank && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bank}
               </p>
             )}
@@ -107,7 +132,7 @@ const CompanyPurchasseAdding = () => {
               />{" "}
             </div>
             {formErrors.check && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.check}
               </p>
             )}
@@ -126,14 +151,18 @@ const CompanyPurchasseAdding = () => {
               />
             </div>
             {formErrors.slip && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.slip}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import { forms } from "../FormsPage";
 import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton";
 import "../../../../assets/css/table.css";
+import BankAdding from "../../../../components/form/forms/bank_adding/BankAdding";
 
 const BankAccountsListPage = () => {
   return (
@@ -26,12 +26,12 @@ const BankAccountsListPage = () => {
           ]}
         /> */}
         <AddingButton
-          option="une nouvelle banque"
+          option="Ajouter une nouvelle banque"
           onClick={() => {
             toggleModal("bank-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "bank-adding-form")?.form}
+        <BankAdding bank="" accountNumber="" currentBalence="" />
       </div>
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped">

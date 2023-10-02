@@ -2,8 +2,9 @@ import PurchaseOrderStockTable from "../../../../components/ui/dashboard/purchas
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import { forms } from "../FormsPage";
+
 import "../../../../assets/css/table.css";
+import PurchaseOrderStockAdding from "../../../../components/form/forms/purchase_order_stock_adding/PurchaseOrderStockAdding";
 
 const PurchaseOrderStockPage = () => {
   return (
@@ -11,16 +12,19 @@ const PurchaseOrderStockPage = () => {
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />
         <AddingButton
-          option="un nouveau stock bon de commande"
+          option="Ajouter un stock bon de commande"
           onClick={() => {
             toggleModal("purchase-order-stock-adding-form");
           }}
         />
-        {
-          forms.find(
-            (form) => form.label === "purchase-order-stock-adding-form"
-          )?.form
-        }
+        <PurchaseOrderStockAdding
+          bcNumber=""
+          category=""
+          purchasedQuantity=""
+          initialStock=""
+          sale=""
+          currentStock=""
+        />
       </div>
       <PurchaseOrderStockTable />
     </div>

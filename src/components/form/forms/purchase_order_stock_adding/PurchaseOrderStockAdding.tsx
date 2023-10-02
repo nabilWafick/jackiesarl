@@ -1,12 +1,37 @@
+import { FC } from "react";
 import usePurchaseOrderStock from "../../../../hooks/form/purchase_order_stock_adding/usePurchaseOrderStockAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const PurchaseOderStockAdding = () => {
+interface PurchaseOrderStockAddingProps {
+  bcNumber: string;
+  category: string;
+  purchasedQuantity: string;
+  initialStock: string;
+  sale: string;
+  currentStock: string;
+}
+
+const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
+  bcNumber,
+  category,
+  purchasedQuantity,
+  initialStock,
+  sale,
+  currentStock,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    usePurchaseOrderStock();
+    usePurchaseOrderStock({
+      bcNumber: bcNumber,
+      category: category,
+      purchasedQuantity: purchasedQuantity,
+      initialStock: initialStock,
+      sale: sale,
+      currentStock: currentStock,
+    });
   return (
     <Modal label="purchase-order-stock-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -20,7 +45,6 @@ const PurchaseOderStockAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.bcNumber.toString()}
@@ -32,7 +56,7 @@ const PurchaseOderStockAdding = () => {
               />
             </div>
             {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bcNumber}
               </p>
             )}
@@ -51,7 +75,7 @@ const PurchaseOderStockAdding = () => {
               />
             </div>
             {formErrors.category && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.category}
               </p>
             )}
@@ -59,7 +83,6 @@ const PurchaseOderStockAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.purchasedQuantity.toString()}
@@ -71,7 +94,7 @@ const PurchaseOderStockAdding = () => {
               />
             </div>
             {formErrors.purchasedQuantity && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.purchasedQuantity}
               </p>
             )}
@@ -79,7 +102,6 @@ const PurchaseOderStockAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.initialStock.toString()}
@@ -91,7 +113,7 @@ const PurchaseOderStockAdding = () => {
               />
             </div>
             {formErrors.initialStock && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.initialStock}
               </p>
             )}
@@ -110,7 +132,7 @@ const PurchaseOderStockAdding = () => {
               />
             </div>
             {formErrors.sale && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.sale}
               </p>
             )}
@@ -129,14 +151,18 @@ const PurchaseOderStockAdding = () => {
               />
             </div>
             {formErrors.currentStock && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.currentStock}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>
@@ -145,4 +171,4 @@ const PurchaseOderStockAdding = () => {
   );
 };
 
-export default PurchaseOderStockAdding;
+export default PurchaseOrderStockAdding;

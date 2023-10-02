@@ -1,10 +1,10 @@
 import ClientCard from "../../../../components/ui/dashboard/clients/ClientCard";
-import { forms } from "../FormsPage";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import ClientPurchasesTable from "../../../../components/ui/dashboard/client_purchases/ClientPurchasesTable";
 import "../../../../assets/css/table.css";
+import ClientPaymentAdding from "../../../../components/form/forms/client_payment_adding/ClientPaymentAdding";
 
 const ClientPurchasesPage = () => {
   return (
@@ -13,12 +13,19 @@ const ClientPurchasesPage = () => {
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />
         <AddingButton
-          option="un nouveau achat"
+          option="Ajouter un achat"
           onClick={() => {
             toggleModal("client-purchase-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "purchase-adding-form")?.form}
+        <ClientPaymentAdding
+          bcNumber=""
+          category=""
+          amount=""
+          bank=""
+          reference=""
+          slip=""
+        />
       </div>
       <ClientPurchasesTable />
     </div>

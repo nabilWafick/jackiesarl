@@ -15,7 +15,7 @@ const PurchasesPage = () => {
     <div className="h-full w-full flex flex-col">
       <div>
         <AddingButton
-          option="un nouvel achat"
+          option="Ajouter un achat"
           onClick={() => {
             toggleModal("fog-adding-form");
           }}

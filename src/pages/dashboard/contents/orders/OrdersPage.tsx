@@ -2,8 +2,8 @@ import OrdersTable from "../../../../components/ui/dashboard/orders/OrdersTable"
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import { forms } from "../FormsPage";
 import "../../../../assets/css/table.css";
+import OrderAdding from "../../../../components/form/forms/order_adding/OrderAdding";
 
 const OrdersPage = () => {
   return (
@@ -19,12 +19,20 @@ const OrdersPage = () => {
           ]}
         /> */}
         <AddingButton
-          option="une nouvelle commande"
+          option="Ajouter une commande"
           onClick={() => {
             toggleModal("order-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "order-adding-form")?.form}
+        <OrderAdding
+          firstname=""
+          lastname=""
+          quantity=""
+          destination=""
+          orderDate={1000}
+          deliveryDate={1500}
+          category=""
+        />
       </div>
       <OrdersTable />
     </div>

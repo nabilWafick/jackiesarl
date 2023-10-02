@@ -1,12 +1,37 @@
+import { FC } from "react";
 import useClientPaymentAddingForm from "../../../../hooks/form/client_payment_adding/useClientPaymentAdding";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const ClientPaymentAdding = () => {
+interface ClientPaymentAddingProps {
+  bcNumber: string;
+  category: string;
+  amount: string;
+  bank: string;
+  reference: string;
+  slip: string;
+}
+
+const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
+  bcNumber,
+  category,
+  amount,
+  bank,
+  reference,
+  slip,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useClientPaymentAddingForm();
+    useClientPaymentAddingForm({
+      bcNumber: bcNumber,
+      category: category,
+      amount: amount,
+      bank: bank,
+      reference: reference,
+      slip: slip,
+    });
 
   return (
     <Modal label="client-payment-adding-form">
@@ -21,7 +46,6 @@ const ClientPaymentAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.bcNumber.toString()}
@@ -34,7 +58,7 @@ const ClientPaymentAdding = () => {
               ,
             </div>
             {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bcNumber}
               </p>
             )}
@@ -53,7 +77,7 @@ const ClientPaymentAdding = () => {
               />
             </div>
             {formErrors.category && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.category}
               </p>
             )}
@@ -61,7 +85,6 @@ const ClientPaymentAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.amount.toString()}
@@ -74,7 +97,7 @@ const ClientPaymentAdding = () => {
               ,
             </div>
             {formErrors.amount && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.amount}
               </p>
             )}
@@ -82,7 +105,6 @@ const ClientPaymentAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.bank}
@@ -94,7 +116,7 @@ const ClientPaymentAdding = () => {
               />
             </div>
             {formErrors.bank && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.bank}
               </p>
             )}
@@ -102,7 +124,6 @@ const ClientPaymentAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.reference.toString()}
@@ -114,7 +135,7 @@ const ClientPaymentAdding = () => {
               />
             </div>
             {formErrors.reference && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.reference}
               </p>
             )}
@@ -122,7 +143,6 @@ const ClientPaymentAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.slip}
@@ -134,14 +154,18 @@ const ClientPaymentAdding = () => {
               />
             </div>
             {formErrors.slip && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.slip}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-payment-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

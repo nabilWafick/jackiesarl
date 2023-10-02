@@ -18,13 +18,6 @@ const DebtsListPage = () => {
             la page précédente
           </div>
         </Link>
-        {/* <AddingButton
-          option="une nouvelle créance"
-          onClick={() => {
-            toggleModal("debt-adding-form");
-          }}
-        />
-        {forms.find((form) => form.label === "debt-adding-form")?.form} */}
       </div>
 
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">

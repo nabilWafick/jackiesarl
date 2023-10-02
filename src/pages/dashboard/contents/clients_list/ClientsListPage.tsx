@@ -1,6 +1,5 @@
 import ClientCard from "../../../../components/ui/dashboard/clients/ClientCard";
 import { Link } from "react-router-dom";
-import { forms } from "../FormsPage";
 import ShowStatisticsButton from "../../../../components/ui/dashboard/widgets/ShowStatisticsButton";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
@@ -8,6 +7,7 @@ import DateIntervall from "../../../../components/ui/dashboard/widgets/DateInter
 import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton";
 import ClientsTable from "../../../../components/ui/dashboard/clients/ClientsTable";
 import "../../../../assets/css/table.css";
+import ClientAdding from "../../../../components/form/forms/client_adding/ClientAdding";
 
 const ClientsListPage = () => {
   return (
@@ -18,12 +18,18 @@ const ClientsListPage = () => {
           <ShowStatisticsButton />
         </Link>
         <AddingButton
-          option="un nouveau client"
+          option="Ajouter un client"
           onClick={() => {
             toggleModal("client-adding-form");
           }}
         />
-        {forms.find((form) => form.label === "client-adding-form")?.form}
+        <ClientAdding
+          firstname=""
+          lastname=""
+          ifuNumber=""
+          email=""
+          netValue=""
+        />
       </div>
       <div className="w-full flex justify-between items-center mt-2 content-center">
         <DateIntervall />

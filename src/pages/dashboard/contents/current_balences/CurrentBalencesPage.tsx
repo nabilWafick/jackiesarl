@@ -1,4 +1,3 @@
-import { forms } from "../FormsPage";
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
@@ -6,6 +5,7 @@ import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButt
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import CurrentsBalenceTable from "../../../../components/ui/dashboard/current_balence_details/CurrentsBalenceTable";
 import "../../../../assets/css/table.css";
+import CurrentBalenceDetailsAdding from "../../../../components/form/forms/current_balence_details_adding/CurrentBalenceDetailsAdding";
 
 const CurrentsBalencePage = () => {
   return (
@@ -38,11 +38,12 @@ const CurrentsBalencePage = () => {
             toggleModal("current-balence-details-adding-form");
           }}
         />
-        {
-          forms.find(
-            (form) => form.label === "current-balence-details-adding-form"
-          )?.form
-        }
+        <CurrentBalenceDetailsAdding
+          description=""
+          debit=""
+          credit=""
+          currentBalence=""
+        />
       </div>
       <CurrentsBalenceTable />
     </div>

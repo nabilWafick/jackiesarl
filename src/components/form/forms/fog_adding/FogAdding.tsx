@@ -1,12 +1,31 @@
+import { FC } from "react";
 import useFogAddingForm from "../../../../hooks/form/fog_adding/useFogAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const ClientAdding = () => {
+interface FogAddingProps {
+  deposit: string;
+  currentStock: string;
+  managerName: string;
+  managerNumber: string;
+}
+
+const FogAdding: FC<FogAddingProps> = ({
+  deposit,
+  currentStock,
+  managerName,
+  managerNumber,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useFogAddingForm();
+    useFogAddingForm({
+      deposit: deposit,
+      currentStock: currentStock,
+      managerName: managerName,
+      managerNumber: managerNumber,
+    });
   return (
     <Modal label="fog-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -20,7 +39,6 @@ const ClientAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.deposit}
@@ -32,7 +50,7 @@ const ClientAdding = () => {
               />
             </div>
             {formErrors.deposit && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.deposit}
               </p>
             )}
@@ -40,7 +58,6 @@ const ClientAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.currentStock.toString()}
@@ -53,7 +70,7 @@ const ClientAdding = () => {
               ,
             </div>
             {formErrors.currentStock && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.currentStock}
               </p>
             )}
@@ -72,7 +89,7 @@ const ClientAdding = () => {
               />
             </div>
             {formErrors.managerName && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.managerName}
               </p>
             )}
@@ -80,7 +97,6 @@ const ClientAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.managerNumber.toString()}
@@ -92,14 +108,18 @@ const ClientAdding = () => {
               />
             </div>
             {formErrors.managerNumber && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.managerNumber}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>
@@ -108,4 +128,4 @@ const ClientAdding = () => {
   );
 };
 
-export default ClientAdding;
+export default FogAdding;

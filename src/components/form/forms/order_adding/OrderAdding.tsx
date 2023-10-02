@@ -1,12 +1,40 @@
+import { FC } from "react";
 import useOrderAddingForm from "../../../../hooks/form/order_adding/useOrderAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input";
+import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
-const OrderAdding = () => {
+interface OrderAddingProps {
+  firstname: string;
+  lastname: string;
+  quantity: string;
+  destination: string;
+  orderDate: number;
+  deliveryDate: number;
+  category: string;
+}
+
+const OrderAdding: FC<OrderAddingProps> = ({
+  firstname,
+  lastname,
+  quantity,
+  destination,
+  orderDate,
+  deliveryDate,
+  category,
+}) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useOrderAddingForm();
+    useOrderAddingForm({
+      firstname: firstname,
+      lastname: lastname,
+      quantity: quantity,
+      destination: destination,
+      orderDate: orderDate,
+      deliveryDate: deliveryDate,
+      category: category,
+    });
   return (
     <Modal label="order-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -20,20 +48,38 @@ const OrderAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.fullname}
-                name="fullname"
-                id="fullname"
+                value={formData.firstname}
+                name="firstname"
+                id="firstname"
                 type="text"
-                placeholder="Nom complet"
-                autoComplete="fullname"
+                placeholder="Prénoms"
+                autoComplete="firstname"
               />
             </div>
-            {formErrors.fullname && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
-                {formErrors.fullname}
+            {formErrors.firstname && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.firstname}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.lastname}
+                name="lastname"
+                id="lastname"
+                type="text"
+                placeholder="Nom"
+                autoComplete="lastname"
+              />
+            </div>
+            {formErrors.lastname && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.lastname}
               </p>
             )}
           </div>
@@ -51,7 +97,7 @@ const OrderAdding = () => {
               />
             </div>
             {formErrors.quantity && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.quantity}
               </p>
             )}
@@ -59,7 +105,6 @@ const OrderAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.destination}
@@ -72,7 +117,7 @@ const OrderAdding = () => {
               ,
             </div>
             {formErrors.destination && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.destination}
               </p>
             )}
@@ -80,7 +125,6 @@ const OrderAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.orderDate.toString()}
@@ -92,7 +136,7 @@ const OrderAdding = () => {
               />
             </div>
             {formErrors.orderDate && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.orderDate}
               </p>
             )}
@@ -100,7 +144,6 @@ const OrderAdding = () => {
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              {" "}
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.deliveryDate.toString()}
@@ -112,7 +155,7 @@ const OrderAdding = () => {
               />
             </div>
             {formErrors.deliveryDate && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.deliveryDate}
               </p>
             )}
@@ -131,14 +174,18 @@ const OrderAdding = () => {
               />
             </div>
             {formErrors.category && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.category}
               </p>
             )}
           </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
-            <JsOutlineButton type="button" name="Annuler" onClick={() => {}} />
+            <JsOutlineButton
+              type="button"
+              name="Annuler"
+              onClick={() => toggleModal("client-purchase-adding-form")}
+            />
             <JsButton type="submit" name="Valider" />
           </div>
         </div>

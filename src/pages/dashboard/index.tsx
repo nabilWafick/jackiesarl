@@ -37,7 +37,7 @@ import FogPage from "./contents/fog/FogPage";
 function Dashboard() {
   return (
     <div
-      className=" h-screen w-screen flex flex-row justify-center relative overflow-x-hidden sidebar bg-stone-100' "
+      className=" h-screen w-screen flex flex-row justify-center overflow-x-hidden sidebar bg-stone-100' "
       //    style={{ width: "" }}
     >
       {/*=============================== SIDEBAR ==============================*/}
@@ -52,8 +52,10 @@ function Dashboard() {
 
           {/*============================= CONTENT ===========================*/}
           <div
-            className="pt-5 pr-4 mt-20 h-max w-full flex justify-center items-center" // style={{ height: "100px" }}
+            className="pt-5 pr-4 mt-20  h-max w-full flex justify-center items-center" // style={{ height: "100px" }}
           >
+            {/* <TestPage /> */}
+
             <Routes>
               <Route path="/" Component={TableBord} />
               <Route path="/clients" Component={ClientsListPage} />
@@ -127,33 +129,6 @@ function Dashboard() {
               <Route path="*" Component={NotFoundPage} /> // star *
               <Route Component={NotFoundPage} /> // without path
             </Routes>
-            {/* <NotificationsPage /> */}
-            {/* <TableBord /> */}
-            {/* <ClientsListPage /> */}
-            {/* <GrapheClient /> */}
-            {/* <ClientPurchasesPage /> */}
-            {/* <ClientPaymentsPage /> */}
-            {/* <ClientBalancePage /> */}
-            {/* <ClientCheckRemittancePage /> */}
-            {/* <StockChartsPage /> */}
-            {/* <PurchaseOrderStockPage /> */}
-            {/* <TruckStockPage /> */}
-            {/* <SellingPage /> */}
-            {/* <SellingStatisticsPage /> */}
-            {/* <PaymentsPage /> */}
-            {/* <PaymentsValidationsPage /> */}
-            {/* <AdvancePage /> */}
-            {/* <PurchasesPage /> */}
-            {/* <ModificationsPage /> */}
-            {/* <DebtsChartPage /> */}
-            {/* <DebtsListPage /> */}
-            {/* <FogPage /> */}
-            {/* <ExpensesValidationPage /> */}
-            {/* <OrdersPage /> */}
-            {/* <BankAccountsListPage /> */}
-            {/* <CurrentsBalencePage /> */}
-            {/* <RapportComponents /> */}
-            {/* <RapportsPage /> */}
           </div>
         </div>
       </div>
