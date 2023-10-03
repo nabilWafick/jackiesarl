@@ -1,31 +1,33 @@
 // Interface TypeScript pour la table `employes`
 interface EmployesJSON {
-    id: number;
+    id?: number;
     nom: string;
     prenoms: string;
     email: string;
     password: string;
     role: string;
-    token: string;
+    token?: string;
   }
   
   class Employes {
-    id: number;
+    id?: number;
     nom: string;
     prenoms: string;
     email: string;
     password: string;
     role: string;
-    token: string;
+    token?: string;
   
     constructor(
-      id: number,
+     
       nom: string,
       prenoms: string,
       email: string,
       password: string,
       role: string,
-      token: string
+      id?: number,
+      token?: string,
+     
     ) {
       this.id = id;
       this.nom = nom;
@@ -39,12 +41,13 @@ interface EmployesJSON {
     // Méthode pour créer un objet Employes à partir d'un objet JSON générique
     static fromJson(json: EmployesJSON): Employes {
       return new Employes(
-        json.id,
+      
         json.nom,
         json.prenoms,
         json.email,
         json.password,
         json.role,
+        json.id,
         json.token
       );
     }

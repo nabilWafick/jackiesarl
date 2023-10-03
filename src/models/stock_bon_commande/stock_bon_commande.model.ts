@@ -1,56 +1,58 @@
 // Interface TypeScript pour la table `stock_bon_commande`
 interface StockBonCommandeJSON {
-    id: number;
-    numeroBc: number;
+    id?: number;
+    numero_bc: number;
     categorie: string;
-    quantiteAchetee: number;
-    stockAvantVente: number;
+    quantite_achetee: number;
+    stock_avant_vente: number;
     vente: number;
-    stockApresVente: number;
-    dateRechargement: string; // Une chaîne de caractères pour la date au format ISO
+    stock_apres_vente: number;
+    date_rechargement?: string; // Une chaîne de caractères pour la date au format ISO
   }
   
    class StockBonCommande {
-    id: number;
-    numeroBc: number;
+    id?: number;
+    numero_bc: number;
     categorie: string;
-    quantiteAchetee: number;
-    stockAvantVente: number;
+    quantite_achetee: number;
+    stock_avant_vente: number;
     vente: number;
-    stockApresVente: number;
-    dateRechargement: Date;
+    stock_apres_vente: number;
+    date_rechargement?: Date;
   
     constructor(
-      id: number,
-      numeroBc: number,
+     
+      numero_bc: number,
       categorie: string,
-      quantiteAchetee: number,
-      stockAvantVente: number,
+      quantite_achetee: number,
+      stock_avant_vente: number,
       vente: number,
-      stockApresVente: number,
-      dateRechargement: Date
+      stock_apres_vente: number,
+      id?: number,
+      date_rechargement?: Date
     ) {
       this.id = id;
-      this.numeroBc = numeroBc;
+      this.numero_bc = numero_bc;
       this.categorie = categorie;
-      this.quantiteAchetee = quantiteAchetee;
-      this.stockAvantVente = stockAvantVente;
+      this.quantite_achetee = quantite_achetee;
+      this.stock_avant_vente = stock_avant_vente;
       this.vente = vente;
-      this.stockApresVente = stockApresVente;
-      this.dateRechargement = dateRechargement;
+      this.stock_apres_vente = stock_apres_vente;
+      this.date_rechargement = date_rechargement;
     }
   
     // Méthode pour créer un objet StockBonCommande à partir d'un objet JSON générique
     static fromJson(json: StockBonCommandeJSON): StockBonCommande {
       return new StockBonCommande(
-        json.id,
-        json.numeroBc,
+      
+        json.numero_bc,
         json.categorie,
-        json.quantiteAchetee,
-        json.stockAvantVente,
+        json.quantite_achetee,
+        json.stock_avant_vente,
         json.vente,
-        json.stockApresVente,
-        new Date(json.dateRechargement)
+        json.stock_apres_vente,
+        json.id,
+        new Date(json.date_rechargement!)
       );
     }
   
@@ -58,13 +60,13 @@ interface StockBonCommandeJSON {
     toJson(): StockBonCommandeJSON {
       return {
         id: this.id,
-        numeroBc: this.numeroBc,
+        numero_bc: this.numero_bc,
         categorie: this.categorie,
-        quantiteAchetee: this.quantiteAchetee,
-        stockAvantVente: this.stockAvantVente,
+        quantite_achetee: this.quantite_achetee,
+        stock_avant_vente: this.stock_avant_vente,
         vente: this.vente,
-        stockApresVente: this.stockApresVente,
-        dateRechargement: this.dateRechargement.toISOString(),
+        stock_apres_vente: this.stock_apres_vente,
+        date_rechargement:this.date_rechargement != null ? this.date_rechargement.toISOString() : undefined,
       };
     }
   }

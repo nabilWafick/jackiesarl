@@ -1,21 +1,18 @@
 import axios from "axios";
-import dotenv from "dotenv";
 import AchatClient from "../../models/achat_client/achat_client.model";
 
-dotenv.config(); // Charge les variables d'environnement depuis le fichier .env
+// Charge les variables d'environnement depuis le fichier .env
 
 class AchatClientApi {
-  private static baseUrl: string = "localhost:7000/api/"; // process.env.API_BASE_URL;
+  private static  baseUrl =  "http://127.0.0.1:7000/api";
   private static headers = {
-    Authorization: "Bearer token",
+    "Authorization": "Bearer token",
     "Content-Type": "Application/json",
   };
 
   static async create(data: AchatClient) {
     await axios
-      .post(`${AchatClientApi.baseUrl}/achat-client`, data.toJson, {
-        headers: AchatClientApi.headers,
-      })
+      .post(`${AchatClientApi.baseUrl}/achat-client`, data.toJson,)
       .then((response) => {
         console.log(response.data);
       })
@@ -25,16 +22,17 @@ class AchatClientApi {
   }
 
   static async getById(id: number) {
+    
     await axios
-      .get(`${AchatClientApi.baseUrl}/achat-client/${id},`, {
-        headers: AchatClientApi.headers,
-      })
+      .get(`${AchatClientApi.baseUrl}/achat-client/${id},`,)
       .then((response) => {
         console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+      
+     console.log(`id ${id}`)
   }
 
   static async getAll() {
@@ -50,9 +48,7 @@ class AchatClientApi {
 
   static async update(id: number, data: AchatClient) {
     await axios
-      .put(`${AchatClientApi.baseUrl}/achat-client/${id}`, data.toJson, {
-        headers: AchatClientApi.headers,
-      })
+      .put(`${AchatClientApi.baseUrl}/achat-client/${id}`, data.toJson,)
       .then((response) => {
         console.log(response.data);
       })
@@ -63,9 +59,7 @@ class AchatClientApi {
 
   static async delete(id: number) {
     await axios
-      .delete(`${AchatClientApi.baseUrl}/achat-client/${id}`, {
-        headers: AchatClientApi.headers,
-      })
+      .delete(`${AchatClientApi.baseUrl}/achat-client/${id}`,)
       .then((response) => {
         console.log(response.data);
       })

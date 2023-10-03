@@ -1,51 +1,53 @@
 // Interface TypeScript pour la table `stock_camion`
 interface StockCamionJSON {
-    id: number;
-    numeroCamion: string;
+    id?: number;
+    numero_camion: string;
     categorie: string;
-    numeroChauffeur: number;
-    numeroBc: number;
+    numero_chauffeur: number;
+    numero_bc: number;
     quantite: number;
-    dateApprovisionnement: string; // Une chaîne de caractères pour la date au format ISO
+    date_approvisionnement?: string; // Une chaîne de caractères pour la date au format ISO
   }
   
    class StockCamion {
-    id: number;
-    numeroCamion: string;
+    id?: number;
+    numero_camion: string;
     categorie: string;
-    numeroChauffeur: number;
-    numeroBc: number;
+    numero_chauffeur: number;
+    numero_bc: number;
     quantite: number;
-    dateApprovisionnement: Date;
+    date_approvisionnement?: Date;
   
     constructor(
-      id: number,
-      numeroCamion: string,
+      
+      numero_camion: string,
       categorie: string,
-      numeroChauffeur: number,
-      numeroBc: number,
+      numero_chauffeur: number,
+      numero_bc: number,
       quantite: number,
-      dateApprovisionnement: Date
+      id?: number,
+      date_approvisionnement?: Date
     ) {
       this.id = id;
-      this.numeroCamion = numeroCamion;
+      this.numero_camion = numero_camion;
       this.categorie = categorie;
-      this.numeroChauffeur = numeroChauffeur;
-      this.numeroBc = numeroBc;
+      this.numero_chauffeur = numero_chauffeur;
+      this.numero_bc = numero_bc;
       this.quantite = quantite;
-      this.dateApprovisionnement = dateApprovisionnement;
+      this.date_approvisionnement = date_approvisionnement;
     }
   
     // Méthode pour créer un objet StockCamion à partir d'un objet JSON générique
     static fromJson(json: StockCamionJSON): StockCamion {
       return new StockCamion(
-        json.id,
-        json.numeroCamion,
+        
+        json.numero_camion,
         json.categorie,
-        json.numeroChauffeur,
-        json.numeroBc,
+        json.numero_chauffeur,
+        json.numero_bc,
         json.quantite,
-        new Date(json.dateApprovisionnement)
+        json.id,
+        new Date(json.date_approvisionnement!)
       );
     }
   
@@ -53,12 +55,12 @@ interface StockCamionJSON {
     toJson(): StockCamionJSON {
       return {
         id: this.id,
-        numeroCamion: this.numeroCamion,
+        numero_camion: this.numero_camion,
         categorie: this.categorie,
-        numeroChauffeur: this.numeroChauffeur,
-        numeroBc: this.numeroBc,
+        numero_chauffeur: this.numero_chauffeur,
+        numero_bc: this.numero_bc,
         quantite: this.quantite,
-        dateApprovisionnement: this.dateApprovisionnement.toISOString(),
+        date_approvisionnement:this.date_approvisionnement != null ? this.date_approvisionnement.toISOString() : undefined,
       };
     }
   }

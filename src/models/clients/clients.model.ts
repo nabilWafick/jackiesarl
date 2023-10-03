@@ -1,47 +1,56 @@
 // Interface TypeScript pour la table `clients`
 interface ClientsJSON {
-  id: number;
+  id?: number;
   nom: string;
   prenoms: string;
-
-  numeroIfu: number;
-  numeroTelephone: string;
+  numero_ifu: number;
+  numero_telephone: string;
   email: string | null;
+  date_ajout?:string;
 }
 
 class Clients {
-  id: number;
+  id?: number;
   nom: string;
   prenoms: string;
-  numeroIfu: number;
-  numeroTelephone: string;
+  numero_ifu: number;
+  numero_telephone: string;
   email: string | null;
+  date_ajout?: Date;
 
   constructor(
-    id: number,
+    
     nom: string,
     prenoms: string,
-    numeroIfu: number,
-    numeroTelephone: string,
-    email: string | null
+    numero_ifu: number,
+    numero_telephone: string,
+    email: string | null,
+    id?: number,
+    date_ajout?:Date,
+   
   ) {
-    this.id = id;
+    
     this.nom = nom;
     this.prenoms = prenoms;
-    this.numeroIfu = numeroIfu;
-    this.numeroTelephone = numeroTelephone;
+    this.numero_ifu = numero_ifu;
+    this.numero_telephone = numero_telephone;
     this.email = email;
+    this.id = id;
+    this.date_ajout =date_ajout;
   }
 
   // Méthode pour créer un objet Clients à partir d'un objet JSON générique
   static fromJson(json: ClientsJSON): Clients {
     return new Clients(
-      json.id,
       json.nom,
       json.prenoms,
-      json.numeroIfu,
-      json.numeroTelephone,
-      json.email
+      json.numero_ifu,
+      json.numero_telephone,
+      json.email,
+      json.id,
+      new Date(json.date_ajout!),
+     
+     
     );
   }
 
@@ -51,9 +60,10 @@ class Clients {
       id: this.id,
       nom: this.nom,
       prenoms: this.prenoms,
-      numeroIfu: this.numeroIfu,
-      numeroTelephone: this.numeroTelephone,
+      numero_ifu: this.numero_ifu,
+      numero_telephone: this.numero_telephone,
       email: this.email,
+      date_ajout:this.date_ajout != null ? this.date_ajout!.toISOString() : undefined,
     };
   }
 }

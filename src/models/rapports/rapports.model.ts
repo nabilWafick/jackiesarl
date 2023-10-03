@@ -1,36 +1,43 @@
 // Interface TypeScript pour la table `rapports`
 interface RapportsJSON {
-    id: number;
+    id?: number;
     rapport: string;
-    dateEnvoi: string; // Une chaîne de caractères pour la date au format ISO
-    idEmploye: number;
+    id_employe: number;
+    date_envoi?: string; // Une chaîne de caractères pour la date au format ISO
+   
   }
   
    class Rapports {
-    id: number;
+    id?: number;
     rapport: string;
-    dateEnvoi: Date;
-    idEmploye: number;
+    id_employe: number;
+    date_envoi?: Date;
+    
   
     constructor(
-      id: number,
+      
       rapport: string,
-      dateEnvoi: Date,
-      idEmploye: number
+      id_employe: number,
+      id?: number,
+      date_envoi?: Date,
+     
     ) {
       this.id = id;
       this.rapport = rapport;
-      this.dateEnvoi = dateEnvoi;
-      this.idEmploye = idEmploye;
+      this.id_employe = id_employe;
+      this.date_envoi = date_envoi;
+     
     }
   
     // Méthode pour créer un objet Rapports à partir d'un objet JSON générique
     static fromJson(json: RapportsJSON): Rapports {
       return new Rapports(
-        json.id,
+        
         json.rapport,
-        new Date(json.dateEnvoi),
-        json.idEmploye
+        json.id_employe,
+        json.id,
+        new Date(json.date_envoi!),
+       
       );
     }
   
@@ -39,8 +46,9 @@ interface RapportsJSON {
       return {
         id: this.id,
         rapport: this.rapport,
-        dateEnvoi: this.dateEnvoi.toISOString(),
-        idEmploye: this.idEmploye,
+        id_employe: this.id_employe,
+        date_envoi: this.date_envoi != null ? this.date_envoi.toISOString() : undefined,
+      
       };
     }
   }

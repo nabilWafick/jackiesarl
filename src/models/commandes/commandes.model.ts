@@ -1,57 +1,65 @@
 // Interface TypeScript pour la table `commandes`
 interface CommandesJSON {
-    id: number;
+    id?: number;
     categorie: string;
-    quantiteAchetee: number;
+    quantite_achetee: number;
     destination: number;
-    dateCommande: string; // Une chaîne de caractères pour la date au format ISO
-    dateLivraison: string; // Une chaîne de caractères pour la date de livraison au format ISO
-    estTraitee: boolean;
-    idClient: number;
+    date_commande: string; // Une chaîne de caractères pour la date au format ISO
+    date_livraison: string; // Une chaîne de caractères pour la date de livraison au format ISO
+    est_traitee: boolean;
+    id_client: number;
+    date_ajout?:string,
   }
 
 
   class Commandes {
-    id: number;
+    id?: number;
     categorie: string;
-    quantiteAchetee: number;
+    quantite_achetee: number;
     destination: number;
-    dateCommande: Date;
-    dateLivraison: Date;
-    estTraitee: boolean;
-    idClient: number;
+    date_commande: Date;
+    date_livraison: Date;
+    est_traitee: boolean;
+    id_client: number;
+    date_ajout?:Date;
   
     constructor(
-      id: number,
+      
       categorie: string,
-      quantiteAchetee: number,
+      quantite_achetee: number,
       destination: number,
-      dateCommande: Date,
-      dateLivraison: Date,
-      estTraitee: boolean,
-      idClient: number
+      date_commande: Date,
+      date_livraison: Date,
+      est_traitee: boolean,
+      id_client: number,
+      id?: number,
+      date_ajout?:Date,
     ) {
-      this.id = id;
+    
       this.categorie = categorie;
-      this.quantiteAchetee = quantiteAchetee;
+      this.quantite_achetee = quantite_achetee;
       this.destination = destination;
-      this.dateCommande = dateCommande;
-      this.dateLivraison = dateLivraison;
-      this.estTraitee = estTraitee;
-      this.idClient = idClient;
+      this.date_commande = date_commande;
+      this.date_livraison = date_livraison;
+      this.est_traitee = est_traitee;
+      this.id_client = id_client;
+      this.id = id;
+     this. date_ajout = date_ajout;
     }
   
     // Méthode pour créer un objet Commandes à partir d'un objet JSON générique
     static fromJson(json: CommandesJSON): Commandes {
       return new Commandes(
-        json.id,
+        
         json.categorie,
-        json.quantiteAchetee,
+        json.quantite_achetee,
         json.destination,
-        new Date(json.dateCommande),
-        new Date(json.dateLivraison),
-        json.estTraitee,
-        json.idClient
+        new Date(json.date_commande),
+        new Date(json.date_livraison),
+        json.est_traitee,
+        json.id_client,
+        json.id,
+        new Date(json.date_ajout!),
       );
     }
   
@@ -60,12 +68,13 @@ interface CommandesJSON {
       return {
         id: this.id,
         categorie: this.categorie,
-        quantiteAchetee: this.quantiteAchetee,
+        quantite_achetee: this.quantite_achetee,
         destination: this.destination,
-        dateCommande: this.dateCommande.toISOString(),
-        dateLivraison: this.dateLivraison.toISOString(),
-        estTraitee: this.estTraitee,
-        idClient: this.idClient,
+        date_commande: this.date_commande.toISOString(),
+        date_livraison: this.date_livraison.toISOString(),
+        est_traitee: this.est_traitee,
+        id_client: this.id_client,
+        date_ajout: this.date_ajout != null ? this.date_ajout.toISOString() : undefined,
       };
     }
   }

@@ -1,22 +1,23 @@
 // Interface TypeScript pour la table `modifications`
 interface ModificationsJSON {
-    id: number;
+    id?: number;
     modification: string;
     idEmploye: number;
-    dateModification: string; // Une chaîne de caractères pour la date au format ISO
+    dateModification?: string; // Une chaîne de caractères pour la date au format ISO
   }
   
    class Modifications {
-    id: number;
+    id?: number;
     modification: string;
     idEmploye: number;
-    dateModification: Date;
+    dateModification?: Date;
   
     constructor(
-      id: number,
+     
       modification: string,
       idEmploye: number,
-      dateModification: Date
+      id?: number,
+      dateModification?: Date
     ) {
       this.id = id;
       this.modification = modification;
@@ -27,10 +28,11 @@ interface ModificationsJSON {
     // Méthode pour créer un objet Modifications à partir d'un objet JSON générique
     static fromJson(json: ModificationsJSON): Modifications {
       return new Modifications(
-        json.id,
+        
         json.modification,
         json.idEmploye,
-        new Date(json.dateModification)
+        json.id,
+        new Date(json.dateModification!)
       );
     }
   
@@ -40,7 +42,7 @@ interface ModificationsJSON {
         id: this.id,
         modification: this.modification,
         idEmploye: this.idEmploye,
-        dateModification: this.dateModification.toISOString(),
+        dateModification:this.dateModification != null ? this.dateModification.toISOString() : undefined,
       };
     }
   }

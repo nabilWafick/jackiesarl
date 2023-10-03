@@ -1,41 +1,43 @@
 // Interface TypeScript pour la table `solde_courant`
 interface SoldeCourantJSON {
-    id: number;
+    id?: number;
     banque: string;
-    numeroCompte: string;
-    soldeActuel: number;
-    dateAjout: string; // Une chaîne de caractères pour la date au format ISO
+    numero_compte: string;
+    solde_actuel: number;
+    date_ajout?: string; // Une chaîne de caractères pour la date au format ISO
   }
   
    class SoldeCourant {
-    id: number;
+    id?: number;
     banque: string;
-    numeroCompte: string;
-    soldeActuel: number;
-    dateAjout: Date;
+    numero_compte: string;
+    solde_actuel: number;
+    date_ajout?: Date;
   
     constructor(
-      id: number,
+      
       banque: string,
-      numeroCompte: string,
-      soldeActuel: number,
-      dateAjout: Date
+      numero_compte: string,
+      solde_actuel: number,
+      id?: number,
+      date_ajout?: Date
     ) {
       this.id = id;
       this.banque = banque;
-      this.numeroCompte = numeroCompte;
-      this.soldeActuel = soldeActuel;
-      this.dateAjout = dateAjout;
+      this.numero_compte = numero_compte;
+      this.solde_actuel = solde_actuel;
+      this.date_ajout = date_ajout;
     }
   
     // Méthode pour créer un objet SoldeCourant à partir d'un objet JSON générique
     static fromJson(json: SoldeCourantJSON): SoldeCourant {
       return new SoldeCourant(
-        json.id,
+       
         json.banque,
-        json.numeroCompte,
-        json.soldeActuel,
-        new Date(json.dateAjout)
+        json.numero_compte,
+        json.solde_actuel,
+        json.id,
+        new Date(json.date_ajout!),
       );
     }
   
@@ -44,9 +46,9 @@ interface SoldeCourantJSON {
       return {
         id: this.id,
         banque: this.banque,
-        numeroCompte: this.numeroCompte,
-        soldeActuel: this.soldeActuel,
-        dateAjout: this.dateAjout.toISOString(),
+        numero_compte: this.numero_compte,
+        solde_actuel: this.solde_actuel,
+        date_ajout: this.date_ajout != null ?  this.date_ajout.toISOString() : undefined,
       };
     }
   }

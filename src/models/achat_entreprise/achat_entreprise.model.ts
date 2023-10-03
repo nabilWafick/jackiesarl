@@ -1,73 +1,75 @@
 interface AchatEntrepriseJson {
-    id: number;
-    quantiteAchetee: number;
+    id?: number;
+    quantite_achetee: number;
     categorie: string;
     montant: number;
-    numeroCtp: string;
+    numero_ctp: string;
     bordereau: string;
-    numeroBc: string;
-    idEntreprise: number;
-    dateAchat: string;
+    numero_bc: string;
+    id_entreprise: number;
+    date_achat?: string;
   }
   
   class AchatEntreprise {
-    id: number;
-    quantiteAchetee: number;
+    id?: number;
+    quantite_achetee: number;
     categorie: string;
     montant: number;
-    numeroCtp: string;
+    numero_ctp: string;
     bordereau: string;
-    numeroBc: string;
-    idEntreprise: number;
-    dateAchat: Date;
+    numero_bc: string;
+    id_entreprise: number;
+    date_achat?: Date;
   
     constructor(
-      id: number,
-      quantiteAchetee: number,
+      
+      quantite_achetee: number,
       categorie: string,
       montant: number,
-      numeroCtp: string,
+      numero_ctp: string,
       bordereau: string,
-      numeroBc: string,
-      idEntreprise: number,
-      dateAchat: Date
+      numero_bc: string,
+      id_entreprise: number,
+      id?: number,
+      date_achat?: Date
     ) {
       this.id = id;
-      this.quantiteAchetee = quantiteAchetee;
+      this.quantite_achetee = quantite_achetee;
       this.categorie = categorie;
       this.montant = montant;
-      this.numeroCtp = numeroCtp;
+      this.numero_ctp = numero_ctp;
       this.bordereau = bordereau;
-      this.numeroBc = numeroBc;
-      this.idEntreprise = idEntreprise;
-      this.dateAchat = dateAchat;
+      this.numero_bc = numero_bc;
+      this.id_entreprise = id_entreprise;
+      this.date_achat = date_achat;
     }
   
     static fromJson(json: AchatEntrepriseJson): AchatEntreprise {
       return new AchatEntreprise(
-        json.id,
-        json.quantiteAchetee,
+       
+        json.quantite_achetee,
         json.categorie,
         json.montant,
-        json.numeroCtp,
+        json.numero_ctp,
         json.bordereau,
-        json.numeroBc,
-        json.idEntreprise,
-        new Date(json.dateAchat)
+        json.numero_bc,
+        json.id_entreprise,
+        json.id,
+        new Date(json.date_achat!)
       );
     }
   
     toJson(): AchatEntrepriseJson {
       return {
         id: this.id,
-        quantiteAchetee: this.quantiteAchetee,
+        quantite_achetee: this.quantite_achetee,
         categorie: this.categorie,
         montant: this.montant,
-        numeroCtp: this.numeroCtp,
+        numero_ctp: this.numero_ctp,
         bordereau: this.bordereau,
-        numeroBc: this.numeroBc,
-        idEntreprise: this.idEntreprise,
-        dateAchat: this.dateAchat.toISOString(),
+        numero_bc: this.numero_bc,
+        id_entreprise: this.id_entreprise,
+        date_achat:this.date_achat != null ? this.date_achat!.toISOString() : undefined,
       };
     }
   }

@@ -1,61 +1,64 @@
 // Interface TypeScript pour la table `activites_depot`
 interface ActivitesDepotJSON {
-    id: number;
-    idDepot: number;
-    quantiteAvantVente: number;
+    id?: number;
+    id_depot: number;
+    quantite_avant_vente: number;
     vente: number;
-    quantiteActuelle: number;
+    quantite_apres_vente: number;
     versement: number;
     depense: number;
     observation: string;
-    dateRemplissage: string; // Une chaîne de caractères pour la date au format ISO
+    date_remplissage?: string; // Une chaîne de caractères pour la date au format ISO
   }
   
   class ActivitesDepot {
-    id: number;
-    idDepot: number;
-    quantiteAvantVente: number;
+    id?: number;
+    id_depot: number;
+    quantite_avant_vente: number;
     vente: number;
-    quantiteActuelle: number;
+    quantite_apres_vente: number;
     versement: number;
     depense: number;
     observation: string;
-    dateRemplissage: Date;
+    date_remplissage?: Date;
   
     constructor(
-      id: number,
-      idDepot: number,
-      quantiteAvantVente: number,
+      
+      id_depot: number,
+      quantite_avant_vente: number,
       vente: number,
-      quantiteActuelle: number,
+      quantite_apres_vente: number,
       versement: number,
       depense: number,
       observation: string,
-      dateRemplissage: Date
+      id?: number,
+      date_remplissage?: Date
     ) {
-      this.id = id;
-      this.idDepot = idDepot;
-      this.quantiteAvantVente = quantiteAvantVente;
+     
+      this.id_depot = id_depot;
+      this.quantite_avant_vente = quantite_avant_vente;
       this.vente = vente;
-      this.quantiteActuelle = quantiteActuelle;
+      this.quantite_apres_vente = quantite_apres_vente;
       this.versement = versement;
       this.depense = depense;
       this.observation = observation;
-      this.dateRemplissage = dateRemplissage;
+      this.id = id;
+      this.date_remplissage = date_remplissage;
     }
   
     // Méthode pour créer un objet ActivitesDepot à partir d'un objet JSON générique
     static fromJson(json: ActivitesDepotJSON): ActivitesDepot {
       return new ActivitesDepot(
-        json.id,
-        json.idDepot,
-        json.quantiteAvantVente,
+        
+        json.id_depot,
+        json.quantite_avant_vente,
         json.vente,
-        json.quantiteActuelle,
+        json.quantite_apres_vente,
         json.versement,
         json.depense,
         json.observation,
-        new Date(json.dateRemplissage)
+        json.id,
+        new Date(json.date_remplissage!)
       );
     }
   
@@ -63,14 +66,14 @@ interface ActivitesDepotJSON {
     toJson(): ActivitesDepotJSON {
       return {
         id: this.id,
-        idDepot: this.idDepot,
-        quantiteAvantVente: this.quantiteAvantVente,
+        id_depot: this.id_depot,
+        quantite_avant_vente: this.quantite_avant_vente,
         vente: this.vente,
-        quantiteActuelle: this.quantiteActuelle,
+        quantite_apres_vente: this.quantite_apres_vente,
         versement: this.versement,
         depense: this.depense,
         observation: this.observation,
-        dateRemplissage: this.dateRemplissage.toISOString(),
+        date_remplissage:this.date_remplissage != null ? this.date_remplissage!.toISOString() : undefined,
       };
     }
   }

@@ -1,61 +1,62 @@
 // Interface TypeScript pour la table `achat_client`
 interface AchatClientJSON {
   id?: number;
-  quantiteAchetee: number;
+  quantite_achetee: number;
   categorie: string;
   montant: number;
-  numeroCtp: string;
+  numero_ctp: string;
   bordereau: string;
-  numeroBc: string;
-  idClient: number;
-  dateAchat: string;
+  numero_bc: string;
+  id_client: number;
+  date_achat?: string;
 }
 
 class AchatClient {
   id?: number;
-  quantiteAchetee: number;
+  quantite_achetee: number;
   categorie: string;
   montant: number;
-  numeroCtp: string;
+  numero_ctp: string;
   bordereau: string;
-  numeroBc: string;
-  idClient: number;
-  dateAchat: Date;
+  numero_bc: string;
+  id_client: number;
+  date_achat?: Date;
 
   constructor(
-    quantiteAchetee: number,
+    quantite_achetee: number,
     categorie: string,
     montant: number,
-    numeroCtp: string,
+    numero_ctp: string,
     bordereau: string,
-    numeroBc: string,
-    idClient: number,
-    dateAchat: Date,
-    id?: number
+    numero_bc: string,
+    id_client: number,
+    id?: number,
+    date_achat?: Date,
+    
   ) {
     this.id = id;
-    this.quantiteAchetee = quantiteAchetee;
+    this.quantite_achetee = quantite_achetee;
     this.categorie = categorie;
     this.montant = montant;
-    this.numeroCtp = numeroCtp;
+    this.numero_ctp = numero_ctp;
     this.bordereau = bordereau;
-    this.numeroBc = numeroBc;
-    this.idClient = idClient;
-    this.dateAchat = dateAchat;
+    this.numero_bc = numero_bc;
+    this.id_client = id_client;
+    this.date_achat = date_achat;
   }
 
   // Méthode pour créer un objet AchatClient à partir d'un objet JSON générique
   static fromJson(json: AchatClientJSON): AchatClient {
     return new AchatClient(
-      json.quantiteAchetee,
+      json.quantite_achetee,
       json.categorie,
       json.montant,
-      json.numeroCtp,
+      json.numero_ctp,
       json.bordereau,
-      json.numeroBc,
-      json.idClient,
-      new Date(json.dateAchat),
-      json.id
+      json.numero_bc,
+      json.id_client,
+      json.id,
+      new Date(json.date_achat!),
     );
   }
 
@@ -63,14 +64,14 @@ class AchatClient {
   toJson(): AchatClientJSON {
     return {
       id: this.id,
-      quantiteAchetee: this.quantiteAchetee,
+      quantite_achetee: this.quantite_achetee,
       categorie: this.categorie,
       montant: this.montant,
-      numeroCtp: this.numeroCtp,
+      numero_ctp: this.numero_ctp,
       bordereau: this.bordereau,
-      numeroBc: this.numeroBc,
-      idClient: this.idClient,
-      dateAchat: this.dateAchat.toISOString(),
+      numero_bc: this.numero_bc,
+      id_client: this.id_client,
+      date_achat:this.date_achat != null ? this.date_achat!.toISOString() : undefined,
     };
   }
 }

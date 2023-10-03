@@ -1,66 +1,68 @@
 // Interface TypeScript pour la table `paiement_client`
 interface PaiementClientJSON {
-    id: number;
+    id?: number;
     montant: number;
     banque: string;
     reference: string;
     categorie: string;
-    numeroBc: number;
+    numero_bc: number;
     bordereau: string;
-    estValide: boolean;
-    idClient: number;
-    datePaiement: string; // Une chaîne de caractères pour la date au format ISO
+    est_valide: boolean;
+    id_client: number;
+    date_paiement?: string; // Une chaîne de caractères pour la date au format ISO
   }
   
   class PaiementClient {
-    id: number;
+    id?: number;
     montant: number;
     banque: string;
     reference: string;
     categorie: string;
-    numeroBc: number;
+    numero_bc: number;
     bordereau: string;
-    estValide: boolean;
-    idClient: number;
-    datePaiement: Date;
+    est_valide: boolean;
+    id_client: number;
+    date_paiement?: Date;
   
     constructor(
-      id: number,
+      
       montant: number,
       banque: string,
       reference: string,
       categorie: string,
-      numeroBc: number,
+      numero_bc: number,
       bordereau: string,
-      estValide: boolean,
-      idClient: number,
-      datePaiement: Date
+      est_valide: boolean,
+      id_client: number,
+      id?: number,
+      date_paiement?: Date
     ) {
       this.id = id;
       this.montant = montant;
       this.banque = banque;
       this.reference = reference;
       this.categorie = categorie;
-      this.numeroBc = numeroBc;
+      this.numero_bc = numero_bc;
       this.bordereau = bordereau;
-      this.estValide = estValide;
-      this.idClient = idClient;
-      this.datePaiement = datePaiement;
+      this.est_valide = est_valide;
+      this.id_client = id_client;
+      this.date_paiement = date_paiement;
     }
   
     // Méthode pour créer un objet PaiementClient à partir d'un objet JSON générique
     static fromJson(json: PaiementClientJSON): PaiementClient {
       return new PaiementClient(
-        json.id,
+       
         json.montant,
         json.banque,
         json.reference,
         json.categorie,
-        json.numeroBc,
+        json.numero_bc,
         json.bordereau,
-        json.estValide,
-        json.idClient,
-        new Date(json.datePaiement)
+        json.est_valide,
+        json.id_client,
+        json.id,
+        new Date(json.date_paiement!)
       );
     }
   
@@ -72,11 +74,11 @@ interface PaiementClientJSON {
         banque: this.banque,
         reference: this.reference,
         categorie: this.categorie,
-        numeroBc: this.numeroBc,
+        numero_bc: this.numero_bc,
         bordereau: this.bordereau,
-        estValide: this.estValide,
-        idClient: this.idClient,
-        datePaiement: this.datePaiement.toISOString(),
+        est_valide: this.est_valide,
+        id_client: this.id_client,
+        date_paiement: this.date_paiement != null ? this.date_paiement.toISOString() : undefined,
       };
     }
   }

@@ -1,46 +1,54 @@
 // Interface TypeScript pour la table `creances`
 interface CreancesJSON {
-    id: number;
-    creanceCimBenin: number;
-    creanceNocibe: number;
-    creanceAutres: number;
-    dateCreance: string; // Une chaîne de caractères pour la date au format ISO
-    idClient: number;
+    id?: number;
+    creance_cim_enin: number;
+    creance_nocibe: number;
+    creance_autres: number;
+    id_client: number;
+    date_creance?: string; // Une chaîne de caractères pour la date au format ISO
+   
   }
   
   class Creances {
-    id: number;
-    creanceCimBenin: number;
-    creanceNocibe: number;
-    creanceAutres: number;
-    dateCreance: Date;
-    idClient: number;
+    id?: number;
+    creance_cim_enin: number;
+    creance_nocibe: number;
+    creance_autres: number;
+    id_client: number;
+    date_creance?: Date;
+    
   
     constructor(
-      id: number,
-      creanceCimBenin: number,
-      creanceNocibe: number,
-      creanceAutres: number,
-      dateCreance: Date,
-      idClient: number
+     
+      creance_cim_enin: number,
+      creance_nocibe: number,
+      creance_autres: number,
+      id_client: number,
+      id?: number,
+      date_creance?: Date,
+      
     ) {
+      
+      this.creance_cim_enin = creance_cim_enin;
+      this.creance_nocibe = creance_nocibe;
+      this.creance_autres = creance_autres;
+      this.id_client = id_client;
       this.id = id;
-      this.creanceCimBenin = creanceCimBenin;
-      this.creanceNocibe = creanceNocibe;
-      this.creanceAutres = creanceAutres;
-      this.dateCreance = dateCreance;
-      this.idClient = idClient;
+      this.date_creance = date_creance;
+     
     }
   
     // Méthode pour créer un objet Creances à partir d'un objet JSON générique
     static fromJson(json: CreancesJSON): Creances {
       return new Creances(
+       
+        json.creance_cim_enin,
+        json.creance_nocibe,
+        json.creance_autres,
+        json.id_client,
         json.id,
-        json.creanceCimBenin,
-        json.creanceNocibe,
-        json.creanceAutres,
-        new Date(json.dateCreance),
-        json.idClient
+        new Date(json.date_creance!),
+       
       );
     }
   
@@ -48,11 +56,12 @@ interface CreancesJSON {
     toJson(): CreancesJSON {
       return {
         id: this.id,
-        creanceCimBenin: this.creanceCimBenin,
-        creanceNocibe: this.creanceNocibe,
-        creanceAutres: this.creanceAutres,
-        dateCreance: this.dateCreance.toISOString(),
-        idClient: this.idClient,
+        creance_cim_enin: this.creance_cim_enin,
+        creance_nocibe: this.creance_nocibe,
+        creance_autres: this.creance_autres,
+        id_client: this.id_client,
+        date_creance: this.date_creance != null ? this.date_creance.toISOString() : undefined,
+       
       };
     }
   }

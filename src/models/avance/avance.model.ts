@@ -1,32 +1,34 @@
 
   // Interface TypeScript pour la table `avance`
   interface AvanceJSON {
-    id: number;
+    id?: number;
     montant: number;
-    idClient: number;
-    dateAvance: string; // Une chaîne de caractères pour la date au format ISO
+    id_client: number;
+    date_avance?: string; // Une chaîne de caractères pour la date au format ISO
   }
   
   class Avance {
-    id: number;
+    id?: number;
     montant: number;
-    idClient: number;
-    dateAvance: Date;
+    id_client: number;
+    date_avance?: Date;
   
-    constructor(id: number, montant: number, idClient: number, dateAvance: Date) {
-      this.id = id;
+    constructor(montant: number, id_client: number,id?: number,  date_avance?: Date) {
       this.montant = montant;
-      this.idClient = idClient;
-      this.dateAvance = dateAvance;
+      this.id_client = id_client;
+      this.id = id;
+      this.date_avance = date_avance;
+      
     }
   
     // Méthode pour créer un objet Avance à partir d'un objet JSON générique
     static fromJson(json: AvanceJSON): Avance {
       return new Avance(
-        json.id,
+      
         json.montant,
-        json.idClient,
-        new Date(json.dateAvance)
+        json.id_client,
+        json.id,
+        new Date(json.date_avance!)
       );
     }
   
@@ -35,8 +37,8 @@
       return {
         id: this.id,
         montant: this.montant,
-        idClient: this.idClient,
-        dateAvance: this.dateAvance.toISOString(),
+        id_client: this.id_client,
+        date_avance:this.date_avance !=null ? this.date_avance!.toISOString() : undefined,
       };
     }
   }

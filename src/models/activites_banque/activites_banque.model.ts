@@ -1,52 +1,55 @@
 
 
 interface ActivitesBanqueJSON {
-  id: number;
-  idBanque: number;
+  id?: number;
+  id_banque: number;
   description: string;
   debit: number;
   credit: number;
   solde: number;
-  dateActivite: string; // Une chaîne de caractères pour la date au format ISO
+  date_activite?: string; // Une chaîne de caractères pour la date au format ISO
 }
 
 class ActivitesBanque {
-  id: number;
-  idBanque: number;
+  id?: number;
+  id_banque: number;
   description: string;
   debit: number;
   credit: number;
   solde: number;
-  dateActivite: Date;
+  date_activite?: Date;
 
   constructor(
-    id: number,
-    idBanque: number,
+    
+    id_banque: number,
     description: string,
     debit: number,
     credit: number,
     solde: number,
-    dateActivite: Date
+    id?: number,
+    date_activite?: Date
   ) {
-    this.id = id;
-    this.idBanque = idBanque;
+   
+    this.id_banque = id_banque;
     this.description = description;
     this.debit = debit;
     this.credit = credit;
     this.solde = solde;
-    this.dateActivite = dateActivite;
+    this.id = id;
+    this.date_activite = date_activite;
   }
 
   // Méthode pour créer un objet ActivitesBanque à partir d'un objet JSON générique
   static fromJson(json: ActivitesBanqueJSON): ActivitesBanque {
     return new ActivitesBanque(
-      json.id,
-      json.idBanque,
+     
+      json.id_banque,
       json.description,
       json.debit,
       json.credit,
       json.solde,
-      new Date(json.dateActivite)
+      json.id,
+      new Date(json.date_activite!)
     );
   }
 
@@ -54,12 +57,12 @@ class ActivitesBanque {
   toJson(): ActivitesBanqueJSON {
     return {
       id: this.id,
-      idBanque: this.idBanque,
+      id_banque: this.id_banque,
       description: this.description,
       debit: this.debit,
       credit: this.credit,
       solde: this.solde,
-      dateActivite: this.dateActivite.toISOString(),
+      date_activite:this.date_activite != null ? this.date_activite.toISOString() : undefined,
     };
   }
 }
