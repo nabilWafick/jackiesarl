@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC } from "react";
 import SideBarOption from "../../components/ui/dashboard/widgets/SideBarOption";
 import "../../assets/css/Sidebar.css";
 import { BsCart3, BsHandbag, BsHouse, BsPersonWorkspace } from "react-icons/bs";
@@ -15,46 +15,22 @@ import { FaMoneyBillAlt, FaShoppingBasket } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { GiMoneyStack, GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import SideBarUserInfosCard from "../../components/ui/dashboard/widgets/SideBarUserInfosCard";
+import useInterfacesStore from "../../store/interfaces/useInfacesStore";
 
-function SideBar() {
-  const [isOpen, setIsOpen] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const [currentActiveSideBarOption, setCurrentActiveSideBarOption] =
-    useState("");
-  const [currentActiveSideBarSubOption, setCurrentActiveSideBarSubOption] =
-    useState("");
-
-  const toggleSideBarOptionDropdown = (index: number) => {
-    const isOpenState = isOpen.map((value, i) =>
-      i === index ? !value : false
-    );
-    setIsOpen(isOpenState);
-  };
-
-  const onSideBarOptionClick = (index: number, name: string) => {
-    toggleSideBarOptionDropdown(index);
-    setCurrentActiveSideBarOption(name);
-  };
-
-  const onSideBarSubOptionClick = (name: string) => {
-    setCurrentActiveSideBarSubOption(name);
-  };
+const SideBar: FC = () => {
+  const isOpen = useInterfacesStore((state) => state.isOpen);
+  const currentActiveSideBarOption = useInterfacesStore(
+    (state) => state.currentActiveSideBarOption
+  );
+  const currentActiveSideBarSubOption = useInterfacesStore(
+    (state) => state.currentActiveSideBarSubOption
+  );
+  const onSideBarSubOptionClick = useInterfacesStore(
+    (state) => state.setCurrentActiveSideBarSubOption
+  );
+  const onSideBarOptionClick = useInterfacesStore(
+    (state) => state.setCurrentActiveSideBarOption
+  );
 
   const sideBarData = [
     {
@@ -186,15 +162,7 @@ function SideBar() {
       index: 7,
       isOpen: false,
       currentActiveSideBarOption: currentActiveSideBarOption,
-      subOptions: [
-        /*  {
-          to: "/modifications/ce-mois",
-          name: "Ce Mois",
-          currentActiveSideBarSubOption: currentActiveSideBarSubOption,
-          onSideBarSubOptionClick: onSideBarSubOptionClick,
-        },
-      */
-      ],
+      subOptions: [],
       onSideBarOptionClick: onSideBarOptionClick,
     },
     {
@@ -320,6 +288,6 @@ function SideBar() {
       </div>
     </div>
   );
-}
+};
 
 export default SideBar;

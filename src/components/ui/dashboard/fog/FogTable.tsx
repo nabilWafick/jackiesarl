@@ -1,4 +1,16 @@
-function FogTable() {
+import { FC } from "react";
+import Brouillard from "../../../../models/brouillard/brouillard.model";
+import useBrouillardStore from "../../../../store/brouillard/useBrouillard.store";
+import { Link } from "react-router-dom";
+
+interface FogTableProps {
+  fogs: Brouillard[];
+}
+
+const FogTable: FC<FogTableProps> = ({ fogs }) => {
+  const setSelectedBrouillard = useBrouillardStore(
+    (state) => state.setSelectedBrouillard
+  );
   return (
     <div className="flex flex-col justify-start w-full ">
       <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2>
@@ -14,33 +26,53 @@ function FogTable() {
               <td className="font-medium">Nom Gérant</td>
               <td className="font-medium">Num Gérant</td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 != 0) {
-                return (
-                  <tr key={index}>
-                    <td>Cotonou</td>
-                    <td>50 240t</td>
 
-                    <td>Shalom</td>
-                    <td>50 00 00 01</td>
-                  </tr>
-                );
-              }
-              return (
-                <tr key={index}>
-                  <td>Calavi</td>
-                  <td>2 340t</td>
+            {fogs.map((fog) => (
+              <tr key={fog.id}>
+                <td>
+                  <Link
+                    className=" text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedBrouillard(fog)}
+                    to="/brouillard/details"
+                  >
+                    {fog.depot}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    className=" text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedBrouillard(fog)}
+                    to="/brouillard/details"
+                  >
+                    {fog.stock_actuel}t
+                  </Link>
+                </td>
 
-                  <td>Peace</td>
-                  <td>90 00 00 01</td>
-                </tr>
-              );
-            })}
+                <td>
+                  <Link
+                    className=" text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedBrouillard(fog)}
+                    to="/brouillard/details"
+                  >
+                    {fog.nom_gerant}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    className=" text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedBrouillard(fog)}
+                    to="/brouillard/details"
+                  >
+                    {fog.numero_gerant}
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
     </div>
   );
-}
+};
 
 export default FogTable;

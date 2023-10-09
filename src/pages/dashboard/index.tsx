@@ -5,15 +5,15 @@ import { Routes, Route } from "react-router-dom";
 import TableBord from "./contents/table_bord/TableBord";
 import ClientsListPage from "./contents/clients_list/ClientsListPage";
 import StockChartsPage from "./contents/stock_chart/StockChartPage";
-import SellingPage from "./contents/selling/SellingPage";
+import SellingPage from "./contents/sales/SalesPage";
 import PaymentsPage from "./contents/payments/PaymentsPage";
 import AdvancePage from "./contents/advance/AdvancePage";
-import PurchasesPage from "./contents/purchases/PurchasesPage";
+import PurchasesPage from "./contents/company_purchases/CompanyPurchasesPage";
 import ModificationsPage from "./contents/modifications/ModificationsPage";
 import DebtsListPage from "./contents/debts_list/DebtListPage";
 import ExpensesPage from "./contents/expenses/ExpensesPage";
 import OrdersPage from "./contents/orders/OrdersPage";
-import CurrentsBalencePage from "./contents/current_balences/CurrentBalencesPage";
+import CurrentsBalencePage from "./contents/current_balences_details/CurrentBalencesDetailsPage";
 import AutorisationsPage from "./contents/autorisations/AutorisationsPage";
 import LogoutPage from "../logout/LogoutPage";
 import FogInformationsPage from "./contents/fog_details/FogDetailsPage";
@@ -26,13 +26,14 @@ import ClientBalancePage from "./contents/client_balence/ClientBalancePage";
 import ClientCheckRemittancePage from "./contents/client_check_remittance/ClientCheckRemittancePage";
 import PurchaseOrderStockPage from "./contents/purchase_order_stock/PurchaseOrderStockPage";
 import TruckStockPage from "./contents/truck_stock/TruckStockPage";
-import SellingStatisticsPage from "./contents/selling_statistics/SellingStatisticPage";
+import SellingStatisticsPage from "./contents/sales_statistics/SalesStatisticPage";
 import PaymentsValidationsPage from "./contents/payments_validations/PaymentsValidationsPage";
 import ClientsChartPage from "./contents/clients_chart/ClientsChartPage";
 import ClientsTonnageListPage from "./contents/clients_tonnage_list/ClientsTonnageListPage";
 import DebtsChartPage from "./contents/debts_chart/DebtsChartPage";
 import ExpensesValidationsPage from "./contents/expenses_validation/ExpensesValidationPage";
 import FogPage from "./contents/fog/FogPage";
+import SelectedClientPage from "./contents/selected_client/SelectedClient";
 
 function Dashboard() {
   return (
@@ -59,6 +60,7 @@ function Dashboard() {
             <Routes>
               <Route path="/" Component={TableBord} />
               <Route path="/clients" Component={ClientsListPage} />
+              <Route path="/client" Component={SelectedClientPage} />
               <Route path="/clients/achats" Component={ClientPurchasesPage} />
               <Route path="/clients/paiements" Component={ClientPaymentsPage} />
               <Route path="/clients/soldes" Component={ClientBalancePage} />

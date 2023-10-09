@@ -1,7 +1,16 @@
-function ClientsTable() {
+import { FC } from "react";
+import Clients from "../../../../models/clients/clients.model";
+import { Link } from "react-router-dom";
+import useClientsStore from "../../../../store/clients/useClients.store";
+
+interface ClientsTableProps {
+  clientsList: Clients[];
+}
+
+const ClientsTable: FC<ClientsTableProps> = ({ clientsList }) => {
+  const setSelectedClient = useClientsStore((state) => state.setSelectedClient);
   return (
     <div className="flex flex-col justify-start w-full my-7  border-2 border-primary  rounded-lg shadow-md">
-      {/* <h2 className=" text-sm my-3 p-2 bg-gray-100 w-max">01-04-2025</h2> */}
       <table className="table table-striped">
         <tbody className="">
           <tr>
@@ -10,24 +19,46 @@ function ClientsTable() {
             <td className="font-medium">Numero de telephone</td>
             <td className="font-medium">Adresse Email</td>
           </tr>
-          {Array.from({ length: 5 }, (_: number, index: number) => {
-            if (index % 2 == 0) {
-              return (
-                <tr key={index}>
-                  <td>SIDOINE</td>
-                  <td>18454</td>
-                  <td>54 85 54 55</td>
-                  <td>sidoine@contact.bj</td>
-                </tr>
-              );
-            }
 
+          {clientsList.map((client) => {
             return (
-              <tr key={index}>
-                <td>FASSINOU</td>
-                <td>19454</td>
-                <td>97 85 54 55</td>
-                <td>fassinou@contact.bj</td>
+              <tr key={client.id}>
+                <td>
+                  <Link
+                    className=" text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedClient(client)}
+                    to="/client"
+                  >
+                    {client.nom} {client.prenoms}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    className="text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedClient(client)}
+                    to="/client"
+                  >
+                    {client.numero_ifu}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    className="text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedClient(client)}
+                    to="/client"
+                  >
+                    {client.numero_telephone}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    className="text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedClient(client)}
+                    to="/client"
+                  >
+                    {client.email}
+                  </Link>
+                </td>
               </tr>
             );
           })}
@@ -35,6 +66,6 @@ function ClientsTable() {
       </table>
     </div>
   );
-}
+};
 
 export default ClientsTable;

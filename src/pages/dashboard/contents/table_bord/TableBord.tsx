@@ -216,6 +216,7 @@ function TableBord() {
 
         {horizDoughnutStatCardData.map((horizDoughnutData) => (
           <HorizontalDoughnutStatCard
+            key={horizDoughnutData.name}
             name={horizDoughnutData.name}
             value={horizDoughnutData.value}
             data={horizDoughnutData.data}
@@ -227,6 +228,7 @@ function TableBord() {
       <div className="h-[530px] w-full flex my-4 justify-between  items-center content-center ">
         {vertDoughnutStatCardData.map((vertDoughnutData) => (
           <VerticalDoughnutStatCard
+            key={vertDoughnutData.name}
             name={vertDoughnutData.name}
             value={vertDoughnutData.value}
             data={vertDoughnutData.data}

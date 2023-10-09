@@ -4,8 +4,17 @@ import DateIntervall from "../../../../components/ui/dashboard/widgets/DateInter
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import "../../../../assets/css/table.css";
 import ExpenseAdding from "../../../../components/form/forms/expense_adding/ExpenseAdding";
+import { FC, useEffect } from "react";
+import useDepensesStore from "../../../../store/depenses/useDepenses.store";
 
-const ExpensesPage = () => {
+const ExpensesPage: FC = () => {
+  const depenses = useDepensesStore((state) => state.depenses);
+  const fetchAllDepenses = useDepensesStore((state) => state.fetchAllDepenses);
+
+  useEffect(() => {
+    fetchAllDepenses();
+  }, [fetchAllDepenses]);
+
   return (
     <div className="h-full w-full flex flex-col">
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
@@ -27,7 +36,7 @@ const ExpensesPage = () => {
 
         <ExpenseAdding description="" amount="" piece="" />
       </div>
-      <ExpensesTable />
+      <ExpensesTable expensesList={depenses} />
     </div>
   );
 };

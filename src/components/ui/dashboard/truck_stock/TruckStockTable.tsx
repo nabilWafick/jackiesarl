@@ -1,6 +1,12 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
+import StockCamion from "../../../../models/stock_camion/stock_camion.model";
+import { FC } from "react";
 
-function TruckStockTable() {
+interface TruckStockTableProps {
+  trucksStock: StockCamion[];
+}
+
+const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2>
@@ -16,14 +22,15 @@ function TruckStockTable() {
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
+
+            {trucksStock.map((truckStock) => {
               return (
-                <tr key={index}>
-                  <td>0098EUI</td>
-                  <td>NOCIBE</td>
-                  <td>94877890</td>
-                  <td>{100 + index}</td>
-                  <td>200t</td>
+                <tr key={truckStock.id!}>
+                  <td>{truckStock.numero_camion}</td>
+                  <td>{truckStock.categorie}</td>
+                  <td>{truckStock.numero_chauffeur}</td>
+                  <td>{truckStock.numero_bc}</td>
+                  <td>{truckStock.quantite}</td>
                   <td>
                     <i className="flex justify-end">
                       <FaEdit color="green" />
@@ -48,6 +55,6 @@ function TruckStockTable() {
       </div>
     </div>
   );
-}
+};
 
 export default TruckStockTable;

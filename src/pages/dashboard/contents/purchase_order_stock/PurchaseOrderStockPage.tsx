@@ -5,8 +5,21 @@ import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleM
 
 import "../../../../assets/css/table.css";
 import PurchaseOrderStockAdding from "../../../../components/form/forms/purchase_order_stock_adding/PurchaseOrderStockAdding";
+import usePurchasesOrderStockStore from "../../../../store/stock_bon_commande/useStockBonCommande.store";
+import { useEffect } from "react";
 
 const PurchaseOrderStockPage = () => {
+  const purchasesOrderStock = usePurchasesOrderStockStore(
+    (state) => state.purchasesOrderStock
+  );
+  const fetchAllPurchasesOrderStock = usePurchasesOrderStockStore(
+    (state) => state.fetchAllPurchasesOrderStock
+  );
+
+  useEffect(() => {
+    fetchAllPurchasesOrderStock();
+  }, [fetchAllPurchasesOrderStock]);
+
   return (
     <div className="h-full w-full flex flex-col">
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
@@ -26,7 +39,7 @@ const PurchaseOrderStockPage = () => {
           currentStock=""
         />
       </div>
-      <PurchaseOrderStockTable />
+      <PurchaseOrderStockTable purchasesOrderStock={purchasesOrderStock} />
     </div>
   );
 };

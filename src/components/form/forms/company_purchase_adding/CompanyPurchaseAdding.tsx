@@ -72,7 +72,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
                 type="number"
                 placeholder="Quantité Achetée"
                 autoComplete="purchasedQuantity"
-              />{" "}
+              />
             </div>
             {formErrors.purchasedQuantity && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -161,7 +161,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
             <JsOutlineButton
               type="button"
               name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              onClick={() => toggleModal("company-purchase-adding-form")}
             />
             <JsButton type="submit" name="Valider" />
           </div>

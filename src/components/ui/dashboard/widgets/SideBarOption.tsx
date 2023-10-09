@@ -1,6 +1,8 @@
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import Clients from "../../../../models/clients/clients.model";
+import useClientsStore from "../../../../store/clients/useClients.store";
 //import { JSColors } from "../../utils/colors";
 
 interface SideBarSubOption {
@@ -18,7 +20,11 @@ interface SideBarOptionProps {
   isOpen: boolean;
   currentActiveSideBarOption: string;
   subOptions: SideBarSubOption[];
-  onSideBarOptionClick: (index: number, name: string) => void;
+  onSideBarOptionClick: (
+    index: number,
+    name: string,
+    selectedClient: Clients | undefined
+  ) => void;
 }
 
 const SideBarOption: React.FC<SideBarOptionProps> = ({
@@ -31,6 +37,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
   subOptions,
   onSideBarOptionClick,
 }) => {
+  const selectedClient = useClientsStore((state) => state.selectedClient);
   return (
     <div>
       <Link to={to}>
@@ -38,7 +45,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
           className={`flex flex-row ${
             currentActiveSideBarOption == name && "bg-primary"
           } h-10 rounded-md items-center content-center hover:cursor-pointer group`}
-          onClick={() => onSideBarOptionClick(index, name)}
+          onClick={() => onSideBarOptionClick(index, name, selectedClient)}
         >
           <div className="h-full mx-[12px] flex justify-start items-center content-center">
             {icon}

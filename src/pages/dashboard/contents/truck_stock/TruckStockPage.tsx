@@ -4,8 +4,19 @@ import DateIntervall from "../../../../components/ui/dashboard/widgets/DateInter
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import "../../../../assets/css/table.css";
 import TruckStockAdding from "../../../../components/form/forms/truck_stock_adding/TruckStockAdding";
+import { FC, useEffect } from "react";
+import useTrucksStockStore from "../../../../store/stock_camion/useStockCamion.store";
 
-const TruckStockPage = () => {
+const TruckStockPage: FC = () => {
+  const trucksStock = useTrucksStockStore((state) => state.trucksStock);
+  const fetchAllTruckStock = useTrucksStockStore(
+    (state) => state.fetchAllTruckStock
+  );
+
+  useEffect(() => {
+    fetchAllTruckStock();
+  }, [fetchAllTruckStock]);
+
   return (
     <div className="h-full w-full flex flex-col">
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
@@ -24,7 +35,7 @@ const TruckStockPage = () => {
           quantity=""
         />
       </div>
-      <TruckStockTable />
+      <TruckStockTable trucksStock={trucksStock} />
     </div>
   );
 };

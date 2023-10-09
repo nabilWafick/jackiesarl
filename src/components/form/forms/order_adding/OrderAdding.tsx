@@ -184,7 +184,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
             <JsOutlineButton
               type="button"
               name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              onClick={() => toggleModal("order-adding-form")}
             />
             <JsButton type="submit" name="Valider" />
           </div>

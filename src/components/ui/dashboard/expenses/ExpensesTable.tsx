@@ -1,4 +1,11 @@
-function ExpensesTable() {
+import { FC } from "react";
+import Depenses from "../../../../models/depenses/depenses.model";
+
+interface ExpensesTableProps {
+  expensesList: Depenses[];
+}
+
+const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2>
@@ -11,16 +18,15 @@ function ExpensesTable() {
               <td className="font-medium">Montant</td>
               <td className="font-medium">Pièce</td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              return (
-                <tr key={index}>
-                  {/* <td>01-04-2025</td> */}
-                  <td>Achat de quelque chose</td>
-                  <td>2 340 000</td>
-                  <td>Relevé.pdf</td>
-                </tr>
-              );
-            })}
+
+            {expensesList.map((expenses) => (
+              <tr key={expenses.id}>
+                {/* <td>01-04-2025</td> */}
+                <td>{expenses.description}</td>
+                <td>{expenses.montant}</td>
+                <td>{expenses.piece}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -32,6 +38,6 @@ function ExpensesTable() {
       </div>
     </div>
   );
-}
+};
 
 export default ExpensesTable;

@@ -1,4 +1,11 @@
-function PaymentsTable() {
+import { FC } from "react";
+import PaiementClientValidation from "../../../../models/paiement_client_validation/paiement_client_validation.model";
+
+interface ClientsPaymentsTableProps {
+  clientsPayments: PaiementClientValidation[];
+}
+
+const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
@@ -14,32 +21,19 @@ function PaymentsTable() {
               <td className="font-medium">Bon de commande </td>
               <td className="font-medium">Bordereau</td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>SIDOINE</td>
-                    <td>78 000</td>
-                    <td>BOA</td>
-                    <td>2567</td>
-                    <td>CIM BENIN</td>
-                    <td>110</td>
-                    <td>7534U</td>
-                  </tr>
-                );
-              }
-              return (
-                <tr key={index}>
-                  <td>FASSINOU</td>
-                  <td>78 000</td>
-                  <td>UBA</td>
-                  <td>2567</td>
-                  <td>NOCIBE</td>
-                  <td>115</td>
-                  <td>7534U</td>
-                </tr>
-              );
-            })}
+            {clientsPayments.map((clientsPayment) => (
+              <tr key={clientsPayment.id}>
+                <td>
+                  {clientsPayment.clientfirstnames} {clientsPayment.clientName}
+                </td>
+                <td>{clientsPayment.montant}</td>
+                <td>{clientsPayment.banque}</td>
+                <td>{clientsPayment.reference}</td>
+                <td>{clientsPayment.categorie}</td>
+                <td>{clientsPayment.numero_bc}</td>
+                <td>{clientsPayment.bordereau}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -51,6 +45,6 @@ function PaymentsTable() {
       </div>
     </div>
   );
-}
+};
 
 export default PaymentsTable;

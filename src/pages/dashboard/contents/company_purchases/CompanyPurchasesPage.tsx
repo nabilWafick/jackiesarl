@@ -1,16 +1,28 @@
-import JSCategorySelect from "../../../../components/form/widgets/CategorySelect";
-import PurchasesTable from "../../../../components/ui/dashboard/purchases/PurchasesTable";
+import PurchasesTable from "../../../../components/ui/dashboard/company_purchases/CompanyPurchasesTable";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import "../../../../assets/css/table.css";
+import { FC, useEffect } from "react";
+import useCompanyPurchasesStore from "../../../../store/achat_entreprise/useAchatEntreprise.store";
 
-const categories = [
-  { value: "cim_benin", label: "CIM BENIN" },
-  { value: "nocibe", label: "NOCIBE" },
-];
+// const categories = [
+//   { value: "cim_benin", label: "CIM BENIN" },
+//   { value: "nocibe", label: "NOCIBE" },
+// ];
 
-const PurchasesPage = () => {
+const PurchasesPage: FC = () => {
+  const companyPurchases = useCompanyPurchasesStore(
+    (state) => state.companyPurchases
+  );
+  const fetchAllCompanyPurchases = useCompanyPurchasesStore(
+    (state) => state.fetchAllCompanyPurchases
+  );
+
+  useEffect(() => {
+    fetchAllCompanyPurchases();
+  }, []);
+
   return (
     <div className="h-full w-full flex flex-col">
       <div>
@@ -23,13 +35,13 @@ const PurchasesPage = () => {
       </div>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />
-        <JSCategorySelect
+        {/* <JSCategorySelect
           id="category-ciment"
           name="category-ciment"
           options={categories}
-        />
+        /> */}
       </div>
-      <PurchasesTable />
+      <PurchasesTable companyPurchases={companyPurchases} />
     </div>
   );
 };

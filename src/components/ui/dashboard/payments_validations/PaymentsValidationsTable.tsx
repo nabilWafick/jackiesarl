@@ -1,6 +1,14 @@
 import { FaCheck, FaCheckCircle, FaEdit, FaTrash } from "react-icons/fa";
+import PaiementClientValidation from "../../../../models/paiement_client_validation/paiement_client_validation.model";
+import { FC } from "react";
 
-function PaymentsValidationsTable() {
+interface ClientsPaymentsValidationsTableProps {
+  clientsPaymentsValidations: PaiementClientValidation[];
+}
+
+const ClientsPaymentsValidationsTable: FC<
+  ClientsPaymentsValidationsTableProps
+> = ({ clientsPaymentsValidations }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
@@ -19,62 +27,45 @@ function PaymentsValidationsTable() {
               <td></td>
               <td></td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>SIDOINE</td>
-                    <td>78 000</td>
-                    <td>BOA</td>
-                    <td>2567</td>
-                    <td>CIM BENIN</td>
-                    <td>110</td>
-                    <td>7534U</td>
-                    <td className="w-min">
-                      <i className="flex justify-end">
-                        <FaCheck className="text-secondary" size={20} />
-                      </i>
-                    </td>
-                    <td>
-                      <i className="flex justify-end">
-                        <FaEdit color="green" />
-                      </i>
-                    </td>
-                    <td>
-                      <i className="flex justify-end">
-                        <FaTrash color="red" />
-                      </i>
-                    </td>
-                  </tr>
-                );
-              }
-              return (
-                <tr key={index}>
-                  <td>FASSINOU</td>
-                  <td>78 000</td>
-                  <td>UBA</td>
-                  <td>2567</td>
-                  <td>NOCIBE</td>
-                  <td>115</td>
-                  <td>7534U</td>
-                  <td className="w-min">
-                    <i className="flex justify-end">
+
+            {clientsPaymentsValidations.map((clientsPaymentValidation) => (
+              <tr key={clientsPaymentValidation.id}>
+                <td>
+                  {clientsPaymentValidation.client.prenoms}{" "}
+                  {clientsPaymentValidation.client.nom}
+                </td>
+                <td>{clientsPaymentValidation.montant}</td>
+                <td>{clientsPaymentValidation.banque}</td>
+                <td>{clientsPaymentValidation.reference}</td>
+                <td>{clientsPaymentValidation.categorie}</td>
+                <td>{clientsPaymentValidation.numero_bc}</td>
+                <td>{clientsPaymentValidation.bordereau}</td>
+                <td className="w-min">
+                  {clientsPaymentValidation.est_valide ? (
+                    <center className="flex justify-end">
                       <FaCheckCircle className="text-secondary" size={20} />
-                    </i>
-                  </td>
-                  <td>
-                    <i className="flex justify-end">
-                      <FaEdit color="green" />
-                    </i>
-                  </td>
-                  <td>
-                    <i className="flex justify-end">
-                      <FaTrash color="red" />
-                    </i>
-                  </td>
-                </tr>
-              );
-            })}
+                    </center>
+                  ) : (
+                    <center className="flex justify-end">
+                      <FaCheck className="text-secondary" size={20} />
+                    </center>
+                  )}
+                  <center className="flex justify-end">
+                    <FaCheck className="text-secondary" size={20} />
+                  </center>
+                </td>
+                <td>
+                  <center className="flex justify-end">
+                    <FaEdit color="green" />
+                  </center>
+                </td>
+                <td>
+                  <center className="flex justify-end">
+                    <FaTrash color="red" />
+                  </center>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -84,6 +75,6 @@ function PaymentsValidationsTable() {
       </div>
     </div>
   );
-}
+};
 
-export default PaymentsValidationsTable;
+export default ClientsPaymentsValidationsTable;

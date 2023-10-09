@@ -5,7 +5,6 @@ interface FormData {
   lastname: string;
   ifuNumber: string;
   email: string;
-  netValue: string;
 }
 
 interface FormErrors {
@@ -13,7 +12,6 @@ interface FormErrors {
   lastname: string | null;
   ifuNumber: string | null;
   email: string | null;
-  netValue: string | null;
 }
 
 const useClientAddingForm = ({
@@ -21,14 +19,12 @@ const useClientAddingForm = ({
   lastname,
   ifuNumber,
   email,
-  netValue,
 }: FormData) => {
   const [formData, setFormData] = useState<FormData>({
     firstname: firstname,
     lastname: lastname,
     ifuNumber: ifuNumber,
     email: email,
-    netValue: netValue,
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
@@ -36,7 +32,6 @@ const useClientAddingForm = ({
     lastname: null,
     ifuNumber: null,
     email: null,
-    netValue: null,
   });
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +49,6 @@ const useClientAddingForm = ({
       lastname: null,
       ifuNumber: null,
       email: null,
-      netValue: null,
     };
 
     if (!formData.firstname.trim()) {
@@ -75,18 +69,13 @@ const useClientAddingForm = ({
       errors.email = "L'email n'est pas vaest incorrectelide";
     }
 
-    if (!formData.netValue.trim()) {
-      errors.netValue = "Le valeur net est requis";
-    }
-
     setFormErrors(errors);
 
     return (
       !errors.firstname &&
       !errors.lastname &&
       !errors.email &&
-      !errors.ifuNumber &&
-      !errors.netValue
+      !errors.ifuNumber
     );
   };
 

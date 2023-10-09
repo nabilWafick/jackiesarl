@@ -1,4 +1,11 @@
-function SellingTable() {
+import { FC } from "react";
+import Vente from "../../../../models/vente/vente.model";
+
+interface SalesTableProps {
+  sales: Vente[];
+}
+
+const SalesTable: FC<SalesTableProps> = ({ sales }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
@@ -12,25 +19,17 @@ function SellingTable() {
               <td className="font-medium">Bon de Commande</td>
               <td className="font-medium">Categorie</td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>SIDOINE </td>
-                    <td>100t</td>
-                    <td>5 000 000</td>
-                    <td>{100 * (index + 1)}</td>
-                    <td>NOCIBE</td>
-                  </tr>
-                );
-              }
+
+            {sales.map((sale) => {
               return (
-                <tr key={index}>
-                  <td>FASSINOU </td>
-                  <td>50t</td>
-                  <td>3 040 000</td>
-                  <td>{100 * (index + 1)}</td>
-                  <td>CIM BENIN</td>
+                <tr key={sale.id}>
+                  <td>
+                    {sale.client.prenoms} {sale.client.nom}
+                  </td>
+                  <td>{sale.quantite_achetee}t</td>
+                  <td>{sale.montant}</td>
+                  <td>{sale.numero_bc}</td>
+                  <td>{sale.categorie}</td>
                 </tr>
               );
             })}
@@ -49,6 +48,6 @@ function SellingTable() {
       </div>
     </div>
   );
-}
+};
 
-export default SellingTable;
+export default SalesTable;

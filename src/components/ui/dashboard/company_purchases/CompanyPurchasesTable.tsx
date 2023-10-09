@@ -1,4 +1,12 @@
-function PurchasesTable() {
+import { FC } from "react";
+import AchatEntreprise from "../../../../models/achat_entreprise/achat_entreprise.model";
+interface CompanyPurchasesTableProps {
+  companyPurchases: AchatEntreprise[];
+}
+
+const CompanyPurchasesTable: FC<CompanyPurchasesTableProps> = ({
+  companyPurchases,
+}) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2>
@@ -13,30 +21,16 @@ function PurchasesTable() {
               <td className="font-medium">Cheque</td>
               <td className="font-medium">Bordereau</td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>{100 + index}</td>
-                    <td>300t</td>
-                    <td>30 000 000</td>
-                    <td>ORABANK</td>
-                    <td>25658127</td>
-                    <td>7534U</td>
-                  </tr>
-                );
-              }
-              return (
-                <tr key={index}>
-                  <td>{100 + index}</td>
-                  <td>500t</td>
-                  <td>50 000 000</td>
-                  <td>UBA</td>
-                  <td>46815486</td>
-                  <td>7534U</td>
-                </tr>
-              );
-            })}
+            {companyPurchases.map((companyPurchase) => (
+              <tr key={companyPurchases.indexOf(companyPurchase)}>
+                <td>{companyPurchase.bon_commande}</td>
+                <td>{companyPurchase.quantite_achetee}</td>
+                <td>{companyPurchase.montant}t</td>
+                <td>{companyPurchase.banque}</td>
+                <td>{companyPurchase.cheque}</td>
+                <td>{companyPurchase.bordereau}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -46,6 +40,6 @@ function PurchasesTable() {
       </div>
     </div>
   );
-}
+};
 
-export default PurchasesTable;
+export default CompanyPurchasesTable;

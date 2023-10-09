@@ -35,7 +35,10 @@ const HorizontalDoughnutStatCard: FC<HorizontalDoughnutStatCardProps> = ({
         </div>
         <div className=" w-[300px] flex flex-col">
           {data.map((_data) => (
-            <div className="flex justify-between items-center">
+            <div
+              className="flex justify-between items-center"
+              key={data.indexOf(_data)}
+            >
               <div className="flex items-center">
                 <FaDotCircle className="mr-3 text-secondary" size={12} />
                 <p>{_data.name}</p>

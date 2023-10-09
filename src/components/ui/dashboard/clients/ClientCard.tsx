@@ -1,6 +1,12 @@
+import { FC } from "react";
 import { BiUser, BiX } from "react-icons/bi";
+import Clients from "../../../../models/clients/clients.model";
 
-const ClientCard = () => {
+interface ClientCardProps {
+  client: Clients;
+}
+
+const ClientCard: FC<ClientCardProps> = ({ client }) => {
   return (
     <div className="client flex justify-start items-center mt-3 mb-2 ">
       <div className="flex justify-around items-center p-2 border border-secondary rounded-md shadow-md">
@@ -8,8 +14,10 @@ const ClientCard = () => {
           <BiUser className="text-secondary" />
         </div>
         <div className="flex flex-col justify-center items-start mx-4">
-          <p className="text-sm">Clément AVOSSOU</p>
-          <p className="text-sm">1A54452</p>
+          <p className="text-sm">
+            {client.prenoms} {client.nom}
+          </p>
+          <p className="text-sm">{client.numero_ifu}</p>
         </div>
 
         <div className="h-full flex items-start justify-start">

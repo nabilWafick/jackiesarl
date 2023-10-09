@@ -4,8 +4,20 @@ import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleM
 import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton";
 import "../../../../assets/css/table.css";
 import BankAdding from "../../../../components/form/forms/bank_adding/BankAdding";
+import BankAccountTable from "../../../../components/ui/dashboard/bank_account/bankAccountTable";
+import { useEffect } from "react";
+import useSoldeCourantStore from "../../../../store/solde_courant/useSoldeCourant.store";
 
 const BankAccountsListPage = () => {
+  const soldeCourant = useSoldeCourantStore((state) => state.soldeCourant);
+  const fetchAllSoldeCourant = useSoldeCourantStore(
+    (state) => state.fetchAllSoldeCourant
+  );
+
+  useEffect(() => {
+    fetchAllSoldeCourant();
+  }, [fetchAllSoldeCourant]);
+
   return (
     <div className="h-full w-full flex flex-col">
       <Link to="/soldes-courants/details">
@@ -33,33 +45,7 @@ const BankAccountsListPage = () => {
         />
         <BankAdding bank="" accountNumber="" currentBalence="" />
       </div>
-      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
-        <table className="table table-striped">
-          <tbody>
-            <tr>
-              <td className="font-medium">Banque</td>
-              <td className="font-medium">Numéro de compte</td>
-              <td className="font-medium">Solde Actuel</td>
-            </tr>
-
-            <tr>
-              <td>BOA</td>
-              <td>13351463</td>
-              <td>5 000 000</td>
-            </tr>
-            <tr>
-              <td>UBA</td>
-              <td>13351463</td>
-              <td>5 000 000</td>
-            </tr>
-            <tr>
-              <td>ECOBANK</td>
-              <td>13351463</td>
-              <td>5 000 000</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <BankAccountTable bankAccountList={soldeCourant} />
     </div>
   );
 };

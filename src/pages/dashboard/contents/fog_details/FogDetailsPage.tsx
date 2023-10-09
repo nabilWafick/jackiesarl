@@ -6,8 +6,27 @@ import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import "../../../../assets/css/table.css";
 import FogDetailsAdding from "../../../../components/form/forms/fog_details_adding/FogDetailsAdding";
+import { FC, useEffect } from "react";
+import useBrouillardStore from "../../../../store/brouillard/useBrouillard.store";
+import useActivitesDepotStore from "../../../../store/activites_depot/useActivitesDepot.store";
 
-const FogDetailsPage = () => {
+const FogDetailsPage: FC = () => {
+  const selectedBrouillard = useBrouillardStore(
+    (state) => state.selectedBrouillard
+  );
+
+  const activitesDepot = useActivitesDepotStore(
+    (state) => state.activitesDepot
+  );
+
+  const fetchAllActivitesDepot = useActivitesDepotStore(
+    (state) => state.fetchAllActivitesDepot
+  );
+
+  useEffect(() => {
+    fetchAllActivitesDepot(selectedBrouillard!.id!);
+  }, [fetchAllActivitesDepot, selectedBrouillard]);
+
   return (
     <div className="h-full w-full flex flex-col">
       <Link
@@ -20,7 +39,7 @@ const FogDetailsPage = () => {
         </div>
       </Link>
       <div className="p-2 my-2 bg-secondary text-white rounded-md shadow-md   w-max">
-        Dépot
+        {selectedBrouillard!.depot}
       </div>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />
@@ -48,7 +67,7 @@ const FogDetailsPage = () => {
           observation=""
         />
       </div>
-      <FogDetailsTable />
+      <FogDetailsTable fogDetails={activitesDepot} />
     </div>
   );
 };

@@ -15,8 +15,8 @@ const TestPage = () => {
       //    ClientsApi.create(client)
       //    ClientsApi.update(1,updateUser)
     //  ClientsApi.getById(24)
-       //   ClientsApi.getAll()
-        ClientsApi.delete(24);
+          ClientsApi.getAll()
+     //   ClientsApi.delete(24);
        //   console.log(ClientsApi.create(client))
         }}
       >

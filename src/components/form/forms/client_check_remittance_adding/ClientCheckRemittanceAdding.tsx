@@ -66,7 +66,6 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
                 placeholder="Banque"
                 autoComplete="bank"
               />
-              ,
             </div>
             {formErrors.bank && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">

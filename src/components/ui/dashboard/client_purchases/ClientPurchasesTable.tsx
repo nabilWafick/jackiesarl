@@ -1,9 +1,17 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
+import AchatClient from "../../../../models/achat_client/achat_client.model";
+import { FC } from "react";
 
-function ClientPurchasesTable() {
+interface ClientPurchasesTableProps {
+  clientPurchases: AchatClient[];
+}
+
+const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
+  clientPurchases,
+}) => {
   return (
     <div className="flex flex-col justify-start w-full ">
-      <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
+      {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
       <div className="flex flex-col justify-start w-full my-3 border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped">
           <tbody>
@@ -17,37 +25,16 @@ function ClientPurchasesTable() {
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>30t</td>
-                    <td>CIM BENIN</td>
-                    <td>2 340 000</td>
-                    <td>2567</td>
-                    <td>7373UB</td>
-                    <td>7373UB</td>
-                    <td>
-                      <center>
-                        <FaEdit color="green" />
-                      </center>
-                    </td>
-                    <td>
-                      <center>
-                        <FaTrash color="red" />
-                      </center>
-                    </td>
-                  </tr>
-                );
-              }
+
+            {clientPurchases.map((clientPurchase) => {
               return (
-                <tr key={index}>
-                  <td>30t</td>
-                  <td>NOCIBE</td>
-                  <td>2 340 000</td>
-                  <td>2567</td>
-                  <td>7373UB</td>
-                  <td>7373UB</td>
+                <tr key={clientPurchase.id!}>
+                  <td>{clientPurchase.quantite_achetee}</td>
+                  <td>{clientPurchase.categorie}</td>
+                  <td>{clientPurchase.montant}</td>
+                  <td>{clientPurchase.numero_ctp}</td>
+                  <td>{clientPurchase.bordereau}</td>
+                  <td>{clientPurchase.numero_bc}</td>
                   <td>
                     <center>
                       <FaEdit color="green" />
@@ -79,6 +66,6 @@ function ClientPurchasesTable() {
       </div>
     </div>
   );
-}
+};
 
 export default ClientPurchasesTable;

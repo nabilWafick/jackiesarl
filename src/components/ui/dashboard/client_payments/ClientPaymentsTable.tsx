@@ -1,6 +1,14 @@
+import { FC } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import PaiementClient from "../../../../models/paiement_client/paiement.model";
 
-function ClientPaymentsTable() {
+interface ClientPaymentsTableProps {
+  clientPayments: PaiementClient[];
+}
+
+const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
+  clientPayments,
+}) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
@@ -14,42 +22,29 @@ function ClientPaymentsTable() {
               <td className="font-medium">Banque</td>
               <td className="font-medium">Reference</td>
               <td className="font-medium">Bordereau</td>
+
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>110</td>
-                    <td>CIM BENIN</td>
-                    <td>78 000</td>
-                    <td>BOA</td>
-                    <td>2567</td>
 
-                    <td>7534U</td>
-                    <td>
-                      <center className="flex items-center justify-center">
-                        <FaEdit color="green" />
-                      </center>
-                    </td>
-                    <td>
-                      <center>
-                        <FaTrash color="red" />
-                      </center>
-                    </td>
-                  </tr>
-                );
-              }
+            {clientPayments.map((clientPayment) => {
               return (
-                <tr key={index}>
-                  <td>115</td>
-                  <td>NOCIBE</td>
-                  <td>78 000</td>
-                  <td>UBA</td>
-                  <td>2567</td>
-
-                  <td>7534U</td>
+                <tr key={clientPayment.id!}>
+                  <td>{clientPayment.numero_bc}</td>
+                  <td>{clientPayment.categorie}</td>
+                  <td>{clientPayment.montant}</td>
+                  <td>{clientPayment.banque}</td>
+                  <td>{clientPayment.reference}</td>
+                  <td>{clientPayment.bordereau}</td>
+                  {/* <td>
+                    <center className="flex items-center justify-center">
+                      {clientPayment.est_valide ? (
+                        <FaCheckCircle className="text-secondary" size={20} />
+                      ) : (
+                        <FaCheck className="text-secondary" size={20} />
+                      )}
+                    </center>
+                  </td> */}
                   <td>
                     <center>
                       <FaEdit color="green" />
@@ -80,6 +75,6 @@ function ClientPaymentsTable() {
       </div>
     </div>
   );
-}
+};
 
 export default ClientPaymentsTable;

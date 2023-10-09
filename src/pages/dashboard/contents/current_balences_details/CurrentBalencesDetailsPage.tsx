@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import CurrentsBalenceTable from "../../../../components/ui/dashboard/current_balence_details/CurrentsBalenceTable";
+import CurrentsBalenceTable from "../../../../components/ui/dashboard/current_balence_details/CurrentsBalenceTableDetails";
 import "../../../../assets/css/table.css";
 import CurrentBalenceDetailsAdding from "../../../../components/form/forms/current_balence_details_adding/CurrentBalenceDetailsAdding";
+import { FC } from "react";
+import useSoldeCourantStore from "../../../../store/solde_courant/useSoldeCourant.store";
 
-const CurrentsBalencePage = () => {
+const CurrentsBalenceDetailsPage: FC = () => {
+  const selectedSoldeCourant = useSoldeCourantStore(
+    (state) => state.selectedSoldeCourant
+  );
   return (
     <div className="h-full w-full flex flex-col">
       <Link
@@ -20,7 +25,7 @@ const CurrentsBalencePage = () => {
         </div>
       </Link>
       <div className="p-2 my-2 bg-secondary text-white rounded-md shadow-md   w-max">
-        Banque
+        {selectedSoldeCourant!.banque}
       </div>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />
@@ -45,9 +50,9 @@ const CurrentsBalencePage = () => {
           currentBalence=""
         />
       </div>
-      <CurrentsBalenceTable />
+      <CurrentsBalenceTable selectedBank={selectedSoldeCourant} />
     </div>
   );
 };
 
-export default CurrentsBalencePage;
+export default CurrentsBalenceDetailsPage;

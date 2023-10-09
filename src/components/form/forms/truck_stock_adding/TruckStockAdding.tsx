@@ -71,7 +71,6 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 placeholder="Catégorie"
                 autoComplete="category"
               />
-              ,
             </div>
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -91,7 +90,6 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 placeholder="Num Chauffeur"
                 autoComplete="driverNumber"
               />
-              ,
             </div>
             {formErrors.driverNumber && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -142,7 +140,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             <JsOutlineButton
               type="button"
               name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              onClick={() => toggleModal("truck-stock-adding-form")}
             />
             <JsButton type="submit" name="Valider" />
           </div>

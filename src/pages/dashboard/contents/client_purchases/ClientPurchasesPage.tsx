@@ -4,12 +4,31 @@ import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButt
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import ClientPurchasesTable from "../../../../components/ui/dashboard/client_purchases/ClientPurchasesTable";
 import "../../../../assets/css/table.css";
-import ClientPaymentAdding from "../../../../components/form/forms/client_payment_adding/ClientPaymentAdding";
+import useClientsStore from "../../../../store/clients/useClients.store";
+import { FC, useEffect } from "react";
+import useClientPurchasesStore from "../../../../store/achat_client/useAchatClient.store";
+import { redirect } from "react-router-dom";
+import ClientPurchaseAdding from "../../../../components/form/forms/client_purchase_adding/ClientPurchaseAdding";
 
-const ClientPurchasesPage = () => {
+const ClientPurchasesPage: FC = () => {
+  const selectedClient = useClientsStore((state) => state.selectedClient);
+  const clientPurchases = useClientPurchasesStore(
+    (state) => state.clientPurchases
+  );
+  const fetchAllClientPurchases = useClientPurchasesStore(
+    (state) => state.fetchAllClientPurchases
+  );
+
+  if (!selectedClient) {
+    redirect("/clients");
+  }
+  useEffect(() => {
+    fetchAllClientPurchases(selectedClient!.id!);
+  }, [fetchAllClientPurchases, selectedClient]);
+
   return (
-    <div className="h-full w-full flex flex-col">
-      <ClientCard />
+    <div className="h-full w-full flex flex-col justify-center items-center content-center">
+      <ClientCard client={selectedClient!} />
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />
         <AddingButton
@@ -18,16 +37,16 @@ const ClientPurchasesPage = () => {
             toggleModal("client-purchase-adding-form");
           }}
         />
-        <ClientPaymentAdding
-          bcNumber=""
+        <ClientPurchaseAdding
+          quantity=""
           category=""
           amount=""
-          bank=""
-          reference=""
+          ctpNumber=""
           slip=""
+          bcNumber=""
         />
       </div>
-      <ClientPurchasesTable />
+      <ClientPurchasesTable clientPurchases={clientPurchases} />
     </div>
   );
 };

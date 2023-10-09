@@ -11,7 +11,6 @@ interface ClientAddingProps {
   lastname: string;
   ifuNumber: string;
   email: string;
-  netValue: string;
 }
 
 const ClientAdding: FC<ClientAddingProps> = ({
@@ -19,7 +18,6 @@ const ClientAdding: FC<ClientAddingProps> = ({
   lastname,
   ifuNumber,
   email,
-  netValue,
 }) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
     useClientAddingForm({
@@ -27,7 +25,6 @@ const ClientAdding: FC<ClientAddingProps> = ({
       lastname: lastname,
       ifuNumber: ifuNumber,
       email: email,
-      netValue: netValue,
     });
   return (
     <Modal label="client-adding-form">
@@ -45,11 +42,11 @@ const ClientAdding: FC<ClientAddingProps> = ({
               <JSInput
                 value={formData.firstname}
                 onChange={onInputDataChange}
-                name="fullname"
-                id="fullname"
+                name="firstname"
+                id="firstname"
                 type="text"
-                placeholder="Nom complet"
-                autoComplete="fullname"
+                placeholder="Prénoms"
+                autoComplete="firstname"
               />
             </div>
             {formErrors.firstname && (
@@ -64,11 +61,11 @@ const ClientAdding: FC<ClientAddingProps> = ({
               <JSInput
                 value={formData.lastname}
                 onChange={onInputDataChange}
-                name="fullname"
-                id="fullname"
+                name="lastname"
+                id="lastname"
                 type="text"
-                placeholder="Nom complet"
-                autoComplete="fullname"
+                placeholder="Nom"
+                autoComplete="lastname"
               />
             </div>
             {formErrors.lastname && (
@@ -112,25 +109,6 @@ const ClientAdding: FC<ClientAddingProps> = ({
             {formErrors.email && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.email}
-              </p>
-            )}
-          </div>
-
-          <div className="input-group">
-            <div className="mt-3 mb-1 w-full">
-              <JSInput
-                value={formData.netValue}
-                onChange={onInputDataChange}
-                name="netValue"
-                id="netValue"
-                type="text"
-                placeholder="Valeur net"
-                autoComplete="netValue"
-              />
-            </div>
-            {formErrors.netValue && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.netValue}
               </p>
             )}
           </div>

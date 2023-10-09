@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    
     "./src/**/*.{js,jsx,ts,tsx}",
     "./src/components/form/**/*.{js,jsx,ts,tsx}",
     "./src/components/form/forms/**/*.{js,jsx,ts,tsx}",
@@ -17,20 +16,16 @@ export default {
     "./src/pages/dashboard/contents/**/*.{js,jsx,ts,tsx}",
     "./src/pages/**/*.{js,jsx,ts,tsx}",
     "./src/services/**/*.{js,jsx,ts,tsx}",
-    "./src/utils/**/*.{js,jsx,ts,tsx}"
-
+    "./src/utils/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
-      colors:{
-        primary:'#FAE5E5',
-        secondary: '#D55F5A',
-      
-      }
+      colors: {
+        primary: "#FAE5E5",
+        secondary: "#D55F5A",
+        tableTextColor: "#454545",
+      },
     },
   },
-  plugins: [
-    '@tailwindcss/forms',
-  ],
-}
-
+  plugins: ["@tailwindcss/forms"],
+};

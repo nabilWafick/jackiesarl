@@ -161,7 +161,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             <JsOutlineButton
               type="button"
               name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              onClick={() => toggleModal("purchase-order-stock-adding-form")}
             />
             <JsButton type="submit" name="Valider" />
           </div>

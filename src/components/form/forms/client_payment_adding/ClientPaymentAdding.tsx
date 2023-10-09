@@ -55,7 +55,6 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
                 placeholder="Numéro BC"
                 autoComplete="bcNumber"
               />
-              ,
             </div>
             {formErrors.bcNumber && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -84,7 +83,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
           </div>
 
           <div className="input-group">
-            <div className="mt-3 mb-1 w-full">
+            <div className="mt-3 msoldesb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
                 value={formData.amount.toString()}
@@ -94,7 +93,6 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
                 placeholder="Montant"
                 autoComplete="amount"
               />
-              ,
             </div>
             {formErrors.amount && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">

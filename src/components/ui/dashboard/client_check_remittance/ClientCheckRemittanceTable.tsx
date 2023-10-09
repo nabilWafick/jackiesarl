@@ -1,6 +1,14 @@
+import { FC } from "react";
 import { FaEdit, FaTrash, FaCheck, FaCheckCircle } from "react-icons/fa";
+import RemiseChequeClient from "../../../../models/remise_cheque_client/remise_cheque_client.model";
 
-function TableRemiseCheque() {
+interface ClientChecksRemittanceTableProps {
+  clientChecksRemittance: RemiseChequeClient[];
+}
+
+const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
+  clientChecksRemittance,
+}) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
@@ -16,56 +24,34 @@ function TableRemiseCheque() {
               <td></td>
               <td></td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>Etat très bon</td>
-                    <td>BOA</td>
-                    <td>25689667</td>
-                    <td>75342</td>
-                    <td>
-                      <i className="flex justify-end">
-                        <FaCheck className="text-secondary" size={20} />
-                      </i>
-                    </td>
-                    <td>
-                      <i className="flex justify-end">
-                        <FaEdit color="green" />
-                      </i>
-                    </td>
-                    <td>
-                      <i className="flex justify-end">
-                        <FaTrash color="red" />
-                      </i>
-                    </td>
-                  </tr>
-                );
-              }
-              return (
-                <tr key={index}>
-                  <td>Etat très bon</td>
-                  <td>UBA</td>
-                  <td>25689667</td>
-                  <td>75342</td>
-                  <td>
-                    <i className="flex justify-end">
+
+            {clientChecksRemittance.map((clientCheckRemittance) => (
+              <tr key={clientCheckRemittance.id!}>
+                <td>{clientCheckRemittance.description}</td>
+                <td>{clientCheckRemittance.banque}</td>
+                <td>{clientCheckRemittance.montant}</td>
+                <td>{clientCheckRemittance.reste}</td>
+                <td>
+                  <i className="flex justify-end">
+                    {clientCheckRemittance.est_validee ? (
                       <FaCheckCircle className="text-secondary" size={20} />
-                    </i>
-                  </td>
-                  <td>
-                    <i className="flex justify-end">
-                      <FaEdit color="green" />
-                    </i>
-                  </td>
-                  <td>
-                    <i className="flex justify-end">
-                      <FaTrash color="red" />
-                    </i>
-                  </td>
-                </tr>
-              );
-            })}
+                    ) : (
+                      <FaCheck className="text-secondary" size={20} />
+                    )}
+                  </i>
+                </td>
+                <td>
+                  <i className="flex justify-end">
+                    <FaEdit color="green" />
+                  </i>
+                </td>
+                <td>
+                  <i className="flex justify-end">
+                    <FaTrash color="red" />
+                  </i>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -77,6 +63,6 @@ function TableRemiseCheque() {
       </div>
     </div>
   );
-}
+};
 
-export default TableRemiseCheque;
+export default ClientChecksRemittanceTable;
