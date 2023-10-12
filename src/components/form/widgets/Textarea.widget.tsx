@@ -6,7 +6,7 @@ interface JsTextareaProps {
   value?: string;
   placeholder: string;
   autoComplete?: string;
-  onChange: () => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const JsTextarea: FC<JsTextareaProps> = ({

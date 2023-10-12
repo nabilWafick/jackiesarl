@@ -1,7 +1,7 @@
-import JSCategorySelect from "../../../../components/form/widgets/CategorySelect";
+import JSCategorySelect from "../../../../components/form/widgets/CategorySelect.widget";
 import ClientBalanceTable from "../../../../components/ui/dashboard/client_balence/ClientBalanceTable";
 import ClientCard from "../../../../components/ui/dashboard/clients/ClientCard";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 import { FC } from "react";
 import useClientsStore from "../../../../store/clients/useClients.store";

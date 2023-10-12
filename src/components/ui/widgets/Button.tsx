@@ -15,9 +15,10 @@ const JsButton: FC<JsButtonProps> = ({ name, type, onClick, enable }) => {
       onClick={
         enable != null && enable == true
           ? () => {
-              onClick == null ? () => {} : onClick();
+              onClick == null ? () => {} : () => onClick();
             }
           : () => {}
+        //  () => onClick()
       }
     >
       {name}

@@ -6,7 +6,7 @@ interface FormData {
   amount: string;
   bank: string;
   reference: string;
-  slip: string;
+  slip: File;
 }
 
 interface FormErrors {
@@ -52,6 +52,17 @@ const useClientPaymentAddingForm = ({
       [name]: value,
     });
   };
+  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const selectedFiles = e.target.files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      setFormData({
+        ...formData,
+        [name]: selectedFiles[0],
+      });
+    }
+  };
 
   const validateForm = () => {
     const errors: FormErrors = {
@@ -65,14 +76,26 @@ const useClientPaymentAddingForm = ({
 
     if (!formData.bcNumber.trim()) {
       errors.bcNumber = "Le bon de commande est requis";
+    } else {
+      const numericBcNumber = parseFloat(formData.bcNumber);
+      if (isNaN(numericBcNumber)) {
+        errors.bcNumber = "Le bon de commande doit être un nombre valide.";
+      }
     }
 
     if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
+    } else if (formData.category.trim().length < 3) {
+      errors.category = "La catégorie doit contenir au moins 3 caractères.";
     }
 
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
+    } else {
+      const numericAmount = parseFloat(formData.amount);
+      if (isNaN(numericAmount)) {
+        errors.amount = "Le montant doit être un nombre valide.";
+      }
     }
 
     if (!formData.bank.trim()) {
@@ -80,11 +103,20 @@ const useClientPaymentAddingForm = ({
     }
 
     if (!formData.reference.trim()) {
-      errors.reference = "La référence est requis";
+      errors.reference = "La référence est requise";
+    } else if (formData.reference.trim().length < 3) {
+      errors.reference = "La référence doit contenir au moins 3 caractères.";
     }
 
-    if (!formData.slip.trim()) {
-      errors.category = "Le bodereau est requis";
+    if (!formData.slip) {
+      errors.slip = "Le bordereau est requis";
+    } else if (
+      !formData.slip.type ||
+      (formData.slip.type !== "application/pdf" &&
+        formData.slip.type !== "application/msword")
+    ) {
+      errors.slip =
+        "Le type de fichier n'est pas pris en charge. Veuillez télécharger un fichier PDF ou Word.";
     }
 
     setFormErrors(errors);
@@ -111,6 +143,7 @@ const useClientPaymentAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onFileInputChange,
     onFormSubmit,
   };
 };

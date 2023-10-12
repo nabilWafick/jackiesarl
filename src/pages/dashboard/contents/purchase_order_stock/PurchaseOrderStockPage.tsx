@@ -1,6 +1,6 @@
 import PurchaseOrderStockTable from "../../../../components/ui/dashboard/purchase_order_stock/PurchaseOrderStockTable";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 
 import "../../../../assets/css/table.css";

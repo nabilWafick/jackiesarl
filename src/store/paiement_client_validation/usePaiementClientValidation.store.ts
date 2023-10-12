@@ -39,7 +39,7 @@ const useClientsPaymentsValidationStore =
             clientsPayments
           );
 
-          /*  const clientsPaymentsValidation = clientsPayments.map(
+          const clientsPaymentsValidation = clientsPayments.map(
             (clientsPaymentValidation) =>
               new PaiementClientValidation(
                 clientsPaymentValidation.montant,
@@ -51,10 +51,7 @@ const useClientsPaymentsValidationStore =
                 clientsPaymentValidation.est_valide,
                 clients.find(
                   (client) => client!.id === clientsPaymentValidation.id_client
-                )!.nom,
-                clients.find(
-                  (client) => client!.id === clientsPaymentValidation.id_client
-                )!.prenoms,
+                )!,
                 clientsPaymentValidation.id,
                 new Date(clientsPaymentValidation.date_paiement!)
               )
@@ -66,7 +63,7 @@ const useClientsPaymentsValidationStore =
           console.log(
             "clientsPaymentsValidationListLength: ",
             clientsPaymentsValidationListLength
-          );*/
+          );
         },
         sortClientsPaymentsValidationByCIMBENINCategory: () => {
           set((state) => {

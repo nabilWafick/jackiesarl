@@ -1,5 +1,5 @@
 import { FC } from "react";
-import SideBarOption from "../../components/ui/dashboard/widgets/SideBarOption";
+import SideBarOption from "../../components/ui/dashboard/widgets/SideBarOption.wiget";
 import "../../assets/css/Sidebar.css";
 import { BsCart3, BsHandbag, BsHouse, BsPersonWorkspace } from "react-icons/bs";
 import {
@@ -14,7 +14,7 @@ import {
 import { FaMoneyBillAlt, FaShoppingBasket } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { GiMoneyStack, GiPayMoney, GiReceiveMoney } from "react-icons/gi";
-import SideBarUserInfosCard from "../../components/ui/dashboard/widgets/SideBarUserInfosCard";
+import SideBarUserInfosCard from "../../components/ui/dashboard/widgets/SideBarUserInfosCard.widget";
 import useInterfacesStore from "../../store/interfaces/useInfacesStore";
 
 const SideBar: FC = () => {

@@ -1,6 +1,6 @@
 import PurchasesTable from "../../../../components/ui/dashboard/company_purchases/CompanyPurchasesTable";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";

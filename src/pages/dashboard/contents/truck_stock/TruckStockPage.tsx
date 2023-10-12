@@ -1,6 +1,6 @@
 import TruckStockTable from "../../../../components/ui/dashboard/truck_stock/TruckStockTable";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import "../../../../assets/css/table.css";
 import TruckStockAdding from "../../../../components/form/forms/truck_stock_adding/TruckStockAdding";

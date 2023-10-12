@@ -1,7 +1,7 @@
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
-import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
+import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton.widget";
 import ClientsTonnageListTable from "../../../../components/ui/dashboard/clients_tonnage_list/ClientsTonnageListTable";
 import "../../../../assets/css/table.css";
 

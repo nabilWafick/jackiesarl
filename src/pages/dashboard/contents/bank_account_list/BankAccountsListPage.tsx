@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton";
+import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton.widget";
 import "../../../../assets/css/table.css";
 import BankAdding from "../../../../components/form/forms/bank_adding/BankAdding";
 import BankAccountTable from "../../../../components/ui/dashboard/bank_account/bankAccountTable";
@@ -20,11 +20,7 @@ const BankAccountsListPage = () => {
 
   return (
     <div className="h-full w-full flex flex-col">
-      <Link to="/soldes-courants/details">
-        <div className="p-2 my-2 bg-secondary text-white rounded-md shadow-md   w-max">
-          Banque
-        </div>
-      </Link>
+      <Link to="/soldes-courants/details"></Link>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <div className="flex self-start">
           <FilterOptionButton />

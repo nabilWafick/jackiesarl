@@ -1,10 +1,10 @@
 import { FC } from "react";
 import useClientCheckRemittanceAddingForm from "../../../../hooks/form/client_check_remittance/useClientCheckRemittance";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
-import JsTextarea from "../../widgets/Textarea";
+import JSInput from "../../widgets/Input.widget";
+import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface ClientCheckRemittanceAddingProps {
@@ -20,13 +20,18 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
   amount,
   rest,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useClientCheckRemittanceAddingForm({
-      description: description,
-      bank: bank,
-      amount: amount,
-      rest: rest,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onTextareaChange,
+    onFormSubmit,
+  } = useClientCheckRemittanceAddingForm({
+    description: description,
+    bank: bank,
+    amount: amount,
+    rest: rest,
+  });
   return (
     <Modal label="client-check-remittance-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -41,7 +46,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
-                onChange={() => {}}
+                onChange={onTextareaChange}
                 value={formData.description}
                 name="description"
                 id="description"

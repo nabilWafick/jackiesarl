@@ -1,7 +1,7 @@
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import CurrentsBalenceTable from "../../../../components/ui/dashboard/current_balence_details/CurrentsBalenceTableDetails";
 import "../../../../assets/css/table.css";

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import useSignupForm from "../../../../hooks/form/signup/useSignupForm";
-import JSInput from "../../widgets/Input";
-import AuthenticationButton from "../../widgets/AuthenticationButton";
+import JSInput from "../../widgets/Input.widget";
+import AuthenticationButton from "../../widgets/AuthenticationButton.widget";
 
 const SignupForm: FC = () => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =

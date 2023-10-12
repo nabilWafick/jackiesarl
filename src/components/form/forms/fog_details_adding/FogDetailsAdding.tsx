@@ -1,10 +1,10 @@
 import { FC } from "react";
 import useFogDetailsAddingForm from "../../../../hooks/form/fog_details_adding/useFogDetailsAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
-import JsTextarea from "../../widgets/Textarea";
+import JSInput from "../../widgets/Input.widget";
+import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface FogDetailsAddingProps {
@@ -24,15 +24,20 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
   expense,
   observation,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useFogDetailsAddingForm({
-      quantityBeforeSelling: quantityBeforeSelling,
-      sale: sale,
-      quantityAfterSelling: quantityAfterSelling,
-      payment: payment,
-      expense: expense,
-      observation: observation,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onTextareaChange,
+    onFormSubmit,
+  } = useFogDetailsAddingForm({
+    quantityBeforeSelling: quantityBeforeSelling,
+    sale: sale,
+    quantityAfterSelling: quantityAfterSelling,
+    payment: payment,
+    expense: expense,
+    observation: observation,
+  });
   return (
     <Modal label="fog-details-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -142,7 +147,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
-                onChange={() => {}}
+                onChange={onTextareaChange}
                 value={formData.observation}
                 name="observation"
                 id="observation"

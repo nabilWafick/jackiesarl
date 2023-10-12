@@ -1,6 +1,6 @@
 import FogDetailsTable from "../../../../components/ui/dashboard/fog_details/FogDetailsTable";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";

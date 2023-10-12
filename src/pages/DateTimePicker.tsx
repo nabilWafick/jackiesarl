@@ -14,6 +14,7 @@ const DateTimePicker: React.FC = () => {
       <h1>Date and Time Picker</h1>
       <div className="text-white bg-white w-2 first:input:bg-secondary ">
         <DatePicker
+          className={` w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`}
           selected={selectedDate}
           onChange={handleDateChange}
           showTimeSelect

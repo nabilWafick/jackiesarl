@@ -1,5 +1,5 @@
 import PaymentsTable from "../../../../components/ui/dashboard/payments/PaymentsTable";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
 import useClientsPaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
@@ -14,7 +14,7 @@ const PaymentsPage: FC = () => {
 
   useEffect(() => {
     fetchAllClientsPaymentsValidation();
-  }, []);
+  }, [fetchAllClientsPaymentsValidation]);
 
   return (
     <div className="h-full w-full flex flex-col">

@@ -24,7 +24,7 @@ const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
             {clientsPayments.map((clientsPayment) => (
               <tr key={clientsPayment.id}>
                 <td>
-                  {clientsPayment.clientfirstnames} {clientsPayment.clientName}
+                  {clientsPayment.client.prenoms} {clientsPayment.client.nom}
                 </td>
                 <td>{clientsPayment.montant}</td>
                 <td>{clientsPayment.banque}</td>

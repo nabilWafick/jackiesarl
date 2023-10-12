@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import ShowStatisticsButton from "../../../../components/ui/dashboard/widgets/ShowStatisticsButton";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
+import ShowStatisticsButton from "../../../../components/ui/dashboard/widgets/ShowStatisticsButton.widget";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton";
+import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton.widget";
 import ClientsTable from "../../../../components/ui/dashboard/clients/ClientsTable";
 import "../../../../assets/css/table.css";
 import ClientAdding from "../../../../components/form/forms/client_adding/ClientAdding";
@@ -34,7 +34,13 @@ const ClientsListPage = () => {
             toggleModal("client-adding-form");
           }}
         />
-        <ClientAdding firstname="" lastname="" ifuNumber="" email="" />
+        <ClientAdding
+          firstname=""
+          lastname=""
+          ifuNumber=""
+          phoneNumber=""
+          email={undefined}
+        />
       </div>
       <div className="w-full flex justify-end items-center mt-2 content-center">
         <FilterOptionButton />

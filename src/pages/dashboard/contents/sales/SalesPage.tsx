@@ -1,5 +1,5 @@
 import SellingTable from "../../../../components/ui/dashboard/selling/SellingTable";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import useSalesStore from "../../../../store/vente/vente.store";

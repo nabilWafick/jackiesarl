@@ -1,9 +1,9 @@
 import { FC } from "react";
 import useTruckStockAddingForm from "../../../../hooks/form/truck_stock_adding/useTruckStockAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
+import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface TruckStockAddingProps {

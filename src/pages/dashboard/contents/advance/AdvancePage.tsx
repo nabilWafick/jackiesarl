@@ -1,4 +1,4 @@
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import AdvanceTable from "../../../../components/ui/dashboard/advance/AdvanceTable";
 import "../../../../assets/css/table.css";
 

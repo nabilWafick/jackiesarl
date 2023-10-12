@@ -50,9 +50,6 @@ const ClientsPaymentsValidationsTable: FC<
                       <FaCheck className="text-secondary" size={20} />
                     </center>
                   )}
-                  <center className="flex justify-end">
-                    <FaCheck className="text-secondary" size={20} />
-                  </center>
                 </td>
                 <td>
                   <center className="flex justify-end">

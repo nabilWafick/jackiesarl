@@ -1,5 +1,17 @@
 import axios from "axios";
 import Clients from "../../models/clients/clients.model";
+interface CreateClientPromiseResponse {
+  status: number;
+  client?: ClientsJSON;
+  error?: string;
+  errors?: {
+    firstname: string | null;
+    lastname: string | null;
+    phoneNumber: string | null;
+    ifuNumber: string | null;
+    email: string | null;
+  };
+}
 
 interface ClientsJSON {
   id?: number;
@@ -15,19 +27,24 @@ class ClientsAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
   /* private static headers = {
-    "Authorization": "Bearer token",
+    "Authorization": "Bearer token",  
     "Content-Type": "Application/json",
   };*/
 
-  static async create(data: Clients) {
+  static async create(
+    data: Clients
+  ): Promise<CreateClientPromiseResponse | undefined> {
+    let promiseResponse: CreateClientPromiseResponse | undefined = undefined;
     await axios
       .post(`${ClientsAPI.baseUrl}/clients`, data.toJson())
       .then((response) => {
-        console.log(response.data);
+        promiseResponse = response.data;
       })
       .catch((error) => {
         console.log(error);
+        promiseResponse = error.response.data;
       });
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<Clients | undefined> {

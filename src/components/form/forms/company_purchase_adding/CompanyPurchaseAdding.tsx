@@ -1,9 +1,9 @@
 import { FC } from "react";
 import useCompanyPurchaseForm from "../../../../hooks/form/company_purchase_adding/useCompanyPurchaseAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
+import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface CompanyPurchasseAddingProps {
@@ -12,7 +12,7 @@ interface CompanyPurchasseAddingProps {
   amount: string;
   bank: string;
   check: string;
-  slip: string;
+  slip: File;
 }
 
 const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
@@ -23,15 +23,20 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
   check,
   slip,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useCompanyPurchaseForm({
-      bcNumber: bcNumber,
-      purchasedQuantity: purchasedQuantity,
-      amount: amount,
-      bank: bank,
-      check: check,
-      slip: slip,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onFileInputChange,
+    onFormSubmit,
+  } = useCompanyPurchaseForm({
+    bcNumber: bcNumber,
+    purchasedQuantity: purchasedQuantity,
+    amount: amount,
+    bank: bank,
+    check: check,
+    slip: slip,
+  });
   return (
     <Modal label="company-purchase-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -141,8 +146,8 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
-                onChange={onInputDataChange}
-                value={formData.slip}
+                onChange={onFileInputChange}
+                //    value={formData.slip}
                 name="slip"
                 id="slip"
                 type="text"

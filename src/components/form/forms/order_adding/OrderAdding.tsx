@@ -1,18 +1,19 @@
 import { FC } from "react";
 import useOrderAddingForm from "../../../../hooks/form/order_adding/useOrderAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
+import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
+import JSDateTimePicker from "../../widgets/DateTimePicker.widget";
 
 interface OrderAddingProps {
   firstname: string;
   lastname: string;
   quantity: string;
   destination: string;
-  orderDate: number;
-  deliveryDate: number;
+  orderDate: Date | null;
+  deliveryDate: Date | null;
   category: string;
 }
 
@@ -25,16 +26,21 @@ const OrderAdding: FC<OrderAddingProps> = ({
   deliveryDate,
   category,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useOrderAddingForm({
-      firstname: firstname,
-      lastname: lastname,
-      quantity: quantity,
-      destination: destination,
-      orderDate: orderDate,
-      deliveryDate: deliveryDate,
-      category: category,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onDateInputChange,
+    onFormSubmit,
+  } = useOrderAddingForm({
+    firstname: firstname,
+    lastname: lastname,
+    quantity: quantity,
+    destination: destination,
+    orderDate: orderDate,
+    deliveryDate: deliveryDate,
+    category: category,
+  });
   return (
     <Modal label="order-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -125,14 +131,13 @@ const OrderAdding: FC<OrderAddingProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.orderDate.toString()}
+              <JSDateTimePicker
                 name="orderDate"
                 id="orderDate"
-                type="date"
-                placeholder="Date de commande"
-                autoComplete="orderDate"
+                selectedDate={formData.orderDate}
+                onChange={() =>
+                  onDateInputChange("orderDate", formData.orderDate)
+                }
               />
             </div>
             {formErrors.orderDate && (
@@ -144,14 +149,13 @@ const OrderAdding: FC<OrderAddingProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.deliveryDate.toString()}
+              <JSDateTimePicker
                 name="deliveryDate"
                 id="deliveryDate"
-                type="date"
-                placeholder="Date de livraison"
-                autoComplete="deliveryDate"
+                selectedDate={formData.deliveryDate}
+                onChange={() =>
+                  onDateInputChange("deliveryDate", formData.deliveryDate)
+                }
               />
             </div>
             {formErrors.deliveryDate && (

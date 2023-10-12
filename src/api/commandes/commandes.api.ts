@@ -1,4 +1,5 @@
 import axios from "axios";
+import Commandes from "../../models/commandes/commandes.model";
 
 interface CommandesJSON {
   id?: number;
@@ -15,11 +16,11 @@ interface CommandesJSON {
 class CommandesAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: CommandesJSON) {
+  static async create(data: Commandes) {
     try {
       const response = await axios.post(
         `${CommandesAPI.baseUrl}/commandes`,
-        data
+        data.toJson()
       );
       console.log(response.data);
     } catch (error) {
@@ -27,13 +28,13 @@ class CommandesAPI {
     }
   }
 
-  static async getById(id: number): Promise<CommandesJSON | undefined> {
-    let commande: CommandesJSON | undefined;
+  static async getById(id: number): Promise<Commandes | undefined> {
+    let commande: Commandes | undefined;
     await axios
       .get(`${CommandesAPI.baseUrl}/commandes/${id}`)
       .then((response) => {
         console.log(response.data);
-        commande = response.data;
+        commande = Commandes.fromJson(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -41,25 +42,29 @@ class CommandesAPI {
     return commande;
   }
 
-  static async getAll(): Promise<CommandesJSON[]> {
-    let commandesList: CommandesJSON[] = [];
+  static async getAll(): Promise<Commandes[]> {
+    let commandesList: Commandes[] = [];
     await axios
       .get(`${CommandesAPI.baseUrl}/commandes`)
       .then((response) => {
-        commandesList = response.data;
+        commandesList = response.data.map((commande: CommandesJSON) =>
+          Commandes.fromJson(commande)
+        );
+        console.log(commandesList);
       })
+
       .catch((error) => {
         console.log(error);
-        return [] as CommandesJSON[];
+        return [] as Commandes[];
       });
     return commandesList;
   }
 
-  static async update(id: number, data: CommandesJSON) {
+  static async update(id: number, data: Commandes) {
     try {
       const response = await axios.put(
         `${CommandesAPI.baseUrl}/commandes/${id}`,
-        data
+        data.toJson()
       );
       console.log(response.data);
     } catch (error) {

@@ -54,28 +54,43 @@ const useTruckStockAddingForm = ({
       category: null,
       driverNumber: null,
       bcNumber: null,
-
       quantity: null,
     };
 
-    if (!formData.truckNumber.trim()) {
-      errors.truckNumber = "Le numéro du cq,ion est requis";
+    // Validation pour truckNumber (chaîne de caractères avec au moins 8 caractères)
+    if (
+      !formData.truckNumber.trim() ||
+      formData.truckNumber.trim().length < 8
+    ) {
+      errors.truckNumber =
+        "Le numéro du camion doit comporter au moins 8 caractères.";
     }
 
+    // Validation pour category (chaîne de caractères)
     if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
+    } else if (formData.category.trim().length < 3) {
+      errors.category = "La catégorie doit comporter au moins 3 caractères.";
     }
 
-    if (!formData.driverNumber.trim()) {
-      errors.driverNumber = "Le numéro de téléphone est requis";
+    // Validation pour driverNumber (numéro de téléphone au format Bénin)
+    const beninPhoneRegex = /^[229][45679]\d{7}$/; // Format de numéro Bénin : commence par 229 et est suivi de 8 chiffres
+    if (
+      !formData.driverNumber.trim() ||
+      !beninPhoneRegex.test(formData.driverNumber.trim())
+    ) {
+      errors.driverNumber =
+        "Le numéro de téléphone doit être au format du Bénin.";
     }
 
-    if (!formData.bcNumber.trim()) {
-      errors.bcNumber = "Le numéro de commande est requis";
+    // Validation pour bcNumber (nombre)
+    if (!formData.bcNumber.trim() || isNaN(Number(formData.bcNumber.trim()))) {
+      errors.bcNumber = "Le numéro de commande doit être un nombre valide.";
     }
 
-    if (!formData.quantity.trim()) {
-      errors.quantity = "La stock est requis";
+    // Validation pour quantity (nombre)
+    if (!formData.quantity.trim() || isNaN(Number(formData.quantity.trim()))) {
+      errors.quantity = "La quantité doit être un nombre valide.";
     }
 
     setFormErrors(errors);

@@ -7,7 +7,7 @@ import TableBordPeriode from "../../../../components/ui/dashboard/table_bord/Tab
 import TotalStockCard from "../../../../components/ui/dashboard/table_bord/TotalStockCard";
 import TransactionChartCard from "../../../../components/ui/dashboard/table_bord/TransactionChartCard";
 import VerticalDoughnutStatCard from "../../../../components/ui/dashboard/table_bord/VerticalDoughnutStatCard";
-import StatistiqueCard from "../../../../components/ui/dashboard/widgets/StatistiqueCard";
+import StatistiqueCard from "../../../../components/ui/dashboard/widgets/StatistiqueCard.widget";
 
 const periods = [
   {

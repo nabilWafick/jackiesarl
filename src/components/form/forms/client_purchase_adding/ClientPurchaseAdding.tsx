@@ -1,9 +1,9 @@
 import { FC } from "react";
 import useClientPurchaseAddingForm from "../../../../hooks/form/client_purchase_adding/useClientPurchaseAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
+import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface ClientPurchaseAddingProps {
@@ -11,7 +11,7 @@ interface ClientPurchaseAddingProps {
   category: string;
   amount: string;
   ctpNumber: string;
-  slip: string;
+  slip: File;
   bcNumber: string;
 }
 
@@ -23,15 +23,20 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
   slip,
   bcNumber,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useClientPurchaseAddingForm({
-      quantity: quantity,
-      category: category,
-      amount: amount,
-      ctpNumber: ctpNumber,
-      slip: slip,
-      bcNumber: bcNumber,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onFileInputChange,
+    onFormSubmit,
+  } = useClientPurchaseAddingForm({
+    quantity: quantity,
+    category: category,
+    amount: amount,
+    ctpNumber: ctpNumber,
+    slip: slip,
+    bcNumber: bcNumber,
+  });
   return (
     <Modal label="client-purchase-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -141,8 +146,8 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
-                onChange={onInputDataChange}
-                value={formData.slip}
+                onChange={onFileInputChange}
+                //     value={formData.slip}
                 name="slip" // slip === bordereau
                 id="slip"
                 type="text"

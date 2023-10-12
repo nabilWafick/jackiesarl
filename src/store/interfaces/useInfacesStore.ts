@@ -6,6 +6,7 @@ interface InterfacesStore {
   isOpen: boolean[];
   currentActiveSideBarOption: string;
   currentActiveSideBarSubOption: string;
+  actionResultMessage: string;
   setIsOpen: (newIsOpen: boolean[]) => void;
   toggleSideBarOptionDropdown: (
     index: number,
@@ -17,6 +18,7 @@ interface InterfacesStore {
     selectedClient: Clients | undefined
   ) => void;
   setCurrentActiveSideBarSubOption: (name: string) => void;
+  setActionResultMessage: (message: string) => void;
 }
 
 const useInterfacesStore = create<InterfacesStore>()(
@@ -42,7 +44,7 @@ const useInterfacesStore = create<InterfacesStore>()(
       ],
       currentActiveSideBarOption: "Table de bord",
       currentActiveSideBarSubOption: "",
-
+      actionResultMessage: "",
       setIsOpen: (newIsOpen: boolean[]) => {
         set(() => ({ isOpen: newIsOpen }));
       },
@@ -85,6 +87,9 @@ const useInterfacesStore = create<InterfacesStore>()(
       },
       setCurrentActiveSideBarSubOption: (name: string) => {
         set(() => ({ currentActiveSideBarSubOption: name }));
+      },
+      setActionResultMessage: (message) => {
+        set(() => ({ actionResultMessage: message }));
       },
     }),
     {

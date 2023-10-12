@@ -1,31 +1,40 @@
 import { FC } from "react";
 import useClientAddingForm from "../../../../hooks/form/client_adding/useClientAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
+import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface ClientAddingProps {
   firstname: string;
   lastname: string;
+  phoneNumber: string;
   ifuNumber: string;
-  email: string;
+  email: string | undefined;
 }
 
 const ClientAdding: FC<ClientAddingProps> = ({
   firstname,
   lastname,
+  phoneNumber,
   ifuNumber,
   email,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useClientAddingForm({
-      firstname: firstname,
-      lastname: lastname,
-      ifuNumber: ifuNumber,
-      email: email,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    //  isLoading,
+    onFormSubmit,
+    onFormClose,
+  } = useClientAddingForm({
+    firstname: firstname,
+    lastname: lastname,
+    phoneNumber: phoneNumber,
+    ifuNumber: ifuNumber,
+    email: email,
+  });
   return (
     <Modal label="client-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -97,6 +106,25 @@ const ClientAdding: FC<ClientAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
+                value={formData.phoneNumber}
+                onChange={onInputDataChange}
+                name="phoneNumber"
+                id="phoneNumber"
+                type="text"
+                placeholder="Numéro de téléphone"
+                autoComplete="phoneNumber"
+              />
+            </div>
+            {formErrors.phoneNumber && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.phoneNumber}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSInput
                 value={formData.email}
                 onChange={onInputDataChange}
                 name="email"
@@ -116,10 +144,18 @@ const ClientAdding: FC<ClientAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("client-adding-form");
+              }}
             />
+
+            {/* {isLoading == true ? ( */}
             <JsButton type="submit" name="Valider" />
+            {/* ) : (
+              <div></div>
+            )} */}
           </div>
         </div>
       </form>

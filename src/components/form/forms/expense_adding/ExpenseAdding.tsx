@@ -1,16 +1,16 @@
 import { FC } from "react";
 import useExpenseAddingForm from "../../../../hooks/form/expense_adding/useExpenseAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
-import JsTextarea from "../../widgets/Textarea";
+import JSInput from "../../widgets/Input.widget";
+import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface ExpenseAddingProps {
   description: string;
   amount: string;
-  piece: string;
+  piece: File;
 }
 
 const ExpenseAdding: FC<ExpenseAddingProps> = ({
@@ -18,12 +18,18 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
   amount,
   piece,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useExpenseAddingForm({
-      description: description,
-      amount: amount,
-      piece: piece,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onFileInputChange,
+    onTextareaChange,
+    onFormSubmit,
+  } = useExpenseAddingForm({
+    description: description,
+    amount: amount,
+    piece: piece,
+  });
 
   return (
     <Modal label="expense-adding-form">
@@ -39,7 +45,7 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
-                onChange={() => {}}
+                onChange={onTextareaChange}
                 value={formData.description}
                 name="description"
                 id="description"
@@ -76,8 +82,8 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
-                onChange={onInputDataChange}
-                value={formData.piece}
+                onChange={onFileInputChange}
+                //   value={formData.piece}
                 name="piece"
                 id="piece"
                 type="text"

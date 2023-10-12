@@ -1,4 +1,4 @@
-import JSSelect from "../../../form/widgets/Select";
+import JSSelect from "../../../form/widgets/Select.widget";
 
 function DateIntervall() {
   return (

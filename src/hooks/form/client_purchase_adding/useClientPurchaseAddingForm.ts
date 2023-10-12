@@ -5,7 +5,7 @@ interface FormData {
   category: string;
   amount: string;
   ctpNumber: string;
-  slip: string;
+  slip: File;
   bcNumber: string;
 }
 
@@ -53,6 +53,18 @@ const useClientPurchaseAddingForm = ({
     });
   };
 
+  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const selectedFiles = e.target.files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      setFormData({
+        ...formData,
+        [name]: selectedFiles[0],
+      });
+    }
+  };
+
   const validateForm = () => {
     const errors: FormErrors = {
       quantity: null,
@@ -64,27 +76,57 @@ const useClientPurchaseAddingForm = ({
     };
 
     if (!formData.quantity.trim()) {
-      errors.quantity = "La quantité est requis";
+      errors.quantity = "La quantité est requise";
+    } else {
+      const numericQuantity = parseFloat(formData.quantity);
+      if (isNaN(numericQuantity)) {
+        errors.quantity = "La quantité doit être un nombre valide.";
+      }
     }
 
+    // Validation pour category (string)
     if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
+    } else if (formData.category.trim().length < 3) {
+      errors.category = "La catégorie doit comporter au moins 3 caractères.";
     }
 
+    // Validation pour amount (number)
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
+    } else {
+      const numericAmount = parseFloat(formData.amount);
+      if (isNaN(numericAmount)) {
+        errors.amount = "Le montant doit être un nombre valide.";
+      }
     }
 
+    // Validation pour ctpNumber (string)
     if (!formData.ctpNumber.trim()) {
-      errors.amount = "Le numéro CTP est requis";
+      errors.ctpNumber = "Le numéro CTP est requis";
+    } else if (formData.ctpNumber.trim().length < 3) {
+      errors.ctpNumber = "Le numéro CTP doit comporter au moins 3 caractères.";
     }
 
-    if (!formData.slip.trim()) {
-      errors.category = "Le bodereau est requis";
+    // Validation pour slip (file)
+    if (!formData.slip) {
+      errors.slip = "Le bordereau est requis";
+    } else {
+      // Vérifiez le type du fichier
+      const allowedFileTypes = ["application/pdf", "application/msword"];
+      if (!allowedFileTypes.includes(formData.slip.type)) {
+        errors.slip = "Le type de fichier doit être PDF ou Word.";
+      }
     }
 
-    if (formData.bcNumber.trim()) {
+    // Validation pour bcNumber (number)
+    if (!formData.bcNumber.trim()) {
       errors.bcNumber = "Le bon de commande est requis";
+    } else {
+      const numericBcNumber = parseFloat(formData.bcNumber);
+      if (isNaN(numericBcNumber)) {
+        errors.bcNumber = "Le bon de commande doit être un nombre valide.";
+      }
     }
 
     setFormErrors(errors);
@@ -111,6 +153,7 @@ const useClientPurchaseAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onFileInputChange,
     onFormSubmit,
   };
 };

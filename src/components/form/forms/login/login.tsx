@@ -1,7 +1,7 @@
 import { FC } from "react";
 import useLoginForm from "../../../../hooks/form/login/useLoginForm";
-import JSInput from "../../widgets/Input";
-import AuthenticationButton from "../../widgets/AuthenticationButton";
+import JSInput from "../../widgets/Input.widget";
+import AuthenticationButton from "../../widgets/AuthenticationButton.widget";
 
 const LoginForm: FC = () => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =

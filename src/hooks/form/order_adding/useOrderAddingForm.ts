@@ -5,8 +5,8 @@ interface FormData {
   lastname: string;
   quantity: string;
   destination: string;
-  orderDate: number;
-  deliveryDate: number;
+  orderDate: Date | null;
+  deliveryDate: Date | null;
   category: string;
 }
 
@@ -57,6 +57,12 @@ const useOrderAddingForm = ({
       [name]: value,
     });
   };
+  const onDateInputChange = (name: string, dateValue: Date | null) => {
+    setFormData({
+      ...formData,
+      [name]: dateValue,
+    });
+  };
 
   const validateForm = () => {
     const errors: FormErrors = {
@@ -71,30 +77,57 @@ const useOrderAddingForm = ({
 
     if (!formData.firstname.trim()) {
       errors.firstname = "Le nom est requis";
+    } else if (formData.firstname.trim().length < 3) {
+      errors.firstname = "Le nom doit comporter au moins 3 caractères.";
     }
 
+    // Validation pour lastname (chaîne de caractères)
     if (!formData.lastname.trim()) {
       errors.lastname = "Le nom est requis";
+    } else if (formData.lastname.trim().length < 3) {
+      errors.lastname = "Le nom doit comporter au moins 3 caractères.";
     }
 
+    // Validation pour quantity (chaîne de caractères)
     if (!formData.quantity.trim()) {
-      errors.quantity = "Le quantité est requis";
+      errors.quantity = "La quantité est requise";
     }
 
+    // Validation pour destination (chaîne de caractères)
     if (!formData.destination.trim()) {
       errors.destination = "La destination est requise";
+    } else if (formData.destination.trim().length < 3) {
+      errors.destination =
+        "La destination doit comporter au moins 3 caractères.";
     }
 
-    if (formData.orderDate == 0) {
+    // Validation pour orderDate (Date)
+    if (!formData.orderDate) {
       errors.orderDate = "La date de commande est requise";
     }
 
-    if (formData.deliveryDate == 0) {
+    // Validation pour deliveryDate (Date)
+    if (!formData.deliveryDate) {
       errors.deliveryDate = "La date de livraison est requise";
     }
 
+    // Validation pour category (chaîne de caractères)
     if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
+    } else if (formData.category.trim().length < 3) {
+      errors.category = "La catégorie doit comporter au moins 3 caractères.";
+    }
+
+    // Validation de la relation entre orderDate et deliveryDate
+    if (formData.orderDate && formData.deliveryDate) {
+      const orderDate = new Date(formData.orderDate);
+      const deliveryDate = new Date(formData.deliveryDate);
+      if (orderDate >= deliveryDate) {
+        errors.orderDate =
+          "La date de commande doit être antérieure à la date de livraison.";
+        errors.deliveryDate =
+          "La date de livraison doit être postérieure à la date de commande.";
+      }
     }
 
     setFormErrors(errors);
@@ -121,6 +154,7 @@ const useOrderAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onDateInputChange,
     onFormSubmit,
   };
 };

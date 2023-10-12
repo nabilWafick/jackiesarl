@@ -1,9 +1,9 @@
 import { FC } from "react";
 import useClientPaymentAddingForm from "../../../../hooks/form/client_payment_adding/useClientPaymentAdding";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
+import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface ClientPaymentAddingProps {
@@ -12,7 +12,7 @@ interface ClientPaymentAddingProps {
   amount: string;
   bank: string;
   reference: string;
-  slip: string;
+  slip: File;
 }
 
 const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
@@ -23,15 +23,20 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
   reference,
   slip,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useClientPaymentAddingForm({
-      bcNumber: bcNumber,
-      category: category,
-      amount: amount,
-      bank: bank,
-      reference: reference,
-      slip: slip,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onFileInputChange,
+    onFormSubmit,
+  } = useClientPaymentAddingForm({
+    bcNumber: bcNumber,
+    category: category,
+    amount: amount,
+    bank: bank,
+    reference: reference,
+    slip: slip,
+  });
 
   return (
     <Modal label="client-payment-adding-form">
@@ -142,11 +147,11 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
-                onChange={onInputDataChange}
-                value={formData.slip}
+                onChange={onFileInputChange}
+                //   value={formData.slip}
                 name="slip" // slip === bordereau
                 id="slip"
-                type="text"
+                type="file"
                 placeholder="Bordereau"
                 autoComplete="slip"
               />

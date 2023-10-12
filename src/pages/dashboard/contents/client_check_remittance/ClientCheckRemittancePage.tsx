@@ -1,8 +1,8 @@
 import ClientCard from "../../../../components/ui/dashboard/clients/ClientCard";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import ClientCheckRemittanceTable from "../../../../components/ui/dashboard/client_check_remittance/ClientCheckRemittanceTable";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 import ClientCheckRemittanceAdding from "../../../../components/form/forms/client_check_remittance_adding/ClientCheckRemittanceAdding";
 import useClientsStore from "../../../../store/clients/useClients.store";

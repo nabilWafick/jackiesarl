@@ -1,6 +1,6 @@
 import ClientCard from "../../../../components/ui/dashboard/clients/ClientCard";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import ClientPaymentsTable from "../../../../components/ui/dashboard/client_payments/ClientPaymentsTable";
 import "../../../../assets/css/table.css";

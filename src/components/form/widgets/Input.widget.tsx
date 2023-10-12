@@ -2,8 +2,8 @@ import { FC } from "react";
 interface JSInputProps {
   id: string;
   name: string;
-  type: string;
-  value?: string;
+  type: "text" | "number" | "file" | "email" | "password" | "date";
+  value?: string | number | readonly string[];
   placeholder: string;
   autoComplete?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

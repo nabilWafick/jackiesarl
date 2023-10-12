@@ -53,19 +53,37 @@ const useFogAddingForm = ({
     };
 
     if (!formData.deposit.trim()) {
-      errors.deposit = "Le nom du dépot est requis";
+      errors.deposit = "Le nom du dépôt est requis";
+    } else if (formData.deposit.trim().length < 3) {
+      errors.deposit = "Le nom du dépôt doit comporter au moins 3 caractères.";
     }
 
     if (!formData.currentStock.trim()) {
       errors.currentStock = "Le stock actuel n'est pas acceptable";
+    } else {
+      const valeurNumeriqueCurrentStock = parseFloat(formData.currentStock);
+      if (isNaN(valeurNumeriqueCurrentStock)) {
+        errors.currentStock = "Le stock actuel doit être un nombre valide.";
+      }
     }
 
+    // Validation pour managerName (chaîne de caractères)
     if (!formData.managerName.trim()) {
       errors.managerName = "Le nom du gérant est requis";
+    } else if (formData.managerName.trim().length < 3) {
+      errors.managerName =
+        "Le nom du gérant doit comporter au moins 3 caractères.";
     }
 
+    // Validation pour managerNumber (nombre)
     if (!formData.managerNumber.trim()) {
-      errors.managerNumber = "Le nom du gérant n'est pas acceptable";
+      errors.managerNumber = "Le numéro du gérant n'est pas acceptable";
+    } else {
+      const valeurNumeriqueManagerNumber = parseFloat(formData.managerNumber);
+      if (isNaN(valeurNumeriqueManagerNumber)) {
+        errors.managerNumber =
+          "Le numéro du gérant doit être un nombre valide.";
+      }
     }
 
     setFormErrors(errors);

@@ -1,10 +1,10 @@
 import { FC } from "react";
 import useCurrentBalenceDetailsAddingForm from "../../../../hooks/form/current_balence_details_adding/useCurrentBalenceDetailsAddingForm";
-import Modal from "../../../ui/dashboard/widgets/Modal";
+import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
-import JSInput from "../../widgets/Input";
-import JsTextarea from "../../widgets/Textarea";
+import JSInput from "../../widgets/Input.widget";
+import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface CurrentBalenceDetailsAddingProps {
@@ -20,13 +20,18 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
   credit,
   currentBalence,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
-    useCurrentBalenceDetailsAddingForm({
-      description: description,
-      debit: debit,
-      credit: credit,
-      currentBalence: currentBalence,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onTextareaChange,
+    onFormSubmit,
+  } = useCurrentBalenceDetailsAddingForm({
+    description: description,
+    debit: debit,
+    credit: credit,
+    currentBalence: currentBalence,
+  });
   return (
     <Modal label="current-balence-details-adding-form">
       <form onSubmit={onFormSubmit}>
@@ -76,12 +81,12 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
+              <JsTextarea
+                onChange={onTextareaChange}
                 value={formData.description}
                 name="credit"
                 id="credit"
-                type="number"
+                //  type="number"
                 placeholder="Crédit"
                 autoComplete="credit"
               />

@@ -1,15 +1,15 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import ModificationsAPI from "../../api/modifications/modifications.api";
-import Employes from "../../models/employes/employes.model";
 import ModificationsEmployes from "../../models/modifications_employes/modifications_employes.model";
 import Modifications from "../../models/modifications/modifications.model";
+import EmployesAPI from "../../api/employes/employes.api";
 
 interface ModificationsStore {
   modifications: ModificationsEmployes[];
   modificationsPerDay: Map<string, ModificationsEmployes[]>;
   isLoading: boolean;
-  fetchAllModifications: (employes: Employes[]) => void;
+  fetchAllModifications: () => void;
   sortModificationsNameByASC: () => void;
   sortModificationsNameByDESC: () => void;
   sortModificationsByDate: () => void;
@@ -30,7 +30,8 @@ const useModificationsStore = create<ModificationsStore>()(
       modificationsPerDay: new Map(),
       selectedClient: undefined,
       isLoading: false,
-      fetchAllModifications: async (employes: Employes[]) => {
+      fetchAllModifications: async () => {
+        const employes = await EmployesAPI.getAll();
         const modificationsList: Modifications[] =
           await ModificationsAPI.getAll();
         const modificationssLenght = get().modifications;

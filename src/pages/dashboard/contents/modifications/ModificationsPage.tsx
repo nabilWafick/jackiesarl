@@ -1,10 +1,9 @@
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
-import JSCategorySelect from "../../../../components/form/widgets/CategorySelect";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
+import JSCategorySelect from "../../../../components/form/widgets/CategorySelect.widget";
 import ModificationsTable from "../../../../components/ui/dashboard/modifications/ModificationsTable";
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
 import useModificationsStore from "../../../../store/modifications/useModifications.store";
-import useEmployesStore from "../../../../store/employes/useEmployes.store";
 
 const categories = [
   { value: "this_week", label: "Cette semaine" },
@@ -12,17 +11,16 @@ const categories = [
 ];
 
 const ModificationsPage: FC = () => {
-  const employees = useEmployesStore((state) => state.employees);
-  const fetchAllEmployes = useEmployesStore((state) => state.fetchAllEmployes);
+  // const employees = useEmployesStore((state) => state.employees);
+  // const fetchAllEmployes = useEmployesStore((state) => state.fetchAllEmployes);
   const modifications = useModificationsStore((state) => state.modifications);
   const fetchAllModifications = useModificationsStore(
     (state) => state.fetchAllModifications
   );
 
   useEffect(() => {
-    fetchAllEmployes();
-    fetchAllModifications(employees);
-  }, []);
+    fetchAllModifications();
+  }, [fetchAllModifications]);
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -30,7 +28,7 @@ const ModificationsPage: FC = () => {
         <DateIntervall />
         <JSCategorySelect id="periode" name="periode" options={categories} />
       </div>
-      <ModificationsTable modifications={[]} />
+      <ModificationsTable modifications={modifications} />
     </div>
   );
 };

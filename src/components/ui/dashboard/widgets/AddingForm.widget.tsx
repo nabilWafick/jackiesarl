@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import JsButton from "../../widgets/Button";
 import JsOutlineButton from "../../widgets/OutlineButton";
-import Modal from "./Modal";
+import Modal from "./Modal.widget";
 
 interface AddingFormProps {
   label: string;

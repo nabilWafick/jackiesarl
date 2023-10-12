@@ -1,6 +1,6 @@
 import ExpensesValidationTable from "../../../../components/ui/dashboard/expenses_validation/ExpensesValidationTable";
-import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
 import useDepensesStore from "../../../../store/depenses/useDepenses.store";

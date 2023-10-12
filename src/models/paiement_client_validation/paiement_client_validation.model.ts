@@ -1,5 +1,5 @@
-//import Clients from "../clients/clients.model";
-/*
+import Clients from "../clients/clients.model";
+
 interface ClientsJSON {
   id?: number;
   nom: string;
@@ -9,7 +9,6 @@ interface ClientsJSON {
   email: string | null;
   date_ajout?: string;
 }
-*/
 
 interface PaiementClientValidationJSON {
   id?: number;
@@ -20,8 +19,7 @@ interface PaiementClientValidationJSON {
   numero_bc: number;
   bordereau: string;
   est_valide: boolean;
-  clientName: string;
-  clientfirstnames: string;
+  client: ClientsJSON;
   date_paiement?: string;
 }
 
@@ -34,8 +32,7 @@ class PaiementClientValidation {
   numero_bc: number;
   bordereau: string;
   est_valide: boolean;
-  clientName: string;
-  clientfirstnames: string;
+  client: Clients;
   date_paiement?: Date;
 
   constructor(
@@ -46,8 +43,7 @@ class PaiementClientValidation {
     numero_bc: number,
     bordereau: string,
     est_valide: boolean,
-    clientName: string,
-    clientfirstnames: string,
+    client: Clients,
     id?: number,
     date_paiement?: Date
   ) {
@@ -59,8 +55,7 @@ class PaiementClientValidation {
     this.numero_bc = numero_bc;
     this.bordereau = bordereau;
     this.est_valide = est_valide;
-    this.clientName = clientName;
-    this.clientfirstnames = clientfirstnames;
+    this.client = client;
     this.date_paiement = date_paiement;
   }
 
@@ -75,9 +70,9 @@ class PaiementClientValidation {
       json.numero_bc,
       json.bordereau,
       json.est_valide,
-      json.clientName,
-      json.clientfirstnames,
-      // Clients.fromJson(json.client),
+      //   json.clientName,
+      // json.clientfirstnames,
+      Clients.fromJson(json.client),
       json.id,
       new Date(json.date_paiement!)
     );
@@ -94,8 +89,7 @@ class PaiementClientValidation {
       numero_bc: this.numero_bc,
       bordereau: this.bordereau,
       est_valide: this.est_valide,
-      clientName: this.clientName,
-      clientfirstnames: this.clientfirstnames,
+      client: this.client.toJson(),
       date_paiement:
         this.date_paiement != null
           ? this.date_paiement.toISOString()

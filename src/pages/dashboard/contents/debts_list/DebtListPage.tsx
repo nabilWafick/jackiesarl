@@ -1,8 +1,8 @@
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import JSCategorySelect from "../../../../components/form/widgets/CategorySelect";
+import JSCategorySelect from "../../../../components/form/widgets/CategorySelect.widget";
 import DebtsTable from "../../../../components/ui/dashboard/debts/DebtsTable";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall";
+import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 
 const DebtsListPage = () => {
