@@ -6,6 +6,7 @@ import "../../../../assets/css/table.css";
 import FogAdding from "../../../../components/form/forms/fog_adding/FogAdding";
 import { FC, useEffect } from "react";
 import useBrouillardStore from "../../../../store/brouillard/useBrouillard.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const FogPage: FC = () => {
   const brouillards = useBrouillardStore((state) => state.brouillards);
@@ -43,6 +44,7 @@ const FogPage: FC = () => {
         />
 
         <FogAdding deposit="" currentStock="" managerName="" managerNumber="" />
+        <ActionResult />
       </div>
       <FogTable fogs={brouillards} />
     </div>

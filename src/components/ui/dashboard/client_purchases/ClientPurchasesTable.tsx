@@ -1,6 +1,8 @@
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaFile, FaTrash } from "react-icons/fa";
 import AchatClient from "../../../../models/achat_client/achat_client.model";
 import { FC } from "react";
+import ClientPurchaseAdding from "../../../form/forms/client_purchase_adding/ClientPurchaseAdding";
+import { toggleModal } from "../widgets/ToggleModal";
 
 interface ClientPurchasesTableProps {
   clientPurchases: AchatClient[];
@@ -9,6 +11,14 @@ interface ClientPurchasesTableProps {
 const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
   clientPurchases,
 }) => {
+  const openSlipFile = (file: string) => {
+    try {
+      window.open(file, "_blank");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -33,11 +43,37 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                   <td>{clientPurchase.categorie}</td>
                   <td>{clientPurchase.montant}</td>
                   <td>{clientPurchase.numero_ctp}</td>
-                  <td>{clientPurchase.bordereau}</td>
+                  <td>
+                    <div>
+                      <ClientPurchaseAdding
+                        quantity={clientPurchase.quantite_achetee.toString()}
+                        category={clientPurchase.categorie}
+                        amount={clientPurchase.montant.toString()}
+                        ctpNumber={clientPurchase.numero_ctp}
+                        slip={clientPurchase.bordereau}
+                        bcNumber={clientPurchase.numero_bc.toString()}
+                      />
+                      {clientPurchase.bordereau == "" ? (
+                        ""
+                      ) : (
+                        <FaFile
+                          className="text-secondary"
+                          onClick={() =>
+                            openSlipFile(clientPurchase.bordereau.toString())
+                          }
+                        />
+                      )}
+                    </div>
+                  </td>
                   <td>{clientPurchase.numero_bc}</td>
                   <td>
                     <center>
-                      <FaEdit color="green" />
+                      <FaEdit
+                        color="green"
+                        onClick={() => {
+                          toggleModal("client-purchase-adding-form");
+                        }}
+                      />
                     </center>
                   </td>
                   <td>

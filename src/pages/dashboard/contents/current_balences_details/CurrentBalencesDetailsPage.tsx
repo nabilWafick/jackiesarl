@@ -8,6 +8,7 @@ import "../../../../assets/css/table.css";
 import CurrentBalenceDetailsAdding from "../../../../components/form/forms/current_balence_details_adding/CurrentBalenceDetailsAdding";
 import { FC } from "react";
 import useSoldeCourantStore from "../../../../store/solde_courant/useSoldeCourant.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const CurrentsBalenceDetailsPage: FC = () => {
   const selectedSoldeCourant = useSoldeCourantStore(
@@ -49,6 +50,7 @@ const CurrentsBalenceDetailsPage: FC = () => {
           credit=""
           currentBalence=""
         />
+        <ActionResult />
       </div>
       <CurrentsBalenceTable selectedBank={selectedSoldeCourant} />
     </div>

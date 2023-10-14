@@ -1,14 +1,20 @@
 import axios from "axios";
 import AchatClient from "../../models/achat_client/achat_client.model";
 
+interface CreateAchatClientPromiseResponse {
+  status: number;
+  achatClient?: AchatClientJSON;
+  error?: string;
+}
+
 interface AchatClientJSON {
   id?: number;
   quantite_achetee: number;
   categorie: string;
   montant: number;
   numero_ctp: string;
-  bordereau: string;
-  numero_bc: string;
+  bordereau: File | string;
+  numero_bc: number;
   id_client: number;
   date_achat?: string;
 }
@@ -16,16 +22,38 @@ interface AchatClientJSON {
 class AchatClientAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: AchatClient) {
-    try {
-      const response = await axios.post(
+  /* private static config = {
+    headers: {
+      "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+    },
+  };
+*/
+  static async create(
+    data: AchatClient
+  ): Promise<CreateAchatClientPromiseResponse | undefined> {
+    let promiseResponse: CreateAchatClientPromiseResponse | undefined =
+      undefined;
+
+    await axios
+      .post(
         `${AchatClientAPI.baseUrl}/achat-client`,
-        data
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+        data.toJson(),
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          },
+        }
+        //   AchatClientAPI.config
+      )
+      .then((response) => {
+        console.log(response.data);
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<AchatClient | undefined> {
@@ -78,7 +106,7 @@ class AchatClientAPI {
     try {
       const response = await axios.put(
         `${AchatClientAPI.baseUrl}/achat-client/${id}`,
-        data
+        data.toJson()
       );
       console.log(response.data);
     } catch (error) {

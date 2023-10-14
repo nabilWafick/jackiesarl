@@ -6,6 +6,7 @@ import "../../../../assets/css/table.css";
 import OrderAdding from "../../../../components/form/forms/order_adding/OrderAdding";
 import useCommandesStore from "../../../../store/commandes/useCommandes.store";
 import { useEffect } from "react";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const OrdersPage = () => {
   const orders = useCommandesStore((state) => state.clientsOrders);
@@ -39,10 +40,11 @@ const OrdersPage = () => {
           lastname=""
           quantity=""
           destination=""
-          orderDate={1000}
-          deliveryDate={1500}
+          orderDate={null}
+          deliveryDate={null}
           category=""
         />
+        <ActionResult />
       </div>
       <OrdersTable orders={orders} />
     </div>

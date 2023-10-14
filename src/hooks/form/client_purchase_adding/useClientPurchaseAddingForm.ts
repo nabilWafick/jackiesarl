@@ -1,11 +1,16 @@
 import { useState } from "react";
+import AchatClientAPI from "../../../api/achat_client/achat_client.api";
+import AchatClient from "../../../models/achat_client/achat_client.model";
+import useClientsStore from "../../../store/clients/useClients.store";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 
 interface FormData {
   quantity: string;
   category: string;
   amount: string;
   ctpNumber: string;
-  slip: File;
+  slip: File | string;
   bcNumber: string;
 }
 
@@ -43,6 +48,11 @@ const useClientPurchaseAddingForm = ({
     slip: null,
     bcNumber: null,
   });
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+  const selectedClient = useClientsStore((state) => state.selectedClient);
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -109,15 +119,24 @@ const useClientPurchaseAddingForm = ({
     }
 
     // Validation pour slip (file)
-    if (!formData.slip) {
+    /* if (!formData.slip) {
       errors.slip = "Le bordereau est requis";
-    } else {
-      // Vérifiez le type du fichier
-      const allowedFileTypes = ["application/pdf", "application/msword"];
-      if (!allowedFileTypes.includes(formData.slip.type)) {
-        errors.slip = "Le type de fichier doit être PDF ou Word.";
-      }
+    } else {*/
+    // Vérifiez le type du fichier
+    const allowedFileTypes = [
+      "image/png",
+      "image/jpg",
+      "application/image/jpeg",
+      "application/pdf",
+      "application/msword",
+    ];
+    if (
+      typeof formData.slip != "string" &&
+      !allowedFileTypes.includes(formData.slip.type)
+    ) {
+      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
     }
+    // }
 
     // Validation pour bcNumber (number)
     if (!formData.bcNumber.trim()) {
@@ -141,11 +160,62 @@ const useClientPurchaseAddingForm = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      quantity: quantity,
+      category: category,
+      amount: amount,
+      ctpNumber: ctpNumber,
+      slip: slip,
+      bcNumber: bcNumber,
+    });
+
+    setFormErrors({
+      quantity: null,
+      category: null,
+      amount: null,
+      ctpNumber: null,
+      slip: null,
+      bcNumber: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        quantity: null,
+        category: null,
+        amount: null,
+        ctpNumber: null,
+        slip: null,
+        bcNumber: null,
+      });
+
+      const response = await AchatClientAPI.create(
+        new AchatClient(
+          parseInt(formData.quantity),
+          formData.category,
+          parseFloat(formData.amount),
+          formData.ctpNumber,
+          formData.slip,
+          parseInt(formData.bcNumber),
+          selectedClient!.id!
+        )
+      );
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("client-purchase-adding-form");
+        setActionResultMessage("L'achat du client a été ajouté avec succès");
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("client-purchase-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout de l'achat du client");
+        toggleModal("action-result-message");
+      }
     }
   };
 
@@ -154,6 +224,7 @@ const useClientPurchaseAddingForm = ({
     formErrors,
     onInputDataChange,
     onFileInputChange,
+    onFormClose,
     onFormSubmit,
   };
 };

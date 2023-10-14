@@ -6,7 +6,7 @@ interface FormData {
   amount: string;
   bank: string;
   reference: string;
-  slip: File;
+  slip: File | string;
 }
 
 interface FormErrors {
@@ -111,9 +111,9 @@ const useClientPaymentAddingForm = ({
     if (!formData.slip) {
       errors.slip = "Le bordereau est requis";
     } else if (
-      !formData.slip.type ||
-      (formData.slip.type !== "application/pdf" &&
-        formData.slip.type !== "application/msword")
+      typeof formData.slip != "string" &&
+      formData.slip.type !== "application/pdf" &&
+      formData.slip.type !== "application/msword"
     ) {
       errors.slip =
         "Le type de fichier n'est pas pris en charge. Veuillez télécharger un fichier PDF ou Word.";

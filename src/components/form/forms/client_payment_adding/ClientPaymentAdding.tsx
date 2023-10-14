@@ -12,7 +12,7 @@ interface ClientPaymentAddingProps {
   amount: string;
   bank: string;
   reference: string;
-  slip: File;
+  slip: File | string;
 }
 
 const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({

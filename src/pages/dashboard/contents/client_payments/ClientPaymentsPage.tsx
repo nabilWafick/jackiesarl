@@ -9,6 +9,7 @@ import useClientsStore from "../../../../store/clients/useClients.store";
 import { FC, useEffect } from "react";
 import { redirect } from "react-router-dom";
 import useClientPaymentsStore from "../../../../store/paiement_client/usePaiementClient.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const ClientPaymentsPage: FC = () => {
   const selectedClient = useClientsStore((state) => state.selectedClient);
@@ -46,6 +47,7 @@ const ClientPaymentsPage: FC = () => {
         />
       </div>
       <ClientPaymentsTable clientPayments={clientPayments} />
+      <ActionResult />
     </div>
   );
 };

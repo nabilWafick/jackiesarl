@@ -8,6 +8,7 @@ import "../../../../assets/css/table.css";
 import ClientAdding from "../../../../components/form/forms/client_adding/ClientAdding";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import { useEffect, useReducer } from "react";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const ClientsListPage = () => {
   const clientsList = useClientsStore((state) => state.clients);
@@ -41,6 +42,7 @@ const ClientsListPage = () => {
           phoneNumber=""
           email={undefined}
         />
+        <ActionResult />
       </div>
       <div className="w-full flex justify-end items-center mt-2 content-center">
         <FilterOptionButton />
@@ -50,9 +52,9 @@ const ClientsListPage = () => {
       <button
         className="bg-secondary text-white"
         onClick={() => {
+          toggleModal("action-result-message");
           sortClientsNameByASC();
           forceUpdate();
-          //     console.log(clientsList);
         }}
       >
         Sort Name By ASCII

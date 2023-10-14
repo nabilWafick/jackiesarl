@@ -11,7 +11,7 @@ interface ClientPurchaseAddingProps {
   category: string;
   amount: string;
   ctpNumber: string;
-  slip: File;
+  slip: File | string;
   bcNumber: string;
 }
 
@@ -28,9 +28,10 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
     formErrors,
     onInputDataChange,
     onFileInputChange,
+    onFormClose,
     onFormSubmit,
   } = useClientPurchaseAddingForm({
-    quantity: quantity,
+    quantity,
     category: category,
     amount: amount,
     ctpNumber: ctpNumber,
@@ -39,7 +40,7 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
   });
   return (
     <Modal label="client-purchase-adding-form">
-      <form onSubmit={onFormSubmit}>
+      <form onSubmit={onFormSubmit} encType="multipart/form-data">
         <div
           className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl
         "
@@ -48,7 +49,7 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             Achat
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -65,16 +66,16 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
                 {formErrors.quantity}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantity.toString()}
+                value={formData.quantity}
                 name="quantity"
                 id="quantity"
-                type="number"
+                type="text"
                 placeholder="Quantité"
                 autoComplete="quantity"
               />
@@ -90,7 +91,7 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantity.toString()}
+                value={formData.category}
                 name="category"
                 id="category"
                 type="text"
@@ -109,10 +110,10 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.amount.toString()}
+                value={formData.amount}
                 name="amount"
                 id="amount"
-                type="number"
+                type="text"
                 placeholder="Montant"
                 autoComplete="amount"
               />
@@ -128,10 +129,10 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.ctpNumber.toString()}
+                value={formData.ctpNumber}
                 name="ctpNumber"
                 id="ctpNumber"
-                type="number"
+                type="text"
                 placeholder="Numéro CTP"
                 autoComplete="ctpNumber"
               />
@@ -150,7 +151,7 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
                 //     value={formData.slip}
                 name="slip" // slip === bordereau
                 id="slip"
-                type="text"
+                type="file"
                 placeholder="Bordereau"
                 autoComplete="slip"
               />
@@ -166,11 +167,11 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.bcNumber.toString()}
+                value={formData.bcNumber}
                 name="bcNumber"
                 id="bcNumber"
-                type="number"
-                placeholder="Numéro BC"
+                type="text"
+                placeholder="Bon de commande"
                 autoComplete="bcNumber"
               />
             </div>
@@ -184,8 +185,11 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("client-purchase-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

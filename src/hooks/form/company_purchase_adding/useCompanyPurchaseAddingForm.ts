@@ -6,7 +6,7 @@ interface FormData {
   amount: string;
   bank: string;
   check: string;
-  slip: File;
+  slip: File | string;
 }
 
 interface FormErrors {
@@ -110,7 +110,9 @@ const useCompanyPurchaseForm = ({
 
     // Validation pour bank (chaine de caractères)
     if (!formData.bank.trim()) {
-      errors.bank = "La bank est requise";
+      errors.bank = "La banque est requise";
+    } else if (formData.bank.trim().length < 3) {
+      errors.bank = "La banque doit comporter au moins 3 caratères";
     }
 
     // Validation pour.check (nombre)
@@ -130,7 +132,10 @@ const useCompanyPurchaseForm = ({
     } else {
       // Vérifiez le type du fichier
       const typesDeFichierAutorisés = ["application/pdf", "application/msword"];
-      if (!typesDeFichierAutorisés.includes(formData.slip.type)) {
+      if (
+        typeof formData.slip != "string" &&
+        !typesDeFichierAutorisés.includes(formData.slip.type)
+      ) {
         errors.slip = "Le type de fichier doit être PDF ou Word.";
       }
     }
@@ -147,6 +152,26 @@ const useCompanyPurchaseForm = ({
     );
   };
 
+  const onFormClose = () => {
+    setFormData({
+      bcNumber: bcNumber,
+      purchasedQuantity: purchasedQuantity,
+      amount: amount,
+      bank: bank,
+      check: check,
+      slip: slip,
+    });
+
+    setFormErrors({
+      bcNumber: null,
+      purchasedQuantity: null,
+      amount: null,
+      bank: null,
+      check: null,
+      slip: null,
+    });
+  };
+
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -160,6 +185,7 @@ const useCompanyPurchaseForm = ({
     formErrors,
     onInputDataChange,
     onFileInputChange,
+    onFormClose,
     onFormSubmit,
   };
 };

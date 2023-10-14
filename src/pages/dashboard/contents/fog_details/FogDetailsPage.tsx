@@ -9,6 +9,7 @@ import FogDetailsAdding from "../../../../components/form/forms/fog_details_addi
 import { FC, useEffect } from "react";
 import useBrouillardStore from "../../../../store/brouillard/useBrouillard.store";
 import useActivitesDepotStore from "../../../../store/activites_depot/useActivitesDepot.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const FogDetailsPage: FC = () => {
   const selectedBrouillard = useBrouillardStore(
@@ -66,6 +67,7 @@ const FogDetailsPage: FC = () => {
           expense=""
           observation=""
         />
+        <ActionResult />
       </div>
       <FogDetailsTable fogDetails={activitesDepot} />
     </div>

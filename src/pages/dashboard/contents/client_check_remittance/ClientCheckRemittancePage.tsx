@@ -9,6 +9,7 @@ import useClientsStore from "../../../../store/clients/useClients.store";
 import { FC, useEffect } from "react";
 import useClientChecksRemittanceStore from "../../../../store/remise_cheque_client/useRemiseChequeClient.store";
 import { redirect } from "react-router-dom";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const ClientCheckRemittancePage: FC = () => {
   const selectedClient = useClientsStore((state) => state.selectedClient);
@@ -38,6 +39,7 @@ const ClientCheckRemittancePage: FC = () => {
           }}
         />
         <ClientCheckRemittanceAdding description="" bank="" amount="" rest="" />
+        <ActionResult />
       </div>
       <ClientCheckRemittanceTable
         clientChecksRemittance={clientChecksRemittance}

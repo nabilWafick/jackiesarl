@@ -5,8 +5,8 @@ interface AchatClientJSON {
   categorie: string;
   montant: number;
   numero_ctp: string;
-  bordereau: string;
-  numero_bc: string;
+  bordereau: File | string;
+  numero_bc: number;
   id_client: number;
   date_achat?: string;
 }
@@ -17,8 +17,8 @@ class AchatClient {
   categorie: string;
   montant: number;
   numero_ctp: string;
-  bordereau: string;
-  numero_bc: string;
+  bordereau: File | string;
+  numero_bc: number;
   id_client: number;
   date_achat?: Date;
 
@@ -27,12 +27,11 @@ class AchatClient {
     categorie: string,
     montant: number,
     numero_ctp: string,
-    bordereau: string,
-    numero_bc: string,
+    bordereau: File | string,
+    numero_bc: number,
     id_client: number,
     id?: number,
-    date_achat?: Date,
-    
+    date_achat?: Date
   ) {
     this.id = id;
     this.quantite_achetee = quantite_achetee;
@@ -56,7 +55,7 @@ class AchatClient {
       json.numero_bc,
       json.id_client,
       json.id,
-      new Date(json.date_achat!),
+      new Date(json.date_achat!)
     );
   }
 
@@ -71,7 +70,8 @@ class AchatClient {
       bordereau: this.bordereau,
       numero_bc: this.numero_bc,
       id_client: this.id_client,
-      date_achat:this.date_achat != null ? this.date_achat!.toISOString() : undefined,
+      date_achat:
+        this.date_achat != null ? this.date_achat!.toISOString() : undefined,
     };
   }
 }

@@ -43,7 +43,7 @@ const useClientAddingForm = ({
     email: null,
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -109,7 +109,7 @@ const useClientAddingForm = ({
   };
 
   const onFormClose = () => {
-    setIsLoading(false);
+    //  setIsLoading(false);
     setFormData({
       firstname: firstname,
       lastname: lastname,
@@ -128,7 +128,7 @@ const useClientAddingForm = ({
 
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    //  setIsLoading(true);
     if (validateForm()) {
       const errors: FormErrors = {
         firstname: null,
@@ -160,17 +160,17 @@ const useClientAddingForm = ({
       } else if (response!.status == 201) {
         onFormClose();
         toggleModal("client-adding-form");
-        setActionResultMessage("Client créé avec succès");
-        toggleModal("action-result");
+        setActionResultMessage("Le client a été ajouté avec succès");
+        toggleModal("action-result-message");
       } else {
         onFormClose();
         toggleModal("client-adding-form");
-        setActionResultMessage(response!.error!);
-        toggleModal("action-result");
+        setActionResultMessage("Erreur lors de l'ajout du client");
+        toggleModal("action-result-message");
       }
     }
 
-    setIsLoading(false);
+    //  setIsLoading(false);
   };
 
   const isValidEmail = (email: string) => {
@@ -182,7 +182,7 @@ const useClientAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
-    isLoading,
+    //    isLoading,
     onFormSubmit,
     onFormClose,
   };

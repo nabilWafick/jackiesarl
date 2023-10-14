@@ -7,6 +7,7 @@ import BankAdding from "../../../../components/form/forms/bank_adding/BankAdding
 import BankAccountTable from "../../../../components/ui/dashboard/bank_account/bankAccountTable";
 import { useEffect } from "react";
 import useSoldeCourantStore from "../../../../store/solde_courant/useSoldeCourant.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const BankAccountsListPage = () => {
   const soldeCourant = useSoldeCourantStore((state) => state.soldeCourant);
@@ -40,6 +41,7 @@ const BankAccountsListPage = () => {
           }}
         />
         <BankAdding bank="" accountNumber="" currentBalence="" />
+        <ActionResult />
       </div>
       <BankAccountTable bankAccountList={soldeCourant} />
     </div>

@@ -7,6 +7,7 @@ import "../../../../assets/css/table.css";
 import PurchaseOrderStockAdding from "../../../../components/form/forms/purchase_order_stock_adding/PurchaseOrderStockAdding";
 import usePurchasesOrderStockStore from "../../../../store/stock_bon_commande/useStockBonCommande.store";
 import { useEffect } from "react";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const PurchaseOrderStockPage = () => {
   const purchasesOrderStock = usePurchasesOrderStockStore(
@@ -34,10 +35,11 @@ const PurchaseOrderStockPage = () => {
           bcNumber=""
           category=""
           purchasedQuantity=""
-          initialStock=""
+          quantityBeforeSelling=""
           sale=""
-          currentStock=""
+          quantityAfterSelling=""
         />
+        <ActionResult />
       </div>
       <PurchaseOrderStockTable purchasesOrderStock={purchasesOrderStock} />
     </div>

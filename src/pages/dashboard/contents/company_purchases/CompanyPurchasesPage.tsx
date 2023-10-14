@@ -5,6 +5,7 @@ import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleM
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
 import useCompanyPurchasesStore from "../../../../store/achat_entreprise/useAchatEntreprise.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 // const categories = [
 //   { value: "cim_benin", label: "CIM BENIN" },
@@ -21,7 +22,7 @@ const PurchasesPage: FC = () => {
 
   useEffect(() => {
     fetchAllCompanyPurchases();
-  }, []);
+  }, [fetchAllCompanyPurchases]);
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -32,6 +33,7 @@ const PurchasesPage: FC = () => {
             toggleModal("fog-adding-form");
           }}
         />
+        <ActionResult />
       </div>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall />

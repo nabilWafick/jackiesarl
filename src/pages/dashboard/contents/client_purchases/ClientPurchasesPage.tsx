@@ -9,6 +9,7 @@ import { FC, useEffect } from "react";
 import useClientPurchasesStore from "../../../../store/achat_client/useAchatClient.store";
 import { redirect } from "react-router-dom";
 import ClientPurchaseAdding from "../../../../components/form/forms/client_purchase_adding/ClientPurchaseAdding";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const ClientPurchasesPage: FC = () => {
   const selectedClient = useClientsStore((state) => state.selectedClient);
@@ -38,13 +39,14 @@ const ClientPurchasesPage: FC = () => {
           }}
         />
         <ClientPurchaseAdding
-          quantity=""
+          quantity="1111"
           category=""
           amount=""
           ctpNumber=""
           slip=""
           bcNumber=""
         />
+        <ActionResult />
       </div>
       <ClientPurchasesTable clientPurchases={clientPurchases} />
     </div>
