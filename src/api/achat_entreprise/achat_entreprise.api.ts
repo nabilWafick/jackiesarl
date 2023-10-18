@@ -1,29 +1,45 @@
 import axios from "axios";
 import AchatEntreprise from "../../models/achat_entreprise/achat_entreprise.model";
+interface AchatEntreprisePromiseResponse {
+  status: number;
+  achatEntreprise?: number;
+  error?: string;
+}
 
 interface AchatEntrepriseJson {
   bon_commande: number;
   quantite_achetee: number;
   montant: number;
   banque: string;
-  cheque: string;
-  bordereau: string;
+  cheque: number;
+  bordereau: string | File;
   date_achat?: string;
 }
 
 class AchatEntrepriseAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: AchatEntreprise) {
-    try {
-      const response = await axios.post(
-        `${AchatEntrepriseAPI.baseUrl}/achat-entreprise`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async create(
+    data: AchatEntreprise
+  ): Promise<AchatEntreprisePromiseResponse | undefined> {
+    let promiseResponse: AchatEntreprisePromiseResponse | undefined = undefined;
+
+    await axios
+      .post(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise`, data.toJson(), {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        promiseResponse = error.response.data;
+      });
+
+    return promiseResponse;
   }
 
   static async getByBonCommande(
@@ -59,27 +75,45 @@ class AchatEntrepriseAPI {
     return achatsEntrepriseList;
   }
 
-  static async update(bonCommande: number, data: AchatEntreprise) {
-    try {
-      const response = await axios.put(
+  static async update(
+    bonCommande: number,
+    data: AchatEntreprise
+  ): Promise<AchatEntreprisePromiseResponse | undefined> {
+    let promiseResponse: AchatEntreprisePromiseResponse | undefined = undefined;
+
+    await axios
+      .put(
         `${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+        data.toJson(),
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          },
+        }
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
-  static async delete(bonCommande: number) {
-    try {
-      const response = await axios.delete(
-        `${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async delete(
+    bonCommande: number
+  ): Promise<AchatEntreprisePromiseResponse | undefined> {
+    let promiseResponse: AchatEntreprisePromiseResponse | undefined = undefined;
+
+    await axios
+      .delete(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`)
+      .then((response) => {
+        promiseResponse = response;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 }
 

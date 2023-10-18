@@ -17,8 +17,8 @@ interface PaiementClientValidationJSON {
   reference: string;
   categorie: string;
   numero_bc: number;
-  bordereau: string;
-  est_valide: boolean;
+  bordereau: string | File;
+  est_valide: number;
   client: ClientsJSON;
   date_paiement?: string;
 }
@@ -30,8 +30,8 @@ class PaiementClientValidation {
   reference: string;
   categorie: string;
   numero_bc: number;
-  bordereau: string;
-  est_valide: boolean;
+  bordereau: string | File;
+  est_valide: number;
   client: Clients;
   date_paiement?: Date;
 
@@ -41,8 +41,8 @@ class PaiementClientValidation {
     reference: string,
     categorie: string,
     numero_bc: number,
-    bordereau: string,
-    est_valide: boolean,
+    bordereau: string | File,
+    est_valide: number,
     client: Clients,
     id?: number,
     date_paiement?: Date

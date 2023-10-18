@@ -1,5 +1,6 @@
 import { FC } from "react";
 import AchatEntreprise from "../../../../models/achat_entreprise/achat_entreprise.model";
+import { FaFile } from "react-icons/fa";
 interface CompanyPurchasesTableProps {
   companyPurchases: AchatEntreprise[];
 }
@@ -7,6 +8,13 @@ interface CompanyPurchasesTableProps {
 const CompanyPurchasesTable: FC<CompanyPurchasesTableProps> = ({
   companyPurchases,
 }) => {
+  const openSlipFile = (file: string) => {
+    try {
+      window.open(file, "_blank");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex flex-col justify-start w-full ">
       <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2>
@@ -28,7 +36,18 @@ const CompanyPurchasesTable: FC<CompanyPurchasesTableProps> = ({
                 <td>{companyPurchase.montant}t</td>
                 <td>{companyPurchase.banque}</td>
                 <td>{companyPurchase.cheque}</td>
-                <td>{companyPurchase.bordereau}</td>
+                <td>
+                  {companyPurchase.bordereau == "" ? (
+                    ""
+                  ) : (
+                    <FaFile
+                      className="text-secondary"
+                      onClick={() =>
+                        openSlipFile(companyPurchase.bordereau.toString())
+                      }
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

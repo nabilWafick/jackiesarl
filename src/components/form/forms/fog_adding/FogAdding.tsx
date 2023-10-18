@@ -19,7 +19,7 @@ const FogAdding: FC<FogAddingProps> = ({
   managerName,
   managerNumber,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
+  const { formData, formErrors, onInputDataChange, onFormClose, onFormSubmit } =
     useFogAddingForm({
       deposit: deposit,
       currentStock: currentStock,
@@ -60,14 +60,13 @@ const FogAdding: FC<FogAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.currentStock.toString()}
+                value={formData.currentStock}
                 name="currentStock"
                 id="currentStock"
-                type="number"
+                type="text"
                 placeholder="Stock Actuel"
                 autoComplete="currentStock"
               />
-              ,
             </div>
             {formErrors.currentStock && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -75,7 +74,6 @@ const FogAdding: FC<FogAddingProps> = ({
               </p>
             )}
           </div>
-
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
@@ -94,16 +92,15 @@ const FogAdding: FC<FogAddingProps> = ({
               </p>
             )}
           </div>
-
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.managerNumber.toString()}
+                value={formData.managerNumber}
                 name="managerNumber"
                 id="managerNumber"
-                type="number"
-                placeholder="Num Gérant"
+                type="text"
+                placeholder="Numero Gérant Ex: 00229|22954252525"
                 autoComplete="managerNumber"
               />
             </div>
@@ -117,8 +114,11 @@ const FogAdding: FC<FogAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("fog-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

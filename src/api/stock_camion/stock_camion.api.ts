@@ -1,11 +1,17 @@
 import axios from "axios";
 import StockCamion from "../../models/stock_camion/stock_camion.model";
 
+interface StockCamionPromiseResponse {
+  status: number;
+  stockCamion?: StockCamion;
+  error?: string;
+}
+
 interface StockCamionJSON {
   id?: number;
   numero_camion: string;
   categorie: string;
-  numero_chauffeur: number;
+  numero_chauffeur: string;
   numero_bc: number;
   quantite: number;
   date_approvisionnement: string;
@@ -14,16 +20,20 @@ interface StockCamionJSON {
 class StockCamionAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: StockCamion) {
-    try {
-      const response = await axios.post(
-        `${StockCamionAPI.baseUrl}/stock-camion`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async create(
+    data: StockCamion
+  ): Promise<StockCamionPromiseResponse | undefined> {
+    let promiseResponse: StockCamionPromiseResponse | undefined = undefined;
+
+    await axios
+      .post(`${StockCamionAPI.baseUrl}/stock-camion`, data.toJson())
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<StockCamion | undefined> {
@@ -56,27 +66,38 @@ class StockCamionAPI {
     return stockCamionsList;
   }
 
-  static async update(id: number, data: StockCamion) {
-    try {
-      const response = await axios.put(
-        `${StockCamionAPI.baseUrl}/stock-camion/${id}`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async update(
+    id: number,
+    data: StockCamion
+  ): Promise<StockCamionPromiseResponse | undefined> {
+    let promiseResponse: StockCamionPromiseResponse | undefined = undefined;
+
+    await axios
+      .put(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, data.toJson())
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+
+    return promiseResponse;
   }
 
-  static async delete(id: number) {
-    try {
-      const response = await axios.delete(
-        `${StockCamionAPI.baseUrl}/stock-camion/${id}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async delete(
+    id: number
+  ): Promise<StockCamionPromiseResponse | undefined> {
+    let promiseResponse: StockCamionPromiseResponse | undefined = undefined;
+
+    await axios
+      .delete(`${StockCamionAPI.baseUrl}/stock-camion/${id}`)
+      .then((response) => {
+        promiseResponse = response;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 }
 

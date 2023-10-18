@@ -10,7 +10,7 @@ import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 interface ExpenseAddingProps {
   description: string;
   amount: string;
-  piece: File;
+  piece: File | string;
 }
 
 const ExpenseAdding: FC<ExpenseAddingProps> = ({
@@ -24,6 +24,7 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
     onInputDataChange,
     onFileInputChange,
     onTextareaChange,
+    onFormClose,
     onFormSubmit,
   } = useExpenseAddingForm({
     description: description,
@@ -51,7 +52,6 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
                 id="description"
                 placeholder="Description"
               />
-              ,
             </div>
             {formErrors.description && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -64,10 +64,10 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.amount.toString()}
+                value={formData.amount}
                 name="amount"
                 id="amount"
-                type="number"
+                type="text"
                 placeholder="Montant"
                 autoComplete="amount"
               />
@@ -83,10 +83,9 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onFileInputChange}
-                //   value={formData.piece}
                 name="piece"
                 id="piece"
-                type="text"
+                type="file"
                 placeholder="Pièce"
                 autoComplete="piece"
               />
@@ -101,8 +100,11 @@ const ExpenseAdding: FC<ExpenseAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("expense-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

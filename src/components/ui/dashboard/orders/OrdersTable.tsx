@@ -1,12 +1,25 @@
 import { FC } from "react";
 import { FaCheck, FaCheckCircle, FaEdit, FaTrash } from "react-icons/fa";
 import CommandesClients from "../../../../models/commandes_client/commandes_client.store";
+import OrderUpdate from "../../../form/forms/order_update/OrderUpdate";
+import { toggleModal } from "../widgets/ToggleModal";
+import useClientsStore from "../../../../store/clients/useClients.store";
+import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import useCommandesStore from "../../../../store/commandes/useCommandes.store";
+import CommandesAPI from "../../../../api/commandes/commandes.api";
 
 interface OrdersTableProps {
   orders: CommandesClients[];
 }
 
 const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
+  const setOrderClient = useClientsStore((state) => state.setOrderClient);
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+  const fetchAllClientsOrders = useCommandesStore(
+    (state) => state.fetchAllClientsOrders
+  );
   return (
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
@@ -32,11 +45,11 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 </td>
                 <td>{order.quantite_achetee}t</td>
                 <td>{order.destination}</td>
-                <td>{order.date_commande.getDate()}</td>
-                <td>{order.date_livraison.getDate()}</td>
+                <td>{order.date_commande.toLocaleString()}</td>
+                <td>{order.date_livraison.toLocaleString()}</td>
                 <td>{order.categorie}</td>
                 <td className="">
-                  {order.est_traitee ? (
+                  {order.est_traitee == 1 ? (
                     <i className="flex justify-end">
                       <FaCheckCircle className="text-secondary" size={20} />
                     </i>
@@ -47,13 +60,52 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                   )}
                 </td>
                 <td>
+                  <OrderUpdate
+                    id={order.id!}
+                    clientName={`${order.client.prenoms} ${order.client.nom}`}
+                    quantity={order.quantite_achetee.toString()}
+                    destination={order.categorie}
+                    orderDate={order.date_commande}
+                    deliveryDate={order.date_livraison}
+                    category={order.categorie}
+                    est_traitee={order.est_traitee}
+                    modalLabel={`order-update-form-${order.id!}`}
+                  />
                   <i className="flex justify-end">
-                    <FaEdit color="green" />
+                    <FaEdit
+                      color="green"
+                      onClick={() => {
+                        setOrderClient(order.client);
+                        toggleModal(`order-update-form-${order.id!}`);
+                      }}
+                    />
                   </i>
                 </td>
                 <td>
                   <i className="flex justify-end">
-                    <FaTrash color="red" />
+                    <FaTrash
+                      color="red"
+                      onClick={async () => {
+                        const response = await CommandesAPI.delete(order.id!);
+                        if (response!.status == 204) {
+                          setActionResultMessage(
+                            "La commande a été supprimée avec succès"
+                          );
+                          toggleModal("action-result-message");
+                          fetchAllClientsOrders();
+                        } else if (response!.status == 404) {
+                          setActionResultMessage(
+                            "La commande n'a pas été trouvée"
+                          );
+                          toggleModal("action-result-message");
+                        } else {
+                          setActionResultMessage(
+                            "Erreur lors de la suppression de la commande"
+                          );
+                          toggleModal("action-result-message");
+                        }
+                      }}
+                    />
                   </i>
                 </td>
               </tr>

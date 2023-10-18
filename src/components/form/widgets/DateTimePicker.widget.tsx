@@ -1,16 +1,19 @@
 import { FC } from "react";
+//import { fr } from "date-fns/locale";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 interface JSDateTimePickerProps {
   id: string;
   name: string;
+  placeholder: string;
   selectedDate: Date | null;
-  onChange: (name: string, date: Date | null) => void;
+  onChange: (date: Date | null) => void;
 }
 
 const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
   id,
   name,
+  placeholder,
   selectedDate,
   onChange,
 }) => {
@@ -19,7 +22,9 @@ const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
       id={id}
       name={name}
       selected={selectedDate}
+      placeholder={placeholder}
       onChange={onChange}
+      // locale={fr}
       showTimeSelect
       dateFormat="Pp"
       timeIntervals={15}

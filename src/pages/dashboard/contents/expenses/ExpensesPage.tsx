@@ -6,6 +6,7 @@ import "../../../../assets/css/table.css";
 import ExpenseAdding from "../../../../components/form/forms/expense_adding/ExpenseAdding";
 import { FC, useEffect } from "react";
 import useDepensesStore from "../../../../store/depenses/useDepenses.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const ExpensesPage: FC = () => {
   const depenses = useDepensesStore((state) => state.depenses);
@@ -35,6 +36,7 @@ const ExpensesPage: FC = () => {
         />
 
         <ExpenseAdding description="" amount="" piece="" />
+        <ActionResult />
       </div>
       <ExpensesTable expensesList={depenses} />
     </div>

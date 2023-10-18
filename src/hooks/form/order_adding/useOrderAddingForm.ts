@@ -1,8 +1,12 @@
 import { useState } from "react";
+import CommandesAPI from "../../../api/commandes/commandes.api";
+import Commandes from "../../../models/commandes/commandes.model";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useClientsStore from "../../../store/clients/useClients.store";
 
 interface FormData {
-  firstname: string;
-  lastname: string;
+  clientName: string;
   quantity: string;
   destination: string;
   orderDate: Date | null;
@@ -11,8 +15,7 @@ interface FormData {
 }
 
 interface FormErrors {
-  firstname: string | null;
-  lastname: string | null;
+  clientName: string | null;
   quantity: string | null;
   destination: string | null;
   orderDate: string | null;
@@ -21,8 +24,7 @@ interface FormErrors {
 }
 
 const useOrderAddingForm = ({
-  firstname,
-  lastname,
+  clientName,
   quantity,
   destination,
   orderDate,
@@ -30,8 +32,7 @@ const useOrderAddingForm = ({
   category,
 }: FormData) => {
   const [formData, setFormData] = useState<FormData>({
-    firstname: firstname,
-    lastname: lastname,
+    clientName: clientName,
     quantity: quantity,
     destination: destination,
     orderDate: orderDate,
@@ -40,14 +41,23 @@ const useOrderAddingForm = ({
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
-    firstname: null,
-    lastname: "",
+    clientName: null,
     quantity: null,
     destination: null,
     orderDate: null,
     deliveryDate: null,
     category: null,
   });
+
+  const orderClient = useClientsStore((state) => state.orderClient);
+  const setOrderClient = useClientsStore((state) => state.setOrderClient);
+  const searchClients = useClientsStore((state) => state.searchClients);
+  const refreshSearchedClients = useClientsStore(
+    (state) => state.refreshSearchedClients
+  );
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -57,17 +67,43 @@ const useOrderAddingForm = ({
       [name]: value,
     });
   };
-  const onDateInputChange = (name: string, dateValue: Date | null) => {
+
+  const onClientNameInputDataChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: dateValue,
+      [name]: value,
+    });
+
+    searchClients(value);
+  };
+
+  const updateClientNameFormData = (selectedClientName: string) => {
+    setFormData({
+      ...formData,
+      clientName: selectedClientName,
+    });
+  };
+
+  const onOrderDateInputChange = (dateValue: Date | null) => {
+    setFormData({
+      ...formData,
+      orderDate: dateValue,
+    });
+  };
+
+  const onDeliveryDateInputChange = (dateValue: Date | null) => {
+    setFormData({
+      ...formData,
+      deliveryDate: dateValue,
     });
   };
 
   const validateForm = () => {
     const errors: FormErrors = {
-      firstname: null,
-      lastname: null,
+      clientName: null,
       quantity: null,
       destination: null,
       orderDate: null,
@@ -75,22 +111,19 @@ const useOrderAddingForm = ({
       category: null,
     };
 
-    if (!formData.firstname.trim()) {
-      errors.firstname = "Le nom est requis";
-    } else if (formData.firstname.trim().length < 3) {
-      errors.firstname = "Le nom doit comporter au moins 3 caractères.";
-    }
-
     // Validation pour lastname (chaîne de caractères)
-    if (!formData.lastname.trim()) {
-      errors.lastname = "Le nom est requis";
-    } else if (formData.lastname.trim().length < 3) {
-      errors.lastname = "Le nom doit comporter au moins 3 caractères.";
+    if (!formData.clientName.trim()) {
+      errors.clientName = "Le nom est requis";
     }
 
     // Validation pour quantity (chaîne de caractères)
     if (!formData.quantity.trim()) {
       errors.quantity = "La quantité est requise";
+    } else {
+      const numValue = Number(quantity);
+      if (isNaN(numValue)) {
+        errors.quantity = "La quantité doit être un nombre";
+      }
     }
 
     // Validation pour destination (chaîne de caractères)
@@ -130,10 +163,14 @@ const useOrderAddingForm = ({
       }
     }
 
+    if (!orderClient) {
+      errors.clientName = "Le nom du client est requis";
+    }
+
     setFormErrors(errors);
 
     return (
-      !errors.firstname &&
+      !errors.clientName &&
       !errors.quantity &&
       !errors.destination &&
       !errors.orderDate &&
@@ -142,19 +179,76 @@ const useOrderAddingForm = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      clientName: clientName,
+      quantity: quantity,
+      destination: destination,
+      orderDate: orderDate,
+      deliveryDate: deliveryDate,
+      category: category,
+    });
+    setFormErrors({
+      clientName: null,
+      quantity: null,
+      destination: null,
+      orderDate: null,
+      deliveryDate: null,
+      category: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        clientName: null,
+        quantity: null,
+        destination: null,
+        orderDate: null,
+        deliveryDate: null,
+        category: null,
+      });
+
+      const response = await CommandesAPI.create(
+        new Commandes(
+          formData.category,
+          parseFloat(formData.quantity),
+          formData.destination,
+          new Date(formData.orderDate!),
+          new Date(formData.deliveryDate!),
+          0,
+          orderClient!.id!
+        )
+      );
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("order-adding-form");
+        setActionResultMessage("La commande a été ajoutée avec succès");
+        // console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("order-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout de la commande");
+        toggleModal("action-result-message");
+      }
     }
+
+    setOrderClient(undefined);
+    refreshSearchedClients();
   };
 
   return {
     formData,
     formErrors,
     onInputDataChange,
-    onDateInputChange,
+    updateClientNameFormData,
+    onClientNameInputDataChange,
+    onOrderDateInputChange,
+    onDeliveryDateInputChange,
+    onFormClose,
     onFormSubmit,
   };
 };

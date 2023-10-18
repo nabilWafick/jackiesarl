@@ -1,11 +1,19 @@
 import { FC } from "react";
 import PaiementClientValidation from "../../../../models/paiement_client_validation/paiement_client_validation.model";
+import { FaFile } from "react-icons/fa";
 
 interface ClientsPaymentsTableProps {
   clientsPayments: PaiementClientValidation[];
 }
 
 const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
+  const openSlipFile = (file: string) => {
+    try {
+      window.open(file, "_blank");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex flex-col justify-start w-full ">
       <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
@@ -31,7 +39,18 @@ const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
                 <td>{clientsPayment.reference}</td>
                 <td>{clientsPayment.categorie}</td>
                 <td>{clientsPayment.numero_bc}</td>
-                <td>{clientsPayment.bordereau}</td>
+                <td>
+                  {clientsPayment.bordereau == "" ? (
+                    ""
+                  ) : (
+                    <FaFile
+                      className="text-secondary"
+                      onClick={() =>
+                        openSlipFile(clientsPayment.bordereau.toString())
+                      }
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

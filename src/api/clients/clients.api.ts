@@ -61,6 +61,22 @@ class ClientsAPI {
     return client;
   }
 
+  static async getAllMatched(name: string): Promise<Clients[]> {
+    let clientsList: Clients[] = [];
+    await axios
+      .get(`${ClientsAPI.baseUrl}/clients/search/${name}`)
+      .then((response) => {
+        clientsList = response.data.map((client: ClientsJSON) =>
+          Clients.fromJson(client)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Clients[];
+      });
+    return clientsList;
+  }
+
   static async getAll(): Promise<Clients[]> {
     let clientsList: Clients[] = [];
     await axios

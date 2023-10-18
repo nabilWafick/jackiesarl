@@ -1,9 +1,13 @@
 import { useState } from "react";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import DepensesAPI from "../../../api/depenses/depenses.api";
+import Depenses from "../../../models/depenses/depenses.model";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 
 interface FormData {
   description: string;
   amount: string;
-  piece: File;
+  piece: File | string;
 }
 
 interface FormErrors {
@@ -24,6 +28,10 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
     amount: null,
     piece: null,
   });
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -71,22 +79,25 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
     } else {
-      const valeurNumériqueamount = parseFloat(formData.amount);
-      if (isNaN(valeurNumériqueamount)) {
+      const numericValue = parseFloat(formData.amount);
+      if (isNaN(numericValue)) {
         errors.amount = "Le montant doit être un nombre valide.";
       }
     }
 
-    // Validation pour piece (fichier)
-    // Validation pour piece (fichier)
-    if (!formData.piece) {
-      errors.piece = "La pièce est requise";
-    } else {
-      // Vérifiez le type du fichier
-      const typesDeFichierAutorisés = ["application/pdf", "application/msword"];
-      if (!typesDeFichierAutorisés.includes(formData.piece.type)) {
-        errors.piece = "Le type de fichier doit être PDF ou Word.";
-      }
+    const allowedFileTypes = [
+      "image/png",
+      "image/jpg",
+      "application/image/jpeg",
+      "application/pdf",
+      "application/msword",
+    ];
+    if (
+      typeof formData.piece != "string" &&
+      !allowedFileTypes.includes(formData.piece.type)
+    ) {
+      errors.piece =
+        "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
     }
 
     setFormErrors(errors);
@@ -94,11 +105,50 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
     return !errors.description && !errors.amount && !errors.piece;
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      description: description,
+      amount: amount,
+      piece: piece,
+    });
+    setFormErrors({
+      description: null,
+      amount: null,
+      piece: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        description: null,
+        amount: null,
+        piece: null,
+      });
+
+      const response = await DepensesAPI.create(
+        new Depenses(
+          formData.description,
+          parseFloat(formData.amount),
+          formData.piece,
+          0
+        )
+      );
+
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("expense-adding-form");
+        setActionResultMessage("La dépense a été ajoutée avec succès");
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("expense-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout de la dépense");
+        toggleModal("action-result-message");
+      }
     }
   };
 
@@ -108,6 +158,7 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
     onInputDataChange,
     onFileInputChange,
     onTextareaChange,
+    onFormClose,
     onFormSubmit,
   };
 };

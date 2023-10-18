@@ -4,6 +4,7 @@ import DateIntervall from "../../../../components/ui/dashboard/widgets/DateInter
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
 import useclientsPaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const PaymentsValidationsPage: FC = () => {
   const clientsPaymentsValidation = useclientsPaymentsValidationStore(
@@ -29,6 +30,7 @@ const PaymentsValidationsPage: FC = () => {
             { value: "unvalidate", label: "Non Validé" },
           ]}
         />
+        <ActionResult />
       </div>
       <PaymentsValidationsTable
         clientsPaymentsValidations={clientsPaymentsValidation}

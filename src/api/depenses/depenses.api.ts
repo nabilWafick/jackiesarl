@@ -1,28 +1,42 @@
 import axios from "axios";
 import Depenses from "../../models/depenses/depenses.model";
 
+interface DepensesPromiseResponse {
+  status: number;
+  depense?: Depenses;
+  error?: string;
+}
+
 interface DepensesJSON {
   id?: number;
   description: string;
   montant: number;
-  piece: string;
-  est_validee: boolean;
-  date_depense: string;
+  piece: string | File;
+  est_validee: number;
+  date_depense?: string;
 }
 
 class DepensesAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: Depenses) {
-    try {
-      const response = await axios.post(
-        `${DepensesAPI.baseUrl}/depenses`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async create(
+    data: Depenses
+  ): Promise<DepensesPromiseResponse | undefined> {
+    let promiseResponse: DepensesPromiseResponse | undefined = undefined;
+
+    await axios
+      .post(`${DepensesAPI.baseUrl}/depenses`, data.toJson(), {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+        },
+      })
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<Depenses | undefined> {
@@ -55,27 +69,43 @@ class DepensesAPI {
     return depensesList;
   }
 
-  static async update(id: number, data: Depenses) {
-    try {
-      const response = await axios.put(
-        `${DepensesAPI.baseUrl}/depenses/${id}`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async update(
+    id: number,
+    data: Depenses
+  ): Promise<DepensesPromiseResponse | undefined> {
+    let promiseResponse: DepensesPromiseResponse | undefined = undefined;
+
+    await axios
+      .put(`${DepensesAPI.baseUrl}/depenses/${id}`, data.toJson(), {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+        },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        // console.log(error);
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
-  static async delete(id: number) {
-    try {
-      const response = await axios.delete(
-        `${DepensesAPI.baseUrl}/depenses/${id}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async delete(
+    id: number
+  ): Promise<DepensesPromiseResponse | undefined> {
+    let promiseResponse: DepensesPromiseResponse | undefined = undefined;
+
+    await axios
+      .delete(`${DepensesAPI.baseUrl}/depenses/${id}`)
+      .then((response) => {
+        promiseResponse = response;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 }
 

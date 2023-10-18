@@ -1,4 +1,9 @@
 import { useState } from "react";
+import PaiementClientAPI from "../../../api/paiement_client/paiement_client.api";
+import PaiementClient from "../../../models/paiement_client/paiement.model";
+import useClientsStore from "../../../store/clients/useClients.store";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 
 interface FormData {
   bcNumber: string;
@@ -43,6 +48,10 @@ const useClientPaymentAddingForm = ({
     reference: null,
     slip: null,
   });
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+  const selectedClient = useClientsStore((state) => state.selectedClient);
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -97,9 +106,11 @@ const useClientPaymentAddingForm = ({
         errors.amount = "Le montant doit être un nombre valide.";
       }
     }
-
+ 
     if (!formData.bank.trim()) {
       errors.bank = "La banque est requise";
+    } else if (formData.bank.trim().length < 3) {
+      errors.bank = "La banque doit contenir au moins 3 trois caractères";
     }
 
     if (!formData.reference.trim()) {
@@ -108,15 +119,21 @@ const useClientPaymentAddingForm = ({
       errors.reference = "La référence doit contenir au moins 3 caractères.";
     }
 
-    if (!formData.slip) {
-      errors.slip = "Le bordereau est requis";
-    } else if (
+    // if (!formData.slip) {
+    //   errors.slip = "Le bordereau est requis";
+    // } else
+    const allowedFileTypes = [
+      "image/png",
+      "image/jpg",
+      "application/image/jpeg",
+      "application/pdf",
+      "application/msword",
+    ];
+    if (
       typeof formData.slip != "string" &&
-      formData.slip.type !== "application/pdf" &&
-      formData.slip.type !== "application/msword"
+      !allowedFileTypes.includes(formData.slip.type)
     ) {
-      errors.slip =
-        "Le type de fichier n'est pas pris en charge. Veuillez télécharger un fichier PDF ou Word.";
+      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
     }
 
     setFormErrors(errors);
@@ -131,11 +148,65 @@ const useClientPaymentAddingForm = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      bcNumber: bcNumber,
+      category: category,
+      amount: amount,
+      bank: bank,
+      reference: reference,
+      slip: slip,
+    });
+
+    setFormErrors({
+      bcNumber: null,
+      category: null,
+      amount: null,
+      bank: null,
+      reference: null,
+      slip: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        bcNumber: null,
+        category: null,
+        amount: null,
+        bank: null,
+        reference: null,
+        slip: null,
+      });
+
+      const response = await PaiementClientAPI.create(
+        new PaiementClient(
+          parseFloat(formData.amount),
+          formData.bank,
+          formData.reference,
+          formData.category,
+          parseInt(formData.bcNumber),
+          formData.slip,
+          0,
+          selectedClient!.id!
+        )
+      );
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("client-payment-adding-form");
+        setActionResultMessage(
+          "Le paiement du client a été ajouté avec succès"
+        );
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("client-payment-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout du paiement du client");
+        toggleModal("action-result-message");
+      }
     }
   };
 
@@ -144,6 +215,7 @@ const useClientPaymentAddingForm = ({
     formErrors,
     onInputDataChange,
     onFileInputChange,
+    onFormClose,
     onFormSubmit,
   };
 };

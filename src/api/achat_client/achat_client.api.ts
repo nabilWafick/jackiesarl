@@ -1,7 +1,7 @@
 import axios from "axios";
 import AchatClient from "../../models/achat_client/achat_client.model";
 
-interface CreateAchatClientPromiseResponse {
+interface AchatClientPromiseResponse {
   status: number;
   achatClient?: AchatClientJSON;
   error?: string;
@@ -30,9 +30,8 @@ class AchatClientAPI {
 */
   static async create(
     data: AchatClient
-  ): Promise<CreateAchatClientPromiseResponse | undefined> {
-    let promiseResponse: CreateAchatClientPromiseResponse | undefined =
-      undefined;
+  ): Promise<AchatClientPromiseResponse | undefined> {
+    let promiseResponse: AchatClientPromiseResponse | undefined = undefined;
 
     await axios
       .post(
@@ -102,27 +101,46 @@ class AchatClientAPI {
     return achatsClientList;
   }
 
-  static async update(id: number, data: AchatClient) {
-    try {
-      const response = await axios.put(
-        `${AchatClientAPI.baseUrl}/achat-client/${id}`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async update(
+    id: number,
+    data: AchatClient
+  ): Promise<AchatClientPromiseResponse | undefined> {
+    let promiseResponse: AchatClientPromiseResponse | undefined = undefined;
+
+    await axios
+      .put(`${AchatClientAPI.baseUrl}/achat-client/${id}`, data.toJson(), {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+        },
+      })
+      .then((response) => {
+        promiseResponse = response.data;
+        console.log(response.data);
+      })
+
+      .catch((error) => {
+        promiseResponse = error.response.data;
+        console.error(error);
+      });
+    return promiseResponse;
   }
 
-  static async delete(id: number) {
-    try {
-      const response = await axios.delete(
-        `${AchatClientAPI.baseUrl}/achat-client/${id}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async delete(
+    id: number
+  ): Promise<AchatClientPromiseResponse | undefined> {
+    let promiseResponse: AchatClientPromiseResponse | undefined = undefined;
+
+    await axios
+      .delete(`${AchatClientAPI.baseUrl}/achat-client/${id}`)
+      .then((response) => {
+        promiseResponse = response;
+        console.log(response);
+      })
+      .catch((error) => {
+        promiseResponse = error.response;
+        console.log(error.response.data);
+      });
+    return promiseResponse;
   }
 }
 

@@ -8,7 +8,7 @@ interface FogDetailsTableProps {
 const FogDetailsTable: FC<FogDetailsTableProps> = ({ fogDetails }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
-      <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2>
+      {/* <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2> */}
       <div
         className="
         flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md"

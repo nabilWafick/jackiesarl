@@ -7,6 +7,7 @@ interface JSInputProps {
   placeholder: string;
   autoComplete?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEventHandler<HTMLInputElement>) => void;
 }
 
 const JSInput: FC<JSInputProps> = ({
@@ -17,6 +18,7 @@ const JSInput: FC<JSInputProps> = ({
   placeholder,
   autoComplete,
   onChange,
+  //onKeyDown,
 }) => {
   return (
     <input

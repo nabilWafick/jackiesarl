@@ -1,11 +1,20 @@
 import { FC } from "react";
 import Depenses from "../../../../models/depenses/depenses.model";
+import { FaFile } from "react-icons/fa";
 
 interface ExpensesTableProps {
   expensesList: Depenses[];
 }
 
 const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
+  const openSlipFile = (file: string) => {
+    try {
+      window.open(file, "_blank");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-start w-full ">
       <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2>
@@ -19,12 +28,21 @@ const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
               <td className="font-medium">Pièce</td>
             </tr>
 
-            {expensesList.map((expenses) => (
-              <tr key={expenses.id}>
+            {expensesList.map((expense) => (
+              <tr key={expense.id}>
                 {/* <td>01-04-2025</td> */}
-                <td>{expenses.description}</td>
-                <td>{expenses.montant}</td>
-                <td>{expenses.piece}</td>
+                <td>{expense.description}</td>
+                <td>{expense.montant}</td>
+                <td>
+                  {expense.piece == "" ? (
+                    ""
+                  ) : (
+                    <FaFile
+                      className="text-secondary"
+                      onClick={() => openSlipFile(expense.piece.toString())}
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

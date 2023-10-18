@@ -1,4 +1,9 @@
 import { useState } from "react";
+import ActivitesDepotAPI from "../../../api/activites_depot/activites_depot.api";
+import ActivitesDepot from "../../../models/activites_depot/activites_depot.model";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useBrouillardStore from "../../../store/brouillard/useBrouillard.store";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 
 interface FormData {
   quantityBeforeSelling: string;
@@ -43,6 +48,14 @@ const useFogDetailsAddingForm = ({
     expense: null,
     observation: null,
   });
+
+  const selectedBrouillard = useBrouillardStore(
+    (state) => state.selectedBrouillard
+  );
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -147,11 +160,62 @@ const useFogDetailsAddingForm = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      quantityBeforeSelling: quantityBeforeSelling,
+      sale: sale,
+      quantityAfterSelling: quantityAfterSelling,
+      payment: payment,
+      expense: expense,
+      observation: observation,
+    });
+    setFormErrors({
+      quantityBeforeSelling: null,
+      sale: null,
+      quantityAfterSelling: null,
+      payment: null,
+      expense: null,
+      observation: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        quantityBeforeSelling: null,
+        sale: null,
+        quantityAfterSelling: null,
+        payment: null,
+        expense: null,
+        observation: null,
+      });
+
+      const response = await ActivitesDepotAPI.create(
+        new ActivitesDepot(
+          selectedBrouillard!.id!,
+          parseFloat(formData.quantityBeforeSelling),
+          parseFloat(formData.sale),
+          parseFloat(formData.quantityAfterSelling),
+          parseFloat(formData.payment),
+          parseFloat(formData.expense),
+          formData.observation
+        )
+      );
+
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("fog-details-adding-form");
+        setActionResultMessage("L'activité du dépôt a été ajouté avec succès");
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("fog-details-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout de l'activité du dépôt");
+        toggleModal("action-result-message");
+      }
     }
   };
 
@@ -160,6 +224,7 @@ const useFogDetailsAddingForm = ({
     formErrors,
     onInputDataChange,
     onTextareaChange,
+    onFormClose,
     onFormSubmit,
   };
 };

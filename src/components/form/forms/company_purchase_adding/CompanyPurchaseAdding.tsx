@@ -12,7 +12,7 @@ interface CompanyPurchasseAddingProps {
   amount: string;
   bank: string;
   check: string;
-  slip: File;
+  slip: File | string;
 }
 
 const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
@@ -28,6 +28,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
     formErrors,
     onInputDataChange,
     onFileInputChange,
+    onFormClose,
     onFormSubmit,
   } = useCompanyPurchaseForm({
     bcNumber: bcNumber,
@@ -55,7 +56,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
                 value={formData.bcNumber.toString()}
                 name="bcNumber"
                 id="bcNumber"
-                type="number"
+                type="text"
                 placeholder="Bon de Commande"
                 autoComplete="bcNumber"
               />
@@ -74,7 +75,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
                 value={formData.purchasedQuantity.toString()}
                 name="purchasedQuantity"
                 id="purchasedQuantity"
-                type="number"
+                type="text"
                 placeholder="Quantité Achetée"
                 autoComplete="purchasedQuantity"
               />
@@ -93,7 +94,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
                 value={formData.amount.toString()}
                 name="amount"
                 id="amount"
-                type="number"
+                type="text"
                 placeholder="Montant"
                 autoComplete="amount"
               />
@@ -128,13 +129,13 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.check.toString()}
+                value={formData.check}
                 name="check"
                 id="check"
-                type="number"
+                type="text"
                 placeholder="Chèque"
                 autoComplete="check"
-              />{" "}
+              />
             </div>
             {formErrors.check && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -150,7 +151,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
                 //    value={formData.slip}
                 name="slip"
                 id="slip"
-                type="text"
+                type="file"
                 placeholder="Bordereau"
                 autoComplete="slip"
               />
@@ -165,8 +166,11 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("company-purchase-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("company-purchase-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

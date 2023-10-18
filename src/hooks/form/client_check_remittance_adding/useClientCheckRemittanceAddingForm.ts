@@ -1,4 +1,9 @@
 import { useState } from "react";
+import RemiseChequeClientAPI from '../../../api/remise_cheque_client/remise_cheque_client.api';
+import RemiseChequeClient from "../../../models/remise_cheque_client/remise_cheque_client.model";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useClientsStore from "../../../store/clients/useClients.store";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 
 interface FormData {
   description: string;
@@ -33,6 +38,12 @@ const useClientCheckRemittanceAddingForm = ({
     amount: null,
     rest: null,
   });
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+  const selectedClient = useClientsStore((state) => state.selectedClient);
+
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,11 +109,54 @@ const useClientCheckRemittanceAddingForm = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      description: description,
+      bank: bank,
+      amount: amount,
+      rest: rest,
+    })
+
+    setFormErrors({
+      description: null,
+      bank: null,
+      amount: null,
+      rest: null,
+    })
+  }
+
+  const onFormSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        description: null,
+        bank: null,
+        amount: null,
+        rest: null,
+      })
+    
+      const response = await RemiseChequeClientAPI.create(
+        new RemiseChequeClient(formData.description,formData.bank,parseFloat(formData.amount),parseFloat(formData.rest),0,selectedClient!.id!)
+      )
+
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("client-check-remittance-adding-form");
+        setActionResultMessage(
+          "La remise de chèque du client a été ajoutée avec succès"
+        );
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("client-check-remittance-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout du remise de chèque du client");
+        toggleModal("action-result-message");
+      }
+
+      
     }
   };
 
@@ -111,6 +165,7 @@ const useClientCheckRemittanceAddingForm = ({
     formErrors,
     onInputDataChange,
     onTextareaChange,
+    onFormClose,
     onFormSubmit,
   };
 };

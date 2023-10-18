@@ -1,8 +1,11 @@
 import { useState } from "react";
+import Brouillard from "../../../models/brouillard/brouillard.model";
+import BrouillardAPI from "../../../api/brouillard/brouillard.api";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 
 interface FormData {
   deposit: string;
-
   currentStock: string;
   managerName: string;
   managerNumber: string;
@@ -34,6 +37,10 @@ const useFogAddingForm = ({
     managerName: null,
     managerNumber: null,
   });
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,12 +82,12 @@ const useFogAddingForm = ({
         "Le nom du gérant doit comporter au moins 3 caractères.";
     }
 
+    const beninPhoneRegex = /^(\+229|00229)[45679]\d{7}$/; // Format de numéro
     // Validation pour managerNumber (nombre)
     if (!formData.managerNumber.trim()) {
       errors.managerNumber = "Le numéro du gérant n'est pas acceptable";
     } else {
-      const valeurNumeriqueManagerNumber = parseFloat(formData.managerNumber);
-      if (isNaN(valeurNumeriqueManagerNumber)) {
+      if (!beninPhoneRegex.test(formData.managerNumber.trim())) {
         errors.managerNumber =
           "Le numéro du gérant doit être un nombre valide.";
       }
@@ -96,11 +103,53 @@ const useFogAddingForm = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      deposit: deposit,
+      currentStock: currentStock,
+      managerName: managerName,
+      managerNumber: managerNumber,
+    });
+    setFormErrors({
+      deposit: null,
+      currentStock: null,
+      managerName: null,
+      managerNumber: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        deposit: null,
+        currentStock: null,
+        managerName: null,
+        managerNumber: null,
+      });
+
+      const response = await BrouillardAPI.create(
+        new Brouillard(
+          formData.deposit,
+          parseFloat(formData.currentStock),
+          formData.managerName,
+          formData.managerNumber
+        )
+      );
+
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("fog-adding-form");
+        setActionResultMessage("Le dépôt a été ajouté avec succès");
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("fog-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout du dépôt");
+        toggleModal("action-result-message");
+      }
     }
   };
 
@@ -108,6 +157,7 @@ const useFogAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onFormClose,
     onFormSubmit,
   };
 };

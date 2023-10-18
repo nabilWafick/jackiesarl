@@ -18,7 +18,7 @@ interface CommandesClientsJSON {
   destination: number;
   date_commande: string; // Une chaîne de caractères pour la date au format ISO
   date_livraison: string; // Une chaîne de caractères pour la date de livraison au format ISO
-  est_traitee: boolean;
+  est_traitee: number;
   client: ClientsJSON;
   date_ajout?: string;
 }
@@ -30,7 +30,7 @@ class CommandesClients {
   destination: number;
   date_commande: Date;
   date_livraison: Date;
-  est_traitee: boolean;
+  est_traitee: number;
   client: Clients;
   date_ajout?: Date;
 
@@ -40,7 +40,7 @@ class CommandesClients {
     destination: number,
     date_commande: Date,
     date_livraison: Date,
-    est_traitee: boolean,
+    est_traitee: number,
     client: Clients,
     id?: number,
     date_ajout?: Date

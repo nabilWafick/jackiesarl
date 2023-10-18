@@ -1,5 +1,11 @@
 import axios from "axios";
-import StockBonCommande from "../../models/stock_bon_commande/stock_bon_commande.model";
+import StockBonCommande from '../../models/stock_bon_commande/stock_bon_commande.model';
+interface StockBonCommandePromiseResponse{
+  status: number,
+  stockBonCommande?: StockBonCommande,
+  error?: string;
+}
+
 
 interface StockBonCommandeJSON {
   id?: number;
@@ -15,16 +21,19 @@ interface StockBonCommandeJSON {
 class StockBonCommandeAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: StockBonCommande) {
-    try {
-      const response = await axios.post(
+  static async create(data: StockBonCommande): Promise<StockBonCommandePromiseResponse | undefined> {
+    let promiseResponse : StockBonCommandePromiseResponse | undefined = undefined
+    
+      await axios.post(
         `${StockBonCommandeAPI.baseUrl}/stock-bon-commande`,
         data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+      ).then(response => {
+      promiseResponse = response.data
+      })
+    .catch( (error)=> {
+     promiseResponse = error.response.data
+    })
+    return promiseResponse
   }
 
   static async getById(id: number): Promise<StockBonCommande | undefined> {

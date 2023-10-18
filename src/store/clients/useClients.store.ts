@@ -5,11 +5,18 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 interface ClientsStore {
   clients: Clients[];
+  searchedClients: Clients[];
   clientsPerDay: Map<string, Clients[]>;
   selectedClient: Clients | undefined;
+  orderClient: Clients | undefined;
+  paymentValidationClient: Clients | undefined;
   isLoading: boolean;
   fetchAllClients: () => void;
+  searchClients: (name: string) => void;
+  refreshSearchedClients: () => void;
   setSelectedClient: (client: Clients) => void;
+  setOrderClient: (client: Clients | undefined) => void;
+  setPaymentValidationClient: (client: Clients | undefined) => void;
   sortClientsNameByASC: () => void;
   sortClientsNameByDESC: () => void;
   sortClientsByDate: () => void;
@@ -24,18 +31,36 @@ const useClientsStore = create<ClientsStore>()(
   persist(
     (set, get) => ({
       clients: [],
+      searchedClients: [],
       clientsPerDay: new Map(),
       selectedClient: undefined,
+      orderClient: undefined,
+      paymentValidationClient: undefined,
       isLoading: false,
       fetchAllClients: async () => {
         const clientsList: Clients[] = await ClientsAPI.getAll();
         //  console.log(clientsList)
         set(() => ({ clients: clientsList }));
       },
+      searchClients: async (name: string) => {
+        const clientsMatchedName = await ClientsAPI.getAllMatched(name);
+        set(() => ({ searchedClients: clientsMatchedName }));
+      },
+
+      refreshSearchedClients: () => {
+        set(() => ({ searchedClients: [] }));
+      },
+
       setSelectedClient: (client) => {
         set(() => ({ selectedClient: client }));
         const selectedClient = get().selectedClient;
         console.log("selectedClient", selectedClient);
+      },
+      setOrderClient: (client: Clients | undefined) => {
+        set(() => ({ orderClient: client }));
+      },
+      setPaymentValidationClient: (client: Clients | undefined) => {
+        set(() => ({ paymentValidationClient: client }));
       },
       sortClientsNameByASC: () => {
         set((state) => {

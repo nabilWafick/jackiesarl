@@ -25,6 +25,7 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
     formErrors,
     onInputDataChange,
     onTextareaChange,
+    onFormClose,
     onFormSubmit,
   } = useCurrentBalenceDetailsAddingForm({
     description: description,
@@ -40,13 +41,13 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
         "
         >
           <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
-            option
+            Activité
           </div>
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
-                onChange={() => {}}
+                onChange={onTextareaChange}
                 value={formData.description}
                 name="description"
                 id="description"
@@ -54,7 +55,7 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
               />
             </div>
             {formErrors.description && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.description}
               </p>
             )}
@@ -64,10 +65,10 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.debit.toString()}
+                value={formData.debit}
                 name="debit"
                 id="debit"
-                type="number"
+                type="text"
                 placeholder="Débit"
                 autoComplete="debit"
               />
@@ -81,19 +82,18 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JsTextarea
-                onChange={onTextareaChange}
-                value={formData.description}
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.credit}
                 name="credit"
                 id="credit"
-                //  type="number"
+                type="text"
                 placeholder="Crédit"
                 autoComplete="credit"
               />
-              ,
             </div>
             {formErrors.credit && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.credit}
               </p>
             )}
@@ -103,17 +103,16 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.currentBalence.toString()}
+                value={formData.currentBalence}
                 name="currentBalence"
                 id="currentBalence"
-                type="number"
+                type="text"
                 placeholder="Solde actuel"
                 autoComplete="currentBalence"
               />
-              ,
             </div>
             {formErrors.currentBalence && (
-              <p className="erreur ml-1.5 text-[11px] text-gray-700">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.currentBalence}
               </p>
             )}
@@ -122,8 +121,11 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("current-balence-details-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

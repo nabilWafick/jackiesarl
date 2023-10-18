@@ -3,7 +3,7 @@ interface StockCamionJSON {
     id?: number;
     numero_camion: string;
     categorie: string;
-    numero_chauffeur: number;
+    numero_chauffeur: string;
     numero_bc: number;
     quantite: number;
     date_approvisionnement?: string; // Une chaîne de caractères pour la date au format ISO
@@ -13,7 +13,7 @@ interface StockCamionJSON {
     id?: number;
     numero_camion: string;
     categorie: string;
-    numero_chauffeur: number;
+    numero_chauffeur: string;
     numero_bc: number;
     quantite: number;
     date_approvisionnement?: Date;
@@ -22,7 +22,7 @@ interface StockCamionJSON {
       
       numero_camion: string,
       categorie: string,
-      numero_chauffeur: number,
+      numero_chauffeur: string,
       numero_bc: number,
       quantite: number,
       id?: number,

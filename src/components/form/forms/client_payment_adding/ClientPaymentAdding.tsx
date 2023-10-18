@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useClientPaymentAddingForm from "../../../../hooks/form/client_payment_adding/useClientPaymentAdding";
+import useClientPaymentAddingForm from "../../../../hooks/form/client_payment_adding/useClientPaymentAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
@@ -28,6 +28,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
     formErrors,
     onInputDataChange,
     onFileInputChange,
+    onFormClose,
     onFormSubmit,
   } = useClientPaymentAddingForm({
     bcNumber: bcNumber,
@@ -56,8 +57,8 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
                 value={formData.bcNumber.toString()}
                 name="bcNumber"
                 id="bcNumber"
-                type="number"
-                placeholder="Numéro BC"
+                type="text"
+                placeholder="Bon de Commande"
                 autoComplete="bcNumber"
               />
             </div>
@@ -94,7 +95,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
                 value={formData.amount.toString()}
                 name="amount"
                 id="amount"
-                type="number"
+                type="text"
                 placeholder="Montant"
                 autoComplete="amount"
               />
@@ -166,8 +167,11 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-payment-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("client-payment-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

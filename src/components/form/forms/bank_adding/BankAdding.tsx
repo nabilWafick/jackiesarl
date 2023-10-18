@@ -17,7 +17,7 @@ const BankAdding: FC<BankAddingProps> = ({
   accountNumber,
   currentBalence,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
+  const { formData, formErrors, onInputDataChange, onFormClose, onFormSubmit } =
     useBankAddingForm({
       bank: bank,
       accountNumber: accountNumber,
@@ -57,10 +57,10 @@ const BankAdding: FC<BankAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.accountNumber.toString()}
+                value={formData.accountNumber}
                 name="accountNumber"
                 id="accountNumber"
-                type="number"
+                type="text"
                 placeholder="Numéro de compte"
                 autoComplete="accountNumber"
               />
@@ -76,12 +76,12 @@ const BankAdding: FC<BankAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.currentBalence.toString()}
-                name="currentBalance"
-                id="currentBalance"
-                type="number"
+                value={formData.currentBalence}
+                name="currentBalence"
+                id="currentBalence"
+                type="text"
                 placeholder="Solde actuel"
-                autoComplete="currentBalance"
+                autoComplete="currentBalence"
               />
             </div>
             {formErrors.currentBalence && (
@@ -94,8 +94,11 @@ const BankAdding: FC<BankAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("bank-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("bank-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

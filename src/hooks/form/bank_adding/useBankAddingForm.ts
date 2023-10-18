@@ -1,4 +1,8 @@
 import { useState } from "react";
+import SoldeCourant from "../../../models/solde_courant/solde_courant.model";
+import SoldeCourantAPI from "../../../api/solde_courant/solde_courant.api";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 
 interface FormData {
   bank: string;
@@ -28,6 +32,9 @@ const useBankAddingForm = ({
     accountNumber: null,
     currentBalence: null,
   });
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,11 +79,49 @@ const useBankAddingForm = ({
     return !errors.bank && !errors.accountNumber && !errors.currentBalence;
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      bank: bank,
+      accountNumber: accountNumber,
+      currentBalence: currentBalence,
+    });
+    setFormErrors({
+      bank: null,
+      accountNumber: null,
+      currentBalence: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        bank: null,
+        accountNumber: null,
+        currentBalence: null,
+      });
+
+      const response = await SoldeCourantAPI.create(
+        new SoldeCourant(
+          formData.bank,
+          parseFloat(formData.accountNumber),
+          parseFloat(formData.currentBalence)
+        )
+      );
+
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("bank-adding-form");
+        setActionResultMessage("La banque a été ajoutée avec succès");
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("bank-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout de la banque");
+        toggleModal("action-result-message");
+      }
     }
   };
 
@@ -84,6 +129,7 @@ const useBankAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onFormClose,
     onFormSubmit,
   };
 };

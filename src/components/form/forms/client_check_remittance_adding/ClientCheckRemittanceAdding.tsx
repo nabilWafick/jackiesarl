@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useClientCheckRemittanceAddingForm from "../../../../hooks/form/client_check_remittance/useClientCheckRemittance";
+import useClientCheckRemittanceAddingForm from "../../../../hooks/form/client_check_remittance_adding/useClientCheckRemittanceAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
@@ -25,6 +25,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
     formErrors,
     onInputDataChange,
     onTextareaChange,
+    onFormClose,
     onFormSubmit,
   } = useClientCheckRemittanceAddingForm({
     description: description,
@@ -83,10 +84,10 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.amount.toString()}
+                value={formData.amount}
                 name="amount"
                 id="amount"
-                type="number"
+                type="text"
                 placeholder="Montant"
                 autoComplete="amount"
               />
@@ -102,10 +103,10 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.rest.toString()}
+                value={formData.rest}
                 name="rest"
                 id="rest"
-                type="number"
+                type="text"
                 placeholder="Reste"
                 autoComplete="rest"
               />
@@ -120,8 +121,11 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-check-remittance-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("client-check-remittance-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

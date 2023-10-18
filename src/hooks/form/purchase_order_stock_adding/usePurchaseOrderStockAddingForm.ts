@@ -1,4 +1,8 @@
 import { useState } from "react";
+import StockBonCommandeAPI from "../../../api/stock_bon_commande/stock_bon_commande.api";
+import StockBonCommande from "../../../models/stock_bon_commande/stock_bon_commande.model";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 
 interface FormData {
   bcNumber: string;
@@ -43,6 +47,10 @@ const usePurchaseOrderStock = ({
     sale: null,
     quantityAfterSelling: null,
   });
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -116,11 +124,60 @@ const usePurchaseOrderStock = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+
+    setFormData({
+      bcNumber: bcNumber,
+      category: category,
+      purchasedQuantity: purchasedQuantity,
+      quantityBeforeSelling: quantityBeforeSelling,
+      sale: sale,
+      quantityAfterSelling: quantityAfterSelling,
+    })
+    setFormErrors({
+      bcNumber: null,
+      category: null,
+      purchasedQuantity: null,
+      quantityBeforeSelling: null,
+      sale: null,
+      quantityAfterSelling: null,
+    })
+  
+}
+
+  const onFormSubmit =async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        bcNumber: null,
+        category: null,
+        purchasedQuantity: null,
+        quantityBeforeSelling: null,
+        sale: null,
+        quantityAfterSelling: null,
+      })
+
+      const response = await StockBonCommandeAPI.create(
+        new StockBonCommande(parseInt(formData.bcNumber), formData.category, parseFloat(formData.purchasedQuantity),
+        parseFloat(formData.sale),
+          parseFloat(formData.quantityBeforeSelling),
+          parseFloat(formData.quantityAfterSelling),
+        ))
+      
+        if (response!.status == 201) {
+          onFormClose();
+          toggleModal("purchase-order-stock-adding-form");
+          setActionResultMessage("Le stock de bon de commande a été ajouté avec succès");
+          console.log("Added successfuly");
+          toggleModal("action-result-message");
+        } else {
+          onFormClose();
+          toggleModal("purchase-order-stock-adding-form");
+          setActionResultMessage("Erreur lors de l'ajout du stock de bon de commande");
+          toggleModal("action-result-message");
+        }
+
     }
   };
 
@@ -128,6 +185,7 @@ const usePurchaseOrderStock = ({
     formData,
     formErrors,
     onInputDataChange,
+    onFormClose,
     onFormSubmit,
   };
 };

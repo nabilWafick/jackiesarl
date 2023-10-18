@@ -6,6 +6,7 @@ import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
 import useCompanyPurchasesStore from "../../../../store/achat_entreprise/useAchatEntreprise.store";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
+import CompanyPurchasseAdding from "../../../../components/form/forms/company_purchase_adding/CompanyPurchaseAdding";
 
 // const categories = [
 //   { value: "cim_benin", label: "CIM BENIN" },
@@ -30,8 +31,16 @@ const PurchasesPage: FC = () => {
         <AddingButton
           option="Ajouter un achat"
           onClick={() => {
-            toggleModal("fog-adding-form");
+            toggleModal("company-purchase-adding-form");
           }}
+        />
+        <CompanyPurchasseAdding
+          bcNumber=""
+          bank=""
+          purchasedQuantity=""
+          amount=""
+          check=""
+          slip=""
         />
         <ActionResult />
       </div>

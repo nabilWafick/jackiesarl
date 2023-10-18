@@ -6,6 +6,7 @@ import "../../../../assets/css/table.css";
 import TruckStockAdding from "../../../../components/form/forms/truck_stock_adding/TruckStockAdding";
 import { FC, useEffect } from "react";
 import useTrucksStockStore from "../../../../store/stock_camion/useStockCamion.store";
+import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const TruckStockPage: FC = () => {
   const trucksStock = useTrucksStockStore((state) => state.trucksStock);
@@ -34,6 +35,7 @@ const TruckStockPage: FC = () => {
           bcNumber=""
           quantity=""
         />
+        <ActionResult />
       </div>
       <TruckStockTable trucksStock={trucksStock} />
     </div>

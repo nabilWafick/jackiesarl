@@ -21,7 +21,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
   bcNumber,
   quantity,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
+  const { formData, formErrors, onInputDataChange, onFormClose, onFormSubmit } =
     useTruckStockAddingForm({
       truckNumber: truckNumber,
       category: category,
@@ -83,10 +83,10 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.driverNumber.toString()}
+                value={formData.driverNumber}
                 name="driverNumber"
                 id="driverNumber"
-                type="number"
+                type="text"
                 placeholder="Num Chauffeur"
                 autoComplete="driverNumber"
               />
@@ -102,10 +102,10 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.bcNumber.toString()}
+                value={formData.bcNumber}
                 name="bcNumber"
                 id="bcNumber"
-                type="number"
+                type="text"
                 placeholder="Bon de Commande"
                 autoComplete="bcNumber"
               />
@@ -121,10 +121,10 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantity.toString()}
+                value={formData.quantity}
                 name="quantity"
                 id="quantity"
-                type="number"
+                type="text"
                 placeholder="Quantité"
                 autoComplete="quantity"
               />
@@ -139,8 +139,11 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("truck-stock-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("truck-stock-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

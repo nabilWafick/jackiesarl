@@ -5,7 +5,7 @@ interface RemiseChequeClientJSON {
     banque: string;
     montant: number;
     reste: number;
-    est_validee: boolean;
+    est_validee: number;
     id_client: number;
     date_remise?: string; // Une chaîne de caractères pour la date au format ISO
   }
@@ -17,7 +17,7 @@ interface RemiseChequeClientJSON {
     banque: string;
     montant: number;
     reste: number;
-    est_validee: boolean;
+    est_validee: number;
     id_client: number;
     date_remise?: Date;
   
@@ -27,7 +27,7 @@ interface RemiseChequeClientJSON {
       banque: string,
       montant: number,
       reste: number,
-      est_validee: boolean,
+      est_validee: number,
       id_client: number,
       id?: number,
       date_remise?: Date

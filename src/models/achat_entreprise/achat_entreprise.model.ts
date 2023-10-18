@@ -3,8 +3,8 @@ interface AchatEntrepriseJson {
   quantite_achetee: number;
   montant: number;
   banque: string;
-  cheque: string;
-  bordereau: string;
+  cheque: number;
+  bordereau: string | File;
   date_achat?: string;
 }
 
@@ -13,8 +13,8 @@ class AchatEntreprise {
   quantite_achetee: number;
   montant: number;
   banque: string;
-  cheque: string;
-  bordereau: string;
+  cheque: number;
+  bordereau: string | File;
   date_achat?: Date;
 
   constructor(
@@ -22,8 +22,8 @@ class AchatEntreprise {
     quantite_achetee: number,
     montant: number,
     banque: string,
-    cheque: string,
-    bordereau: string,
+    cheque: number,
+    bordereau: string | File,
     date_achat?: Date
   ) {
     this.bon_commande = bon_commande;

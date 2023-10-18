@@ -1,8 +1,11 @@
 import { FaEdit, FaFile, FaTrash } from "react-icons/fa";
 import AchatClient from "../../../../models/achat_client/achat_client.model";
 import { FC } from "react";
-import ClientPurchaseAdding from "../../../form/forms/client_purchase_adding/ClientPurchaseAdding";
 import { toggleModal } from "../widgets/ToggleModal";
+import ClientPurchaseUpdate from "../../../form/forms/client_purchase_update/ClientPurchaseUpdate";
+import AchatClientAPI from "../../../../api/achat_client/achat_client.api";
+import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import useClientPurchasesStore from "../../../../store/achat_client/useAchatClient.store";
 
 interface ClientPurchasesTableProps {
   clientPurchases: AchatClient[];
@@ -18,7 +21,12 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
       console.log(error);
     }
   };
-
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+  const fetchAllClientPurchases = useClientPurchasesStore(
+    (state) => state.fetchAllClientPurchases
+  );
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -44,41 +52,70 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                   <td>{clientPurchase.montant}</td>
                   <td>{clientPurchase.numero_ctp}</td>
                   <td>
+                    {clientPurchase.bordereau == "" ? (
+                      ""
+                    ) : (
+                      <FaFile
+                        className="text-secondary"
+                        onClick={() =>
+                          openSlipFile(clientPurchase.bordereau.toString())
+                        }
+                      />
+                    )}
+                  </td>
+                  <td>{clientPurchase.numero_bc}</td>
+                  <td>
                     <div>
-                      <ClientPurchaseAdding
+                      <ClientPurchaseUpdate
+                        key={clientPurchase.id!}
+                        id={clientPurchase.id!}
                         quantity={clientPurchase.quantite_achetee.toString()}
                         category={clientPurchase.categorie}
                         amount={clientPurchase.montant.toString()}
                         ctpNumber={clientPurchase.numero_ctp}
                         slip={clientPurchase.bordereau}
                         bcNumber={clientPurchase.numero_bc.toString()}
+                        modalLabel={`client-purchase-update-form-${clientPurchase.id}`}
                       />
-                      {clientPurchase.bordereau == "" ? (
-                        ""
-                      ) : (
-                        <FaFile
-                          className="text-secondary"
-                          onClick={() =>
-                            openSlipFile(clientPurchase.bordereau.toString())
-                          }
+                      <center>
+                        <FaEdit
+                          color="green"
+                          onClick={() => {
+                            toggleModal(
+                              `client-purchase-update-form-${clientPurchase.id}`
+                            );
+                          }}
                         />
-                      )}
+                      </center>
                     </div>
                   </td>
-                  <td>{clientPurchase.numero_bc}</td>
                   <td>
                     <center>
-                      <FaEdit
-                        color="green"
-                        onClick={() => {
-                          toggleModal("client-purchase-adding-form");
+                      <FaTrash
+                        color="red"
+                        onClick={async () => {
+                          const response = await AchatClientAPI.delete(
+                            clientPurchase.id!
+                          );
+                          if (response!.status == 204) {
+                            setActionResultMessage(
+                              "L'achat du client a été supprimé avec succès"
+                            );
+                            fetchAllClientPurchases(clientPurchase.id_client);
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 404) {
+                            setActionResultMessage(
+                              "L'achat du client n'a pas été trouvé"
+                            );
+                            toggleModal("action-result-message");
+                          } else {
+                            setActionResultMessage(
+                              "Erreur lors de la suppression de l'achat du client"
+                            );
+                            toggleModal("action-result-message");
+                          }
                         }}
                       />
-                    </center>
-                  </td>
-                  <td>
-                    <center>
-                      <FaTrash color="red" />
                     </center>
                   </td>
                 </tr>

@@ -1,28 +1,38 @@
 import axios from "axios";
 import Brouillard from "../../models/brouillard/brouillard.model";
 
+interface BrouillardPromiseRsponse {
+  status: number;
+  brouillard?: Brouillard;
+  error?: string;
+}
+
 interface BrouillardJSON {
   id?: number;
   depot: string;
   stock_actuel: number;
   nom_gerant: string;
   numero_gerant: string;
-  date_ajout: string;
+  date_ajout?: string;
 }
 
 class BrouillardAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: Brouillard) {
-    try {
-      const response = await axios.post(
-        `${BrouillardAPI.baseUrl}/brouillard`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async create(
+    data: Brouillard
+  ): Promise<BrouillardPromiseRsponse | undefined> {
+    let promiseResponse: BrouillardPromiseRsponse | undefined = undefined;
+
+    await axios
+      .post(`${BrouillardAPI.baseUrl}/brouillard`, data.toJson())
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<Brouillard | undefined> {

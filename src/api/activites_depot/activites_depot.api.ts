@@ -1,5 +1,12 @@
 import axios from "axios";
 import ActivitesDepot from "../../models/activites_depot/activites_depot.model";
+
+interface ActivitesDepotPromiseResponse {
+  status: number;
+  activiteDepot: ActivitesDepot;
+  error: string;
+}
+
 interface ActivitesDepotJSON {
   id?: number;
   id_depot: number;
@@ -15,16 +22,21 @@ interface ActivitesDepotJSON {
 class ActivitesDepotAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: ActivitesDepot) {
-    try {
-      const response = await axios.post(
-        `${ActivitesDepotAPI.baseUrl}/activites-depot`,
-        data
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async create(
+    data: ActivitesDepot
+  ): Promise<ActivitesDepotPromiseResponse | undefined> {
+    let promiseResponse: ActivitesDepotPromiseResponse | undefined = undefined;
+
+    await axios
+      .post(`${ActivitesDepotAPI.baseUrl}/activites-depot`, data)
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<ActivitesDepot | undefined> {

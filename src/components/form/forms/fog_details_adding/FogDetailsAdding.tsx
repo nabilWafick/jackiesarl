@@ -29,6 +29,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
     formErrors,
     onInputDataChange,
     onTextareaChange,
+    onFormClose,
     onFormSubmit,
   } = useFogDetailsAddingForm({
     quantityBeforeSelling: quantityBeforeSelling,
@@ -46,17 +47,17 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
         "
         >
           <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
-            Détails Brouillard
+            Activités Dépôt
           </div>
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantityBeforeSelling.toString()}
+                value={formData.quantityBeforeSelling}
                 name="quantityBeforeSelling"
                 id="quantityBeforeSelling"
-                type="number"
+                type="text"
                 placeholder="Quantité Avant Vente"
                 autoComplete="quantityBeforeSelling"
               />
@@ -72,16 +73,16 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.sale.toString()}
+                value={formData.sale}
                 name="sale"
                 id="sale"
-                type="number"
+                type="text"
                 placeholder="Vente"
                 autoComplete="sale"
               />
             </div>
             {formErrors.sale && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+              <p className="erreur ml-1.5 tdeleteErrorext-[12px] font-medium text-secondary">
                 {formErrors.sale}
               </p>
             )}
@@ -91,10 +92,10 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantityAfterSelling.toString()}
+                value={formData.quantityAfterSelling}
                 name="quantityAfterSelling"
                 id="quantityAfterSelling"
-                type="number"
+                type="text"
                 placeholder="Quantité Après Vente"
                 autoComplete="quantityAfterSelling"
               />
@@ -110,10 +111,10 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.payment.toString()}
+                value={formData.payment}
                 name="payment"
                 id="payment"
-                type="number"
+                type="text"
                 placeholder="Versement"
                 autoComplete="payment"
               />
@@ -129,10 +130,10 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.expense.toString()}
+                value={formData.expense}
                 name="expense"
                 id="expense"
-                type="number"
+                type="text"
                 placeholder="Dépense"
                 autoComplete="expense"
               />
@@ -164,8 +165,11 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("client-purchase-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("fog-details-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

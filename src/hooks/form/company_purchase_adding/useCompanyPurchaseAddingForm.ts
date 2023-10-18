@@ -1,4 +1,8 @@
 import { useState } from "react";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import AchatEntrepriseAPI from "../../../api/achat_entreprise/achat_entreprise.api";
+import AchatEntreprise from "../../../models/achat_entreprise/achat_entreprise.model";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 
 interface FormData {
   bcNumber: string;
@@ -43,6 +47,10 @@ const useCompanyPurchaseForm = ({
     check: null,
     slip: null,
   });
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -118,6 +126,8 @@ const useCompanyPurchaseForm = ({
     // Validation pour.check (nombre)
     if (!formData.check.trim()) {
       errors.check = "Le numéro de chèque est requis";
+    } else if (formData.check.trim().length < 10) {
+      errors.check = "Le numéro de chèque doit comporter 10 chiffres";
     } else {
       const valeurCheck = parseFloat(formData.check);
       if (isNaN(valeurCheck)) {
@@ -125,19 +135,18 @@ const useCompanyPurchaseForm = ({
       }
     }
 
-    // Validation pour slip (fichier)
-    // Validation pour slip (file)
-    if (!formData.slip) {
-      errors.slip = "Le bordereau est requis";
-    } else {
-      // Vérifiez le type du fichier
-      const typesDeFichierAutorisés = ["application/pdf", "application/msword"];
-      if (
-        typeof formData.slip != "string" &&
-        !typesDeFichierAutorisés.includes(formData.slip.type)
-      ) {
-        errors.slip = "Le type de fichier doit être PDF ou Word.";
-      }
+    const allowedFileTypes = [
+      "image/png",
+      "image/jpg",
+      "application/image/jpeg",
+      "application/pdf",
+      "application/msword",
+    ];
+    if (
+      typeof formData.slip != "string" &&
+      !allowedFileTypes.includes(formData.slip.type)
+    ) {
+      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
     }
 
     setFormErrors(errors);
@@ -172,11 +181,46 @@ const useCompanyPurchaseForm = ({
     });
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        bcNumber: null,
+        purchasedQuantity: null,
+        amount: null,
+        bank: null,
+        check: null,
+        slip: null,
+      });
+
+      const response = await AchatEntrepriseAPI.create(
+        new AchatEntreprise(
+          parseFloat(formData.bcNumber),
+          parseFloat(formData.purchasedQuantity),
+          parseFloat(formData.amount),
+          formData.bank,
+          parseInt(formData.check),
+          formData.slip
+        )
+      );
+
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("company-purchase-adding-form");
+        setActionResultMessage(
+          "L'achat de l'entreprise a été ajouté avec succès"
+        );
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("company-purchase-adding-form");
+        setActionResultMessage(
+          "Erreur lors de l'ajout de l'achat de l'entreprise"
+        );
+        toggleModal("action-result-message");
+      }
     }
   };
 

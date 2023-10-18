@@ -23,7 +23,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
   sale,
   quantityAfterSelling,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormSubmit } =
+  const { formData, formErrors, onInputDataChange, onFormClose, onFormSubmit } =
     usePurchaseOrderStock({
       bcNumber: bcNumber,
       category: category,
@@ -47,10 +47,10 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.bcNumber.toString()}
+                value={formData.bcNumber}
                 name="bcNumber"
                 id="bcNumber"
-                type="number"
+                type="text"
                 placeholder="Bon de Commande"
                 autoComplete="bcNumber"
               />
@@ -85,10 +85,10 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.purchasedQuantity.toString()}
+                value={formData.purchasedQuantity}
                 name="purchasedQuantity"
                 id="purchasedQuantity"
-                type="number"
+                type="text"
                 placeholder="Quantité Achetée"
                 autoComplete="purchasedQuantity"
               />
@@ -104,11 +104,11 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantityBeforeSelling.toString()}
+                value={formData.quantityBeforeSelling}
                 name="quantityBeforeSelling"
                 id="quantityBeforeSelling"
-                type="number"
-                placeholder="Stock Initial"
+                type="text"
+                placeholder="Stock Avant Vente"
                 autoComplete="quantityBeforeSelling"
               />
             </div>
@@ -123,10 +123,10 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.sale.toString()}
+                value={formData.sale}
                 name="sale"
                 id="sale"
-                type="number"
+                type="text"
                 placeholder="Vente"
                 autoComplete="sale"
               />
@@ -142,11 +142,11 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantityAfterSelling.toString()}
+                value={formData.quantityAfterSelling}
                 name="quantityAfterSelling"
                 id="quantityAfterSelling"
-                type="number"
-                placeholder="Stock Final"
+                type="text"
+                placeholder="Stock Après Vente"
                 autoComplete="quantityAfterSelling"
               />
             </div>
@@ -160,8 +160,11 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"
-              name="Annuler"
-              onClick={() => toggleModal("purchase-order-stock-adding-form")}
+              name="Fermer"
+              onClick={() => {
+                onFormClose();
+                toggleModal("purchase-order-stock-adding-form");
+              }}
             />
             <JsButton type="submit" name="Valider" />
           </div>

@@ -7,8 +7,10 @@ import OrderAdding from "../../../../components/form/forms/order_adding/OrderAdd
 import useCommandesStore from "../../../../store/commandes/useCommandes.store";
 import { useEffect } from "react";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
+import useClientsStore from "../../../../store/clients/useClients.store";
 
 const OrdersPage = () => {
+  const setOrderClient = useClientsStore((state) => state.setOrderClient);
   const orders = useCommandesStore((state) => state.clientsOrders);
   const fetchAllClientsOrders = useCommandesStore(
     (state) => state.fetchAllClientsOrders
@@ -32,12 +34,12 @@ const OrdersPage = () => {
         <AddingButton
           option="Ajouter une commande"
           onClick={() => {
+            setOrderClient(undefined);
             toggleModal("order-adding-form");
           }}
         />
         <OrderAdding
-          firstname=""
-          lastname=""
+          clientName=""
           quantity=""
           destination=""
           orderDate={null}

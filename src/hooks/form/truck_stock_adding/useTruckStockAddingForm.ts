@@ -1,4 +1,8 @@
 import { useState } from "react";
+import StockCamionAPI from "../../../api/stock_camion/stock_camion.api";
+import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import StockCamion from "../../../models/stock_camion/stock_camion.model";
+import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 
 interface FormData {
   truckNumber: string;
@@ -39,6 +43,10 @@ const useTruckStockAddingForm = ({
     quantity: null,
   });
 
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -70,27 +78,30 @@ const useTruckStockAddingForm = ({
     if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
     } else if (formData.category.trim().length < 3) {
-      errors.category = "La catégorie doit comporter au moins 3 caractères.";
+      errors.category = "La catégorie doit comporter au moins 3 caractères";
     }
 
     // Validation pour driverNumber (numéro de téléphone au format Bénin)
-    const beninPhoneRegex = /^[229][45679]\d{7}$/; // Format de numéro Bénin : commence par 229 et est suivi de 8 chiffres
-    if (
-      !formData.driverNumber.trim() ||
-      !beninPhoneRegex.test(formData.driverNumber.trim())
-    ) {
+    const beninPhoneRegex = /^(\+229|00229)[45679]\d{7}$/; // Format de numéro Bénin : commence par 229 et est suivi de 8 chiffres
+    if (!formData.driverNumber.trim()) {
+      errors.driverNumber = "Le numéro de téléphone est requis";
+    } else if (!beninPhoneRegex.test(formData.driverNumber.trim())) {
       errors.driverNumber =
-        "Le numéro de téléphone doit être au format du Bénin.";
+        "Le numéro de téléphone doit être au format du Bénin";
     }
 
     // Validation pour bcNumber (nombre)
-    if (!formData.bcNumber.trim() || isNaN(Number(formData.bcNumber.trim()))) {
-      errors.bcNumber = "Le numéro de commande doit être un nombre valide.";
+    if (!formData.bcNumber.trim()) {
+      errors.bcNumber = "Le bon de commande est requis";
+    } else if (isNaN(Number(formData.bcNumber.trim()))) {
+      errors.bcNumber = "Le bon de commande doit être un nombre valide";
     }
 
     // Validation pour quantity (nombre)
-    if (!formData.quantity.trim() || isNaN(Number(formData.quantity.trim()))) {
-      errors.quantity = "La quantité doit être un nombre valide.";
+    if (!formData.quantity.trim()) {
+      errors.quantity = "La quantité est requise";
+    } else if (isNaN(Number(formData.quantity.trim()))) {
+      errors.quantity = "La quantité doit être un nombre valide";
     }
 
     setFormErrors(errors);
@@ -104,11 +115,57 @@ const useTruckStockAddingForm = ({
     );
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormClose = () => {
+    setFormData({
+      truckNumber: truckNumber,
+      category: category,
+      driverNumber: driverNumber,
+      bcNumber: bcNumber,
+      quantity: quantity,
+    });
+    setFormErrors({
+      truckNumber: null,
+      category: null,
+      driverNumber: null,
+      bcNumber: null,
+      quantity: null,
+    });
+  };
+
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Données du formulaire soumises :", formData);
+      setFormErrors({
+        truckNumber: null,
+        category: null,
+        driverNumber: null,
+        bcNumber: null,
+        quantity: null,
+      });
+
+      const response = await StockCamionAPI.create(
+        new StockCamion(
+          formData.truckNumber,
+          formData.category,
+          formData.driverNumber,
+          parseInt(formData.bcNumber),
+          parseFloat(formData.quantity)
+        )
+      );
+
+      if (response!.status == 201) {
+        onFormClose();
+        toggleModal("truck-stock-adding-form");
+        setActionResultMessage("Le stock de camion a été ajouté avec succès");
+        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else {
+        onFormClose();
+        toggleModal("truck-stock-adding-form");
+        setActionResultMessage("Erreur lors de l'ajout du stock de camion");
+        toggleModal("action-result-message");
+      }
     }
   };
 
@@ -116,6 +173,7 @@ const useTruckStockAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onFormClose,
     onFormSubmit,
   };
 };

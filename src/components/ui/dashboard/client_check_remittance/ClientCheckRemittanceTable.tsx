@@ -1,6 +1,11 @@
 import { FC } from "react";
 import { FaEdit, FaTrash, FaCheck, FaCheckCircle } from "react-icons/fa";
 import RemiseChequeClient from "../../../../models/remise_cheque_client/remise_cheque_client.model";
+import ClientCheckRemittanceUpdate from "../../../form/forms/client_check_remittance_update/ClientCheckRemittanceUpdate";
+import { toggleModal } from "../widgets/ToggleModal";
+import RemiseChequeClientAPI from "../../../../api/remise_cheque_client/remise_cheque_client.api";
+import useClientChecksRemittanceStore from "../../../../store/remise_cheque_client/useRemiseChequeClient.store";
+import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 
 interface ClientChecksRemittanceTableProps {
   clientChecksRemittance: RemiseChequeClient[];
@@ -9,9 +14,17 @@ interface ClientChecksRemittanceTableProps {
 const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
   clientChecksRemittance,
 }) => {
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+
+  const fetchAllClientChecksRemittance = useClientChecksRemittanceStore(
+    (state) => state.fetchAllClientChecksRemittance
+  );
+
   return (
     <div className="flex flex-col justify-start w-full ">
-      <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
+      {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped ">
           <tbody>
@@ -33,7 +46,7 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
                 <td>{clientCheckRemittance.reste}</td>
                 <td>
                   <i className="flex justify-end">
-                    {clientCheckRemittance.est_validee ? (
+                    {clientCheckRemittance.est_validee == 1 ? (
                       <FaCheckCircle className="text-secondary" size={20} />
                     ) : (
                       <FaCheck className="text-secondary" size={20} />
@@ -41,13 +54,58 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
                   </i>
                 </td>
                 <td>
-                  <i className="flex justify-end">
-                    <FaEdit color="green" />
-                  </i>
+                  <div>
+                    <ClientCheckRemittanceUpdate
+                      id={clientCheckRemittance.id!}
+                      description={clientCheckRemittance.description}
+                      bank={clientCheckRemittance.banque}
+                      amount={clientCheckRemittance.montant.toString()}
+                      rest={clientCheckRemittance.reste.toString()}
+                      est_validee={clientCheckRemittance.est_validee}
+                      modalLabel={`client-check-remittance-update-form-${clientCheckRemittance.id}`}
+                    />
+                    <i className="flex justify-end">
+                      <FaEdit
+                        color="green"
+                        onClick={() =>
+                          toggleModal(
+                            `client-check-remittance-update-form-${clientCheckRemittance.id}`
+                          )
+                        }
+                      />
+                    </i>
+                  </div>
                 </td>
                 <td>
                   <i className="flex justify-end">
-                    <FaTrash color="red" />
+                    <FaTrash
+                      color="red"
+                      onClick={async () => {
+                        const response = await RemiseChequeClientAPI.delete(
+                          clientCheckRemittance.id!
+                        );
+
+                        if (response!.status == 204) {
+                          setActionResultMessage(
+                            "La remise de chèque a été supprimée avec succès"
+                          );
+                          toggleModal("action-result-message");
+                          fetchAllClientChecksRemittance(
+                            clientCheckRemittance.id_client
+                          );
+                        } else if (response!.status == 404) {
+                          setActionResultMessage(
+                            "La remise de chèque n'a pas été trouvé"
+                          );
+                          toggleModal("action-result-message");
+                        } else {
+                          setActionResultMessage(
+                            "Erreur lors de la suppression de la remise de chèque"
+                          );
+                          toggleModal("action-result-message");
+                        }
+                      }}
+                    />
                   </i>
                 </td>
               </tr>

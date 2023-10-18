@@ -1,6 +1,17 @@
 import { FC } from "react";
-import { FaCheck, FaCheckCircle, FaEdit, FaTrash } from "react-icons/fa";
+import {
+  FaCheck,
+  FaCheckCircle,
+  FaEdit,
+  FaFile,
+  FaTrash,
+} from "react-icons/fa";
 import Depenses from "../../../../models/depenses/depenses.model";
+import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import ExpenseUpdate from "../../../form/forms/expense_update/ExpenseUpdate";
+import { toggleModal } from "../widgets/ToggleModal";
+import DepensesAPI from "../../../../api/depenses/depenses.api";
+import useDepensesStore from "../../../../store/depenses/useDepenses.store";
 
 interface ExpensesValidationTableProps {
   expensesList: Depenses[];
@@ -9,9 +20,22 @@ interface ExpensesValidationTableProps {
 const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
   expensesList,
 }) => {
+  const openSlipFile = (file: string) => {
+    try {
+      window.open(file, "_blank");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+
+  const fetchAllDepenses = useDepensesStore((state) => state.fetchAllDepenses);
+
   return (
     <div className="flex flex-col justify-start w-full ">
-      <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
+      {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped">
           <tbody>
@@ -25,16 +49,24 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
               <td className="font-medium"></td>
             </tr>
 
-            {expensesList.map((expenses) => (
-              <tr key={expenses.id}>
+            {expensesList.map((expense) => (
+              <tr key={expense.id}>
                 {/* <td>01-04-2025</td> */}
-                <td>{expenses.description}</td>
-                <td>{expenses.montant}</td>
-                <td>{expenses.piece}</td>
+                <td>{expense.description}</td>
+                <td>{expense.montant}</td>
+                <td>
+                  {expense.piece == "" ? (
+                    ""
+                  ) : (
+                    <FaFile
+                      className="text-secondary"
+                      onClick={() => openSlipFile(expense.piece.toString())}
+                    />
+                  )}
+                </td>
                 <td>
                   <i className="flex justify-end">
-                    {" "}
-                    {expenses.est_validee ? (
+                    {expense.est_validee == 1 ? (
                       <FaCheckCircle className="text-secondary" size={20} />
                     ) : (
                       <FaCheck className="text-secondary" size={20} />
@@ -43,13 +75,51 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
                 </td>
 
                 <td>
-                  <i className="flex justify-end">
-                    <FaEdit color="green" />
-                  </i>
+                  <div>
+                    <ExpenseUpdate
+                      id={expense.id!}
+                      description={expense.description}
+                      amount={expense.montant.toString()}
+                      piece={expense.piece}
+                      est_validee={expense.est_validee}
+                      modalLabel={`expense-update-form-${expense.id}`}
+                    />
+                    <i className="flex justify-end">
+                      <FaEdit
+                        color="green"
+                        onClick={() =>
+                          toggleModal(`expense-update-form-${expense.id}`)
+                        }
+                      />
+                    </i>
+                  </div>
                 </td>
                 <td>
                   <i className="flex justify-end">
-                    <FaTrash color="red" />
+                    <FaTrash
+                      color="red"
+                      onClick={async () => {
+                        const response = await DepensesAPI.delete(expense.id!);
+
+                        if (response!.status == 204) {
+                          setActionResultMessage(
+                            "La dépense a été supprimée avec succès"
+                          );
+                          fetchAllDepenses();
+                          toggleModal("action-result-message");
+                        } else if (response!.status == 404) {
+                          setActionResultMessage(
+                            "La dépense n'a pas été trouvée"
+                          );
+                          toggleModal("action-result-message");
+                        } else {
+                          setActionResultMessage(
+                            "Erreur lors de la suppression de dépense"
+                          );
+                          toggleModal("action-result-message");
+                        }
+                      }}
+                    />
                   </i>
                 </td>
               </tr>
