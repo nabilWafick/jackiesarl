@@ -124,7 +124,6 @@ class PaiementClientAPI {
     await axios
       .delete(`${PaiementClientAPI.baseUrl}/paiement-client/${id}`)
       .then((response) => {
-        console.log(response);
         promiseResponse = response;
       })
 

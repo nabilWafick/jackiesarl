@@ -46,9 +46,15 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
             {currentsBalenceDetails.map((currentBalence) => (
               <tr key={currentBalence.id}>
                 <td>{currentBalence.description}</td>
-                <td>{currentBalence.debit}</td>
-                <td>{currentBalence.credit}</td>
-                <td>{currentBalence.solde_actuel}</td>
+                <td>
+                  {currentBalence.debit} <i> fcfa</i>
+                </td>
+                <td>
+                  {currentBalence.credit} <i> fcfa</i>
+                </td>
+                <td>
+                  {currentBalence.solde_actuel} <i> fcfa</i>
+                </td>
                 <td>
                   <div>
                     <CurrentBalenceDetailsUpdate

@@ -4,6 +4,7 @@ import RemiseChequeClient from "../../../models/remise_cheque_client/remise_cheq
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useClientsStore from "../../../store/clients/useClients.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useClientChecksRemittanceStore from "../../../store/remise_cheque_client/useRemiseChequeClient.store";
 
 interface FormData {
   id: number;
@@ -45,6 +46,10 @@ const useClientCheckRemittanceUpdateForm = (
     (state) => state.setActionResultMessage
   );
   const selectedClient = useClientsStore((state) => state.selectedClient);
+
+  const fetchAllClientChecksRemittance = useClientChecksRemittanceStore(
+    (state) => state.fetchAllClientChecksRemittance
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -154,10 +159,11 @@ const useClientCheckRemittanceUpdateForm = (
       if (response!.status == 200) {
         onFormClose();
         toggleModal(modalLabel);
+        fetchAllClientChecksRemittance(selectedClient!.id!);
         setActionResultMessage(
           "La remise de chèque du client a été mis à jour avec succès"
         );
-        console.log("Added successfuly");
+
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();

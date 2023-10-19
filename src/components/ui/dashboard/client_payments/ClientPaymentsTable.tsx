@@ -49,7 +49,9 @@ const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
                 <tr key={clientPayment.id!}>
                   <td>{clientPayment.numero_bc}</td>
                   <td>{clientPayment.categorie}</td>
-                  <td>{clientPayment.montant}</td>
+                  <td>
+                    {clientPayment.montant} <i> fcfa</i>
+                  </td>
                   <td>{clientPayment.banque}</td>
                   <td>{clientPayment.est_valide}</td>
                   <td>
@@ -133,7 +135,7 @@ const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row items-center content-center">
+      {/* <div className="flex flex-row items-center content-center">
         <span className=" text-md my-3 font-medium text-gray-700">
           Total paiement CIM Benin de la periode
         </span>
@@ -144,7 +146,7 @@ const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
           Total paiement NOCIBE de la periode
         </span>
         <span className="ml-24 text-md">10 000 000</span>
-      </div>
+      </div> */}
     </div>
   );
 };

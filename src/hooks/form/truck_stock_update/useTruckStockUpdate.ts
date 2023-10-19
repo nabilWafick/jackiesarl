@@ -3,6 +3,7 @@ import StockCamionAPI from "../../../api/stock_camion/stock_camion.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import StockCamion from "../../../models/stock_camion/stock_camion.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useTrucksStockStore from "../../../store/stock_camion/useStockCamion.store";
 
 interface FormData {
   id: number;
@@ -44,6 +45,9 @@ const useTruckStockUpdateForm = (
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+  const fetchAllTruckStock = useTrucksStockStore(
+    (state) => state.fetchAllTruckStock
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,10 +162,11 @@ const useTruckStockUpdateForm = (
       if (response!.status == 200) {
         onFormClose();
         toggleModal(modalLabel);
+        fetchAllTruckStock();
         setActionResultMessage(
           "Le stock de camion a été mis à jour avec succès"
         );
-        console.log("Updated successfuly");
+
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();

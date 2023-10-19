@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import CommandesClients from "../../models/commandes_client/commandes_client.store";
@@ -31,10 +32,7 @@ const useCommandesStore = create<CommandesStore>()(
       isLoading: false,
       fetchAllClientsOrders: async () => {
         const clients = await ClientsAPI.getAll();
-        console.log("from fetchAllClientsOrders", clients);
         const clientsOrdersList = await CommandesAPI.getAll();
-        console.log("from fetchAllClientsOrders", clientsOrdersList);
-
         const clientsOrders = clientsOrdersList.map(
           (clientsOrder) =>
             new CommandesClients(
@@ -50,8 +48,6 @@ const useCommandesStore = create<CommandesStore>()(
             )
         );
         set(() => ({ clientsOrders: clientsOrders }));
-        const clientsOrdersListLength = get().clientsOrders;
-        console.log("clientsOrdersListLength: ", clientsOrdersListLength);
       },
       sortClientsOrdersByCIMBENINCategory: () => {
         set((state) => {

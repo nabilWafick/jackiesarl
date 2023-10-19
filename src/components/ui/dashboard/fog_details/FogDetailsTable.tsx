@@ -26,11 +26,24 @@ const FogDetailsTable: FC<FogDetailsTableProps> = ({ fogDetails }) => {
 
             {fogDetails.map((fogDetail) => (
               <tr key={fogDetail.id}>
-                <td>{fogDetail.quantite_avant_vente}</td>
-                <td>{fogDetail.vente}</td>
-                <td>{fogDetail.quantite_apres_vente}</td>
-                <td>{fogDetail.versement}</td>
-                <td>{fogDetail.depense}</td>
+                <td>
+                  {fogDetail.quantite_avant_vente}
+                  <i> t</i>
+                </td>
+                <td>
+                  {fogDetail.vente}
+                  <i> t</i>
+                </td>
+                <td>
+                  {fogDetail.quantite_apres_vente}
+                  <i> t</i>
+                </td>
+                <td>
+                  {fogDetail.versement} <i> fcfa</i>
+                </td>
+                <td>
+                  {fogDetail.depense} <i> fcfa</i>
+                </td>
                 <td>{fogDetail.observation}</td>
               </tr>
             ))}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import ActivitesBanque from "../../models/activites_banque/activites_banque.model";
@@ -20,7 +21,7 @@ interface ActivitesBanqueStore {
   ) => void;
 }
 
-const useActivitesBanque = create<ActivitesBanqueStore>()(
+const useActivitesBanqueStore = create<ActivitesBanqueStore>()(
   persist(
     (set, get) => ({
       activitesBanque: [],
@@ -30,8 +31,6 @@ const useActivitesBanque = create<ActivitesBanqueStore>()(
       fetchAllActivitesBanque: async (id_depot: number) => {
         const activitesBanqueList: ActivitesBanque[] =
           await ActivitesBanqueAPI.getAllByBanqueID(id_depot);
-        const activitesBanqueLenght = get().activitesBanque;
-        console.log(activitesBanqueLenght);
 
         set(() => ({ activitesBanque: activitesBanqueList }));
       },
@@ -135,4 +134,4 @@ const useActivitesBanque = create<ActivitesBanqueStore>()(
   )
 );
 
-export default useActivitesBanque;
+export default useActivitesBanqueStore;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClientAPI from "../../api/achat_client/achat_client.api";
@@ -43,9 +44,6 @@ const useSalesStore = create<SalesStore>()(
             )
         );
         set(() => ({ sales: sales }));
-        //  console.log(selectedsales);
-        const salesListLength = get().sales;
-        console.log("salesListLength: ", salesListLength);
       },
       sortSalesByCIMBENINCategory: () => {
         set((state) => {

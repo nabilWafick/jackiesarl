@@ -8,6 +8,7 @@ import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface CompanyPurchasseAddingProps {
   bcNumber: string;
+  category: string;
   purchasedQuantity: string;
   amount: string;
   bank: string;
@@ -17,6 +18,7 @@ interface CompanyPurchasseAddingProps {
 
 const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
   bcNumber,
+  category,
   purchasedQuantity,
   amount,
   bank,
@@ -32,6 +34,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
     onFormSubmit,
   } = useCompanyPurchaseForm({
     bcNumber: bcNumber,
+    category: category,
     purchasedQuantity: purchasedQuantity,
     amount: amount,
     bank: bank,
@@ -53,7 +56,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.bcNumber.toString()}
+                value={formData.bcNumber}
                 name="bcNumber"
                 id="bcNumber"
                 type="text"
@@ -67,12 +70,29 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
               </p>
             )}
           </div>
-
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.purchasedQuantity.toString()}
+                value={formData.category}
+                name="category"
+                id="category"
+                type="text"
+                placeholder="Catégorie"
+                autoComplete="category"
+              />
+            </div>
+            {formErrors.category && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.category}
+              </p>
+            )}
+          </div>
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.purchasedQuantity}
                 name="purchasedQuantity"
                 id="purchasedQuantity"
                 type="text"
@@ -91,7 +111,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.amount.toString()}
+                value={formData.amount}
                 name="amount"
                 id="amount"
                 type="text"

@@ -8,6 +8,7 @@ interface AchatEntreprisePromiseResponse {
 
 interface AchatEntrepriseJson {
   bon_commande: number;
+  categorie: string;
   quantite_achetee: number;
   montant: number;
   banque: string;
@@ -31,11 +32,9 @@ class AchatEntrepriseAPI {
         },
       })
       .then((response) => {
-        console.log(response.data);
         promiseResponse = response.data;
       })
       .catch((error) => {
-        console.log(error.response.data);
         promiseResponse = error.response.data;
       });
 
@@ -49,7 +48,6 @@ class AchatEntrepriseAPI {
     await axios
       .get(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`)
       .then((response) => {
-        console.log(response.data);
         achatEntreprise = AchatEntreprise.fromJson(response.data);
       })
       .catch((error) => {

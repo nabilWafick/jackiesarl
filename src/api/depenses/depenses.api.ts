@@ -44,7 +44,6 @@ class DepensesAPI {
     await axios
       .get(`${DepensesAPI.baseUrl}/depenses/${id}`)
       .then((response) => {
-        console.log(response.data);
         depense = Depenses.fromJson(response.data);
       })
       .catch((error) => {

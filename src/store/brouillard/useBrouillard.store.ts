@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Brouillard from "../../models/brouillard/brouillard.model";
@@ -35,8 +36,6 @@ const useBrouillardStore = create<BrouillardStore>()(
       },
       fetchAllBrouillard: async () => {
         const brouillardsList: Brouillard[] = await BrouillardAPI.getAll();
-        const brouillardssLenght = get().brouillards;
-        console.log(brouillardssLenght);
 
         set(() => ({ brouillards: brouillardsList }));
       },

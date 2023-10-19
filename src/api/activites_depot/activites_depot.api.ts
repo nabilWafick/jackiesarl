@@ -44,7 +44,6 @@ class ActivitesDepotAPI {
     await axios
       .get(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`)
       .then((response) => {
-        console.log(response.data);
         activitesDepot = ActivitesDepot.fromJson(response.data);
       })
       .catch((error) => {

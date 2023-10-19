@@ -10,7 +10,7 @@ interface SoldeCourantPromiserResponse {
 interface SoldeCourantJSON {
   id?: number;
   banque: string;
-  numero_compte: string;
+  numero_compte: number;
   solde_actuel: number;
   date_ajout: string;
 }
@@ -38,7 +38,6 @@ class SoldeCourantAPI {
     await axios
       .get(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`)
       .then((response) => {
-        console.log(response.data);
         soldeCourant = SoldeCourant.fromJson(response.data);
       })
       .catch((error) => {

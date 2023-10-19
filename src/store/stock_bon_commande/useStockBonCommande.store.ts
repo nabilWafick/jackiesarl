@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import StockBonCommande from "../../models/stock_bon_commande/stock_bon_commande.model";
@@ -32,11 +33,6 @@ const usePurchasesOrderStockStore = create<PurchasesOrderStockStore>()(
         const selectedpurchasesOrderStock = await StockBonCommandeAPI.getAll();
         set(() => ({ purchasesOrderStock: selectedpurchasesOrderStock }));
         // console.log(selectedpurchasesOrderStock);
-        const purchasesOrderStockListLength = get().purchasesOrderStock;
-        console.log(
-          "purchasesOrderStockListLength: ",
-          purchasesOrderStockListLength
-        );
       },
       sortPurchasesOrderStockByCIMBENINCategory: () => {
         set((state) => {

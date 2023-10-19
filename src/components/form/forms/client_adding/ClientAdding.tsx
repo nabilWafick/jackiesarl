@@ -92,7 +92,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
                 name="ifuNumber"
                 id="ifuNumber"
                 type="text"
-                placeholder="Numéro matricule"
+                placeholder="Numéro IFU"
                 autoComplete="ifuNumber"
               />
             </div>

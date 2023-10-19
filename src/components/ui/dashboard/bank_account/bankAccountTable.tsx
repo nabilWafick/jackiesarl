@@ -48,7 +48,7 @@ const BankAccountTable: FC<BankAccountTableProps> = ({ bankAccountList }) => {
                   onClick={() => setSelectedSoldeCourant(bankAccount)}
                   to="/soldes-courants/details"
                 >
-                  {bankAccount.solde_actuel}
+                  {bankAccount.solde_actuel} <i> fcfa</i>
                 </Link>
               </td>
             </tr>

@@ -7,19 +7,27 @@ function ClientBalanceTable() {
           <tbody>
             <tr>
               <td>Total des dettes</td>
-              <td className="text-end">15 000 000</td>
+              <td className="text-end">
+                15 000 000 <i> fcfa</i>
+              </td>
             </tr>
             <tr>
               <td>Total des paiements</td>
-              <td className="text-end">10 000 000</td>
+              <td className="text-end">
+                10 000 000 <i> fcfa</i>
+              </td>
             </tr>
             <tr>
               <td>Creances</td>
-              <td className="text-end">5 000 000</td>
+              <td className="text-end">
+                5 000 000 <i> fcfa</i>
+              </td>
             </tr>
             <tr>
               <td>Avance</td>
-              <td className="text-end">0</td>
+              <td className="text-end">
+                0 <i> fcfa</i>
+              </td>
             </tr>
           </tbody>
         </table>

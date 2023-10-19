@@ -16,8 +16,12 @@ function DebtsTable() {
                 return (
                   <tr key={index}>
                     <td>Freddy EDOUN</td>
-                    <td>245 990</td>
-                    <td>67 498</td>
+                    <td>
+                      245 990 <i> t</i>
+                    </td>
+                    <td>
+                      67 498 <i> t</i>
+                    </td>
                     <td>20%</td>
                   </tr>
                 );
@@ -25,8 +29,12 @@ function DebtsTable() {
               return (
                 <tr key={index}>
                   <td>Tobby PATO</td>
-                  <td>245 000</td>
-                  <td>67 498</td>
+                  <td>
+                    245 000 <i> t</i>
+                  </td>
+                  <td>
+                    67 498 <i> t</i>
+                  </td>
                   <td>20%</td>
                 </tr>
               );

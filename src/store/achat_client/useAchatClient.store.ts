@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClient from "../../models/achat_client/achat_client.model";
@@ -33,9 +34,6 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
           clientId
         );
         set(() => ({ clientPurchases: selectedClientPurchases }));
-        console.log(selectedClientPurchases);
-        const clientPurchasesListLength = get().clientPurchases;
-        console.log("clientPurchasesListLength: ", clientPurchasesListLength);
       },
       sortClientPurchasesByCIMBENINCategory: () => {
         set((state) => {

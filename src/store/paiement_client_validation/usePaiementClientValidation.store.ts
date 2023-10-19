@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import PaiementClientAPI from "../../api/paiement_client/paiement_client.api";
@@ -32,12 +34,7 @@ const useClientsPaymentsValidationStore =
         isLoading: false,
         fetchAllClientsPaymentsValidation: async () => {
           const clients = await ClientsAPI.getAll();
-          console.log("from fetchAllClientsPaymentsValidation", clients);
           const clientsPayments = await PaiementClientAPI.getAll();
-          console.log(
-            "from fetchAllClientsPaymentsValidation",
-            clientsPayments
-          );
 
           const clientsPaymentsValidation = clientsPayments.map(
             (clientsPaymentValidation) =>
@@ -58,12 +55,6 @@ const useClientsPaymentsValidationStore =
           );
           set(() => ({ clientsPaymentsValidation: clientsPaymentsValidation }));
           //  console.log();
-          const clientsPaymentsValidationListLength =
-            get().clientsPaymentsValidation;
-          console.log(
-            "clientsPaymentsValidationListLength: ",
-            clientsPaymentsValidationListLength
-          );
         },
         sortClientsPaymentsValidationByCIMBENINCategory: () => {
           set((state) => {

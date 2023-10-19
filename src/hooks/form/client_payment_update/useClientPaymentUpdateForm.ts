@@ -4,6 +4,7 @@ import PaiementClient from "../../../models/paiement_client/paiement.model";
 import useClientsStore from "../../../store/clients/useClients.store";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useClientPaymentsStore from "../../../store/paiement_client/usePaiementClient.store";
 
 interface FormData {
   id: number;
@@ -61,6 +62,10 @@ const useClientPaymentUpdateForm = (
     (state) => state.setActionResultMessage
   );
   const selectedClient = useClientsStore((state) => state.selectedClient);
+
+  const fetchAllClientPayments = useClientPaymentsStore(
+    (state) => state.fetchAllClientPayments
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -208,10 +213,11 @@ const useClientPaymentUpdateForm = (
       if (response!.status == 200) {
         onFormClose();
         toggleModal(modalLabel);
+        fetchAllClientPayments(selectedClient!.id!);
         setActionResultMessage(
           "Le paiement du client a été modifié avec succès"
         );
-        console.log("Added successfuly");
+
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();

@@ -1,7 +1,8 @@
 import { BsBellFill, BsChatTextFill } from "react-icons/bs";
 import { JSImages } from "../../utils/images";
-
-function NavBar() {
+import { FC } from "react";
+import JSSearchInput from "../../components/form/widgets/SearchInput";
+const NavBar: FC = () => {
   return (
     <div
       className=" h-[80px] w-10/12 flex flex-row items-center py-7 px-3 bg-white  fixed right-[-0.1px] shadow-sm"
@@ -15,12 +16,7 @@ function NavBar() {
         />
       </div>
       <div className="main-input h-12 w-full mx-14 flex items-center shadow-md">
-        <input
-          type="search"
-          className={`w-full h-full shadow-sm rounded-md bg-transparent border-2 focus:outline-none focus:border-secondary px-2`}
-          name="searchBar"
-          id="searchBar"
-        />
+        <JSSearchInput />
       </div>
       <div className="actions flex flex-row items-center">
         <BsBellFill size={37} className="pr-3 text-secondary" />
@@ -28,6 +24,6 @@ function NavBar() {
       </div>
     </div>
   );
-}
+};
 
 export default NavBar;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import RemiseChequeClient from "../../models/remise_cheque_client/remise_cheque_client.model";
@@ -29,12 +30,6 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         const selectedclientChecksRemittance =
           await RemiseChequeClientAPI.getAllOfClient(clientId);
         set(() => ({ clientChecksRemittance: selectedclientChecksRemittance }));
-        console.log(selectedclientChecksRemittance);
-        const clientChecksRemittanceListLength = get().clientChecksRemittance;
-        console.log(
-          "clientChecksRemittanceListLength: ",
-          clientChecksRemittanceListLength
-        );
       },
 
       sortClientChecksRemittanceByDate: () => {

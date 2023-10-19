@@ -4,6 +4,7 @@ import PaiementClient from "../../../models/paiement_client/paiement.model";
 import useClientsStore from "../../../store/clients/useClients.store";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useClientPaymentsStore from "../../../store/paiement_client/usePaiementClient.store";
 
 interface FormData {
   bcNumber: string;
@@ -52,6 +53,10 @@ const useClientPaymentAddingForm = ({
     (state) => state.setActionResultMessage
   );
   const selectedClient = useClientsStore((state) => state.selectedClient);
+
+  const fetchAllClientPayments = useClientPaymentsStore(
+    (state) => state.fetchAllClientPayments
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -106,7 +111,7 @@ const useClientPaymentAddingForm = ({
         errors.amount = "Le montant doit être un nombre valide.";
       }
     }
- 
+
     if (!formData.bank.trim()) {
       errors.bank = "La banque est requise";
     } else if (formData.bank.trim().length < 3) {
@@ -196,6 +201,7 @@ const useClientPaymentAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("client-payment-adding-form");
+        fetchAllClientPayments(selectedClient!.id!);
         setActionResultMessage(
           "Le paiement du client a été ajouté avec succès"
         );

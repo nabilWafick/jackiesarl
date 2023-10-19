@@ -47,9 +47,15 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
             {clientPurchases.map((clientPurchase) => {
               return (
                 <tr key={clientPurchase.id!}>
-                  <td>{clientPurchase.quantite_achetee}</td>
+                  <td>
+                    {clientPurchase.quantite_achetee}
+                    <b> t</b>
+                  </td>
                   <td>{clientPurchase.categorie}</td>
-                  <td>{clientPurchase.montant}</td>
+                  <td>
+                    {clientPurchase.montant}
+                    <i> fcfa</i>
+                  </td>
                   <td>{clientPurchase.numero_ctp}</td>
                   <td>
                     {clientPurchase.bordereau == "" ? (
@@ -124,7 +130,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
           </tbody>
         </table>
       </div>
-
+      {/* 
       <div className="flex flex-row items-center content-center">
         <span className=" text-md my-3 font-medium text-gray-700">
           Total Achat CIM Benin de la periode
@@ -136,7 +142,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
           Total Achat NOCIBE de la periode
         </span>
         <span className="ml-24 text-md">30t</span>
-      </div>
+      </div> */}
     </div>
   );
 };

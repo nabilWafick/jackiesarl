@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Depenses from "../../models/depenses/depenses.model";
@@ -27,8 +28,6 @@ const useDepensesStore = create<DepensesStore>()(
       isLoading: false,
       fetchAllDepenses: async () => {
         const depensesList: Depenses[] = await DepensesAPI.getAll();
-        const depensessLenght = get().depenses;
-        console.log(depensessLenght);
 
         set(() => ({ depenses: depensesList }));
       },

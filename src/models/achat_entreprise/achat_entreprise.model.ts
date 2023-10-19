@@ -1,5 +1,6 @@
 interface AchatEntrepriseJson {
   bon_commande: number;
+  categorie: string;
   quantite_achetee: number;
   montant: number;
   banque: string;
@@ -10,6 +11,7 @@ interface AchatEntrepriseJson {
 
 class AchatEntreprise {
   bon_commande: number;
+  categorie: string;
   quantite_achetee: number;
   montant: number;
   banque: string;
@@ -19,6 +21,7 @@ class AchatEntreprise {
 
   constructor(
     bon_commande: number,
+    categorie: string,
     quantite_achetee: number,
     montant: number,
     banque: string,
@@ -27,6 +30,7 @@ class AchatEntreprise {
     date_achat?: Date
   ) {
     this.bon_commande = bon_commande;
+    this.categorie = categorie;
     this.quantite_achetee = quantite_achetee;
     this.montant = montant;
     this.banque = banque;
@@ -38,6 +42,7 @@ class AchatEntreprise {
   static fromJson(json: AchatEntrepriseJson): AchatEntreprise {
     return new AchatEntreprise(
       json.bon_commande,
+      json.categorie,
       json.quantite_achetee,
       json.montant,
       json.banque,
@@ -50,6 +55,7 @@ class AchatEntreprise {
   toJson(): AchatEntrepriseJson {
     return {
       bon_commande: this.bon_commande,
+      categorie: this.categorie,
       quantite_achetee: this.quantite_achetee,
       montant: this.montant,
       banque: this.banque,

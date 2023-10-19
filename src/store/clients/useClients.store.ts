@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import Clients from "../../models/clients/clients.model";
 import ClientsAPI from "../../api/clients/clients.api";
@@ -39,7 +40,7 @@ const useClientsStore = create<ClientsStore>()(
       isLoading: false,
       fetchAllClients: async () => {
         const clientsList: Clients[] = await ClientsAPI.getAll();
-        //  console.log(clientsList)
+
         set(() => ({ clients: clientsList }));
       },
       searchClients: async (name: string) => {
@@ -53,8 +54,6 @@ const useClientsStore = create<ClientsStore>()(
 
       setSelectedClient: (client) => {
         set(() => ({ selectedClient: client }));
-        const selectedClient = get().selectedClient;
-        console.log("selectedClient", selectedClient);
       },
       setOrderClient: (client: Clients | undefined) => {
         set(() => ({ orderClient: client }));

@@ -4,6 +4,7 @@ import AchatClient from "../../../models/achat_client/achat_client.model";
 import useClientsStore from "../../../store/clients/useClients.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useClientPurchasesStore from "../../../store/achat_client/useAchatClient.store";
 
 interface FormData {
   id: number;
@@ -51,6 +52,10 @@ const useClientPurchaseUpdateForm = (
     (state) => state.setActionResultMessage
   );
   const selectedClient = useClientsStore((state) => state.selectedClient);
+
+  const fetchAllClientPurchases = useClientPurchasesStore(
+    (state) => state.fetchAllClientPurchases
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -208,6 +213,7 @@ const useClientPurchaseUpdateForm = (
       if (response!.status == 200) {
         onFormClose();
         toggleModal(modalLabel);
+        fetchAllClientPurchases(selectedClient!.id!);
         setActionResultMessage("L'achat du client a été modifié avec succès");
         toggleModal("action-result-message");
       } else if (response!.status == 404) {

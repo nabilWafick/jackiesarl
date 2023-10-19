@@ -30,11 +30,9 @@ class CommandesAPI {
       .post(`${CommandesAPI.baseUrl}/commandes`, data.toJson())
       .then((response) => {
         prromiseResponse = response.data;
-        console.log(response.data);
       })
       .catch((error) => {
         prromiseResponse = error.response.data;
-        console.log(prromiseResponse);
       });
     return prromiseResponse;
   }
@@ -44,7 +42,6 @@ class CommandesAPI {
     await axios
       .get(`${CommandesAPI.baseUrl}/commandes/${id}`)
       .then((response) => {
-        console.log(response.data);
         commande = Commandes.fromJson(response.data);
       })
       .catch((error) => {
@@ -61,7 +58,6 @@ class CommandesAPI {
         commandesList = response.data.map((commande: CommandesJSON) =>
           Commandes.fromJson(commande)
         );
-        console.log(commandesList);
       })
 
       .catch((error) => {

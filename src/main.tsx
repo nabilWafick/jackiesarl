@@ -8,13 +8,7 @@ import Dashboard from "./pages/dashboard";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* <SplashPage /> */}
       <Dashboard />
-      {/* <FormulaireEnvoiFichier /> */}
-      {/* <FormulaireComplet /> */}
-      {/* <DateTimePicker /> */}
-      {/* <TextareaAvecHook /> */}
-      {/* <TestPage /> */}
     </BrowserRouter>
   </React.StrictMode>
 );

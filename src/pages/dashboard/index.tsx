@@ -34,6 +34,7 @@ import DebtsChartPage from "./contents/debts_chart/DebtsChartPage";
 import ExpensesValidationsPage from "./contents/expenses_validation/ExpensesValidationPage";
 import FogPage from "./contents/fog/FogPage";
 import SelectedClientPage from "./contents/selected_client/SelectedClient";
+import SearchPage from "./contents/search/SearchPage";
 
 function Dashboard() {
   return (
@@ -59,6 +60,7 @@ function Dashboard() {
 
             <Routes>
               <Route path="/" Component={TableBord} />
+              <Route path="/search" Component={SearchPage} />
               <Route path="/clients" Component={ClientsListPage} />
               <Route path="/client" Component={SelectedClientPage} />
               <Route path="/clients/achats" Component={ClientPurchasesPage} />

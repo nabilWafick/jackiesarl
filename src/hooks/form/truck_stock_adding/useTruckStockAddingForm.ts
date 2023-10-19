@@ -3,6 +3,7 @@ import StockCamionAPI from "../../../api/stock_camion/stock_camion.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import StockCamion from "../../../models/stock_camion/stock_camion.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useTrucksStockStore from "../../../store/stock_camion/useStockCamion.store";
 
 interface FormData {
   truckNumber: string;
@@ -45,6 +46,10 @@ const useTruckStockAddingForm = ({
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+
+  const fetchAllTruckStock = useTrucksStockStore(
+    (state) => state.fetchAllTruckStock
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,8 +162,8 @@ const useTruckStockAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("truck-stock-adding-form");
+        fetchAllTruckStock();
         setActionResultMessage("Le stock de camion a été ajouté avec succès");
-        console.log("Added successfuly");
         toggleModal("action-result-message");
       } else {
         onFormClose();

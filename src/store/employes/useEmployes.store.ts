@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Employes from "../../models/employes/employes.model";
@@ -29,10 +30,7 @@ const useEmployesStore = create<EmployesStore>()(
       isLoading: false,
       fetchAllEmployes: async () => {
         const employeesList: Employes[] = await EmployesAPI.getAll();
-        //  console.log(clientsList)
         set(() => ({ employees: employeesList }));
-        const length = get().employees.length;
-        console.log(length);
       },
       //   setSelectedClient: (client) => {
       //     set(() => ({ selectedClient: client }));

@@ -33,11 +33,11 @@ const PurchaseOrderStockPage = () => {
         />
         <PurchaseOrderStockAdding
           bcNumber=""
-          category=""
-          purchasedQuantity=""
-          quantityBeforeSelling=""
-          sale=""
-          quantityAfterSelling=""
+          //  category=""
+          //  purchasedQuantity=""
+          initialStock=""
+          //  sale=""
+          //  quantityAfterSelling=""
         />
         <ActionResult />
       </div>

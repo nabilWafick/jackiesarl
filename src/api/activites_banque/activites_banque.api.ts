@@ -41,7 +41,6 @@ class ActivitesBanqueAPI {
     await axios
       .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`)
       .then((response) => {
-        console.log(response.data);
         activitesBanque = ActivitesBanque.fromJson(response.data);
       })
       .catch((error) => {

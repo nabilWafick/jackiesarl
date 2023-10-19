@@ -4,6 +4,7 @@ import PaiementClient from "../../../models/paiement_client/paiement.model";
 import useClientsStore from "../../../store/clients/useClients.store";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useClientsPaymentsValidationStore from "../../../store/paiement_client_validation/usePaiementClientValidation.store";
 
 interface FormData {
   id: number;
@@ -70,6 +71,9 @@ const useClientPaymentValidationUpdateForm = (
   );
   const setPaymentValidationClient = useClientsStore(
     (state) => state.setPaymentValidationClient
+  );
+  const fetchAllClientsPaymentsValidation = useClientsPaymentsValidationStore(
+    (state) => state.fetchAllClientsPaymentsValidation
   );
   const searchClients = useClientsStore((state) => state.searchClients);
   const refreshSearchedClients = useClientsStore(
@@ -255,7 +259,7 @@ const useClientPaymentValidationUpdateForm = (
       if (response!.status == 200) {
         onFormClose();
         toggleModal(modalLabel);
-
+        fetchAllClientsPaymentsValidation();
         setActionResultMessage(
           "Le paiement du client a été modifié avec succès"
         );

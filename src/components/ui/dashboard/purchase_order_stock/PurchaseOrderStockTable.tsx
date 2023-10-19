@@ -18,6 +18,7 @@ const PurchaseOrderStockTable: FC<PurchaseOrderStockTableProps> = ({
               <td className="font-medium">Bon de Commande</td>
               <td className="font-medium">Catégorie</td>
               <td className="font-medium">Quantite Achetee</td>
+              <td className="font-medium">Stock Initial</td>
               <td className="font-medium">Stock Avant Vente</td>
               <td className="font-medium">Vente</td>
               <td className="font-medium">Stock Après Vente </td>
@@ -28,22 +29,35 @@ const PurchaseOrderStockTable: FC<PurchaseOrderStockTableProps> = ({
                 <tr key={purchaseOrderStock.id!}>
                   <td>{purchaseOrderStock.numero_bc}</td>
                   <td>{purchaseOrderStock.categorie}</td>
-                  <td>{purchaseOrderStock.quantite_achetee}</td>
-                  <td>{purchaseOrderStock.stock_avant_vente}</td>
-                  <td>{purchaseOrderStock.vente}</td>
-                  <td>{purchaseOrderStock.stock_apres_vente}</td>
+                  <td>
+                    {purchaseOrderStock.quantite_achetee}
+                    <i> t</i>
+                  </td>
+                  <td>{purchaseOrderStock.stock_initial}</td>
+                  <td>
+                    {purchaseOrderStock.stock_avant_vente}
+                    <i> t</i>
+                  </td>
+                  <td>
+                    {purchaseOrderStock.vente}
+                    <i> t</i>
+                  </td>
+                  <td>
+                    {purchaseOrderStock.stock_apres_vente}
+                    <i> t</i>
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row items-center content-center">
+      {/* <div className="flex flex-row items-center content-center">
         <span className=" text-md my-3 font-medium text-gray-700">
           Stock Total
         </span>
         <span className="ml-80 text-md">1500t</span>
-      </div>
+      </div> */}
     </div>
   );
 };

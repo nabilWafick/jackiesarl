@@ -7,13 +7,14 @@ import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 import JSDateTimePicker from "../../widgets/DateTimePicker.widget";
 import useClientsStore from "../../../../store/clients/useClients.store";
+import { Moment } from "moment";
 
 interface OrderAddingProps {
   clientName: string;
   quantity: string;
   destination: string;
-  orderDate: Date | null;
-  deliveryDate: Date | null;
+  orderDate: Date | Moment;
+  deliveryDate: Date | Moment;
   category: string;
 }
 
@@ -147,8 +148,8 @@ const OrderAdding: FC<OrderAddingProps> = ({
                 name="orderDate"
                 id="orderDate"
                 placeholder="Date de commande"
-                selectedDate={formData.orderDate}
-                onChange={onOrderDateInputChange}
+                selectedDateTime={formData.orderDate}
+                onDateChange={onOrderDateInputChange}
               />
             </div>
             {formErrors.orderDate && (
@@ -167,8 +168,8 @@ const OrderAdding: FC<OrderAddingProps> = ({
                 name="deliveryDate"
                 id="deliveryDate"
                 placeholder="Date de livraison"
-                selectedDate={formData.deliveryDate}
-                onChange={onDeliveryDateInputChange}
+                selectedDateTime={formData.deliveryDate}
+                onDateChange={onDeliveryDateInputChange}
               />
             </div>
             {formErrors.deliveryDate && (

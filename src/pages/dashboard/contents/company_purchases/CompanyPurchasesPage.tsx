@@ -36,6 +36,7 @@ const PurchasesPage: FC = () => {
         />
         <CompanyPurchasseAdding
           bcNumber=""
+          category=""
           bank=""
           purchasedQuantity=""
           amount=""

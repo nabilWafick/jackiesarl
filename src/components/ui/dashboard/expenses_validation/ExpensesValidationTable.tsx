@@ -33,6 +33,31 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
 
   const fetchAllDepenses = useDepensesStore((state) => state.fetchAllDepenses);
 
+  const updateExpenseValidationStatus = async (expense: Depenses) => {
+    const response = await DepensesAPI.update(
+      expense.id!,
+      new Depenses(
+        expense.description,
+        expense.montant,
+        expense.piece,
+        expense.est_validee == 1 ? 0 : 1
+      )
+    );
+
+    if (response!.status == 200) {
+      fetchAllDepenses();
+      setActionResultMessage("La dépense a été modifiée avec succès");
+      console.log("Added successfuly");
+      toggleModal("action-result-message");
+    } else if (response!.status == 404) {
+      setActionResultMessage("La dépense n'a pas été trouvée");
+      toggleModal("action-result-message");
+    } else {
+      setActionResultMessage("Erreur lors de la mise à jour de la dépense");
+      toggleModal("action-result-message");
+    }
+  };
+
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -53,7 +78,9 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
               <tr key={expense.id}>
                 {/* <td>01-04-2025</td> */}
                 <td>{expense.description}</td>
-                <td>{expense.montant}</td>
+                <td>
+                  {expense.montant} <i> fcfa</i>
+                </td>
                 <td>
                   {expense.piece == "" ? (
                     ""
@@ -67,9 +94,17 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
                 <td>
                   <i className="flex justify-end">
                     {expense.est_validee == 1 ? (
-                      <FaCheckCircle className="text-secondary" size={20} />
+                      <FaCheckCircle
+                        className="text-secondary"
+                        onClick={() => updateExpenseValidationStatus(expense)}
+                        size={20}
+                      />
                     ) : (
-                      <FaCheck className="text-secondary" size={20} />
+                      <FaCheck
+                        className="text-secondary"
+                        onClick={() => updateExpenseValidationStatus(expense)}
+                        size={20}
+                      />
                     )}
                   </i>
                 </td>

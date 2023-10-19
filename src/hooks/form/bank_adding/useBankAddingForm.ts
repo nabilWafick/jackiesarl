@@ -3,6 +3,7 @@ import SoldeCourant from "../../../models/solde_courant/solde_courant.model";
 import SoldeCourantAPI from "../../../api/solde_courant/solde_courant.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useSoldeCourantStore from "../../../store/solde_courant/useSoldeCourant.store";
 
 interface FormData {
   bank: string;
@@ -34,6 +35,9 @@ const useBankAddingForm = ({
   });
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+  const fetchAllSoldeCourant = useSoldeCourantStore(
+    (state) => state.fetchAllSoldeCourant
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,8 +117,8 @@ const useBankAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("bank-adding-form");
+        fetchAllSoldeCourant();
         setActionResultMessage("La banque a été ajoutée avec succès");
-        console.log("Added successfuly");
         toggleModal("action-result-message");
       } else {
         onFormClose();

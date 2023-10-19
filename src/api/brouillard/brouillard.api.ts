@@ -40,7 +40,6 @@ class BrouillardAPI {
     await axios
       .get(`${BrouillardAPI.baseUrl}/brouillard/${id}`)
       .then((response) => {
-        console.log(response.data);
         brouillard = Brouillard.fromJson(response.data);
       })
       .catch((error) => {

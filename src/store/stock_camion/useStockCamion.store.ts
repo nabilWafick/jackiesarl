@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import StockCamion from "../../models/stock_camion/stock_camion.model";
@@ -28,9 +29,6 @@ const useTrucksStockStore = create<TrucksStockStore>()(
       fetchAllTruckStock: async () => {
         const selectedtrucksStock = await StockCamionAPI.getAll();
         set(() => ({ trucksStock: selectedtrucksStock }));
-        // console.log(selectedtrucksStock);
-        const trucksStockListLength = get().trucksStock;
-        console.log("trucksStockListLength: ", trucksStockListLength);
       },
       sortTruckStockByCIMBENINCategory: () => {
         set((state) => {

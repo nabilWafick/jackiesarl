@@ -3,6 +3,7 @@ import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import DepensesAPI from "../../../api/depenses/depenses.api";
 import Depenses from "../../../models/depenses/depenses.model";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useDepensesStore from "../../../store/depenses/useDepenses.store";
 
 interface FormData {
   description: string;
@@ -32,6 +33,8 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
+
+  const fetchAllDepenses = useDepensesStore((state) => state.fetchAllDepenses);
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -140,8 +143,8 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
       if (response!.status == 201) {
         onFormClose();
         toggleModal("expense-adding-form");
+        fetchAllDepenses();
         setActionResultMessage("La dépense a été ajoutée avec succès");
-        console.log("Added successfuly");
         toggleModal("action-result-message");
       } else {
         onFormClose();

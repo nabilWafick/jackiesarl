@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import ActivitesDepot from "../../models/activites_depot/activites_depot.model";
@@ -28,9 +29,6 @@ const useActivitesDepotStore = create<ActivitesDepotStore>()(
       fetchAllActivitesDepot: async (id_depot: number) => {
         const activitesDepotList: ActivitesDepot[] =
           await ActivitesDepotAPI.getAllByDepotID(id_depot);
-        const activitesDepotsLenght = get().activitesDepot;
-        console.log(activitesDepotsLenght);
-
         set(() => ({ activitesDepot: activitesDepotList }));
       },
 

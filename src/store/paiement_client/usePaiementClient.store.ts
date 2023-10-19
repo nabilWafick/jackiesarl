@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import PaiementClient from "../../models/paiement_client/paiement.model";
@@ -33,9 +34,6 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
           clientId
         );
         set(() => ({ clientPayments: selectedClientPayments }));
-        console.log(selectedClientPayments);
-        const clientPaymentsListLength = get().clientPayments;
-        console.log("clientPaymentsListLength: ", clientPaymentsListLength);
       },
       sortClientPaymentsByCIMBENINCategory: () => {
         set((state) => {

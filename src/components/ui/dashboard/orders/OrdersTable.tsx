@@ -7,6 +7,7 @@ import useClientsStore from "../../../../store/clients/useClients.store";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useCommandesStore from "../../../../store/commandes/useCommandes.store";
 import CommandesAPI from "../../../../api/commandes/commandes.api";
+import Commandes from "../../../../models/commandes/commandes.model";
 
 interface OrdersTableProps {
   orders: CommandesClients[];
@@ -20,9 +21,36 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
   const fetchAllClientsOrders = useCommandesStore(
     (state) => state.fetchAllClientsOrders
   );
+
+  const updateOrderDeliveryStatus = async (order: CommandesClients) => {
+    const response = await CommandesAPI.update(
+      order.id!,
+      new Commandes(
+        order.categorie,
+        order.quantite_achetee,
+        order.destination,
+        order.date_commande,
+        order.date_livraison,
+        order.est_traitee == 1 ? 0 : 1,
+        order.client!.id!
+      )
+    );
+    if (response!.status == 200) {
+      fetchAllClientsOrders();
+      setActionResultMessage("La commande a été mise à jour avec succès");
+      toggleModal("action-result-message");
+    } else if (response!.status == 404) {
+      setActionResultMessage("La commande n'a pas été trouvée");
+      toggleModal("action-result-message");
+    } else {
+      setActionResultMessage("Erreur lors de la mise à jour de la commande");
+      toggleModal("action-result-message");
+    }
+  };
+
   return (
     <div className="flex flex-col justify-start w-full ">
-      <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p>
+      {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped ">
           <tbody>
@@ -43,7 +71,10 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 <td>
                   {order.client.prenoms} {order.client.nom}
                 </td>
-                <td>{order.quantite_achetee}t</td>
+                <td>
+                  {order.quantite_achetee}
+                  <i> t</i>
+                </td>
                 <td>{order.destination}</td>
                 <td>{order.date_commande.toLocaleString()}</td>
                 <td>{order.date_livraison.toLocaleString()}</td>
@@ -51,11 +82,19 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 <td className="">
                   {order.est_traitee == 1 ? (
                     <i className="flex justify-end">
-                      <FaCheckCircle className="text-secondary" size={20} />
+                      <FaCheckCircle
+                        className="text-secondary"
+                        onClick={() => updateOrderDeliveryStatus(order)}
+                        size={20}
+                      />
                     </i>
                   ) : (
                     <i className="flex justify-end">
-                      <FaCheck className="text-secondary" size={20} />
+                      <FaCheck
+                        className="text-secondary"
+                        onClick={() => updateOrderDeliveryStatus(order)}
+                        size={20}
+                      />
                     </i>
                   )}
                 </td>

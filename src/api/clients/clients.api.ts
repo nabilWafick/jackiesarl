@@ -52,7 +52,6 @@ class ClientsAPI {
     await axios
       .get(`${ClientsAPI.baseUrl}/clients/${id}`)
       .then((response) => {
-        console.log(response.data);
         client = Clients.fromJson(response.data);
       })
       .catch((error) => {

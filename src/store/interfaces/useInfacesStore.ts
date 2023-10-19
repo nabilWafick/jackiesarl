@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Clients from "../../models/clients/clients.model";
@@ -53,7 +54,6 @@ const useInterfacesStore = create<InterfacesStore>()(
         index: number,
         selectedClient: Clients | undefined
       ) => {
-        // const selectedClient = useClientsStore((state) => state.selectedClient);
         set((state) => {
           if (index !== 1) {
             const isOpenState = state.isOpen.map((value, i) =>
@@ -77,12 +77,12 @@ const useInterfacesStore = create<InterfacesStore>()(
         name: string,
         selectedClient: Clients | undefined
       ) => {
-        const lastSideBarOptionName = get().currentActiveSideBarOption;
+        //  const lastSideBarOptionName = get().currentActiveSideBarOption;
         set((state) => {
           state.toggleSideBarOptionDropdown(index, selectedClient);
           return { currentActiveSideBarOption: name };
         });
-        console.log(`lastSideBarOptionName: ${lastSideBarOptionName}`);
+        //   console.log(`lastSideBarOptionName: ${lastSideBarOptionName}`);
         // console.log(`newSideBarOptionName: ${get().currentActiveSideBarOption}`,)
       },
       setCurrentActiveSideBarSubOption: (name: string) => {

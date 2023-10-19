@@ -3,6 +3,7 @@ import ClientsAPI from "../../../api/clients/clients.api";
 import Clients from "../../../models/clients/clients.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useClientsStore from "../../../store/clients/useClients.store";
 
 interface FormData {
   firstname: string;
@@ -48,6 +49,7 @@ const useClientAddingForm = ({
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
+  const fetchAllClients = useClientsStore((state) => state.fetchAllClients);
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -160,6 +162,7 @@ const useClientAddingForm = ({
       } else if (response!.status == 201) {
         onFormClose();
         toggleModal("client-adding-form");
+        fetchAllClients();
         setActionResultMessage("Le client a été ajouté avec succès");
         toggleModal("action-result-message");
       } else {

@@ -34,15 +34,10 @@ const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
           }
         }}
         locale="fr"
-        inputProps={{
-          id: id,
-          name: name,
-          placeholder: placeholder,
-          autoComplete: "",
-        }}
+        inputProps={{ id: id, name: name, placeholder: placeholder }}
         timeFormat="HH:mm"
         dateFormat="DD/MM/YYYY"
-        closeOnSelect={false}
+        closeOnSelect={true}
         className={` w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`}
       />
     </div>

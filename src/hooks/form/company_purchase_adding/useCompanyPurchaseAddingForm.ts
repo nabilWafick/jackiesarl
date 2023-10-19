@@ -3,9 +3,11 @@ import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import AchatEntrepriseAPI from "../../../api/achat_entreprise/achat_entreprise.api";
 import AchatEntreprise from "../../../models/achat_entreprise/achat_entreprise.model";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useCompanyPurchasesStore from "../../../store/achat_entreprise/useAchatEntreprise.store";
 
 interface FormData {
   bcNumber: string;
+  category: string;
   purchasedQuantity: string;
   amount: string;
   bank: string;
@@ -15,6 +17,7 @@ interface FormData {
 
 interface FormErrors {
   bcNumber: string | null;
+  category: string | null;
   bank: string | null;
   purchasedQuantity: string | null;
   amount: string | null;
@@ -24,6 +27,7 @@ interface FormErrors {
 
 const useCompanyPurchaseForm = ({
   bcNumber,
+  category,
   bank,
   purchasedQuantity,
   amount,
@@ -32,6 +36,7 @@ const useCompanyPurchaseForm = ({
 }: FormData) => {
   const [formData, setFormData] = useState<FormData>({
     bcNumber: bcNumber,
+    category: category,
     purchasedQuantity: purchasedQuantity,
     amount: amount,
     bank: bank,
@@ -41,6 +46,7 @@ const useCompanyPurchaseForm = ({
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
     bcNumber: null,
+    category: null,
     purchasedQuantity: null,
     amount: null,
     bank: null,
@@ -50,6 +56,10 @@ const useCompanyPurchaseForm = ({
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+
+  const fetchAllCompanyPurchases = useCompanyPurchasesStore(
+    (state) => state.fetchAllCompanyPurchases
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +86,7 @@ const useCompanyPurchaseForm = ({
   const validateForm = () => {
     const errors: FormErrors = {
       bcNumber: null,
+      category: null,
       purchasedQuantity: null,
       amount: null,
       bank: null,
@@ -91,6 +102,13 @@ const useCompanyPurchaseForm = ({
         errors.bcNumber =
           "Le numéro de bon de commande doit être un nombre valide.";
       }
+    }
+
+    // Validation pour category (string)
+    if (!formData.category.trim()) {
+      errors.category = "La catégorie est requise";
+    } else if (formData.category.trim().length < 3) {
+      errors.category = "La catégorie doit comporter au moins 3 caractères.";
     }
 
     // Validation pour purchasedQuantity (nombre)
@@ -164,6 +182,7 @@ const useCompanyPurchaseForm = ({
   const onFormClose = () => {
     setFormData({
       bcNumber: bcNumber,
+      category: category,
       purchasedQuantity: purchasedQuantity,
       amount: amount,
       bank: bank,
@@ -173,6 +192,7 @@ const useCompanyPurchaseForm = ({
 
     setFormErrors({
       bcNumber: null,
+      category: null,
       purchasedQuantity: null,
       amount: null,
       bank: null,
@@ -187,6 +207,7 @@ const useCompanyPurchaseForm = ({
     if (validateForm()) {
       setFormErrors({
         bcNumber: null,
+        category: null,
         purchasedQuantity: null,
         amount: null,
         bank: null,
@@ -197,6 +218,7 @@ const useCompanyPurchaseForm = ({
       const response = await AchatEntrepriseAPI.create(
         new AchatEntreprise(
           parseFloat(formData.bcNumber),
+          formData.category,
           parseFloat(formData.purchasedQuantity),
           parseFloat(formData.amount),
           formData.bank,
@@ -208,6 +230,7 @@ const useCompanyPurchaseForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("company-purchase-adding-form");
+        fetchAllCompanyPurchases();
         setActionResultMessage(
           "L'achat de l'entreprise a été ajouté avec succès"
         );

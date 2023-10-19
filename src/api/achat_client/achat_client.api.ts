@@ -21,35 +21,21 @@ interface AchatClientJSON {
 
 class AchatClientAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
-
-  /* private static config = {
-    headers: {
-      "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
-    },
-  };
-*/
   static async create(
     data: AchatClient
   ): Promise<AchatClientPromiseResponse | undefined> {
     let promiseResponse: AchatClientPromiseResponse | undefined = undefined;
 
     await axios
-      .post(
-        `${AchatClientAPI.baseUrl}/achat-client`,
-        data.toJson(),
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
-          },
-        }
-        //   AchatClientAPI.config
-      )
+      .post(`${AchatClientAPI.baseUrl}/achat-client`, data.toJson(), {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+        },
+      })
       .then((response) => {
-        console.log(response.data);
         promiseResponse = response.data;
       })
       .catch((error) => {
-        console.log(error);
         promiseResponse = error.response.data;
       });
     return promiseResponse;
@@ -60,7 +46,6 @@ class AchatClientAPI {
     await axios
       .get(`${AchatClientAPI.baseUrl}/achat-client/${id}`)
       .then((response) => {
-        console.log(response.data);
         achatClient = AchatClient.fromJson(response.data);
       })
       .catch((error) => {
@@ -115,12 +100,10 @@ class AchatClientAPI {
       })
       .then((response) => {
         promiseResponse = response.data;
-        console.log(response.data);
       })
 
       .catch((error) => {
         promiseResponse = error.response.data;
-        console.error(error);
       });
     return promiseResponse;
   }
@@ -134,11 +117,9 @@ class AchatClientAPI {
       .delete(`${AchatClientAPI.baseUrl}/achat-client/${id}`)
       .then((response) => {
         promiseResponse = response;
-        console.log(response);
       })
       .catch((error) => {
         promiseResponse = error.response;
-        console.log(error.response.data);
       });
     return promiseResponse;
   }

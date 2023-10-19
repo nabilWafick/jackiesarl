@@ -6,6 +6,7 @@ import { toggleModal } from "../widgets/ToggleModal";
 import RemiseChequeClientAPI from "../../../../api/remise_cheque_client/remise_cheque_client.api";
 import useClientChecksRemittanceStore from "../../../../store/remise_cheque_client/useRemiseChequeClient.store";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import useClientsStore from "../../../../store/clients/useClients.store";
 
 interface ClientChecksRemittanceTableProps {
   clientChecksRemittance: RemiseChequeClient[];
@@ -21,6 +22,40 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
   const fetchAllClientChecksRemittance = useClientChecksRemittanceStore(
     (state) => state.fetchAllClientChecksRemittance
   );
+
+  const selectedClient = useClientsStore((state) => state.selectedClient);
+
+  const updateCheckValidationStatus = async (check: RemiseChequeClient) => {
+    const response = await RemiseChequeClientAPI.update(
+      check.id!,
+      new RemiseChequeClient(
+        check.description,
+        check.banque,
+        check.montant,
+        check.reste,
+        check.est_validee == 1 ? 0 : 1,
+        selectedClient!.id!
+      )
+    );
+
+    if (response!.status == 200) {
+      setActionResultMessage(
+        "La remise de chèque du client a été mis à jour avec succès"
+      );
+      toggleModal("action-result-message");
+      fetchAllClientChecksRemittance(selectedClient!.id!);
+    } else if (response!.status == 404) {
+      setActionResultMessage(
+        "La remise de chèque du client n'a pas été trouvé"
+      );
+      toggleModal("action-result-message");
+    } else {
+      setActionResultMessage(
+        "Erreur lors de la mise à jour de la remise de chèque du client"
+      );
+      toggleModal("action-result-message");
+    }
+  };
 
   return (
     <div className="flex flex-col justify-start w-full ">
@@ -42,14 +77,31 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
               <tr key={clientCheckRemittance.id!}>
                 <td>{clientCheckRemittance.description}</td>
                 <td>{clientCheckRemittance.banque}</td>
-                <td>{clientCheckRemittance.montant}</td>
-                <td>{clientCheckRemittance.reste}</td>
+                <td>
+                  {clientCheckRemittance.montant}
+                  <b> fcfa</b>
+                </td>
+                <td>
+                  {clientCheckRemittance.reste} <i> fcfa</i>
+                </td>
                 <td>
                   <i className="flex justify-end">
                     {clientCheckRemittance.est_validee == 1 ? (
-                      <FaCheckCircle className="text-secondary" size={20} />
+                      <FaCheckCircle
+                        className="text-secondary"
+                        onClick={() =>
+                          updateCheckValidationStatus(clientCheckRemittance)
+                        }
+                        size={20}
+                      />
                     ) : (
-                      <FaCheck className="text-secondary" size={20} />
+                      <FaCheck
+                        className="text-secondary"
+                        onClick={() =>
+                          updateCheckValidationStatus(clientCheckRemittance)
+                        }
+                        size={20}
+                      />
                     )}
                   </i>
                 </td>
@@ -113,12 +165,12 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row items-center content-center">
+      {/* <div className="flex flex-row items-center content-center">
         <span className=" text-md my-3 font-medium text-gray-700">
           Total des paiements
         </span>
         <span className="ml-20 text-md">10 000 000</span>
-      </div>
+      </div> */}
     </div>
   );
 };

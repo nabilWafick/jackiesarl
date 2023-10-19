@@ -1,8 +1,8 @@
 import axios from "axios";
-import RemiseChequeClient from '../../models/remise_cheque_client/remise_cheque_client.model';
+import RemiseChequeClient from "../../models/remise_cheque_client/remise_cheque_client.model";
 
-interface RemiseChequeClientPromiseResponse{
-  status: number,
+interface RemiseChequeClientPromiseResponse {
+  status: number;
   remiseChequeClient?: RemiseChequeClient;
   error?: string;
 }
@@ -21,21 +21,24 @@ interface RemiseChequeClientJSON {
 class RemiseChequeClientAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: RemiseChequeClient) :Promise<RemiseChequeClientPromiseResponse | undefined>{
-  let promiseResponse : RemiseChequeClientPromiseResponse | undefined = undefined
-      await axios.post(
+  static async create(
+    data: RemiseChequeClient
+  ): Promise<RemiseChequeClientPromiseResponse | undefined> {
+    let promiseResponse: RemiseChequeClientPromiseResponse | undefined =
+      undefined;
+    await axios
+      .post(
         `${RemiseChequeClientAPI.baseUrl}/remise-cheque-client`,
         data.toJson()
-      ).then(response => {
-        promiseResponse = response.data
+      )
+      .then((response) => {
         console.log(response.data);
-      }).
-        catch((error) => {
-       promiseResponse = error.response.data
-       console.error(error.response)
-     
-        })
-    return promiseResponse
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+        console.error(error.response);
+      });
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<RemiseChequeClient | undefined> {
@@ -43,7 +46,6 @@ class RemiseChequeClientAPI {
     await axios
       .get(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`)
       .then((response) => {
-        console.log(response.data);
         remiseChequeClient = RemiseChequeClient.fromJson(response.data);
       })
       .catch((error) => {
@@ -90,35 +92,45 @@ class RemiseChequeClientAPI {
     return remiseChecksClientList;
   }
 
-  static async update(id: number, data: RemiseChequeClient) : Promise<RemiseChequeClientPromiseResponse | undefined> {
-    let promiseResponse : RemiseChequeClientPromiseResponse | undefined = undefined
-  
-     await axios.put(
+  static async update(
+    id: number,
+    data: RemiseChequeClient
+  ): Promise<RemiseChequeClientPromiseResponse | undefined> {
+    let promiseResponse: RemiseChequeClientPromiseResponse | undefined =
+      undefined;
+
+    await axios
+      .put(
         `${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`,
         data.toJson()
-     ).then((response) => {
-        promiseResponse = response.data
-     }).catch((error) => {
-        promiseResponse = error.response.data
-
-        console.error(error.response)
+      )
+      .then((response) => {
+        promiseResponse = response.data;
       })
-    return promiseResponse
+      .catch((error) => {
+        promiseResponse = error.response.data;
+
+        console.error(error.response);
+      });
+    return promiseResponse;
   }
 
-  static async delete(id: number): Promise<RemiseChequeClientPromiseResponse | undefined> {
-    let promiseResponse : RemiseChequeClientPromiseResponse | undefined = undefined
-    await axios.delete(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`
-    ).then((response) => {
-      promiseResponse = response
-      console.log(response)
-    }).catch((error) => {
-      promiseResponse = error.response.data
-      console.error(error.response)
-    })
-    
-    return promiseResponse
+  static async delete(
+    id: number
+  ): Promise<RemiseChequeClientPromiseResponse | undefined> {
+    let promiseResponse: RemiseChequeClientPromiseResponse | undefined =
+      undefined;
+    await axios
+      .delete(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`)
+      .then((response) => {
+        promiseResponse = response;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+        console.error(error.response);
+      });
+
+    return promiseResponse;
   }
 }
 

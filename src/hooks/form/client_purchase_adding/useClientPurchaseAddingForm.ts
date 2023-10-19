@@ -4,6 +4,7 @@ import AchatClient from "../../../models/achat_client/achat_client.model";
 import useClientsStore from "../../../store/clients/useClients.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useClientPurchasesStore from "../../../store/achat_client/useAchatClient.store";
 
 interface FormData {
   quantity: string;
@@ -53,6 +54,10 @@ const useClientPurchaseAddingForm = ({
     (state) => state.setActionResultMessage
   );
   const selectedClient = useClientsStore((state) => state.selectedClient);
+
+  const fetchAllClientPurchases = useClientPurchasesStore(
+    (state) => state.fetchAllClientPurchases
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -207,6 +212,7 @@ const useClientPurchaseAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("client-purchase-adding-form");
+        fetchAllClientPurchases(selectedClient!.id!);
         setActionResultMessage("L'achat du client a été ajouté avec succès");
         console.log("Added successfuly");
         toggleModal("action-result-message");

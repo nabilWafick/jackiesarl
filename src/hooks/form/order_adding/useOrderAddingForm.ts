@@ -4,13 +4,15 @@ import Commandes from "../../../models/commandes/commandes.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useClientsStore from "../../../store/clients/useClients.store";
+import useCommandesStore from "../../../store/commandes/useCommandes.store";
+import { Moment } from "moment";
 
 interface FormData {
   clientName: string;
   quantity: string;
   destination: string;
-  orderDate: Date | null;
-  deliveryDate: Date | null;
+  orderDate: Date | Moment;
+  deliveryDate: Date | Moment;
   category: string;
 }
 
@@ -51,6 +53,9 @@ const useOrderAddingForm = ({
 
   const orderClient = useClientsStore((state) => state.orderClient);
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
+  const fetchAllClientsOrders = useCommandesStore(
+    (state) => state.fetchAllClientsOrders
+  );
   const searchClients = useClientsStore((state) => state.searchClients);
   const refreshSearchedClients = useClientsStore(
     (state) => state.refreshSearchedClients
@@ -87,14 +92,14 @@ const useOrderAddingForm = ({
     });
   };
 
-  const onOrderDateInputChange = (dateValue: Date | null) => {
+  const onOrderDateInputChange = (dateValue: Date | Moment) => {
     setFormData({
       ...formData,
       orderDate: dateValue,
     });
   };
 
-  const onDeliveryDateInputChange = (dateValue: Date | null) => {
+  const onDeliveryDateInputChange = (dateValue: Date | Moment) => {
     setFormData({
       ...formData,
       deliveryDate: dateValue,
@@ -153,8 +158,8 @@ const useOrderAddingForm = ({
 
     // Validation de la relation entre orderDate et deliveryDate
     if (formData.orderDate && formData.deliveryDate) {
-      const orderDate = new Date(formData.orderDate);
-      const deliveryDate = new Date(formData.deliveryDate);
+      const orderDate = new Date(formData.orderDate.toLocaleString());
+      const deliveryDate = new Date(formData.deliveryDate.toLocaleString());
       if (orderDate >= deliveryDate) {
         errors.orderDate =
           "La date de commande doit être antérieure à la date de livraison.";
@@ -216,8 +221,8 @@ const useOrderAddingForm = ({
           formData.category,
           parseFloat(formData.quantity),
           formData.destination,
-          new Date(formData.orderDate!),
-          new Date(formData.deliveryDate!),
+          new Date(formData.orderDate.toLocaleString()!),
+          new Date(formData.deliveryDate.toLocaleString()!),
           0,
           orderClient!.id!
         )
@@ -225,6 +230,7 @@ const useOrderAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("order-adding-form");
+        fetchAllClientsOrders();
         setActionResultMessage("La commande a été ajoutée avec succès");
         // console.log("Added successfuly");
         toggleModal("action-result-message");

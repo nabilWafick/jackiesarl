@@ -3,6 +3,7 @@ import ActivitesBanqueAPI from "../../../api/activites_banque/activites_banque.a
 import ActivitesBanque from "../../../models/activites_banque/activites_banque.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useActivitesBanqueStore from "../../../store/activites_banque/useActivitesBanque.store";
 //import useSoldeCourantStore from "../../../store/solde_courant/useSoldeCourant.store";
 
 interface FormData {
@@ -46,6 +47,10 @@ const useCurrentBalenceDetailsUpdateForm = (
   //   );
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+
+  const fetchAllActivitesBanque = useActivitesBanqueStore(
+    (state) => state.fetchAllActivitesBanque
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,6 +161,7 @@ const useCurrentBalenceDetailsUpdateForm = (
       if (response!.status == 200) {
         onFormClose();
         toggleModal(modalLabel);
+        fetchAllActivitesBanque(formData.id_banque);
         setActionResultMessage(
           "L'activité de la banque a été modifiée avec succès"
         );

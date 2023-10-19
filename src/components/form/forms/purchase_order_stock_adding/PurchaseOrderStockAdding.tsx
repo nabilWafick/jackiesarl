@@ -8,29 +8,29 @@ import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface PurchaseOrderStockAddingProps {
   bcNumber: string;
-  category: string;
-  purchasedQuantity: string;
-  quantityBeforeSelling: string;
-  sale: string;
-  quantityAfterSelling: string;
+  //  category: string;
+  //  purchasedQuantity: string;
+  initialStock: string;
+  //  sale: string;
+  //  quantityAfterSelling: string;
 }
 
 const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
   bcNumber,
-  category,
-  purchasedQuantity,
-  quantityBeforeSelling,
-  sale,
-  quantityAfterSelling,
+  // category,
+  // purchasedQuantity,
+  initialStock,
+  // sale,
+  // quantityAfterSelling,
 }) => {
   const { formData, formErrors, onInputDataChange, onFormClose, onFormSubmit } =
     usePurchaseOrderStock({
       bcNumber: bcNumber,
-      category: category,
-      purchasedQuantity: purchasedQuantity,
-      quantityBeforeSelling: quantityBeforeSelling,
-      sale: sale,
-      quantityAfterSelling: quantityAfterSelling,
+      //  category: category,
+      //  purchasedQuantity: purchasedQuantity,
+      initialStock: initialStock,
+      //  sale: sale,
+      //  quantityAfterSelling: quantityAfterSelling,
     });
   return (
     <Modal label="purchase-order-stock-adding-form">
@@ -62,7 +62,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -98,28 +98,28 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 {formErrors.purchasedQuantity}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantityBeforeSelling}
-                name="quantityBeforeSelling"
-                id="quantityBeforeSelling"
+                value={formData.initialStock}
+                name="initialStock"
+                id="initialStock"
                 type="text"
-                placeholder="Stock Avant Vente"
-                autoComplete="quantityBeforeSelling"
+                placeholder="Stock Initial"
+                autoComplete="initialStock"
               />
             </div>
-            {formErrors.quantityBeforeSelling && (
+            {formErrors.initialStock && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.quantityBeforeSelling}
+                {formErrors.initialStock}
               </p>
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -155,7 +155,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 {formErrors.quantityAfterSelling}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton

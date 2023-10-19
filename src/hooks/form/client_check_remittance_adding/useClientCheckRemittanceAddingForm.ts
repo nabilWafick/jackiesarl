@@ -1,9 +1,10 @@
 import { useState } from "react";
-import RemiseChequeClientAPI from '../../../api/remise_cheque_client/remise_cheque_client.api';
+import RemiseChequeClientAPI from "../../../api/remise_cheque_client/remise_cheque_client.api";
 import RemiseChequeClient from "../../../models/remise_cheque_client/remise_cheque_client.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useClientsStore from "../../../store/clients/useClients.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useClientChecksRemittanceStore from "../../../store/remise_cheque_client/useRemiseChequeClient.store";
 
 interface FormData {
   description: string;
@@ -42,8 +43,11 @@ const useClientCheckRemittanceAddingForm = ({
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
-  const selectedClient = useClientsStore((state) => state.selectedClient);
 
+  const selectedClient = useClientsStore((state) => state.selectedClient);
+  const fetchAllClientChecksRemittance = useClientChecksRemittanceStore(
+    (state) => state.fetchAllClientChecksRemittance
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -115,18 +119,17 @@ const useClientCheckRemittanceAddingForm = ({
       bank: bank,
       amount: amount,
       rest: rest,
-    })
+    });
 
     setFormErrors({
       description: null,
       bank: null,
       amount: null,
       rest: null,
-    })
-  }
+    });
+  };
 
   const onFormSubmit = async (e: React.FormEvent) => {
-    
     e.preventDefault();
 
     if (validateForm()) {
@@ -135,15 +138,23 @@ const useClientCheckRemittanceAddingForm = ({
         bank: null,
         amount: null,
         rest: null,
-      })
-    
+      });
+
       const response = await RemiseChequeClientAPI.create(
-        new RemiseChequeClient(formData.description,formData.bank,parseFloat(formData.amount),parseFloat(formData.rest),0,selectedClient!.id!)
-      )
+        new RemiseChequeClient(
+          formData.description,
+          formData.bank,
+          parseFloat(formData.amount),
+          parseFloat(formData.rest),
+          0,
+          selectedClient!.id!
+        )
+      );
 
       if (response!.status == 201) {
         onFormClose();
         toggleModal("client-check-remittance-adding-form");
+        fetchAllClientChecksRemittance(selectedClient!.id!);
         setActionResultMessage(
           "La remise de chèque du client a été ajoutée avec succès"
         );
@@ -152,11 +163,11 @@ const useClientCheckRemittanceAddingForm = ({
       } else {
         onFormClose();
         toggleModal("client-check-remittance-adding-form");
-        setActionResultMessage("Erreur lors de l'ajout du remise de chèque du client");
+        setActionResultMessage(
+          "Erreur lors de l'ajout du remise de chèque du client"
+        );
         toggleModal("action-result-message");
       }
-
-      
     }
   };
 

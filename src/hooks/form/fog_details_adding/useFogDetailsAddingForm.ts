@@ -4,6 +4,7 @@ import ActivitesDepot from "../../../models/activites_depot/activites_depot.mode
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useBrouillardStore from "../../../store/brouillard/useBrouillard.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
+import useActivitesDepotStore from "../../../store/activites_depot/useActivitesDepot.store";
 
 interface FormData {
   quantityBeforeSelling: string;
@@ -55,6 +56,10 @@ const useFogDetailsAddingForm = ({
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+
+  const fetchAllActivitesDepot = useActivitesDepotStore(
+    (state) => state.fetchAllActivitesDepot
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -207,6 +212,7 @@ const useFogDetailsAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("fog-details-adding-form");
+        fetchAllActivitesDepot(selectedBrouillard!.id!);
         setActionResultMessage("L'activité du dépôt a été ajouté avec succès");
         console.log("Added successfuly");
         toggleModal("action-result-message");

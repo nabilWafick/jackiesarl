@@ -32,7 +32,9 @@ const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
               <tr key={expense.id}>
                 {/* <td>01-04-2025</td> */}
                 <td>{expense.description}</td>
-                <td>{expense.montant}</td>
+                <td>
+                  {expense.montant} <i> fcfa</i>
+                </td>
                 <td>
                   {expense.piece == "" ? (
                     ""

@@ -3,6 +3,7 @@ import Brouillard from "../../../models/brouillard/brouillard.model";
 import BrouillardAPI from "../../../api/brouillard/brouillard.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
+import useBrouillardStore from "../../../store/brouillard/useBrouillard.store";
 
 interface FormData {
   deposit: string;
@@ -40,6 +41,10 @@ const useFogAddingForm = ({
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+
+  const fetchAllBrouillard = useBrouillardStore(
+    (state) => state.fetchAllBrouillard
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +146,7 @@ const useFogAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("fog-adding-form");
+        fetchAllBrouillard();
         setActionResultMessage("Le dépôt a été ajouté avec succès");
         console.log("Added successfuly");
         toggleModal("action-result-message");

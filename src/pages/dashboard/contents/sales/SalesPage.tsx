@@ -1,4 +1,4 @@
-import SellingTable from "../../../../components/ui/dashboard/selling/SellingTable";
+import SellingTable from "../../../../components/ui/dashboard/sales/SalesTable";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 import useClientsStore from "../../../../store/clients/useClients.store";

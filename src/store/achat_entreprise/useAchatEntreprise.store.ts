@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AchatEntreprise from "../../models/achat_entreprise/achat_entreprise.model";
@@ -31,9 +32,6 @@ const useCompanyPurchasesStore = create<CompanyPurchasesStore>()(
       fetchAllCompanyPurchases: async () => {
         const companyPurchases = await AchatEntrepriseAPI.getAll();
         set(() => ({ companyPurchases: companyPurchases }));
-        console.log(companyPurchases);
-        const companyPurchasesListLength = get().companyPurchases;
-        console.log("companyPurchasesListLength: ", companyPurchasesListLength);
       },
       /*  sortCompanyPurchasesByCIMBENINCategory: () => {
         set((state) => {

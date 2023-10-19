@@ -4,6 +4,7 @@ import ActivitesBanque from "../../../models/activites_banque/activites_banque.m
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useSoldeCourantStore from "../../../store/solde_courant/useSoldeCourant.store";
+import useActivitesBanqueStore from "../../../store/activites_banque/useActivitesBanque.store";
 
 interface FormData {
   description: string;
@@ -44,6 +45,9 @@ const useCurrentBalenceDetailsAddingForm = ({
   );
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+  const fetchAllActivitesBanque = useActivitesBanqueStore(
+    (state) => state.fetchAllActivitesBanque
   );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,6 +155,7 @@ const useCurrentBalenceDetailsAddingForm = ({
       if (response!.status == 201) {
         onFormClose();
         toggleModal("current-balence-details-adding-form");
+        fetchAllActivitesBanque(selectedSoldeCourant!.id!);
         setActionResultMessage(
           "L'activité de la banque a été ajoutée avec succès"
         );

@@ -16,8 +16,12 @@ function ClientsTonnageListTable() {
                 return (
                   <tr key={index}>
                     <td>Freddy EDOUN</td>
-                    <td>3450t</td>
-                    <td>3500t</td>
+                    <td>
+                      3450 <i> t</i>
+                    </td>
+                    <td>
+                      3500 <i> t</i>
+                    </td>
                     <td>20%</td>
                   </tr>
                 );
@@ -25,8 +29,12 @@ function ClientsTonnageListTable() {
               return (
                 <tr key={index}>
                   <td>Tobby PATO</td>
-                  <td>3450t</td>
-                  <td>3500t</td>
+                  <td>
+                    3450 <i> t</i>
+                  </td>
+                  <td>
+                    3500 <i> t</i>
+                  </td>
                   <td>20%</td>
                 </tr>
               );

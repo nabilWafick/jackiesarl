@@ -13,6 +13,7 @@ import { toggleModal } from "../widgets/ToggleModal";
 import ClientPaymentValidationUpdate from "../../../form/forms/client_payment_validation_update/ClientPaymentValidationUpdate";
 import PaiementClientAPI from "../../../../api/paiement_client/paiement_client.api";
 import useClientsPaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
+import PaiementClient from "../../../../models/paiement_client/paiement.model";
 
 interface ClientsPaymentsValidationsTableProps {
   clientsPaymentsValidations: PaiementClientValidation[];
@@ -40,6 +41,38 @@ const ClientsPaymentsValidationsTable: FC<
     (state) => state.fetchAllClientsPaymentsValidation
   );
 
+  const updatePaymentValidationStatus = async (
+    payment: PaiementClientValidation
+  ) => {
+    const response = await PaiementClientAPI.update(
+      payment.id!,
+      new PaiementClient(
+        payment.montant,
+        payment.banque,
+        payment.reference,
+        payment.categorie,
+        payment.numero_bc,
+        payment.bordereau,
+        payment.est_valide == 1 ? 0 : 1,
+        payment.client!.id!
+      )
+    );
+    if (response!.status == 200) {
+      fetchAllClientsPaymentsValidation();
+      setActionResultMessage("Le paiement du client a été modifié avec succès");
+      console.log("Added successfuly");
+      toggleModal("action-result-message");
+    } else if (response!.status == 404) {
+      setActionResultMessage("Le paiement du client n'a pas été trouvé");
+      toggleModal("action-result-message");
+    } else {
+      setActionResultMessage(
+        "Erreur lors de la modification du paiement du client"
+      );
+      toggleModal("action-result-message");
+    }
+  };
+
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -65,7 +98,9 @@ const ClientsPaymentsValidationsTable: FC<
                   {clientsPaymentValidation.client.prenoms}{" "}
                   {clientsPaymentValidation.client.nom}
                 </td>
-                <td>{clientsPaymentValidation.montant}</td>
+                <td>
+                  {clientsPaymentValidation.montant} <i> fcfa</i>
+                </td>
                 <td>{clientsPaymentValidation.banque}</td>
                 <td>{clientsPaymentValidation.reference}</td>
                 <td>{clientsPaymentValidation.categorie}</td>
@@ -87,11 +122,27 @@ const ClientsPaymentsValidationsTable: FC<
                 <td className="w-min">
                   {clientsPaymentValidation.est_valide == 1 ? (
                     <center className="flex justify-end">
-                      <FaCheckCircle className="text-secondary" size={20} />
+                      <FaCheckCircle
+                        className="text-secondary"
+                        onClick={() =>
+                          updatePaymentValidationStatus(
+                            clientsPaymentValidation
+                          )
+                        }
+                        size={20}
+                      />
                     </center>
                   ) : (
                     <center className="flex justify-end">
-                      <FaCheck className="text-secondary" size={20} />
+                      <FaCheck
+                        className="text-secondary"
+                        onClick={() =>
+                          updatePaymentValidationStatus(
+                            clientsPaymentValidation
+                          )
+                        }
+                        size={20}
+                      />
                     </center>
                   )}
                 </td>

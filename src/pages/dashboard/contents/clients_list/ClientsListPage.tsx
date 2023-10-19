@@ -7,17 +7,17 @@ import ClientsTable from "../../../../components/ui/dashboard/clients/ClientsTab
 import "../../../../assets/css/table.css";
 import ClientAdding from "../../../../components/form/forms/client_adding/ClientAdding";
 import useClientsStore from "../../../../store/clients/useClients.store";
-import { useEffect, useReducer } from "react";
+import { useEffect /* useReducer */ } from "react";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
 const ClientsListPage = () => {
   const clientsList = useClientsStore((state) => state.clients);
   // const testList = useClientsStore((state) => state.testList);
   const fetchClientList = useClientsStore((state) => state.fetchAllClients);
-  const sortClientsNameByASC = useClientsStore(
-    (state) => state.sortClientsNameByASC
-  );
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  // const sortClientsNameByASC = useClientsStore(
+  //   (state) => state.sortClientsNameByASC
+  // );
+  // const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     fetchClientList();
@@ -47,9 +47,9 @@ const ClientsListPage = () => {
       <div className="w-full flex justify-end items-center mt-2 content-center">
         <FilterOptionButton />
       </div>
-      <div>clientsListLength: {clientsList.length}</div>
+      {/* <div>clientsListLength: {clientsList.length}</div> */}
 
-      <button
+      {/* <button
         className="bg-secondary text-white"
         onClick={() => {
           toggleModal("action-result-message");
@@ -58,7 +58,7 @@ const ClientsListPage = () => {
         }}
       >
         Sort Name By ASCII
-      </button>
+      </button> */}
       <ClientsTable clientsList={clientsList} />
     </div>
   );

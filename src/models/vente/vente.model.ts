@@ -17,8 +17,8 @@ interface VenteJSON {
   categorie: string;
   montant: number;
   numero_ctp: string;
-  bordereau: string;
-  numero_bc: string;
+  bordereau: string | File;
+  numero_bc: number;
   client: ClientsJSON;
   date_achat?: string;
 }
@@ -29,8 +29,8 @@ class Vente {
   categorie: string;
   montant: number;
   numero_ctp: string;
-  bordereau: string;
-  numero_bc: string;
+  bordereau: string | File;
+  numero_bc: number;
   client: Clients;
   date_achat?: Date;
 
@@ -39,8 +39,8 @@ class Vente {
     categorie: string,
     montant: number,
     numero_ctp: string,
-    bordereau: string,
-    numero_bc: string,
+    bordereau: string | File,
+    numero_bc: number,
     client: Clients,
     id?: number,
     date_achat?: Date

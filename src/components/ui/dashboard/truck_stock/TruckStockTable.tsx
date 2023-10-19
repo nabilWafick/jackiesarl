@@ -43,7 +43,10 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
                   <td>{truckStock.categorie}</td>
                   <td>{truckStock.numero_chauffeur}</td>
                   <td>{truckStock.numero_bc}</td>
-                  <td>{truckStock.quantite}</td>
+                  <td>
+                    {truckStock.quantite}
+                    <i> t</i>
+                  </td>
                   <td>
                     <div>
                       <TruckStockUpadate
@@ -102,12 +105,12 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row items-center content-center">
+      {/* <div className="flex flex-row items-center content-center">
         <span className=" text-md my-3 font-medium text-gray-700">
           Stock Total
         </span>
         <span className="ml-80 text-md">1500t</span>
-      </div>
+      </div> */}
     </div>
   );
 };

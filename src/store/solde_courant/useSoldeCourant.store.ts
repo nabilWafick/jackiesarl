@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import SoldeCourantAPI from "../../api/solde_courant/solde_courant.api";
@@ -34,14 +35,10 @@ const useSoldeCourantStore = create<SoldeCourantStore>()(
         set(() => ({
           selectedSoldeCourant: soldeCourant,
         }));
-        console.log("selectedCourant:", soldeCourant.id);
       },
 
       fetchAllSoldeCourant: async () => {
         const soldeCourantList: SoldeCourant[] = await SoldeCourantAPI.getAll();
-        const soldeCourantLenght = get().soldeCourant;
-        console.log(soldeCourantLenght);
-
         set(() => ({ soldeCourant: soldeCourantList }));
       },
 

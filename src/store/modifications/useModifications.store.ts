@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import ModificationsAPI from "../../api/modifications/modifications.api";
@@ -34,8 +35,6 @@ const useModificationsStore = create<ModificationsStore>()(
         const employes = await EmployesAPI.getAll();
         const modificationsList: Modifications[] =
           await ModificationsAPI.getAll();
-        const modificationssLenght = get().modifications;
-        console.log(modificationssLenght);
         const employesModifications = modificationsList.map(
           (modification) =>
             new ModificationsEmployes(

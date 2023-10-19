@@ -1,17 +1,17 @@
 import axios from "axios";
-import StockBonCommande from '../../models/stock_bon_commande/stock_bon_commande.model';
-interface StockBonCommandePromiseResponse{
-  status: number,
-  stockBonCommande?: StockBonCommande,
+import StockBonCommande from "../../models/stock_bon_commande/stock_bon_commande.model";
+interface StockBonCommandePromiseResponse {
+  status: number;
+  stockBonCommande?: StockBonCommande;
   error?: string;
 }
-
 
 interface StockBonCommandeJSON {
   id?: number;
   numero_bc: number;
   categorie: string;
   quantite_achetee: number;
+  stock_initial: number;
   stock_avant_vente: number;
   vente: number;
   stock_apres_vente: number;
@@ -21,19 +21,21 @@ interface StockBonCommandeJSON {
 class StockBonCommandeAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: StockBonCommande): Promise<StockBonCommandePromiseResponse | undefined> {
-    let promiseResponse : StockBonCommandePromiseResponse | undefined = undefined
-    
-      await axios.post(
-        `${StockBonCommandeAPI.baseUrl}/stock-bon-commande`,
-        data.toJson()
-      ).then(response => {
-      promiseResponse = response.data
+  static async create(
+    data: StockBonCommande
+  ): Promise<StockBonCommandePromiseResponse | undefined> {
+    let promiseResponse: StockBonCommandePromiseResponse | undefined =
+      undefined;
+
+    await axios
+      .post(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande`, data.toJson())
+      .then((response) => {
+        promiseResponse = response.data;
       })
-    .catch( (error)=> {
-     promiseResponse = error.response.data
-    })
-    return promiseResponse
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<StockBonCommande | undefined> {
@@ -41,7 +43,6 @@ class StockBonCommandeAPI {
     await axios
       .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande/${id}`)
       .then((response) => {
-        console.log(response.data);
         stockBonCommande = StockBonCommande.fromJson(response.data);
       })
       .catch((error) => {

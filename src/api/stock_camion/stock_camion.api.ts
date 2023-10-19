@@ -41,7 +41,6 @@ class StockCamionAPI {
     await axios
       .get(`${StockCamionAPI.baseUrl}/stock-camion/${id}`)
       .then((response) => {
-        console.log(response.data);
         stockCamion = StockCamion.fromJson(response.data);
       })
       .catch((error) => {

@@ -34,7 +34,9 @@ const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
                 <td>
                   {clientsPayment.client.prenoms} {clientsPayment.client.nom}
                 </td>
-                <td>{clientsPayment.montant}</td>
+                <td>
+                  {clientsPayment.montant} <i> fcfa</i>
+                </td>
                 <td>{clientsPayment.banque}</td>
                 <td>{clientsPayment.reference}</td>
                 <td>{clientsPayment.categorie}</td>

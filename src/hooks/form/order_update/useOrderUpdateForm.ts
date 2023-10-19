@@ -4,6 +4,7 @@ import Commandes from "../../../models/commandes/commandes.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useClientsStore from "../../../store/clients/useClients.store";
+import useCommandesStore from "../../../store/commandes/useCommandes.store";
 
 interface FormData {
   id: number;
@@ -60,6 +61,9 @@ const useOrderUpdateForm = (
 
   const orderClient = useClientsStore((state) => state.orderClient);
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
+  const fetchAllClientsOrders = useCommandesStore(
+    (state) => state.fetchAllClientsOrders
+  );
   const searchClients = useClientsStore((state) => state.searchClients);
   const refreshSearchedClients = useClientsStore(
     (state) => state.refreshSearchedClients
@@ -223,7 +227,7 @@ const useOrderUpdateForm = (
       });
 
       const response = await CommandesAPI.update(
-        id,
+        formData.id,
         new Commandes(
           formData.category,
           parseFloat(formData.quantity),
@@ -237,8 +241,8 @@ const useOrderUpdateForm = (
       if (response!.status == 200) {
         onFormClose();
         toggleModal(modalLabel);
+        fetchAllClientsOrders();
         setActionResultMessage("La commande a été mise à jour avec succès");
-        console.log("Updated successfuly");
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();
