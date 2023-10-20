@@ -40,7 +40,6 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
               <td className="font-medium">Montant</td>
               <td className="font-medium">Numéro CTP</td>
               <td className="font-medium">Bordereau </td>
-
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
@@ -50,7 +49,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                 <tr key={clientPurchase.id!}>
                   <td>
                     {clientPurchase.quantite_achetee}
-                    <b> t</b>
+                    <i> t</i>
                   </td>
                   <td>{clientPurchase.categorie}</td>
                   <td>{clientPurchase.numero_bc}</td>

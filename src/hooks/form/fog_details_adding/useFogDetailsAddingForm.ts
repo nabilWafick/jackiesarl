@@ -7,44 +7,44 @@ import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModa
 import useActivitesDepotStore from "../../../store/activites_depot/useActivitesDepot.store";
 
 interface FormData {
-  quantityBeforeSelling: string;
+  // quantityBeforeSelling: string;
   sale: string;
-  quantityAfterSelling: string;
+  // quantityAfterSelling: string;
   payment: string;
   expense: string;
   observation: string;
 }
 
 interface FormErrors {
-  quantityBeforeSelling: string | null;
+  // quantityBeforeSelling: string | null;
   sale: string | null;
-  quantityAfterSelling: string | null;
+  //  quantityAfterSelling: string | null;
   payment: string | null;
   expense: string | null;
   observation: string | null;
 }
 
 const useFogDetailsAddingForm = ({
-  quantityBeforeSelling,
+  //  quantityBeforeSelling,
   sale,
-  quantityAfterSelling,
+  //  quantityAfterSelling,
   payment,
   expense,
   observation,
 }: FormData) => {
   const [formData, setFormData] = useState<FormData>({
-    quantityBeforeSelling: quantityBeforeSelling,
+    //   quantityBeforeSelling: quantityBeforeSelling,
     sale: sale,
-    quantityAfterSelling: quantityAfterSelling,
+    //  quantityAfterSelling: quantityAfterSelling,
     payment: payment,
     expense: expense,
     observation: observation,
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
-    quantityBeforeSelling: null,
+    //   quantityBeforeSelling: null,
     sale: null,
-    quantityAfterSelling: null,
+    //   quantityAfterSelling: null,
     payment: null,
     expense: null,
     observation: null,
@@ -81,25 +81,25 @@ const useFogDetailsAddingForm = ({
 
   const validateForm = () => {
     const errors: FormErrors = {
-      quantityBeforeSelling: null,
+      //     quantityBeforeSelling: null,
       sale: null,
-      quantityAfterSelling: null,
+      //     quantityAfterSelling: null,
       payment: null,
       expense: null,
       observation: null,
     };
 
-    if (!formData.quantityBeforeSelling.trim()) {
-      errors.quantityBeforeSelling = "La quantité avant vente est requise";
-    } else {
-      const valeurNumeriqueQuantityBeforeSelling = parseFloat(
-        formData.quantityBeforeSelling
-      );
-      if (isNaN(valeurNumeriqueQuantityBeforeSelling)) {
-        errors.quantityBeforeSelling =
-          "La quantité avant vente doit être un nombre valide.";
-      }
-    }
+    // if (!formData.quantityBeforeSelling.trim()) {
+    //   errors.quantityBeforeSelling = "La quantité avant vente est requise";
+    // } else {
+    //   const valeurNumeriqueQuantityBeforeSelling = parseFloat(
+    //     formData.quantityBeforeSelling
+    //   );
+    //   if (isNaN(valeurNumeriqueQuantityBeforeSelling)) {
+    //     errors.quantityBeforeSelling =
+    //       "La quantité avant vente doit être un nombre valide.";
+    //   }
+    // }
 
     // Validation pour sale (nombre)
     if (!formData.sale.trim()) {
@@ -111,19 +111,19 @@ const useFogDetailsAddingForm = ({
       }
     }
 
-    // Validation pour quantityAfterSelling (nombre)
-    if (!formData.quantityAfterSelling.trim()) {
-      errors.quantityAfterSelling =
-        "La valeur de la quantité actuelle est requise";
-    } else {
-      const valeurNumeriqueQuantityAfterSelling = parseFloat(
-        formData.quantityAfterSelling
-      );
-      if (isNaN(valeurNumeriqueQuantityAfterSelling)) {
-        errors.quantityAfterSelling =
-          "La valeur de la quantité actuelle doit être un nombre valide.";
-      }
-    }
+    // // Validation pour quantityAfterSelling (nombre)
+    // if (!formData.quantityAfterSelling.trim()) {
+    //   errors.quantityAfterSelling =
+    //     "La valeur de la quantité actuelle est requise";
+    // } else {
+    //   const valeurNumeriqueQuantityAfterSelling = parseFloat(
+    //     formData.quantityAfterSelling
+    //   );
+    //   if (isNaN(valeurNumeriqueQuantityAfterSelling)) {
+    //     errors.quantityAfterSelling =
+    //       "La valeur de la quantité actuelle doit être un nombre valide.";
+    //   }
+    // }
 
     // Validation pour payment (nombre)
     if (!formData.payment.trim()) {
@@ -156,9 +156,9 @@ const useFogDetailsAddingForm = ({
     setFormErrors(errors);
 
     return (
-      !errors.quantityBeforeSelling &&
+      //  !errors.quantityBeforeSelling &&
       !errors.sale &&
-      !errors.quantityAfterSelling &&
+      //  !errors.quantityAfterSelling &&
       !errors.payment &&
       !errors.expense &&
       !errors.observation
@@ -167,17 +167,17 @@ const useFogDetailsAddingForm = ({
 
   const onFormClose = () => {
     setFormData({
-      quantityBeforeSelling: quantityBeforeSelling,
+      //  quantityBeforeSelling: quantityBeforeSelling,
       sale: sale,
-      quantityAfterSelling: quantityAfterSelling,
+      //   quantityAfterSelling: quantityAfterSelling,
       payment: payment,
       expense: expense,
       observation: observation,
     });
     setFormErrors({
-      quantityBeforeSelling: null,
+      //   quantityBeforeSelling: null,
       sale: null,
-      quantityAfterSelling: null,
+      //   quantityAfterSelling: null,
       payment: null,
       expense: null,
       observation: null,
@@ -188,21 +188,21 @@ const useFogDetailsAddingForm = ({
     e.preventDefault();
 
     if (validateForm()) {
-      setFormErrors({
-        quantityBeforeSelling: null,
+      const errors: FormErrors = {
+        //   quantityBeforeSelling: null,
         sale: null,
-        quantityAfterSelling: null,
+        //   quantityAfterSelling: null,
         payment: null,
         expense: null,
         observation: null,
-      });
+      };
 
       const response = await ActivitesDepotAPI.create(
         new ActivitesDepot(
           selectedBrouillard!.id!,
-          parseFloat(formData.quantityBeforeSelling),
+          0,
           parseFloat(formData.sale),
-          parseFloat(formData.quantityAfterSelling),
+          0,
           parseFloat(formData.payment),
           parseFloat(formData.expense),
           formData.observation
@@ -216,6 +216,9 @@ const useFogDetailsAddingForm = ({
         setActionResultMessage("L'activité du dépôt a été ajouté avec succès");
         console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 402) {
+        errors.sale = response!.error!;
+        setFormErrors(errors);
       } else {
         onFormClose();
         toggleModal("fog-details-adding-form");

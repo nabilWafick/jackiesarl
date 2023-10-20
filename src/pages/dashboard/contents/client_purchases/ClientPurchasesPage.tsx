@@ -40,7 +40,6 @@ const ClientPurchasesPage: FC = () => {
         />
         <ClientPurchaseAdding
           quantity=""
-          category=""
           amount=""
           ctpNumber=""
           slip=""

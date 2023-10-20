@@ -53,20 +53,13 @@ const FogDetailsPage: FC = () => {
           ]}
         /> */}
         <AddingButton
-          option="Ajouter une activité"
+          option="Ajouter une vente"
           onClick={() => {
             toggleModal("fog-details-adding-form");
           }}
         />
 
-        <FogDetailsAdding
-          quantityBeforeSelling=""
-          sale=""
-          quantityAfterSelling=""
-          payment=""
-          expense=""
-          observation=""
-        />
+        <FogDetailsAdding sale="" payment="" expense="" observation="" />
         <ActionResult />
       </div>
       <FogDetailsTable fogDetails={activitesDepot} />

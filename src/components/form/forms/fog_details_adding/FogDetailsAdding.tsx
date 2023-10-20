@@ -8,18 +8,18 @@ import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface FogDetailsAddingProps {
-  quantityBeforeSelling: string;
+  //quantityBeforeSelling: string;
   sale: string;
-  quantityAfterSelling: string;
+  // quantityAfterSelling: string;
   payment: string;
   expense: string;
   observation: string;
 }
 
 const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
-  quantityBeforeSelling,
+  // quantityBeforeSelling,
   sale,
-  quantityAfterSelling,
+  // quantityAfterSelling,
   payment,
   expense,
   observation,
@@ -32,9 +32,9 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
     onFormClose,
     onFormSubmit,
   } = useFogDetailsAddingForm({
-    quantityBeforeSelling: quantityBeforeSelling,
+    //   quantityBeforeSelling: quantityBeforeSelling,
     sale: sale,
-    quantityAfterSelling: quantityAfterSelling,
+    //   quantityAfterSelling: quantityAfterSelling,
     payment: payment,
     expense: expense,
     observation: observation,
@@ -47,10 +47,10 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
         "
         >
           <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
-            Activités Dépôt
+            Vente
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -67,7 +67,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
                 {formErrors.quantityBeforeSelling}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
@@ -82,13 +82,13 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
               />
             </div>
             {formErrors.sale && (
-              <p className="erreur ml-1.5 tdeleteErrorext-[12px] font-medium text-secondary">
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.sale}
               </p>
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -105,7 +105,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
                 {formErrors.quantityAfterSelling}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">

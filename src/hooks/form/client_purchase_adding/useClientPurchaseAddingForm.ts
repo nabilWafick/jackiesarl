@@ -202,7 +202,7 @@ const useClientPurchaseAddingForm = ({
 
       const response = await AchatClientAPI.create(
         new AchatClient(
-          parseInt(formData.quantity),
+          parseFloat(formData.quantity),
           //  formData.category,
           "",
           parseFloat(formData.amount),
@@ -219,6 +219,9 @@ const useClientPurchaseAddingForm = ({
         setActionResultMessage("L'achat du client a été ajouté avec succès");
         console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 402) {
+        errors.bcNumber = response!.error!;
+        setFormErrors(errors);
       } else if (response!.status == 404) {
         errors.bcNumber = response!.error!;
         setFormErrors(errors);
