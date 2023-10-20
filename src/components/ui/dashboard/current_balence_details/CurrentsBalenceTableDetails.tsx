@@ -1,11 +1,11 @@
-import { FaEdit, FaTrash } from "react-icons/fa";
+//import { FaEdit, FaTrash } from "react-icons/fa";
 import SoldeCourant from "../../../../models/solde_courant/solde_courant.model";
 import { FC, useEffect } from "react";
 import useActivitesBanque from "../../../../store/activites_banque/useActivitesBanque.store";
-import CurrentBalenceDetailsUpdate from "../../../form/forms/current_balence_details_update/CurrentBalenceDetailsUpdate";
-import { toggleModal } from "../widgets/ToggleModal";
-import ActivitesBanqueAPI from "../../../../api/activites_banque/activites_banque.api";
-import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+// import CurrentBalenceDetailsUpdate from "../../../form/forms/current_balence_details_update/CurrentBalenceDetailsUpdate";
+// import { toggleModal } from "../widgets/ToggleModal";
+// import ActivitesBanqueAPI from "../../../../api/activites_banque/activites_banque.api";
+// import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 
 interface CurrentsBalenceDetailsTableProps {
   selectedBank: SoldeCourant | undefined;
@@ -20,9 +20,9 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
   const fetchAllActivitesBanque = useActivitesBanque(
     (state) => state.fetchAllActivitesBanque
   );
-  const setActionResultMessage = useInterfacesStore(
-    (state) => state.setActionResultMessage
-  );
+  // const setActionResultMessage = useInterfacesStore(
+  //   (state) => state.setActionResultMessage
+  // );
 
   useEffect(() => {
     fetchAllActivitesBanque(selectedBank!.id!);
@@ -39,8 +39,8 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
               <td className="font-medium">Débit</td>
               <td className="font-medium">Crédit</td>
               <td className="font-medium">Solde Actuel</td>
-              <td className="font-medium"></td>
-              <td className="font-medium"></td>
+              {/* <td className="font-medium"></td> */}
+              {/* <td className="font-medium"></td> */}
             </tr>
 
             {currentsBalenceDetails.map((currentBalence) => (
@@ -55,8 +55,9 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                 <td>
                   {currentBalence.solde_actuel} <i> fcfa</i>
                 </td>
-                <td>
+                {/* <td>
                   <div>
+                 
                     <CurrentBalenceDetailsUpdate
                       id={currentBalence.id!}
                       id_banque={currentBalence.id_banque}
@@ -66,6 +67,7 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                       currentBalence={currentBalence.solde_actuel.toString()}
                       modalLabel={`current-balence-details-update-form-${currentBalence.id}`}
                     />
+                    
 
                     <i className="flex justify-end">
                       <FaEdit
@@ -78,8 +80,8 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                       />
                     </i>
                   </div>
-                </td>
-                <td>
+                </td> */}
+                {/* <td>
                   <i className="flex justify-end">
                     <FaTrash
                       color="red"
@@ -108,7 +110,7 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                       }}
                     />
                   </i>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

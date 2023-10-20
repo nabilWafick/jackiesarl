@@ -8,7 +8,7 @@ import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface ClientPaymentAddingProps {
   bcNumber: string;
-  category: string;
+  // category: string;
   amount: string;
   bank: string;
   reference: string;
@@ -17,7 +17,7 @@ interface ClientPaymentAddingProps {
 
 const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
   bcNumber,
-  category,
+  // category,
   amount,
   bank,
   reference,
@@ -32,7 +32,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
     onFormSubmit,
   } = useClientPaymentAddingForm({
     bcNumber: bcNumber,
-    category: category,
+    //  category: category,
     amount: amount,
     bank: bank,
     reference: reference,
@@ -69,7 +69,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -86,7 +86,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
                 {formErrors.category}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 msoldesb-1 w-full">

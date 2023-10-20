@@ -32,7 +32,7 @@ class RemiseChequeClientAPI {
         data.toJson()
       )
       .then((response) => {
-        console.log(response.data);
+        promiseResponse = response.data;
       })
       .catch((error) => {
         promiseResponse = error.response.data;

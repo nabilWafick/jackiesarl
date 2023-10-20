@@ -6,8 +6,9 @@ interface JSInputProps {
   value?: string | number | readonly string[];
   placeholder: string;
   autoComplete?: string;
+  disabled?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEventHandler<HTMLInputElement>) => void;
+  // onKeyDown?: (e: React.KeyboardEventHandler<HTMLInputElement>) => void;
 }
 
 const JSInput: FC<JSInputProps> = ({
@@ -17,6 +18,7 @@ const JSInput: FC<JSInputProps> = ({
   value,
   placeholder,
   autoComplete,
+  disabled,
   onChange,
   //onKeyDown,
 }) => {
@@ -28,6 +30,7 @@ const JSInput: FC<JSInputProps> = ({
       value={value}
       autoComplete={autoComplete}
       placeholder={placeholder}
+      disabled={disabled}
       onChange={onChange}
       //  required
       className={` w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`}

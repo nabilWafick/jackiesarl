@@ -79,7 +79,7 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
                 <td>{clientCheckRemittance.banque}</td>
                 <td>
                   {clientCheckRemittance.montant}
-                  <b> fcfa</b>
+                  <i> fcfa</i>
                 </td>
                 <td>
                   {clientCheckRemittance.reste} <i> fcfa</i>

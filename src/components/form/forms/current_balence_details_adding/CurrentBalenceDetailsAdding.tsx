@@ -11,14 +11,12 @@ interface CurrentBalenceDetailsAddingProps {
   description: string;
   debit: string;
   credit: string;
-  currentBalence: string;
 }
 
 const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
   description,
   debit,
   credit,
-  currentBalence,
 }) => {
   const {
     formData,
@@ -31,7 +29,6 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
     description: description,
     debit: debit,
     credit: credit,
-    currentBalence: currentBalence,
   });
   return (
     <Modal label="current-balence-details-adding-form">
@@ -71,6 +68,7 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
                 type="text"
                 placeholder="Débit"
                 autoComplete="debit"
+                disabled={formData.credit != ""}
               />
             </div>
             {formErrors.debit && (
@@ -90,6 +88,7 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
                 type="text"
                 placeholder="Crédit"
                 autoComplete="credit"
+                disabled={formData.debit != ""}
               />
             </div>
             {formErrors.credit && (
@@ -99,7 +98,7 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -116,7 +115,7 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
                 {formErrors.currentBalence}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton

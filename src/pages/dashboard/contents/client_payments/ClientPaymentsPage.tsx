@@ -39,7 +39,7 @@ const ClientPaymentsPage: FC = () => {
         />
         <ClientPaymentAdding
           bcNumber=""
-          category=""
+          //   category=""
           amount=""
           bank=""
           reference=""

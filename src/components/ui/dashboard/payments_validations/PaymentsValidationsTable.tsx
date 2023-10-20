@@ -152,7 +152,7 @@ const ClientsPaymentsValidationsTable: FC<
                       id={clientsPaymentValidation.id!}
                       clientName={`${clientsPaymentValidation.client.prenoms} ${clientsPaymentValidation.client.nom}`}
                       bcNumber={clientsPaymentValidation.numero_bc.toString()}
-                      category={clientsPaymentValidation.categorie}
+                      //   category={clientsPaymentValidation.categorie}
                       amount={clientsPaymentValidation.montant.toString()}
                       bank={clientsPaymentValidation.banque}
                       reference={clientsPaymentValidation.reference}
@@ -211,10 +211,10 @@ const ClientsPaymentsValidationsTable: FC<
           </tbody>
         </table>
       </div>
-      <div className="flex flex-row items-center content-center">
+      {/* <div className="flex flex-row items-center content-center">
         <span className=" text-md my-3 font-medium">Total des paiements</span>
         <span className="ml-20 text-md  text-gray-700">10 000 000</span>
-      </div>
+      </div> */}
     </div>
   );
 };

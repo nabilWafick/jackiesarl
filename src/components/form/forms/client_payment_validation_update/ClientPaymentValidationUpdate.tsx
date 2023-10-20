@@ -11,7 +11,7 @@ interface ClientPaymentValidationUpdateProps {
   id: number;
   clientName: string;
   bcNumber: string;
-  category: string;
+  //  category: string;
   amount: string;
   bank: string;
   reference: string;
@@ -24,7 +24,7 @@ const ClientPaymentValidationUpdate: FC<ClientPaymentValidationUpdateProps> = ({
   id,
   clientName,
   bcNumber,
-  category,
+  // category,
   amount,
   bank,
   reference,
@@ -46,7 +46,7 @@ const ClientPaymentValidationUpdate: FC<ClientPaymentValidationUpdateProps> = ({
       id: id,
       clientName: clientName,
       bcNumber: bcNumber,
-      category: category,
+      //   category: category,
       amount: amount,
       bank: bank,
       reference: reference,
@@ -107,9 +107,9 @@ const ClientPaymentValidationUpdate: FC<ClientPaymentValidationUpdateProps> = ({
                 autoComplete="clientName"
               />
             </div>
-            {formErrors.bcNumber && (
+            {formErrors.clientName && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.bcNumber}
+                {formErrors.clientName}
               </p>
             )}
           </div>
@@ -133,7 +133,7 @@ const ClientPaymentValidationUpdate: FC<ClientPaymentValidationUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -150,7 +150,7 @@ const ClientPaymentValidationUpdate: FC<ClientPaymentValidationUpdateProps> = ({
                 {formErrors.category}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 msoldesb-1 w-full">

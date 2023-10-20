@@ -167,9 +167,9 @@ FormData) => {
           parseInt(formData.bcNumber),
           "",
           0,
-          0,
-          0,
           parseFloat(formData.initialStock),
+          0,
+          0,
           0
         )
       );
@@ -183,12 +183,14 @@ FormData) => {
         );
         console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        errors.initialStock = response!.error!;
+        setFormErrors(errors);
       } else if (response!.status == 402) {
-        errors.initialStock =
-          "La quantité demandée est supérieure à celle disponible";
+        errors.initialStock = response!.error!;
         setFormErrors(errors);
       } else if (response!.status == 404) {
-        errors.bcNumber = "Le bon de commande renseigné n'existe pas";
+        errors.bcNumber = response!.error!;
         setFormErrors(errors);
       } else {
         onFormClose();

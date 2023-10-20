@@ -8,7 +8,7 @@ import useClientPurchasesStore from "../../../store/achat_client/useAchatClient.
 
 interface FormData {
   quantity: string;
-  category: string;
+  // category: string;
   amount: string;
   ctpNumber: string;
   slip: File | string;
@@ -17,7 +17,7 @@ interface FormData {
 
 interface FormErrors {
   quantity: string | null;
-  category: string | null;
+  // category: string | null;
   amount: string | null;
   ctpNumber: string | null;
   slip: string | null;
@@ -26,7 +26,7 @@ interface FormErrors {
 
 const useClientPurchaseAddingForm = ({
   quantity,
-  category,
+  //  category,
   amount,
   ctpNumber,
   slip,
@@ -34,7 +34,7 @@ const useClientPurchaseAddingForm = ({
 }: FormData) => {
   const [formData, setFormData] = useState<FormData>({
     quantity: quantity,
-    category: category,
+    //    category: category,
     amount: amount,
     ctpNumber: ctpNumber,
     slip: slip,
@@ -43,7 +43,7 @@ const useClientPurchaseAddingForm = ({
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
     quantity: null,
-    category: null,
+    //   category: null,
     amount: null,
     ctpNumber: null,
     slip: null,
@@ -83,7 +83,7 @@ const useClientPurchaseAddingForm = ({
   const validateForm = () => {
     const errors: FormErrors = {
       quantity: null,
-      category: null,
+      //  category: null,
       amount: null,
       ctpNumber: null,
       slip: null,
@@ -99,12 +99,14 @@ const useClientPurchaseAddingForm = ({
       }
     }
 
+    /*
     // Validation pour category (string)
     if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
     } else if (formData.category.trim().length < 3) {
       errors.category = "La catégorie doit comporter au moins 3 caractères.";
     }
+*/
 
     // Validation pour amount (number)
     if (!formData.amount.trim()) {
@@ -157,7 +159,7 @@ const useClientPurchaseAddingForm = ({
 
     return (
       !errors.quantity &&
-      !errors.category &&
+      //   !errors.category &&
       !errors.amount &&
       !errors.ctpNumber &&
       !errors.slip &&
@@ -168,20 +170,20 @@ const useClientPurchaseAddingForm = ({
   const onFormClose = () => {
     setFormData({
       quantity: quantity,
-      category: category,
+      //  category: category,
+      bcNumber: bcNumber,
       amount: amount,
       ctpNumber: ctpNumber,
       slip: slip,
-      bcNumber: bcNumber,
     });
 
     setFormErrors({
       quantity: null,
-      category: null,
+      //  category: null,
+      bcNumber: null,
       amount: null,
       ctpNumber: null,
       slip: null,
-      bcNumber: null,
     });
   };
 
@@ -189,19 +191,20 @@ const useClientPurchaseAddingForm = ({
     e.preventDefault();
 
     if (validateForm()) {
-      setFormErrors({
+      const errors: FormErrors = {
         quantity: null,
-        category: null,
+        //  category: null,
         amount: null,
         ctpNumber: null,
         slip: null,
         bcNumber: null,
-      });
+      };
 
       const response = await AchatClientAPI.create(
         new AchatClient(
           parseInt(formData.quantity),
-          formData.category,
+          //  formData.category,
+          "",
           parseFloat(formData.amount),
           formData.ctpNumber,
           formData.slip,
@@ -216,6 +219,9 @@ const useClientPurchaseAddingForm = ({
         setActionResultMessage("L'achat du client a été ajouté avec succès");
         console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 404) {
+        errors.bcNumber = response!.error!;
+        setFormErrors(errors);
       } else {
         onFormClose();
         toggleModal("client-purchase-adding-form");

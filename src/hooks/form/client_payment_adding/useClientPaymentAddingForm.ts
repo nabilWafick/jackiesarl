@@ -8,7 +8,7 @@ import useClientPaymentsStore from "../../../store/paiement_client/usePaiementCl
 
 interface FormData {
   bcNumber: string;
-  category: string;
+  //  category: string;
   amount: string;
   bank: string;
   reference: string;
@@ -17,7 +17,7 @@ interface FormData {
 
 interface FormErrors {
   bcNumber: string | null;
-  category: string | null;
+  //  category: string | null;
   bank: string | null;
   amount: string | null;
   reference: string | null;
@@ -26,7 +26,7 @@ interface FormErrors {
 
 const useClientPaymentAddingForm = ({
   bcNumber,
-  category,
+  //  category,
   bank,
   amount,
   reference,
@@ -34,7 +34,7 @@ const useClientPaymentAddingForm = ({
 }: FormData) => {
   const [formData, setFormData] = useState<FormData>({
     bcNumber: bcNumber,
-    category: category,
+    //    category: category,
     amount: amount,
     bank: bank,
     reference: reference,
@@ -43,7 +43,7 @@ const useClientPaymentAddingForm = ({
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
     bcNumber: null,
-    category: null,
+    //   category: null,
     amount: null,
     bank: null,
     reference: null,
@@ -81,7 +81,7 @@ const useClientPaymentAddingForm = ({
   const validateForm = () => {
     const errors: FormErrors = {
       bcNumber: null,
-      category: null,
+      //     category: null,
       amount: null,
       bank: null,
       reference: null,
@@ -97,11 +97,11 @@ const useClientPaymentAddingForm = ({
       }
     }
 
-    if (!formData.category.trim()) {
+    /* if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
     } else if (formData.category.trim().length < 3) {
       errors.category = "La catégorie doit contenir au moins 3 caractères.";
-    }
+    } */
 
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
@@ -145,7 +145,7 @@ const useClientPaymentAddingForm = ({
 
     return (
       !errors.bcNumber &&
-      !errors.category &&
+      // !errors.category &&
       !errors.amount &&
       !errors.bank &&
       !errors.reference &&
@@ -156,7 +156,7 @@ const useClientPaymentAddingForm = ({
   const onFormClose = () => {
     setFormData({
       bcNumber: bcNumber,
-      category: category,
+      //    category: category,
       amount: amount,
       bank: bank,
       reference: reference,
@@ -165,7 +165,7 @@ const useClientPaymentAddingForm = ({
 
     setFormErrors({
       bcNumber: null,
-      category: null,
+      //    category: null,
       amount: null,
       bank: null,
       reference: null,
@@ -177,21 +177,22 @@ const useClientPaymentAddingForm = ({
     e.preventDefault();
 
     if (validateForm()) {
-      setFormErrors({
+      const errors: FormErrors = {
         bcNumber: null,
-        category: null,
+        // category: null,
         amount: null,
         bank: null,
         reference: null,
         slip: null,
-      });
+      };
 
       const response = await PaiementClientAPI.create(
         new PaiementClient(
           parseFloat(formData.amount),
           formData.bank,
           formData.reference,
-          formData.category,
+          //   formData.category,
+          "",
           parseInt(formData.bcNumber),
           formData.slip,
           0,
@@ -207,6 +208,9 @@ const useClientPaymentAddingForm = ({
         );
         console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 404) {
+        errors.bcNumber = response!.error!;
+        setFormErrors(errors);
       } else {
         onFormClose();
         toggleModal("client-payment-adding-form");

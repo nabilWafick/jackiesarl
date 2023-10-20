@@ -10,34 +10,34 @@ interface FormData {
   description: string;
   debit: string;
   credit: string;
-  currentBalence: string;
+  //  currentBalence: string;
 }
 
 interface FormErrors {
   description: string | null;
   debit: string | null;
   credit: string | null;
-  currentBalence: string | null;
+  // currentBalence: string | null;
 }
 
 const useCurrentBalenceDetailsAddingForm = ({
   description,
   debit,
   credit,
-  currentBalence,
-}: FormData) => {
+}: // currentBalence,
+FormData) => {
   const [formData, setFormData] = useState<FormData>({
     description: description,
     debit: debit,
     credit: credit,
-    currentBalence: currentBalence,
+    //   currentBalence: currentBalence,
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
     description: null,
     debit: null,
     credit: null,
-    currentBalence: null,
+    // currentBalence: null,
   });
 
   const selectedSoldeCourant = useSoldeCourantStore(
@@ -72,7 +72,7 @@ const useCurrentBalenceDetailsAddingForm = ({
       description: null,
       debit: null,
       credit: null,
-      currentBalence: null,
+      //    currentBalence: null,
     };
 
     if (!formData.description.trim()) {
@@ -83,26 +83,28 @@ const useCurrentBalenceDetailsAddingForm = ({
     }
 
     // Validation pour debit (nombre)
-    if (!formData.debit.trim()) {
-      errors.debit = "La valeur du débit est requise";
+
+    if (!formData.credit && !formData.debit) {
+      errors.credit = "La valeur du crédit ou débit est requise";
+      errors.debit = "La valeur du crédit ou débit est requise";
     } else {
-      const valeurNumériqueDebit = parseFloat(formData.debit);
-      if (isNaN(valeurNumériqueDebit)) {
+      const valeurNumeriqueDebit = parseFloat(formData.debit);
+      if (formData.debit.trim() && isNaN(valeurNumeriqueDebit)) {
         errors.debit = "La valeur du débit doit être un nombre valide.";
+      } else if (valeurNumeriqueDebit == 0) {
+        errors.debit = "La valeur du débit doit être différent de 0.";
       }
-    }
 
-    // Validation pour credit (nombre)
-    if (!formData.credit.trim()) {
-      errors.credit = "La valeur du crédit est requise";
-    } else {
-      const valeurNumériqueCredit = parseFloat(formData.credit);
-      if (isNaN(valeurNumériqueCredit)) {
+      // Validation pour credit (nombre)
+
+      const valeurNumeriqueCredit = parseFloat(formData.credit);
+      if (formData.credit.trim() && isNaN(valeurNumeriqueCredit)) {
         errors.credit = "La valeur du crédit doit être un nombre valide.";
+      } else if (valeurNumeriqueCredit == 0) {
+        errors.credit = "La valeur du crédit doit être différent de 0.";
       }
     }
-
-    // Validation pour currentBalence (nombre)
+    /* // Validation pour currentBalence (nombre)
     if (!formData.currentBalence.trim()) {
       errors.currentBalence = "La valeur du solde actuel est requise";
     } else {
@@ -112,13 +114,12 @@ const useCurrentBalenceDetailsAddingForm = ({
           "La valeur du solde actuel doit être un nombre valide.";
       }
     }
+    */
     setFormErrors(errors);
 
     return (
-      !errors.description &&
-      !errors.debit &&
-      !errors.credit &&
-      !errors.currentBalence
+      !errors.description && !errors.debit && !errors.credit //&&
+      // !errors.currentBalence
     );
   };
 
@@ -127,14 +128,14 @@ const useCurrentBalenceDetailsAddingForm = ({
       description: description,
       debit: debit,
       credit: credit,
-      currentBalence: currentBalence,
+      //   currentBalence: currentBalence,
     });
 
     setFormErrors({
       description: null,
       debit: null,
       credit: null,
-      currentBalence: null,
+      //   currentBalence: null,
     });
   };
 
@@ -142,13 +143,20 @@ const useCurrentBalenceDetailsAddingForm = ({
     e.preventDefault();
 
     if (validateForm()) {
+      if (!formData.debit) {
+        formData.debit = "0";
+      }
+      if (!formData.credit) {
+        formData.credit = "0";
+      }
+
       const response = await ActivitesBanqueAPI.create(
         new ActivitesBanque(
           selectedSoldeCourant!.id!,
           formData.description,
           parseFloat(formData.debit),
           parseFloat(formData.credit),
-          parseFloat(formData.currentBalence)
+          0
         )
       );
 

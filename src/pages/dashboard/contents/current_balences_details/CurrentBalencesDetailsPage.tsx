@@ -48,7 +48,7 @@ const CurrentsBalenceDetailsPage: FC = () => {
           description=""
           debit=""
           credit=""
-          currentBalence=""
+          // currentBalence=""
         />
         <ActionResult />
       </div>

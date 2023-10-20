@@ -10,7 +10,7 @@ interface FormData {
   id: number;
   clientName: string;
   bcNumber: string;
-  category: string;
+  // category: string;
   amount: string;
   bank: string;
   reference: string;
@@ -21,7 +21,7 @@ interface FormData {
 interface FormErrors {
   clientName: string | null;
   bcNumber: string | null;
-  category: string | null;
+  // category: string | null;
   bank: string | null;
   amount: string | null;
   reference: string | null;
@@ -33,7 +33,7 @@ const useClientPaymentValidationUpdateForm = (
     id,
     clientName,
     bcNumber,
-    category,
+    //  category,
     bank,
     amount,
     reference,
@@ -46,7 +46,7 @@ const useClientPaymentValidationUpdateForm = (
     id: id,
     clientName,
     bcNumber: bcNumber,
-    category: category,
+    //   category: category,
     amount: amount,
     bank: bank,
     reference: reference,
@@ -57,7 +57,7 @@ const useClientPaymentValidationUpdateForm = (
   const [formErrors, setFormErrors] = useState<FormErrors>({
     clientName: null,
     bcNumber: null,
-    category: null,
+    //  category: null,
     amount: null,
     bank: null,
     reference: null,
@@ -124,7 +124,7 @@ const useClientPaymentValidationUpdateForm = (
     const errors: FormErrors = {
       clientName: null,
       bcNumber: null,
-      category: null,
+      //    category: null,
       amount: null,
       bank: null,
       reference: null,
@@ -144,11 +144,11 @@ const useClientPaymentValidationUpdateForm = (
       }
     }
 
-    if (!formData.category.trim()) {
-      errors.category = "La catégorie est requise";
-    } else if (formData.category.trim().length < 3) {
-      errors.category = "La catégorie doit contenir au moins 3 caractères.";
-    }
+    // if (!formData.category.trim()) {
+    //   errors.category = "La catégorie est requise";
+    // } else if (formData.category.trim().length < 3) {
+    //   errors.category = "La catégorie doit contenir au moins 3 caractères.";
+    // }
 
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
@@ -197,7 +197,7 @@ const useClientPaymentValidationUpdateForm = (
     return (
       !errors.clientName &&
       !errors.bcNumber &&
-      !errors.category &&
+      // !errors.category &&
       !errors.amount &&
       !errors.bank &&
       !errors.reference &&
@@ -210,7 +210,7 @@ const useClientPaymentValidationUpdateForm = (
       id: id,
       clientName: clientName,
       bcNumber: bcNumber,
-      category: category,
+      //   category: category,
       amount: amount,
       bank: bank,
       reference: reference,
@@ -221,7 +221,7 @@ const useClientPaymentValidationUpdateForm = (
     setFormErrors({
       clientName: null,
       bcNumber: null,
-      category: null,
+      //   category: null,
       amount: null,
       bank: null,
       reference: null,
@@ -233,15 +233,15 @@ const useClientPaymentValidationUpdateForm = (
     e.preventDefault();
 
     if (validateForm()) {
-      setFormErrors({
+      const errors: FormErrors = {
         clientName: null,
         bcNumber: null,
-        category: null,
+        // category: null,
         amount: null,
         bank: null,
         reference: null,
         slip: null,
-      });
+      };
 
       const response = await PaiementClientAPI.update(
         formData.id,
@@ -249,7 +249,7 @@ const useClientPaymentValidationUpdateForm = (
           parseFloat(formData.amount),
           formData.bank,
           formData.reference,
-          formData.category,
+          "",
           parseInt(formData.bcNumber),
           formData.slip,
           formData.est_valide,
@@ -265,6 +265,9 @@ const useClientPaymentValidationUpdateForm = (
         );
         console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 400) {
+        errors.bcNumber = response!.error!;
+        setFormErrors(errors);
       } else if (response!.status == 404) {
         onFormClose();
         toggleModal(modalLabel);

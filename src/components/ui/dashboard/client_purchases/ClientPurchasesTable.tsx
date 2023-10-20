@@ -34,12 +34,13 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
         <table className="table table-striped">
           <tbody>
             <tr>
-              <td className="font-medium">Quantite</td>
-              <td className="font-medium">Categorie</td>
-              <td className="font-medium">Montant</td>
-              <td className="font-medium">Numero CTP</td>
-              <td className="font-medium">Bordereau </td>
+              <td className="font-medium">Quantité</td>
+              <td className="font-medium">Catégorie</td>
               <td className="font-medium">Bon de Commande</td>
+              <td className="font-medium">Montant</td>
+              <td className="font-medium">Numéro CTP</td>
+              <td className="font-medium">Bordereau </td>
+
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
@@ -52,6 +53,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                     <b> t</b>
                   </td>
                   <td>{clientPurchase.categorie}</td>
+                  <td>{clientPurchase.numero_bc}</td>
                   <td>
                     {clientPurchase.montant}
                     <i> fcfa</i>
@@ -69,7 +71,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                       />
                     )}
                   </td>
-                  <td>{clientPurchase.numero_bc}</td>
+
                   <td>
                     <div>
                       <ClientPurchaseUpdate

@@ -8,20 +8,20 @@ import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 
 interface ClientPurchaseAddingProps {
   quantity: string;
-  category: string;
+  //  category: string;
+  bcNumber: string;
   amount: string;
   ctpNumber: string;
   slip: File | string;
-  bcNumber: string;
 }
 
 const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
   quantity,
-  category,
+  // category,
+  bcNumber,
   amount,
   ctpNumber,
   slip,
-  bcNumber,
 }) => {
   const {
     formData,
@@ -32,11 +32,11 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
     onFormSubmit,
   } = useClientPurchaseAddingForm({
     quantity,
-    category: category,
+    //  category: category,
+    bcNumber: bcNumber,
     amount: amount,
     ctpNumber: ctpNumber,
     slip: slip,
-    bcNumber: bcNumber,
   });
   return (
     <Modal label="client-purchase-adding-form">
@@ -87,7 +87,7 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -102,6 +102,25 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.category}
+              </p>
+            )}
+          </div> */}
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.bcNumber}
+                name="bcNumber"
+                id="bcNumber"
+                type="text"
+                placeholder="Bon de commande"
+                autoComplete="bcNumber"
+              />
+            </div>
+            {formErrors.bcNumber && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.bcNumber}
               </p>
             )}
           </div>
@@ -159,25 +178,6 @@ const ClientPurchaseAdding: FC<ClientPurchaseAddingProps> = ({
             {formErrors.slip && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.slip}
-              </p>
-            )}
-          </div>
-
-          <div className="input-group">
-            <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.bcNumber}
-                name="bcNumber"
-                id="bcNumber"
-                type="text"
-                placeholder="Bon de commande"
-                autoComplete="bcNumber"
-              />
-            </div>
-            {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.bcNumber}
               </p>
             )}
           </div>
