@@ -9,7 +9,7 @@ import useClientPurchaseUpdateForm from "../../../../hooks/form/client_purchase_
 interface ClientPurchaseUpdateProps {
   id: number;
   quantity: string;
-  category: string;
+  //  category: string;
   amount: string;
   ctpNumber: string;
   slip: File | string;
@@ -20,7 +20,7 @@ interface ClientPurchaseUpdateProps {
 const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
   id,
   quantity,
-  category,
+  //  category,
   amount,
   ctpNumber,
   slip,
@@ -38,7 +38,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
     {
       id,
       quantity,
-      category: category,
+      //    category: category,
       amount: amount,
       ctpNumber: ctpNumber,
       slip: slip,
@@ -80,6 +80,25 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
+                value={formData.bcNumber}
+                name="bcNumber"
+                id="bcNumber"
+                type="text"
+                placeholder="Bon de commande"
+                autoComplete="bcNumber"
+              />
+            </div>
+            {formErrors.bcNumber && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.bcNumber}
+              </p>
+            )}
+          </div>
+
+          {/* <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSInput
+                onChange={onInputDataChange}
                 value={formData.category}
                 name="category"
                 id="category"
@@ -93,7 +112,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
                 {formErrors.category}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
@@ -148,25 +167,6 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             {formErrors.slip && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.slip}
-              </p>
-            )}
-          </div>
-
-          <div className="input-group">
-            <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.bcNumber}
-                name="bcNumber"
-                id="bcNumber"
-                type="text"
-                placeholder="Bon de commande"
-                autoComplete="bcNumber"
-              />
-            </div>
-            {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.bcNumber}
               </p>
             )}
           </div>

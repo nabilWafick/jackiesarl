@@ -9,7 +9,7 @@ import useClientPurchasesStore from "../../../store/achat_client/useAchatClient.
 interface FormData {
   id: number;
   quantity: string;
-  category: string;
+  // category: string;
   amount: string;
   ctpNumber: string;
   slip: File | string;
@@ -18,7 +18,7 @@ interface FormData {
 
 interface FormErrors {
   quantity: string | null;
-  category: string | null;
+  //  category: string | null;
   amount: string | null;
   ctpNumber: string | null;
   slip: string | null;
@@ -26,13 +26,13 @@ interface FormErrors {
 }
 
 const useClientPurchaseUpdateForm = (
-  { id, quantity, category, amount, ctpNumber, slip, bcNumber }: FormData,
+  { id, quantity, amount, ctpNumber, slip, bcNumber }: FormData,
   modalLabel: string
 ) => {
   const [formData, setFormData] = useState<FormData>({
     id: id,
     quantity: quantity,
-    category: category,
+    //  category: category,
     amount: amount,
     ctpNumber: ctpNumber,
     slip: slip,
@@ -41,7 +41,7 @@ const useClientPurchaseUpdateForm = (
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
     quantity: null,
-    category: null,
+    //   category: null,
     amount: null,
     ctpNumber: null,
     slip: null,
@@ -81,7 +81,7 @@ const useClientPurchaseUpdateForm = (
   const validateForm = () => {
     const errors: FormErrors = {
       quantity: null,
-      category: null,
+      //  category: null,
       amount: null,
       ctpNumber: null,
       slip: null,
@@ -98,11 +98,13 @@ const useClientPurchaseUpdateForm = (
     }
 
     // Validation pour category (string)
-    if (!formData.category.trim()) {
+
+    /*  if (!formData.category.trim()) {
       errors.category = "La catégorie est requise";
     } else if (formData.category.trim().length < 3) {
       errors.category = "La catégorie doit comporter au moins 3 caractères.";
     }
+    */
 
     // Validation pour amount (number)
     if (!formData.amount.trim()) {
@@ -155,7 +157,7 @@ const useClientPurchaseUpdateForm = (
 
     return (
       !errors.quantity &&
-      !errors.category &&
+      // !errors.category &&
       !errors.amount &&
       !errors.ctpNumber &&
       !errors.slip &&
@@ -167,7 +169,7 @@ const useClientPurchaseUpdateForm = (
     setFormData({
       id: id,
       quantity: quantity,
-      category: category,
+      //   category: category,
       amount: amount,
       ctpNumber: ctpNumber,
       slip: slip,
@@ -176,7 +178,7 @@ const useClientPurchaseUpdateForm = (
 
     setFormErrors({
       quantity: null,
-      category: null,
+      //   category: null,
       amount: null,
       ctpNumber: null,
       slip: null,
@@ -188,21 +190,22 @@ const useClientPurchaseUpdateForm = (
     e.preventDefault();
 
     if (validateForm()) {
-      setFormErrors({
+      const errors: FormErrors = {
         quantity: null,
-        category: null,
+        //   category: null,
         amount: null,
         ctpNumber: null,
         slip: null,
         bcNumber: null,
-      });
+      };
 
       console.log("formData.id", formData.id);
       const response = await AchatClientAPI.update(
         formData.id,
         new AchatClient(
           parseInt(formData.quantity),
-          formData.category,
+          //  formData.category,
+          "",
           parseFloat(formData.amount),
           formData.ctpNumber,
           formData.slip,
@@ -216,11 +219,12 @@ const useClientPurchaseUpdateForm = (
         fetchAllClientPurchases(selectedClient!.id!);
         setActionResultMessage("L'achat du client a été modifié avec succès");
         toggleModal("action-result-message");
+      } else if (response!.status == 402) {
+        errors.quantity = response!.error!;
+        setFormErrors(errors);
       } else if (response!.status == 404) {
-        onFormClose();
-        toggleModal(modalLabel);
-        setActionResultMessage("L'achat du client n'a pas été trouvé");
-        toggleModal("action-result-message");
+        errors.bcNumber = response!.error!;
+        setFormErrors(errors);
       } else {
         onFormClose();
         toggleModal(modalLabel);

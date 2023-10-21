@@ -34,7 +34,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
         <table className="table table-striped">
           <tbody>
             <tr>
-              <td className="font-medium">Quantité</td>
+              <td className="font-medium">Quantité Achetée</td>
               <td className="font-medium">Catégorie</td>
               <td className="font-medium">Bon de Commande</td>
               <td className="font-medium">Montant</td>
@@ -77,7 +77,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                         key={clientPurchase.id!}
                         id={clientPurchase.id!}
                         quantity={clientPurchase.quantite_achetee.toString()}
-                        category={clientPurchase.categorie}
+                        //  category={clientPurchase.categorie}
                         amount={clientPurchase.montant.toString()}
                         ctpNumber={clientPurchase.numero_ctp}
                         slip={clientPurchase.bordereau}

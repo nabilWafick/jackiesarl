@@ -23,9 +23,9 @@ const useSearchInput = () => {
   const navigateTo = useNavigate();
 
   const clearSearchInputData = () => {
-    // setSearchInputData("NULL");
+    setSearchInputData("");
     // if (searchInputData == "NULL") {
-    alert("Null");
+    // alert("Null");
     //  }
   };
 
