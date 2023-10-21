@@ -1,6 +1,6 @@
 import axios from "axios";
 import Clients from "../../models/clients/clients.model";
-interface CreateClientPromiseResponse {
+interface ClientsPromiseResponse {
   status: number;
   client?: ClientsJSON;
   error?: string;
@@ -26,15 +26,10 @@ interface ClientsJSON {
 class ClientsAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  /* private static headers = {
-    "Authorization": "Bearer token",  
-    "Content-Type": "Application/json",
-  };*/
-
   static async create(
     data: Clients
-  ): Promise<CreateClientPromiseResponse | undefined> {
-    let promiseResponse: CreateClientPromiseResponse | undefined = undefined;
+  ): Promise<ClientsPromiseResponse | undefined> {
+    let promiseResponse: ClientsPromiseResponse | undefined = undefined;
     await axios
       .post(`${ClientsAPI.baseUrl}/clients`, data.toJson())
       .then((response) => {

@@ -29,7 +29,7 @@ const ClientsTable: FC<ClientsTableProps> = ({ clientsList }) => {
                     onClick={() => setSelectedClient(client)}
                     to="/client"
                   >
-                    {client.nom} {client.prenoms}
+                    {client.prenoms} {client.nom}
                   </Link>
                 </td>
                 <td>

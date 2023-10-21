@@ -31,7 +31,7 @@ class EmployesAPI {
     await axios
       .get(`${EmployesAPI.baseUrl}/employes/${id}`)
       .then((response) => {
-        console.log(response.data);
+        //  console.log(response.data);
         employe = Employes.fromJson(response.data);
       })
       .catch((error) => {
@@ -48,7 +48,7 @@ class EmployesAPI {
         employesList = response.data.map((employe: EmployesJSON) =>
           Employes.fromJson(employe)
         );
-        console.log(employesList);
+        //   console.log(employesList);
       })
       .catch((error) => {
         console.log(error);

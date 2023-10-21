@@ -7,14 +7,15 @@ import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 import JSDateTimePicker from "../../widgets/DateTimePicker.widget";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import useOrderUpdateForm from "../../../../hooks/form/order_update/useOrderUpdateForm";
+import { Moment } from "moment";
 
 interface OrderUpdateProps {
   id: number;
   clientName: string;
   quantity: string;
   destination: string;
-  orderDate: Date | null;
-  deliveryDate: Date | null;
+  orderDate: Date | Moment;
+  deliveryDate: Date | Moment;
   category: string;
   est_traitee: number;
   modalLabel: string;
@@ -111,11 +112,51 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
+          <div className="input-group mt-3">
+            {/* <label htmlFor="orderDate" className="text-black ">
+              Date de commande
+            </label> */}
+            <div className="mt-1 mb-1 w-full">
+              <JSDateTimePicker
+                name="orderDate"
+                id="orderDate"
+                placeholder="Date de commande"
+                selectedDateTime={formData.orderDate}
+                onDateChange={onOrderDateInputChange}
+              />
+            </div>
+            {formErrors.orderDate && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.orderDate}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group mt-3">
+            {/* <label htmlFor="deliveryDate" className="text-black">
+              Date de Livraison
+            </label> */}
+            <div className="mt-1 mb-1 w-full">
+              <JSDateTimePicker
+                name="deliveryDate"
+                id="deliveryDate"
+                placeholder="Date de livraison"
+                selectedDateTime={formData.deliveryDate}
+                onDateChange={onDeliveryDateInputChange}
+              />
+            </div>
+            {formErrors.deliveryDate && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.deliveryDate}
+              </p>
+            )}
+          </div>
+
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantity.toString()}
+                value={formData.quantity}
                 name="quantity"
                 id="quantity"
                 type="text"
@@ -149,7 +190,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group mt-3">
+          {/* <div className="input-group mt-3">
             <label htmlFor="orderDate" className="text-black ">
               Date de commande
             </label>
@@ -187,7 +228,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
                 {formErrors.deliveryDate}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">

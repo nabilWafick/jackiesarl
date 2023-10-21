@@ -8,6 +8,7 @@ import useCommandesStore from "../../../../store/commandes/useCommandes.store";
 import { useEffect } from "react";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 import useClientsStore from "../../../../store/clients/useClients.store";
+import moment from "moment";
 
 const OrdersPage = () => {
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
@@ -42,8 +43,8 @@ const OrdersPage = () => {
           clientName=""
           quantity=""
           destination=""
-          orderDate={null}
-          deliveryDate={null}
+          orderDate={moment()}
+          deliveryDate={moment()}
           category=""
         />
         <ActionResult />

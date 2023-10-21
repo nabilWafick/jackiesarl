@@ -55,7 +55,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
     <Modal label="order-adding-form">
       <form onSubmit={onFormSubmit}>
         <div
-          className="flex flex-col self-center justify-center bg-white items-center my-10' w-[350px] p-3 shadow-xl
+          className="flex flex-col self-center justify-center bg-white items-center pb-10 w-[300px] p-3 shadow-xl
         "
         >
           <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
@@ -101,6 +101,46 @@ const OrderAdding: FC<OrderAddingProps> = ({
             )}
           </div>
 
+          <div className="input-group mt-3">
+            {/* <label htmlFor="orderDate" className="text-black ">
+              Date de commande
+            </label> */}
+            <div className="mt-1 mb-1 w-full">
+              <JSDateTimePicker
+                name="orderDate"
+                id="orderDate"
+                placeholder="Date de commande"
+                selectedDateTime={formData.orderDate}
+                onDateChange={onOrderDateInputChange}
+              />
+            </div>
+            {formErrors.orderDate && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.orderDate}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group mt-3">
+            {/* <label htmlFor="deliveryDate" className="text-black">
+              Date de Livraison
+            </label> */}
+            <div className="mt-1 mb-1 w-full">
+              <JSDateTimePicker
+                name="deliveryDate"
+                id="deliveryDate"
+                placeholder="Date de livraison"
+                selectedDateTime={formData.deliveryDate}
+                onDateChange={onDeliveryDateInputChange}
+              />
+            </div>
+            {formErrors.deliveryDate && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.deliveryDate}
+              </p>
+            )}
+          </div>
+
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
@@ -135,46 +175,6 @@ const OrderAdding: FC<OrderAddingProps> = ({
             {formErrors.destination && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.destination}
-              </p>
-            )}
-          </div>
-
-          <div className="input-group mt-3">
-            <label htmlFor="orderDate" className="text-black ">
-              Date de commande
-            </label>
-            <div className="mt-1 mb-1 w-full">
-              <JSDateTimePicker
-                name="orderDate"
-                id="orderDate"
-                placeholder="Date de commande"
-                selectedDateTime={formData.orderDate}
-                onDateChange={onOrderDateInputChange}
-              />
-            </div>
-            {formErrors.orderDate && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.orderDate}
-              </p>
-            )}
-          </div>
-
-          <div className="input-group mt-3">
-            <label htmlFor="deliveryDate" className="text-black">
-              Date de Livraison
-            </label>
-            <div className="mt-1 mb-1 w-full">
-              <JSDateTimePicker
-                name="deliveryDate"
-                id="deliveryDate"
-                placeholder="Date de livraison"
-                selectedDateTime={formData.deliveryDate}
-                onDateChange={onDeliveryDateInputChange}
-              />
-            </div>
-            {formErrors.deliveryDate && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.deliveryDate}
               </p>
             )}
           </div>
