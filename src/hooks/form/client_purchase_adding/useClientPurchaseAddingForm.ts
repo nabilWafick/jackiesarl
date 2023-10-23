@@ -220,7 +220,7 @@ const useClientPurchaseAddingForm = ({
         console.log("Added successfuly");
         toggleModal("action-result-message");
       } else if (response!.status == 402) {
-        errors.bcNumber = response!.error!;
+        errors.quantity = response!.error!;
         setFormErrors(errors);
       } else if (response!.status == 404) {
         errors.bcNumber = response!.error!;

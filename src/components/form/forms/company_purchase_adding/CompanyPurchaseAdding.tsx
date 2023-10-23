@@ -5,6 +5,7 @@ import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface CompanyPurchasseAddingProps {
   bcNumber: string;
@@ -30,6 +31,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
     formErrors,
     onInputDataChange,
     onFileInputChange,
+    onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
   } = useCompanyPurchaseForm({
@@ -72,7 +74,17 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
           </div>
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
+              <JSFormSelect
+                id="category"
+                name="category"
+                options={[
+                  { value: "CIM BENIN", label: "CIM BENIN" },
+                  { value: "NOCIBE", label: "NOCIBE" },
+                ]}
+                selectedOption={formData.category}
+                onChange={onCategorieSelectChange}
+              />
+              {/* <JSInput
                 onChange={onInputDataChange}
                 value={formData.category}
                 name="category"
@@ -80,7 +92,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
                 type="text"
                 placeholder="Catégorie"
                 autoComplete="category"
-              />
+              /> */}
             </div>
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">

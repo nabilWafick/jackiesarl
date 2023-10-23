@@ -71,6 +71,14 @@ const useCompanyPurchaseForm = ({
     });
   };
 
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
     const selectedFiles = e.target.files;
@@ -251,6 +259,7 @@ const useCompanyPurchaseForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFileInputChange,
     onFormClose,
     onFormSubmit,

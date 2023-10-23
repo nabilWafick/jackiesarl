@@ -36,7 +36,7 @@ const PurchasesPage: FC = () => {
         />
         <CompanyPurchasseAdding
           bcNumber=""
-          category=""
+          category="CIM BENIN"
           bank=""
           purchasedQuantity=""
           amount=""
