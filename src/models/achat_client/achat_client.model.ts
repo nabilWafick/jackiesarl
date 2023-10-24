@@ -1,6 +1,17 @@
+import Clients from "../clients/clients.model";
+interface ClientsJSON {
+  id?: number;
+  nom: string;
+  prenoms: string;
+  numero_ifu: number;
+  numero_telephone: string;
+  email: string | null;
+  date_ajout?: string;
+}
 // Interface TypeScript pour la table `achat_client`
 interface AchatClientJSON {
   id?: number;
+  client?: ClientsJSON;
   quantite_achetee: number;
   categorie: string;
   montant: number;
@@ -13,6 +24,7 @@ interface AchatClientJSON {
 
 class AchatClient {
   id?: number;
+  client?: Clients;
   quantite_achetee: number;
   categorie: string;
   montant: number;
@@ -24,6 +36,7 @@ class AchatClient {
 
   constructor(
     quantite_achetee: number,
+
     categorie: string,
     montant: number,
     numero_ctp: string,
@@ -31,6 +44,7 @@ class AchatClient {
     numero_bc: number,
     id_client: number,
     id?: number,
+    client?: Clients,
     date_achat?: Date
   ) {
     this.id = id;
@@ -41,6 +55,7 @@ class AchatClient {
     this.bordereau = bordereau;
     this.numero_bc = numero_bc;
     this.id_client = id_client;
+    this.client = client;
     this.date_achat = date_achat;
   }
 
@@ -55,6 +70,7 @@ class AchatClient {
       json.numero_bc,
       json.id_client,
       json.id,
+      json.client ? Clients.fromJson(json.client) : undefined,
       new Date(json.date_achat!)
     );
   }
@@ -70,6 +86,7 @@ class AchatClient {
       bordereau: this.bordereau,
       numero_bc: this.numero_bc,
       id_client: this.id_client,
+      client: this.client?.toJson(),
       date_achat:
         this.date_achat != null ? this.date_achat!.toISOString() : undefined,
     };

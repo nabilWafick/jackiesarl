@@ -1,9 +1,9 @@
 import { FC } from "react";
-import PaiementClientValidation from "../../../../models/paiement_client_validation/paiement_client_validation.model";
+import PaiementClient from "../../../../models/paiement_client/paiement.model";
 import { FaFile } from "react-icons/fa";
 
 interface ClientsPaymentsTableProps {
-  clientsPayments: PaiementClientValidation[];
+  clientsPayments: PaiementClient[];
 }
 
 const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
@@ -34,8 +34,8 @@ const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
                 return (
                   <tr key={clientsPayment.id}>
                     <td>
-                      {clientsPayment.client.prenoms}{" "}
-                      {clientsPayment.client.nom}
+                      {clientsPayment.client!.prenoms}{" "}
+                      {clientsPayment.client!.nom}
                     </td>
                     <td>
                       {clientsPayment.montant} <i> fcfa</i>

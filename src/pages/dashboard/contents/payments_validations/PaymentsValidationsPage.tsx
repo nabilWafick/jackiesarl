@@ -3,20 +3,20 @@ import PaymentsValidationsTable from "../../../../components/ui/dashboard/paymen
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
-import useclientsPaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
+import useClientPaymentsStore from "../../../../store/paiement_client/usePaiementClient.store";
 
 const PaymentsValidationsPage: FC = () => {
-  const clientsPaymentsValidation = useclientsPaymentsValidationStore(
-    (state) => state.clientsPaymentsValidation
+  const clientsPayments = useClientPaymentsStore(
+    (state) => state.clientsPayments
   );
-  const fetchAllClientsPaymentsValidation = useclientsPaymentsValidationStore(
-    (state) => state.fetchAllClientsPaymentsValidation
+  const fetchAllClientsPayments = useClientPaymentsStore(
+    (state) => state.fetchAllClientsPayments
   );
 
   useEffect(() => {
-    fetchAllClientsPaymentsValidation();
-  }, [fetchAllClientsPaymentsValidation]);
+    fetchAllClientsPayments();
+  }, [fetchAllClientsPayments]);
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -32,9 +32,7 @@ const PaymentsValidationsPage: FC = () => {
         />
         <ActionResult />
       </div>
-      <PaymentsValidationsTable
-        clientsPaymentsValidations={clientsPaymentsValidation}
-      />
+      <PaymentsValidationsTable clientsPaymentsValidations={clientsPayments} />
     </div>
   );
 };

@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import CommandesClients from "../../models/commandes_client/commandes_client.store";
+import Commandes from "../../models/commandes/commandes.model";
 import CommandesAPI from "../../api/commandes/commandes.api";
-import ClientsAPI from "../../api/clients/clients.api";
-
 interface CommandesStore {
-  clientsOrders: CommandesClients[];
-  clientsOrdersPerDay: Map<string, CommandesClients[]>;
+  clientsOrders: Commandes[];
+  clientsOrdersPerDay: Map<string, Commandes[]>;
   isLoading: boolean;
   fetchAllClientsOrders: () => void;
   sortClientsOrdersByCIMBENINCategory: () => void;
@@ -31,23 +29,9 @@ const useCommandesStore = create<CommandesStore>()(
       clientsOrdersPerDay: new Map(),
       isLoading: false,
       fetchAllClientsOrders: async () => {
-        const clients = await ClientsAPI.getAll();
         const clientsOrdersList = await CommandesAPI.getAll();
-        const clientsOrders = clientsOrdersList.map(
-          (clientsOrder) =>
-            new CommandesClients(
-              clientsOrder.categorie,
-              clientsOrder.quantite_achetee,
-              clientsOrder.destination,
-              clientsOrder.date_commande,
-              clientsOrder.date_livraison,
-              clientsOrder.est_traitee,
-              clients.find((client) => client!.id === clientsOrder.id_client)!,
-              clientsOrder.id,
-              clientsOrder.date_ajout!
-            )
-        );
-        set(() => ({ clientsOrders: clientsOrders }));
+
+        set(() => ({ clientsOrders: clientsOrdersList }));
       },
       sortClientsOrdersByCIMBENINCategory: () => {
         set((state) => {

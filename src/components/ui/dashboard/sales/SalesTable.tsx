@@ -1,8 +1,8 @@
 import { FC } from "react";
-import Vente from "../../../../models/vente/vente.model";
+import AchatClient from "../../../../models/achat_client/achat_client.model";
 
 interface SalesTableProps {
-  sales: Vente[];
+  sales: AchatClient[];
 }
 
 const SalesTable: FC<SalesTableProps> = ({ sales }) => {
@@ -12,7 +12,7 @@ const SalesTable: FC<SalesTableProps> = ({ sales }) => {
       <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
         <table className="table table-striped ">
           <tbody>
-            <tr>
+            <tr className="sticky top-[80px]">
               <td className="font-medium">Client</td>
               <td className="font-medium">Quantite </td>
               <td className="font-medium">Montant</td>
@@ -24,7 +24,7 @@ const SalesTable: FC<SalesTableProps> = ({ sales }) => {
               return (
                 <tr key={sale.id}>
                   <td>
-                    {sale.client.prenoms} {sale.client.nom}
+                    {sale.client!.prenoms} {sale.client!.nom}
                   </td>
                   <td>
                     {sale.quantite_achetee}

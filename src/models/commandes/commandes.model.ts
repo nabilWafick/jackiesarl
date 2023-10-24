@@ -1,6 +1,18 @@
 // Interface TypeScript pour la table `commandes`
+import Clients from "../clients/clients.model";
+
+interface ClientsJSON {
+  id?: number;
+  nom: string;
+  prenoms: string;
+  numero_ifu: number;
+  numero_telephone: string;
+  email: string | null;
+  date_ajout?: string;
+}
 interface CommandesJSON {
   id?: number;
+  client?: ClientsJSON;
   categorie: string;
   quantite_achetee: number;
   destination: string;
@@ -13,6 +25,7 @@ interface CommandesJSON {
 
 class Commandes {
   id?: number;
+  client?: Clients;
   categorie: string;
   quantite_achetee: number;
   destination: string;
@@ -31,6 +44,7 @@ class Commandes {
     est_traitee: number,
     id_client: number,
     id?: number,
+    client?: Clients,
     date_ajout?: Date
   ) {
     this.categorie = categorie;
@@ -41,6 +55,7 @@ class Commandes {
     this.est_traitee = est_traitee;
     this.id_client = id_client;
     this.id = id;
+    this.client = client;
     this.date_ajout = date_ajout;
   }
 
@@ -55,6 +70,7 @@ class Commandes {
       json.est_traitee,
       json.id_client,
       json.id,
+      json.client ? Clients.fromJson(json.client) : undefined,
       new Date(json.date_ajout!)
     );
   }
@@ -70,6 +86,7 @@ class Commandes {
       date_livraison: this.date_livraison.toISOString(),
       est_traitee: this.est_traitee,
       id_client: this.id_client,
+      client: this.client?.toJson(),
       date_ajout:
         this.date_ajout != null ? this.date_ajout.toISOString() : undefined,
     };

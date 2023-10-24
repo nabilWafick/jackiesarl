@@ -4,8 +4,15 @@ import JSCategorySelect from "../../../../components/form/widgets/CategorySelect
 import DebtsTable from "../../../../components/ui/dashboard/debts/DebtsTable";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
+import { FC, useEffect } from "react";
+import useCreanceStore from "../../../../store/creances/useCreances.store";
 
-const DebtsListPage = () => {
+const DebtsListPage: FC = () => {
+  const creances = useCreanceStore((state) => state.creances);
+  const fetchCreances = useCreanceStore((state) => state.fetchCreances);
+  useEffect(() => {
+    fetchCreances();
+  }, [fetchCreances]);
   return (
     <div className="h-full w-full flex flex-col">
       <div className="w-full flex justify-between items-center">
@@ -31,7 +38,7 @@ const DebtsListPage = () => {
           ]}
         />
       </div>
-      <DebtsTable />
+      <DebtsTable creances={creances} />
     </div>
   );
 };

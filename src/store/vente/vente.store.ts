@@ -2,14 +2,14 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClientAPI from "../../api/achat_client/achat_client.api";
-import Vente from "../../models/vente/vente.model";
 import Clients from "../../models/clients/clients.model";
+import AchatClient from "../../models/achat_client/achat_client.model";
 
 interface SalesStore {
-  sales: Vente[];
-  salesPerDay: Map<string, Vente[]>;
+  sales: AchatClient[];
+  salesPerDay: Map<string, AchatClient[]>;
   isLoading: boolean;
-  fetchAllSales: (clients: Clients[]) => void;
+  fetchAllSales: () => void;
   sortSalesByCIMBENINCategory: () => void;
   sortSalesNOCIBECategory: () => void;
   sortSalesOTHERCategory: () => void;
@@ -27,23 +27,10 @@ const useSalesStore = create<SalesStore>()(
       sales: [],
       salesPerDay: new Map(),
       isLoading: false,
-      fetchAllSales: async (clients: Clients[]) => {
+      fetchAllSales: async () => {
         const clientsPurchases = await AchatClientAPI.getAll();
-        const sales = clientsPurchases.map(
-          (sales) =>
-            new Vente(
-              sales.quantite_achetee,
-              sales.categorie,
-              sales.montant,
-              sales.numero_ctp,
-              sales.bordereau,
-              sales.numero_bc,
-              clients.find((client) => client!.id === sales.id_client)!,
-              sales.id,
-              new Date(sales.date_achat!)
-            )
-        );
-        set(() => ({ sales: sales }));
+
+        set(() => ({ sales: clientsPurchases }));
       },
       sortSalesByCIMBENINCategory: () => {
         set((state) => {

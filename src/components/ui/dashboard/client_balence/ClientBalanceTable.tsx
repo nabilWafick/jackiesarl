@@ -1,18 +1,10 @@
-import { FC, useEffect } from "react";
-import useSoldeClientStore from "../../../../store/solde_client/useSoldeClient.store";
-import useClientsStore from "../../../../store/clients/useClients.store";
+import { FC } from "react";
+import SoldeClient from "../../../../models/solde_client/solde_client.model";
+interface ClientBalanceTableProps {
+  soldeClient: SoldeClient;
+}
 
-const ClientBalanceTable: FC = () => {
-  const soldeClient = useSoldeClientStore((state) => state.soldeClient);
-  const fetchSoldeClient = useSoldeClientStore(
-    (state) => state.fetchSoldeClient
-  );
-  const selectedClient = useClientsStore((state) => state.selectedClient);
-
-  useEffect(() => {
-    fetchSoldeClient(selectedClient!.id!);
-  }, [fetchSoldeClient, selectedClient]);
-
+const ClientBalanceTable: FC<ClientBalanceTableProps> = ({ soldeClient }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -20,27 +12,87 @@ const ClientBalanceTable: FC = () => {
         <table className="table table-striped">
           <tbody>
             <tr>
-              <td>Total des dettes</td>
-              <td className="text-end">
-                {soldeClient!.total_dettes} <i> fcfa</i>
+              <td className="font-medium">Total des dettes de ce mois</td>
+              <td className="text-end font-medium">
+                {soldeClient!.total_dettes_mois} <i> fcfa</i>
               </td>
             </tr>
             <tr>
-              <td>Total des paiements</td>
+              <td>CIM BENIN</td>
               <td className="text-end">
-                {soldeClient!.total_paiements} <i> fcfa</i>
+                {soldeClient!.total_dettes_mois_CIMBENIN} <i> fcfa</i>
               </td>
             </tr>
             <tr>
-              <td>Créances</td>
+              <td>NOCIBE</td>
               <td className="text-end">
+                {soldeClient!.total_dettes_mois_NOCIBE} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td className="font-medium">Total des paiements</td>
+              <td className="text-end font-medium">
+                {soldeClient!.total_paiements_mois} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td>CIM BENIN</td>
+              <td className="text-end">
+                {soldeClient!.total_paiements_mois_CIMBENIN} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td>NOCIBE</td>
+              <td className="text-end">
+                {soldeClient!.total_paiements_mois_NOCIBE} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td className="font-medium">Créances</td>
+              <td className="text-end font-medium">
                 {soldeClient!.creance} <i> fcfa</i>
               </td>
             </tr>
             <tr>
-              <td>Avance</td>
+              <td>CIM BENIN</td>
               <td className="text-end">
+                {soldeClient!.creance_CIMBENIN} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td>NOCIBE</td>
+              <td className="text-end">
+                {soldeClient!.creance_NOCIBE} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td className=" font-medium">Pourcentage Créances</td>
+              <td className="text-end font-medium">
+                {soldeClient!.pourcentage_creance_client} %
+              </td>
+            </tr>
+            <tr>
+              <td className="font-medium">Avance</td>
+              <td className="text-end font-medium">
                 {soldeClient!.avance} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td>CIM BENIN</td>
+              <td className="text-end">
+                {soldeClient!.avance_CIMBENIN} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td>NOCIBE</td>
+              <td className="text-end">
+                {soldeClient!.avance_NOCIBE} <i> fcfa</i>
+              </td>
+            </tr>
+            <tr>
+              <td className=" font-medium">Pourcentage Avances</td>
+              <td className="text-end font-medium">
+                {soldeClient!.pourcentage_avance_client}%
               </td>
             </tr>
           </tbody>

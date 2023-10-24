@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { FaCheck, FaCheckCircle, FaEdit, FaTrash } from "react-icons/fa";
-import CommandesClients from "../../../../models/commandes_client/commandes_client.store";
 import OrderUpdate from "../../../form/forms/order_update/OrderUpdate";
 import { toggleModal } from "../widgets/ToggleModal";
 import useClientsStore from "../../../../store/clients/useClients.store";
@@ -10,7 +9,7 @@ import CommandesAPI from "../../../../api/commandes/commandes.api";
 import Commandes from "../../../../models/commandes/commandes.model";
 
 interface OrdersTableProps {
-  orders: CommandesClients[];
+  orders: Commandes[];
 }
 
 const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
@@ -22,7 +21,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
     (state) => state.fetchAllClientsOrders
   );
 
-  const updateOrderDeliveryStatus = async (order: CommandesClients) => {
+  const updateOrderDeliveryStatus = async (order: Commandes) => {
     const response = await CommandesAPI.update(
       order.id!,
       new Commandes(
@@ -69,7 +68,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
             {orders.map((order) => (
               <tr key={order.id}>
                 <td>
-                  {order.client.prenoms} {order.client.nom}
+                  {order.client!.prenoms} {order.client!.nom}
                 </td>
                 <td>
                   {order.quantite_achetee}
@@ -101,7 +100,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 <td>
                   <OrderUpdate
                     id={order.id!}
-                    clientName={`${order.client.prenoms} ${order.client.nom}`}
+                    clientName={`${order.client!.prenoms} ${order.client!.nom}`}
                     quantity={order.quantite_achetee.toString()}
                     destination={order.categorie}
                     orderDate={order.date_commande}

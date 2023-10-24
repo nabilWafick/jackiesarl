@@ -1,7 +1,5 @@
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
-import FilterOptionButton from "../../../../components/ui/dashboard/widgets/FilterOptionButton.widget";
 import ClientsTonnageListTable from "../../../../components/ui/dashboard/clients_tonnage_list/ClientsTonnageListTable";
 import "../../../../assets/css/table.css";
 
@@ -17,10 +15,10 @@ const ClientsTonnageListPage = () => {
           page des statistiques
         </div>
       </Link>
-      <div className="w-full flex justify-between items-center mt-2 content-center">
+      {/* <div className="w-full flex justify-between items-center mt-2 content-center">
         <DateIntervall />
         <FilterOptionButton />
-      </div>
+      </div> */}
       <ClientsTonnageListTable />
     </div>
   );

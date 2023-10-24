@@ -64,27 +64,41 @@ class BrouillardAPI {
     return brouillardList;
   }
 
-  static async update(id: number, data: Brouillard) {
-    try {
-      const response = await axios.put(
-        `${BrouillardAPI.baseUrl}/brouillard/${id}`,
+  static async update(
+    id: number,
+    is_current_stock_increasing: number,
+    data: Brouillard
+  ): Promise<BrouillardPromiseRsponse | undefined> {
+    let promiseResponse: BrouillardPromiseRsponse | undefined = undefined;
+
+    await axios
+      .put(
+        `${BrouillardAPI.baseUrl}/brouillard/${id}/${is_current_stock_increasing}`,
         data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 
-  static async delete(id: number) {
-    try {
-      const response = await axios.delete(
-        `${BrouillardAPI.baseUrl}/brouillard/${id}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async delete(
+    id: number
+  ): Promise<BrouillardPromiseRsponse | undefined> {
+    let promiseResponse: BrouillardPromiseRsponse | undefined = undefined;
+
+    await axios
+      .delete(`${BrouillardAPI.baseUrl}/brouillard/${id}`)
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+      });
+    return promiseResponse;
   }
 }
 

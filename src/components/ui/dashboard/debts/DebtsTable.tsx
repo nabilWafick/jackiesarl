@@ -1,6 +1,13 @@
 import { FC } from "react";
+import SoldeClient from "../../../../models/solde_client/solde_client.model";
 
-const DebtsTable: FC = () => {
+interface DebtsTableProps {
+  creances: SoldeClient[];
+}
+
+const DebtsTable: FC<DebtsTableProps> = ({ creances }) => {
+  //creances.sort((creance1, creance2) => creance2.creance - creance1.creance);
+
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -11,40 +18,44 @@ const DebtsTable: FC = () => {
               <td className="font-medium">Client</td>
               <td className="font-medium">Créance CIM BENIN</td>
               <td className="font-medium">Créance NOCIBE</td>
+              <td className="font-medium">Créance</td>
               <td className="font-medium">Pourcentage</td>
             </tr>
-            {Array.from({ length: 5 }, (_: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <tr key={index}>
-                    <td>Freddy EDOUN</td>
-                    <td>
-                      245 990 <i> t</i>
-                    </td>
-                    <td>
-                      67 498 <i> t</i>
-                    </td>
-                    <td>20%</td>
-                  </tr>
-                );
-              }
+
+            {creances.map((creance, index) => {
               return (
                 <tr key={index}>
-                  <td>Tobby PATO</td>
                   <td>
-                    245 000 <i> t</i>
+                    {creance.client!.prenoms} {creance.client!.nom}
                   </td>
                   <td>
-                    67 498 <i> t</i>
+                    {creance.creance_CIMBENIN} <i> fcfa</i>
                   </td>
-                  <td>20%</td>
+                  <td>
+                    {creance.creance_NOCIBE} <i> fcfa</i>
+                  </td>
+                  <td>
+                    {creance.creance} <i> fcfa</i>
+                  </td>
+                  <td>{creance.pourcentage_creance_client}%</td>
                 </tr>
               );
             })}
+
             <tr>
               <td className=" font-medium">Total Créances</td>
-              <td className=" font-medium">545150</td>
-              <td className=" font-medium">454850</td>
+              <td className=" font-medium">
+                {creances[0].total_creance_CIMBENIN}
+                <i> fcfa</i>
+              </td>
+              <td className=" font-medium">
+                {creances[0].total_creance_NOCIBE}
+                <i> fcfa</i>
+              </td>
+              <td className=" font-medium">
+                {creances[0].total_creance_clients}
+                <i> fcfa</i>
+              </td>
               <td className=" font-medium">100%</td>
             </tr>
           </tbody>

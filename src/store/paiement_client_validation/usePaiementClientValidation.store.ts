@@ -3,12 +3,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import PaiementClientAPI from "../../api/paiement_client/paiement_client.api";
-import PaiementClientValidation from "../../models/paiement_client_validation/paiement_client_validation.model";
+import PaiementClient from "../../models/paiement_client/paiement.model";
 import ClientsAPI from "../../api/clients/clients.api";
 
 interface ClientsPaymentsValidationStore {
-  clientsPaymentsValidation: PaiementClientValidation[];
-  clientsPaymentsValidationPerDay: Map<string, PaiementClientValidation[]>;
+  clientsPaymentsValidation: PaiementClient[];
+  clientsPaymentsValidationPerDay: Map<string, PaiementClient[]>;
   isLoading: boolean;
   fetchAllClientsPaymentsValidation: () => void;
   sortClientsPaymentsValidationByCIMBENINCategory: () => void;
@@ -33,27 +33,9 @@ const useClientsPaymentsValidationStore =
         clientsPaymentsValidationPerDay: new Map(),
         isLoading: false,
         fetchAllClientsPaymentsValidation: async () => {
-          const clients = await ClientsAPI.getAll();
           const clientsPayments = await PaiementClientAPI.getAll();
 
-          const clientsPaymentsValidation = clientsPayments.map(
-            (clientsPaymentValidation) =>
-              new PaiementClientValidation(
-                clientsPaymentValidation.montant,
-                clientsPaymentValidation.banque,
-                clientsPaymentValidation.reference,
-                clientsPaymentValidation.categorie,
-                clientsPaymentValidation.numero_bc,
-                clientsPaymentValidation.bordereau,
-                clientsPaymentValidation.est_valide,
-                clients.find(
-                  (client) => client!.id === clientsPaymentValidation.id_client
-                )!,
-                clientsPaymentValidation.id,
-                new Date(clientsPaymentValidation.date_paiement!)
-              )
-          );
-          set(() => ({ clientsPaymentsValidation: clientsPaymentsValidation }));
+          set(() => ({ clientsPaymentsValidation: clientsPayments }));
           //  console.log();
         },
         sortClientsPaymentsValidationByCIMBENINCategory: () => {

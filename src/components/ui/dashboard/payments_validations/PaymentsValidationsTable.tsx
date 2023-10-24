@@ -5,18 +5,17 @@ import {
   FaFile,
   FaTrash,
 } from "react-icons/fa";
-import PaiementClientValidation from "../../../../models/paiement_client_validation/paiement_client_validation.model";
 import { FC } from "react";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import { toggleModal } from "../widgets/ToggleModal";
 import ClientPaymentValidationUpdate from "../../../form/forms/client_payment_validation_update/ClientPaymentValidationUpdate";
 import PaiementClientAPI from "../../../../api/paiement_client/paiement_client.api";
-import useClientsPaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
 import PaiementClient from "../../../../models/paiement_client/paiement.model";
+import useClientPaymentsStore from "../../../../store/paiement_client/usePaiementClient.store";
 
 interface ClientsPaymentsValidationsTableProps {
-  clientsPaymentsValidations: PaiementClientValidation[];
+  clientsPaymentsValidations: PaiementClient[];
 }
 
 const ClientsPaymentsValidationsTable: FC<
@@ -37,13 +36,11 @@ const ClientsPaymentsValidationsTable: FC<
     (state) => state.setPaymentValidationClient
   );
 
-  const fetchAllClientsPaymentsValidation = useClientsPaymentsValidationStore(
-    (state) => state.fetchAllClientsPaymentsValidation
+  const fetchAllClientsPayments = useClientPaymentsStore(
+    (state) => state.fetchAllClientsPayments
   );
 
-  const updatePaymentValidationStatus = async (
-    payment: PaiementClientValidation
-  ) => {
+  const updatePaymentValidationStatus = async (payment: PaiementClient) => {
     const response = await PaiementClientAPI.update(
       payment.id!,
       new PaiementClient(
@@ -58,7 +55,7 @@ const ClientsPaymentsValidationsTable: FC<
       )
     );
     if (response!.status == 200) {
-      fetchAllClientsPaymentsValidation();
+      fetchAllClientsPayments();
       setActionResultMessage("Le paiement du client a été modifié avec succès");
       console.log("Added successfuly");
       toggleModal("action-result-message");
@@ -95,8 +92,8 @@ const ClientsPaymentsValidationsTable: FC<
             {clientsPaymentsValidations.map((clientsPaymentValidation) => (
               <tr key={clientsPaymentValidation.id}>
                 <td>
-                  {clientsPaymentValidation.client.prenoms}{" "}
-                  {clientsPaymentValidation.client.nom}
+                  {clientsPaymentValidation.client!.prenoms}{" "}
+                  {clientsPaymentValidation.client!.nom}
                 </td>
                 <td>
                   {clientsPaymentValidation.montant} <i> fcfa</i>
@@ -150,7 +147,9 @@ const ClientsPaymentsValidationsTable: FC<
                   <div>
                     <ClientPaymentValidationUpdate
                       id={clientsPaymentValidation.id!}
-                      clientName={`${clientsPaymentValidation.client.prenoms} ${clientsPaymentValidation.client.nom}`}
+                      clientName={`${
+                        clientsPaymentValidation.client!.prenoms
+                      } ${clientsPaymentValidation.client!.nom}`}
                       bcNumber={clientsPaymentValidation.numero_bc.toString()}
                       //   category={clientsPaymentValidation.categorie}
                       amount={clientsPaymentValidation.montant.toString()}
@@ -190,7 +189,7 @@ const ClientsPaymentsValidationsTable: FC<
                           );
                           toggleModal("action-result-message");
                           //fetchAllClientPayments(clientPayment.id_client);
-                          fetchAllClientsPaymentsValidation();
+                          fetchAllClientsPayments();
                         } else if (response!.status == 404) {
                           setActionResultMessage(
                             "Le paiement du client n'a pas été trouvé"

@@ -6,9 +6,11 @@ import PaiementClientAPI from "../../api/paiement_client/paiement_client.api";
 
 interface ClientPaymentsStore {
   clientPayments: PaiementClient[];
+  clientsPayments: PaiementClient[];
   clientPaymentsPerDay: Map<string, PaiementClient[]>;
   isLoading: boolean;
   fetchAllClientPayments: (clientId: number) => void;
+  fetchAllClientsPayments: () => void;
   sortClientPaymentsByCIMBENINCategory: () => void;
   sortClientPaymentsNOCIBECategory: () => void;
   sortClientPaymentsOTHERCategory: () => void;
@@ -27,6 +29,7 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
   persist(
     (set, get) => ({
       clientPayments: [],
+      clientsPayments: [],
       clientPaymentsPerDay: new Map(),
       isLoading: false,
       fetchAllClientPayments: async (clientId: number) => {
@@ -34,6 +37,11 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
           clientId
         );
         set(() => ({ clientPayments: selectedClientPayments }));
+      },
+
+      fetchAllClientsPayments: async () => {
+        const allClientsPayments = await PaiementClientAPI.getAll();
+        set(() => ({ clientsPayments: allClientsPayments }));
       },
       sortClientPaymentsByCIMBENINCategory: () => {
         set((state) => {
