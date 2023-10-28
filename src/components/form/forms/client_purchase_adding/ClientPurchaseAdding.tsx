@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useClientPurchaseAddingForm from "../../../../hooks/form/client_purchase_adding/useClientPurchaseAddingForm";
+import useClientPurchaseAddingForm from "../../../../hooks/forms/client_purchase_adding/useClientPurchaseAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

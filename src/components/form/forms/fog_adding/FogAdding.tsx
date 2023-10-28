@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useFogAddingForm from "../../../../hooks/form/fog_adding/useFogAddingForm";
+import useFogAddingForm from "../../../../hooks/forms/fog_adding/useFogAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

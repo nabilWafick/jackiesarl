@@ -45,15 +45,15 @@ const AdvanceTable: FC<AdvanceTableProps> = ({ avances }) => {
             <tr>
               <td className=" font-medium">Total Avances</td>
               <td className=" font-medium">
-                {avances[0].total_avance_CIMBENIN}
+                {avances.length == 0 ? "" : avances[0].total_avance_CIMBENIN}
                 <i> fcfa</i>
               </td>
               <td className=" font-medium">
-                {avances[0].total_avance_NOCIBE}
+                {avances.length == 0 ? "" : avances[0].total_avance_NOCIBE}
                 <i> fcfa</i>
               </td>
               <td className=" font-medium">
-                {avances[0].total_avance_clients}
+                {avances.length == 0 ? "" : avances[0].total_avance_clients}
                 <i> fcfa</i>
               </td>
               <td className=" font-medium">100%</td>

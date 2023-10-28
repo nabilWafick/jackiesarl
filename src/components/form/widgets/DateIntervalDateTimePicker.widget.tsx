@@ -4,7 +4,7 @@ import "react-datetime/css/react-datetime.css";
 import moment, { Moment } from "moment";
 import "moment/locale/fr";
 
-interface JSDateTimePickerProps {
+interface JSDateIntervalDateTimePickerProps {
   id: string;
   name: string;
   placeholder: string;
@@ -12,7 +12,7 @@ interface JSDateTimePickerProps {
   onDateChange: (date: Date | Moment) => void;
 }
 
-const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
+const JSDateIntervalDateTimePicker: FC<JSDateIntervalDateTimePickerProps> = ({
   id,
   name,
   placeholder,
@@ -38,10 +38,11 @@ const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
           id: id,
           name: name,
           placeholder: placeholder,
-          className: `w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`,
+
+          className: `w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border border-secondary  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`,
         }}
         timeFormat="HH:mm"
-        dateFormat="DD/MM/YYYY"
+        dateFormat="DD-MM-YYYY"
         closeOnSelect={false}
         // className={` w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`}
       />
@@ -49,4 +50,4 @@ const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
   );
 };
 
-export default JSDateTimePicker;
+export default JSDateIntervalDateTimePicker;

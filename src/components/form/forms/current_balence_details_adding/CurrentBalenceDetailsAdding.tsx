@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useCurrentBalenceDetailsAddingForm from "../../../../hooks/form/current_balence_details_adding/useCurrentBalenceDetailsAddingForm";
+import useCurrentBalenceDetailsAddingForm from "../../../../hooks/forms/current_balence_details_adding/useCurrentBalenceDetailsAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

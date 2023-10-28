@@ -11,8 +11,8 @@ interface FormData {
   clientName: string;
   quantity: string;
   destination: string;
-  orderDate: Date | Moment;
-  deliveryDate: Date | Moment;
+  orderDate: Date | Moment | undefined;
+  deliveryDate: Date | Moment | undefined;
   category: string;
 }
 
@@ -221,8 +221,8 @@ const useOrderAddingForm = ({
           formData.category,
           parseFloat(formData.quantity),
           formData.destination,
-          new Date(formData.orderDate.toLocaleString()!),
-          new Date(formData.deliveryDate.toLocaleString()!),
+          new Date(formData.orderDate!.toLocaleString()!),
+          new Date(formData.deliveryDate!.toLocaleString()!),
           0,
           orderClient!.id!
         )

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useFogStockUpdateForm from "../../../../hooks/form/fog_stock_increase/useFogStockIncreaseForm";
+import useFogStockUpdateForm from "../../../../hooks/forms/fog_stock_increase/useFogStockIncreaseForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

@@ -13,6 +13,17 @@ const ClientBalancePage: FC = () => {
     (state) => state.fetchSoldeClient
   );
 
+  const startDate = useSoldeClientStore((state) => state.startDate);
+  const endDate = useSoldeClientStore((state) => state.endDate);
+
+  const onStartDateChange = useSoldeClientStore(
+    (state) => state.onStartDateChange
+  );
+  const onEndDateChange = useSoldeClientStore((state) => state.onEndDateChange);
+  const resetDatesInterval = useSoldeClientStore(
+    (state) => state.resetDatesInterval
+  );
+
   useEffect(() => {
     fetchSoldeClient(selectedClient!.id!);
   }, [fetchSoldeClient, selectedClient]);
@@ -20,7 +31,13 @@ const ClientBalancePage: FC = () => {
     <div className="h-full w-full flex flex-col justify-center items-center">
       <ClientCard client={selectedClient!} />
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
+        <DateIntervall
+          selectedStartDate={startDate}
+          selectedEndDate={endDate}
+          onStartDateChange={onStartDateChange}
+          onEndDateChange={onEndDateChange}
+          resetDatesInterval={resetDatesInterval}
+        />
       </div>
 
       <ClientBalanceTable soldeClient={soldeClient!} />

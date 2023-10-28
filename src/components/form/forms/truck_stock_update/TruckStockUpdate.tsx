@@ -4,7 +4,7 @@ import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
-import useTruckStockUpdateForm from "../../../../hooks/form/truck_stock_update/useTruckStockUpdate";
+import useTruckStockUpdateForm from "../../../../hooks/forms/truck_stock_update/useTruckStockUpdate";
 
 interface TruckStockUpadateProps {
   id: number;

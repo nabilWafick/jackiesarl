@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useClientCheckRemittanceUpdateForm from "../../../../hooks/form/client_check_remittance_update/useClientCheckRemittanceUpdateForm";
+import useClientCheckRemittanceUpdateForm from "../../../../hooks/forms/client_check_remittance_update/useClientCheckRemittanceUpdateForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

@@ -45,7 +45,7 @@ class ClientsAPI {
   static async getById(id: number): Promise<Clients | undefined> {
     let client: Clients | undefined;
     await axios
-      .get(`${ClientsAPI.baseUrl}/clients/${id}`)
+      .get(`${ClientsAPI.baseUrl}/client/${id}`)
       .then((response) => {
         client = Clients.fromJson(response.data);
       })
@@ -64,24 +64,143 @@ class ClientsAPI {
           Clients.fromJson(client)
         );
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         return [] as Clients[];
       });
     return clientsList;
   }
 
-  static async getAll(): Promise<Clients[]> {
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Clients[]> {
     let clientsList: Clients[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${ClientsAPI.baseUrl}/clients-default`)
+        .then((response) => {
+          clientsList = response.data.map((client: ClientsJSON) =>
+            Clients.fromJson(client)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Clients[];
+        });
+      return clientsList;
+    }
+
     await axios
-      .get(`${ClientsAPI.baseUrl}/clients`)
+      .get(`${ClientsAPI.baseUrl}/clients/${startDate}/${endDate}`)
       .then((response) => {
         clientsList = response.data.map((client: ClientsJSON) =>
           Clients.fromJson(client)
         );
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        return [] as Clients[];
+      });
+    return clientsList;
+  }
+
+  static async getAllByAlphabeticalOrder(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Clients[]> {
+    let clientsList: Clients[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${ClientsAPI.baseUrl}/clients/alphabetical-order`)
+        .then((response) => {
+          clientsList = response.data.map((client: ClientsJSON) =>
+            Clients.fromJson(client)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Clients[];
+        });
+      return clientsList;
+    }
+
+    await axios
+      .get(
+        `${ClientsAPI.baseUrl}/clients/alphabetical-order/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        clientsList = response.data.map((client: ClientsJSON) =>
+          Clients.fromJson(client)
+        );
+      })
+      .catch(() => {
+        return [] as Clients[];
+      });
+    return clientsList;
+  }
+
+  static async getAllFromOldToNew(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Clients[]> {
+    let clientsList: Clients[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${ClientsAPI.baseUrl}/clients/old-to-new`)
+        .then((response) => {
+          clientsList = response.data.map((client: ClientsJSON) =>
+            Clients.fromJson(client)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Clients[];
+        });
+      return clientsList;
+    }
+
+    await axios
+      .get(`${ClientsAPI.baseUrl}/clients/old-to-new/${startDate}/${endDate}`)
+      .then((response) => {
+        clientsList = response.data.map((client: ClientsJSON) =>
+          Clients.fromJson(client)
+        );
+      })
+      .catch(() => {
+        return [] as Clients[];
+      });
+    return clientsList;
+  }
+
+  static async getAllFromNewToOld(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Clients[]> {
+    let clientsList: Clients[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${ClientsAPI.baseUrl}/clients/new-to-old`)
+        .then((response) => {
+          clientsList = response.data.map((client: ClientsJSON) =>
+            Clients.fromJson(client)
+          );
+        })
+        .catch(() => {
+          //  console.log(error);
+          return [] as Clients[];
+        });
+      return clientsList;
+    }
+    await axios
+      .get(`${ClientsAPI.baseUrl}/clients/new-to-old/${startDate}/${endDate}`)
+      .then((response) => {
+        clientsList = response.data.map((client: ClientsJSON) =>
+          Clients.fromJson(client)
+        );
+      })
+      .catch(() => {
         return [] as Clients[];
       });
     return clientsList;

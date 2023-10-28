@@ -3,24 +3,21 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClient from "../../models/achat_client/achat_client.model";
 import AchatClientAPI from "../../api/achat_client/achat_client.api";
+import { Moment } from "moment";
 
 interface ClientPurchasesStore {
   clientPurchases: AchatClient[];
   clientPurchasesPerDay: Map<string, AchatClient[]>;
   isLoading: boolean;
+  selectedClientId: number;
+  startDate: Date | Moment | undefined;
+  endDate: Date | Moment | undefined;
+  selectedSortOption: string;
   fetchAllClientPurchases: (clientId: number) => void;
-  sortClientPurchasesByCIMBENINCategory: () => void;
-  sortClientPurchasesNOCIBECategory: () => void;
-  sortClientPurchasesOTHERCategory: () => void;
-  sortClientPurchasesByDate: () => void;
-  sortClientPurchasesByDateInterval: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
-  sortClientPurchasesByDateIntervalPerDay: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
+  onStartDateChange: (date: Date | Moment) => void;
+  onEndDateChange: (date: Date | Moment) => void;
+  resetDatesInterval: () => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const useClientPurchasesStore = create<ClientPurchasesStore>()(
@@ -29,105 +26,370 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
       clientPurchases: [],
       clientPurchasesPerDay: new Map(),
       isLoading: false,
+      selectedClientId: 0,
+      startDate: undefined,
+      endDate: undefined,
+      selectedSortOption: "new-to-old",
       fetchAllClientPurchases: async (clientId: number) => {
+        set(() => ({ selectedClientId: clientId }));
+        const begin = get().startDate;
+        const end = get().endDate;
         const selectedClientPurchases = await AchatClientAPI.getAllOfClient(
+          begin ? begin.toLocaleString() : undefined,
+          end ? end.toLocaleString() : undefined,
           clientId
         );
         set(() => ({ clientPurchases: selectedClientPurchases }));
       },
-      sortClientPurchasesByCIMBENINCategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientPurchases].filter(
-            (clientPurchase) => clientPurchase.categorie === "CIM BENIN"
-          );
+      onStartDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
 
-          return {
-            clientPurchases: sortedList,
-          };
-        });
-      },
-      sortClientPurchasesNOCIBECategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientPurchases].filter(
-            (clientPurchase) => clientPurchase.categorie === "NOCIBE"
-          );
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        }
 
-          return {
-            clientPurchases: sortedList,
-          };
-        });
-      },
-      sortClientPurchasesOTHERCategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientPurchases].filter(
-            (clientPurchase) => clientPurchase.categorie === "Autres"
-          );
+        // ============= TO EXECUTE ===========
 
-          return {
-            clientPurchases: sortedList,
-          };
-        });
-      },
-      sortClientPurchasesByDate: () => {
-        set((state) => {
-          const sortedList = [...state.clientPurchases].sort(
-            (clientPurchase1, clientPurchase2) =>
-              clientPurchase1.date_achat!.getTime() -
-              clientPurchase2.date_achat!.getTime()
-          );
-          return {
-            clientPurchases: sortedList,
-          };
-        });
-      },
-      sortClientPurchasesByDateInterval: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          const sortedList = [...state.clientPurchases].filter(
-            (clientPurchase) => {
-              const purchaseDate = clientPurchase.date_achat!;
-              return (
-                purchaseDate >= beginningDate && purchaseDate <= endingDate
-              );
-            }
-          );
-          return {
-            clientPurchases: sortedList,
-          };
-        });
-      },
-      sortClientPurchasesByDateIntervalPerDay: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          state.clientPurchases.forEach((clientPurchase) => {
-            const clientDate = clientPurchase.date_achat!;
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-            // Vérifiez si la date d'ajout est dans l'intervalle spécifié
-            if (clientDate >= beginningDate && clientDate <= endingDate) {
-              // Formatez la date d'ajout comme une chaîne de caractères "yyyy-MM-dd"
-              const dateKey = clientDate.toISOString().split("T")[0];
+        let selectedClientPurchases: AchatClient[] = [];
 
-              // Ajoutez le client au groupe correspondant à cette date
-              if (!state.clientPurchasesPerDay.has(dateKey)) {
-                state.clientPurchasesPerDay.set(dateKey, []);
-              }
-              state.clientPurchasesPerDay.get(dateKey)!.push(clientPurchase);
-            }
-          });
-
-          state.clientPurchasesPerDay.forEach((clients) => {
-            // Triez les clients par date_ajout, du plus ancien au plus récent
-            clients.sort(
-              (a, b) => a.date_achat!.getTime() - b.date_achat!.getTime()
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
             );
-          });
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
 
-          return { clientPurchasesPerDay: state.clientPurchasesPerDay };
-        });
+        set(() => ({ clientPurchases: selectedClientPurchases }));
+
+        // ============= TO EXECUTE ===========
+      },
+      onEndDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientPurchases: AchatClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientPurchases: selectedClientPurchases }));
+
+        // ============= TO EXECUTE ===========
+      },
+      resetDatesInterval: async () => {
+        set(() => ({
+          startDate: undefined,
+          endDate: undefined,
+        }));
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientPurchases: AchatClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+        set(() => ({ clientPurchases: selectedClientPurchases }));
+      },
+      onSelectedSetOptionChange: async (
+        e: React.ChangeEvent<HTMLSelectElement>
+      ) => {
+        const { value } = e.target;
+        set(() => ({ selectedSortOption: value }));
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientPurchases: AchatClient[] = [];
+
+        if (value == "old-to-new") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "new-to-old") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "cim-benin-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "cim-benin-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "nocibe-more-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "nocibe-less-important") {
+          selectedClientPurchases =
+            await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientPurchases: selectedClientPurchases }));
       },
     }),
     {

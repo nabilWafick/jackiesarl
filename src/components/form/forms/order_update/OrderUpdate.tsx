@@ -6,7 +6,7 @@ import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 import JSDateTimePicker from "../../widgets/DateTimePicker.widget";
 import useClientsStore from "../../../../store/clients/useClients.store";
-import useOrderUpdateForm from "../../../../hooks/form/order_update/useOrderUpdateForm";
+import useOrderUpdateForm from "../../../../hooks/forms/order_update/useOrderUpdateForm";
 import { Moment } from "moment";
 
 interface OrderUpdateProps {

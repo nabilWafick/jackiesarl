@@ -1,5 +1,5 @@
 import { FC } from "react";
-import usePurchaseOrderStock from "../../../../hooks/form/purchase_order_stock_adding/usePurchaseOrderStockAddingForm";
+import usePurchaseOrderStock from "../../../../hooks/forms/purchase_order_stock_adding/usePurchaseOrderStockAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

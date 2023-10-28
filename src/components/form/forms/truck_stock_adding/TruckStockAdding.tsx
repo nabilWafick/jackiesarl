@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useTruckStockAddingForm from "../../../../hooks/form/truck_stock_adding/useTruckStockAddingForm";
+import useTruckStockAddingForm from "../../../../hooks/forms/truck_stock_adding/useTruckStockAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

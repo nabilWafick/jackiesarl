@@ -1,6 +1,5 @@
 import PurchaseOrderStockTable from "../../../../components/ui/dashboard/purchase_order_stock/PurchaseOrderStockTable";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 
 import "../../../../assets/css/table.css";
@@ -23,8 +22,7 @@ const PurchaseOrderStockPage = () => {
 
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
+      <div className="w-full flex flex-row justify-end items-center mt-2 my-3 content-center">
         <AddingButton
           option="Ajouter un stock bon de commande"
           onClick={() => {

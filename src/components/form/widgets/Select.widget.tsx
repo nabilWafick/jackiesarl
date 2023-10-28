@@ -8,21 +8,31 @@ interface SelectOption {
 interface JSSelectProps {
   id: string;
   name: string;
+  selectedOption: string;
   options: SelectOption[];
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const JSSelect: FC<JSSelectProps> = ({ id, name, options }) => {
+const JSSelect: FC<JSSelectProps> = ({
+  id,
+  name,
+  options,
+  selectedOption,
+  onChange,
+}) => {
   return (
     <select
-      className="bg-transparent border-secondary rounded-md focus:border-2  focus:outline-none px-2 py-1.5 border focus:border-secondary text-secondary"
+      className="p-3 bg-secondary rounded-md text-white border border-gray-200 outline-none"
       name={name}
       id={id}
+      value={selectedOption}
+      onChange={onChange}
     >
       {options.map((option) => (
         <option
           key={option.value}
           value={option.value}
-          className="hover:bg-secondary"
+          className=" m-3 border-secondary bg-gray-200  text-tableTextColor"
         >
           {option.label}
         </option>

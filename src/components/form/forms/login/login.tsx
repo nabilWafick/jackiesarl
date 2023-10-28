@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useLoginForm from "../../../../hooks/form/login/useLoginForm";
+import useLoginForm from "../../../../hooks/forms/login/useLoginForm";
 import JSInput from "../../widgets/Input.widget";
 import AuthenticationButton from "../../widgets/AuthenticationButton.widget";
 

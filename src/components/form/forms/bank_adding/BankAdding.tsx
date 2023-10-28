@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useBankAddingForm from "../../../../hooks/form/bank_adding/useBankAddingForm";
+import useBankAddingForm from "../../../../hooks/forms/bank_adding/useBankAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

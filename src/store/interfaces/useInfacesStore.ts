@@ -79,6 +79,7 @@ const useInterfacesStore = create<InterfacesStore>()(
       ) => {
         //  const lastSideBarOptionName = get().currentActiveSideBarOption;
         set((state) => {
+          state.setCurrentActiveSideBarSubOption("");
           state.toggleSideBarOptionDropdown(index, selectedClient);
           return { currentActiveSideBarOption: name };
         });

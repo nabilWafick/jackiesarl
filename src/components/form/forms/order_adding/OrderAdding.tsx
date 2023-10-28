@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useOrderAddingForm from "../../../../hooks/form/order_adding/useOrderAddingForm";
+import useOrderAddingForm from "../../../../hooks/forms/order_adding/useOrderAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
@@ -13,8 +13,8 @@ interface OrderAddingProps {
   clientName: string;
   quantity: string;
   destination: string;
-  orderDate: Date | Moment;
-  deliveryDate: Date | Moment;
+  orderDate: Date | Moment | undefined;
+  deliveryDate: Date | Moment | undefined;
   category: string;
 }
 

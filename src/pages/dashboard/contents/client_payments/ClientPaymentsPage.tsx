@@ -10,6 +10,7 @@ import { FC, useEffect } from "react";
 import { redirect } from "react-router-dom";
 import useClientPaymentsStore from "../../../../store/paiement_client/usePaiementClient.store";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
+import JSSelect from "../../../../components/form/widgets/Select.widget";
 
 const ClientPaymentsPage: FC = () => {
   const selectedClient = useClientsStore((state) => state.selectedClient);
@@ -18,6 +19,24 @@ const ClientPaymentsPage: FC = () => {
   );
   const fetchAllClientPayments = useClientPaymentsStore(
     (state) => state.fetchAllClientPayments
+  );
+
+  const selectedSortOption = useClientPaymentsStore(
+    (state) => state.selectedSortOption
+  );
+  const startDate = useClientPaymentsStore((state) => state.startDate);
+  const endDate = useClientPaymentsStore((state) => state.endDate);
+  const onSelectedSetOptionChange = useClientPaymentsStore(
+    (state) => state.onSelectedSetOptionChange
+  );
+  const onStartDateChange = useClientPaymentsStore(
+    (state) => state.onStartDateChange
+  );
+  const onEndDateChange = useClientPaymentsStore(
+    (state) => state.onEndDateChange
+  );
+  const resetDatesInterval = useClientPaymentsStore(
+    (state) => state.resetDatesInterval
   );
 
   if (!selectedClient) {
@@ -29,13 +48,50 @@ const ClientPaymentsPage: FC = () => {
   return (
     <div className="h-full w-full flex flex-col justify-center items-center">
       <ClientCard client={selectedClient!} />
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
+      <div className="flex  self-end items-center">
         <AddingButton
-          option="Ajouter un paiement"
+          option="Ajouter un achat"
           onClick={() => {
-            toggleModal("client-payment-adding-form");
+            toggleModal("client-purchase-adding-form");
           }}
+        />
+      </div>
+      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+        <DateIntervall
+          selectedStartDate={startDate}
+          selectedEndDate={endDate}
+          onStartDateChange={onStartDateChange}
+          onEndDateChange={onEndDateChange}
+          resetDatesInterval={resetDatesInterval}
+        />
+
+        <JSSelect
+          id="clients-select"
+          name="clients-select"
+          selectedOption={selectedSortOption}
+          options={[
+            { value: "new-to-old", label: "Nouveau à Ancien" },
+            { value: "old-to-new", label: "Ancien à Nouveau" },
+            { value: "more-important", label: "Plus Important" },
+            { value: "less-important", label: "Moins Important" },
+            {
+              value: "cim-benin-more-important",
+              label: "CIM BENIN Plus Important",
+            },
+            {
+              value: "cim-benin-less-important",
+              label: "CIM BENIN Moins important",
+            },
+            {
+              value: "nocibe-more-important",
+              label: "NOCIBE Plus Important",
+            },
+            {
+              value: "nocibe-less-important",
+              label: "NOCIBE Moins Important",
+            },
+          ]}
+          onChange={onSelectedSetOptionChange}
         />
         <ClientPaymentAdding
           bcNumber=""

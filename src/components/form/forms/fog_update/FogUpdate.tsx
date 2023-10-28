@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useFogUpdateForm from "../../../../hooks/form/fog_update/useFogUpdateForm.";
+import useFogUpdateForm from "../../../../hooks/forms/fog_update/useFogUpdateForm.";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

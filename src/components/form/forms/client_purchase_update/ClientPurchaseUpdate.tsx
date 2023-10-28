@@ -4,7 +4,7 @@ import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
-import useClientPurchaseUpdateForm from "../../../../hooks/form/client_purchase_update/useClientPurchaseUpdateForm";
+import useClientPurchaseUpdateForm from "../../../../hooks/forms/client_purchase_update/useClientPurchaseUpdateForm";
 
 interface ClientPurchaseUpdateProps {
   id: number;

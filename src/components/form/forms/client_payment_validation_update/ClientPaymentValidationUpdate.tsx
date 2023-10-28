@@ -4,7 +4,7 @@ import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
-import useClientPaymentValidationUpdateForm from "../../../../hooks/form/client_payment_validation_update/useClientPaymentValidationUpdateForm";
+import useClientPaymentValidationUpdateForm from "../../../../hooks/forms/client_payment_validation_update/useClientPaymentValidationUpdateForm";
 import useClientsStore from "../../../../store/clients/useClients.store";
 
 interface ClientPaymentValidationUpdateProps {

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useExpenseUpdateForm from "../../../../hooks/form/expense_update/useExpenseUpdateForm";
+import useExpenseUpdateForm from "../../../../hooks/forms/expense_update/useExpenseUpdateForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";

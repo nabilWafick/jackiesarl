@@ -45,15 +45,15 @@ const DebtsTable: FC<DebtsTableProps> = ({ creances }) => {
             <tr>
               <td className=" font-medium">Total Créances</td>
               <td className=" font-medium">
-                {creances[0].total_creance_CIMBENIN}
+                {creances.length == 0 ? "" : creances[0].total_creance_CIMBENIN}
                 <i> fcfa</i>
               </td>
               <td className=" font-medium">
-                {creances[0].total_creance_NOCIBE}
+                {creances.length == 0 ? "" : creances[0].total_creance_NOCIBE}
                 <i> fcfa</i>
               </td>
               <td className=" font-medium">
-                {creances[0].total_creance_clients}
+                {creances.length == 0 ? "" : creances[0].total_creance_clients}
                 <i> fcfa</i>
               </td>
               <td className=" font-medium">100%</td>

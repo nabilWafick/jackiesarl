@@ -3,26 +3,21 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import PaiementClient from "../../models/paiement_client/paiement.model";
 import PaiementClientAPI from "../../api/paiement_client/paiement_client.api";
+import { Moment } from "moment";
 
 interface ClientPaymentsStore {
   clientPayments: PaiementClient[];
-  clientsPayments: PaiementClient[];
   clientPaymentsPerDay: Map<string, PaiementClient[]>;
   isLoading: boolean;
+  selectedClientId: number;
+  startDate: Date | Moment | undefined;
+  endDate: Date | Moment | undefined;
+  selectedSortOption: string;
   fetchAllClientPayments: (clientId: number) => void;
-  fetchAllClientsPayments: () => void;
-  sortClientPaymentsByCIMBENINCategory: () => void;
-  sortClientPaymentsNOCIBECategory: () => void;
-  sortClientPaymentsOTHERCategory: () => void;
-  sortClientPaymentsByDate: () => void;
-  sortClientPaymentsByDateInterval: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
-  sortClientPaymentsByDateIntervalPerDay: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
+  onStartDateChange: (date: Date | Moment) => void;
+  onEndDateChange: (date: Date | Moment) => void;
+  resetDatesInterval: () => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const useClientPaymentsStore = create<ClientPaymentsStore>()(
@@ -31,110 +26,376 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
       clientPayments: [],
       clientsPayments: [],
       clientPaymentsPerDay: new Map(),
+      selectedClientId: 0,
+      startDate: undefined,
+      endDate: undefined,
+      selectedSortOption: "new-to-old",
       isLoading: false,
       fetchAllClientPayments: async (clientId: number) => {
+        set(() => ({ selectedClientId: clientId }));
+        const begin = get().startDate;
+        const end = get().endDate;
         const selectedClientPayments = await PaiementClientAPI.getAllOfClient(
+          begin ? begin.toLocaleString() : undefined,
+          end ? end.toLocaleString() : undefined,
           clientId
         );
         set(() => ({ clientPayments: selectedClientPayments }));
       },
 
-      fetchAllClientsPayments: async () => {
+      /*  fetchAllClientsPayments: async () => {
         const allClientsPayments = await PaiementClientAPI.getAll();
         set(() => ({ clientsPayments: allClientsPayments }));
-      },
-      sortClientPaymentsByCIMBENINCategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientPayments].filter(
-            (clientPayment) => clientPayment.categorie === "CIM BENIN"
-          );
+      },*/
 
-          return {
-            clientPayments: sortedList,
-          };
-        });
-      },
-      sortClientPaymentsNOCIBECategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientPayments].filter(
-            (clientPayment) => clientPayment.categorie === "NOCIBE"
-          );
-          return {
-            clientPayments: sortedList,
-          };
-        });
-      },
-      sortClientPaymentsOTHERCategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientPayments].filter(
-            (clientPayment) => clientPayment.categorie === "Autres"
-          );
+      onStartDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
 
-          return {
-            clientPayments: sortedList,
-          };
-        });
-      },
-      sortClientPaymentsByDate: () => {
-        set((state) => {
-          const sortedList = [...state.clientPayments].sort(
-            (clientPayment1, clientPayment2) =>
-              clientPayment1.date_paiement!.getTime() -
-              clientPayment2.date_paiement!.getTime()
-          );
-          return {
-            clientPayments: sortedList,
-          };
-        });
-      },
-      sortClientPaymentsByDateInterval: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          const sortedList = [...state.clientPayments].filter(
-            (clientPayment) => {
-              const purchaseDate = clientPayment.date_paiement!;
-              return (
-                purchaseDate >= beginningDate && purchaseDate <= endingDate
-              );
-            }
-          );
-          return {
-            clientPayments: sortedList,
-          };
-        });
-      },
-      sortClientPaymentsByDateIntervalPerDay: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          state.clientPayments.forEach((clientPayment) => {
-            const clientDate = clientPayment.date_paiement!;
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        }
 
-            // Vérifiez si la date d'ajout est dans l'intervalle spécifié
-            if (clientDate >= beginningDate && clientDate <= endingDate) {
-              // Formatez la date d'ajout comme une chaîne de caractères "yyyy-MM-dd"
-              const dateKey = clientDate.toISOString().split("T")[0];
+        // ============= TO EXECUTE ===========
 
-              // Ajoutez le client au groupe correspondant à cette date
-              if (!state.clientPaymentsPerDay.has(dateKey)) {
-                state.clientPaymentsPerDay.set(dateKey, []);
-              }
-              state.clientPaymentsPerDay.get(dateKey)!.push(clientPayment);
-            }
-          });
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-          state.clientPaymentsPerDay.forEach((clients) => {
-            // Triez les clients par date_ajout, du plus ancien au plus récent
-            clients.sort(
-              (a, b) => a.date_paiement!.getTime() - b.date_paiement!.getTime()
+        let selectedClientPayments: PaiementClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
             );
-          });
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
 
-          return { clientPaymentsPerDay: state.clientPaymentsPerDay };
-        });
+        set(() => ({ clientPayments: selectedClientPayments }));
+
+        // ============= TO EXECUTE ===========
+      },
+      onEndDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientPayments: PaiementClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientPayments: selectedClientPayments }));
+
+        // ============= TO EXECUTE ===========
+      },
+      resetDatesInterval: async () => {
+        set(() => ({
+          startDate: undefined,
+          endDate: undefined,
+        }));
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientPayments: PaiementClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientPayments: selectedClientPayments }));
+      },
+      onSelectedSetOptionChange: async (
+        e: React.ChangeEvent<HTMLSelectElement>
+      ) => {
+        const { value } = e.target;
+        set(() => ({ selectedSortOption: value }));
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientPayments: PaiementClient[] = [];
+
+        if (value == "old-to-new") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "new-to-old") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "cim-benin-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "cim-benin-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientCIMBENINLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "nocibe-more-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBEMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "nocibe-less-important") {
+          selectedClientPayments =
+            await PaiementClientAPI.getAllOfClientNOCIBELessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientPayments: selectedClientPayments }));
       },
     }),
     {
