@@ -12,7 +12,7 @@ import { toggleModal } from "../widgets/ToggleModal";
 import ClientPaymentValidationUpdate from "../../../form/forms/client_payment_validation_update/ClientPaymentValidationUpdate";
 import PaiementClientAPI from "../../../../api/paiement_client/paiement_client.api";
 import PaiementClient from "../../../../models/paiement_client/paiement.model";
-import useClientPaymentsStore from "../../../../store/paiement_client/usePaiementClient.store";
+import usePaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
 
 interface ClientsPaymentsValidationsTableProps {
   clientsPaymentsValidations: PaiementClient[];
@@ -36,8 +36,8 @@ const ClientsPaymentsValidationsTable: FC<
     (state) => state.setPaymentValidationClient
   );
 
-  const fetchAllClientsPayments = useClientPaymentsStore(
-    (state) => state.fetchAllClientsPayments
+  const fetchAllClientsPayments = usePaymentsValidationStore(
+    (state) => state.fetchAllClientPayments
   );
 
   const updatePaymentValidationStatus = async (payment: PaiementClient) => {

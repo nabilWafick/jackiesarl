@@ -2,25 +2,29 @@
 interface ModificationsJSON {
   id?: number;
   modification: string;
-  id_employe: number;
+  nom_employe: string;
+  prenoms_employe: string;
   dateModification?: string; // Une chaîne de caractères pour la date au format ISO
 }
 
 class Modifications {
   id?: number;
   modification: string;
-  id_employe: number;
+  nom_employe: string;
+  prenoms_employe: string;
   dateModification?: Date;
 
   constructor(
     modification: string,
-    id_employe: number,
+    nom_employe: string,
+    prenoms_employe: string,
     id?: number,
     dateModification?: Date
   ) {
     this.id = id;
     this.modification = modification;
-    this.id_employe = id_employe;
+    this.nom_employe = nom_employe;
+    this.prenoms_employe = prenoms_employe;
     this.dateModification = dateModification;
   }
 
@@ -28,7 +32,8 @@ class Modifications {
   static fromJson(json: ModificationsJSON): Modifications {
     return new Modifications(
       json.modification,
-      json.id_employe,
+      json.nom_employe,
+      json.prenoms_employe,
       json.id,
       new Date(json.dateModification!)
     );
@@ -39,7 +44,8 @@ class Modifications {
     return {
       id: this.id,
       modification: this.modification,
-      id_employe: this.id_employe,
+      nom_employe: this.nom_employe,
+      prenoms_employe: this.prenoms_employe,
       dateModification:
         this.dateModification != null
           ? this.dateModification.toISOString()

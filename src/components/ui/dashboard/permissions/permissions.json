@@ -1,0 +1,89 @@
+
+{
+    
+    "admin": false,
+
+    "lire-tableau-bord": false,
+    "imprimer-interface" : false,
+
+    "ajouter-client": false,
+    "lire-client":false,
+    "modifier-client": false,
+    "supprimer-client":false,
+
+    "lire-solde-client":false,
+    "lire-avances-clients":false,
+    "lire-creances-clients":false,
+
+    "ajouter-achat-client": false,
+    "lire-achat-client":false,
+    "modifier-achat-client": false,
+    "supprimer-achat-client":false,
+
+    "ajouter-paiement-client": false,
+    "lire-paiement-client":false,
+    "modifier-paiement-client": false,
+    "supprimer-paiement-client":false,
+
+    "ajouter-remise-cheque-client": false,
+    "lire-remise-cheque-client":false,
+    "modifier-remise-cheque-client": false,
+    "supprimer-remise-cheque-client":false,
+
+    "ajouter-stock-bon-commande": false,
+    "lire-stock-bon-commande":false,
+    "modifier-stock-bon-commande": false,
+    "supprimer-stock-bon-commande":false,
+
+    "ajouter-stock-camion": false,
+    "lire-stock-camion":false,
+    "modifier-stock-camion": false,
+    "supprimer-stock-camion":false,
+
+    "ajouter-achat-entreprise": false,
+    "lire-achat-entreprise":false,
+    "modifier-achat-entreprise": false,
+    "supprimer-achat-entreprise":false,
+
+    "ajouter-modification": false,
+    "lire-modification":false,
+    "modifier-modification": false,
+    "supprimer-modification":false,
+
+    "ajouter-brouillard": false,
+    "lire-brouillard":false,
+    "modifier-brouillard": false,
+    "supprimer-brouillard":false,
+
+    "ajouter-activite-depot": false,
+    "lire-activite-depot":false,
+    "modifier-activite-depot": false,
+    "supprimer-activite-depot":false,
+
+    "ajouter-depense": false,
+    "lire-depense":false,
+    "modifier-depense": false,
+    "supprimer-depense":false,
+
+    "ajouter-rapport": false,
+    "lire-rapport":false,
+    "modifier-rapport": false,
+    "supprimer-rapport":false,
+
+    "ajouter-commande": false,
+    "lire-commande":false,
+    "modifier-commande": false,
+    "supprimer-commande":false,
+
+    "ajouter-solde-courant": false,
+    "lire-solde-courant":false,
+    "modifier-solde-courant": false,
+    "supprimer-solde-courant":false,
+
+    "ajouter-activite-banque": false,
+    "lire-activite-banque":false,
+    "modifier-activite-banque": false,
+    "supprimer-activite-banque":false
+
+    
+}

@@ -46,10 +46,32 @@ class SoldeCourantAPI {
     return soldeCourant;
   }
 
-  static async getAll(): Promise<SoldeCourant[]> {
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<SoldeCourant[]> {
     let soldeCourantsList: SoldeCourant[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${SoldeCourantAPI.baseUrl}/soldes-courants`)
+        .then((response) => {
+          soldeCourantsList = response.data.map(
+            (soldeCourant: SoldeCourantJSON) =>
+              SoldeCourant.fromJson(soldeCourant)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as SoldeCourant[];
+        });
+      return soldeCourantsList;
+    }
+
     await axios
-      .get(`${SoldeCourantAPI.baseUrl}/solde-courant`)
+      .get(
+        `${SoldeCourantAPI.baseUrl}/soldes-courants-default/${startDate}/${endDate}`
+      )
       .then((response) => {
         soldeCourantsList = response.data.map(
           (soldeCourant: SoldeCourantJSON) =>

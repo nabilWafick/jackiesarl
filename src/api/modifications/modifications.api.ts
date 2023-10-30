@@ -4,8 +4,9 @@ import Modifications from "../../models/modifications/modifications.model";
 interface ModificationsJSON {
   id?: number;
   modification: string;
-  id_employe: number;
-  date_modification: string;
+  nom_employe: string;
+  prenoms_employe: string;
+  dateModification?: string; // Une chaîne de caractères pour la date au format ISO
 }
 
 class ModificationsAPI {
@@ -37,10 +38,33 @@ class ModificationsAPI {
     return modification;
   }
 
-  static async getAll(): Promise<Modifications[]> {
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Modifications[]> {
     let modificationsList: Modifications[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${ModificationsAPI.baseUrl}/modifications-default`)
+        .then((response) => {
+          modificationsList = response.data.map(
+            (modification: ModificationsJSON) => {
+              return Modifications.fromJson(modification);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Modifications[];
+        });
+      return modificationsList;
+    }
+
     await axios
-      .get(`${ModificationsAPI.baseUrl}/modifications`)
+      .get(
+        `${ModificationsAPI.baseUrl}/modifications-default/${startDate}/${endDate}`
+      )
       .then((response) => {
         modificationsList = response.data.map(
           (modification: ModificationsJSON) => {

@@ -2,26 +2,21 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import ModificationsAPI from "../../api/modifications/modifications.api";
-import ModificationsEmployes from "../../models/modifications_employes/modifications_employes.model";
 import Modifications from "../../models/modifications/modifications.model";
-import EmployesAPI from "../../api/employes/employes.api";
+import { Moment } from "moment";
 
 interface ModificationsStore {
-  modifications: ModificationsEmployes[];
-  modificationsPerDay: Map<string, ModificationsEmployes[]>;
+  modifications: Modifications[];
+  modificationsPerDay: Map<string, Modifications[]>;
   isLoading: boolean;
+  startDate: Date | Moment | undefined;
+  endDate: Date | Moment | undefined;
+  selectedSortOption: string;
   fetchAllModifications: () => void;
-  sortModificationsNameByASC: () => void;
-  sortModificationsNameByDESC: () => void;
-  sortModificationsByDate: () => void;
-  sortModificationsByDateInterval: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
-  sortModificationsByDateIntervalPerDay: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
+  onStartDateChange: (date: Date | Moment) => void;
+  onEndDateChange: (date: Date | Moment) => void;
+  resetDatesInterval: () => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const useModificationsStore = create<ModificationsStore>()(
@@ -31,120 +26,271 @@ const useModificationsStore = create<ModificationsStore>()(
       modificationsPerDay: new Map(),
       selectedClient: undefined,
       isLoading: false,
+      startDate: undefined,
+      endDate: undefined,
+      selectedSortOption: "new-to-old",
       fetchAllModifications: async () => {
-        const employes = await EmployesAPI.getAll();
-        const modificationsList: Modifications[] =
-          await ModificationsAPI.getAll();
-        const employesModifications = modificationsList.map(
-          (modification) =>
-            new ModificationsEmployes(
-              modification.modification,
-              employes.find(
-                (employe) => employe.id === modification.id_employe
-              )!,
-              modification.id!,
-              modification.dateModification
-            )
+        const begin = get().startDate;
+        const end = get().endDate;
+        const modificationsList = await ModificationsAPI.getAll(
+          begin ? begin.toLocaleString() : undefined,
+          end ? end.toLocaleString() : undefined
         );
 
-        set(() => ({ modifications: employesModifications }));
+        set(() => ({ modifications: modificationsList }));
       },
+      onStartDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
 
-      sortModificationsNameByASC: () => {
-        set((state) => {
-          return {
-            modifications: [...state.modifications].sort(
-              (modification1, modification2) => {
-                return modification1.employe.nom.localeCompare(
-                  modification2.employe.nom
-                );
-              }
-            ),
-          };
-        });
-      },
-      sortModificationsNameByDESC: () => {
-        set((state) => {
-          return {
-            modifications: [...state.modifications].sort(
-              (modification1, modification2) => {
-                return modification2.employe.nom.localeCompare(
-                  modification1.employe.nom
-                );
-              }
-            ),
-          };
-        });
-      },
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        }
 
-      sortModificationsByDate: () => {
-        set((state) => {
-          const sortedList = [...state.modifications].sort(
-            (modification1, modification2) => {
-              return (
-                modification1.dateModification!.getTime() -
-                modification2.dateModification!.getTime()
-              );
-            }
-          );
-          return {
-            modifications: sortedList,
-          };
-        });
-      },
+        // ============= TO EXECUTE ===========
 
-      sortModificationsByDateInterval: (
-        beginningDate: Date,
-        endingDate: Date
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const modificationsList = await ModificationsAPI.getAll(begin, end);
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   modificationsList = await ModificationsAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   modificationsList = await ModificationsAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   modificationsList = await ModificationsAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ modifications: modificationsList }));
+
+        // ============= TO EXECUTE ===========
+      },
+      onEndDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const modificationsList = await ModificationsAPI.getAll(begin, end);
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   modificationsList = await ModificationsAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   modificationsList = await ModificationsAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   modificationsList = await ModificationsAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ modifications: modificationsList }));
+
+        // ============= TO EXECUTE ===========
+      },
+      resetDatesInterval: async () => {
+        set(() => ({
+          startDate: undefined,
+          endDate: undefined,
+        }));
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const modificationsList = await ModificationsAPI.getAll(begin, end);
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   modificationsList = await ModificationsAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   modificationsList = await ModificationsAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   modificationsList = await ModificationsAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ modifications: modificationsList }));
+      },
+      onSelectedSetOptionChange: async (
+        e: React.ChangeEvent<HTMLSelectElement>
       ) => {
-        set((state) => {
-          const sortedList = [...state.modifications].filter((modification) => {
-            const modificationDate = modification.dateModification!;
-            return (
-              modificationDate >= beginningDate &&
-              modificationDate <= endingDate
-            );
-          });
-          return {
-            modifications: sortedList,
-          };
-        });
-      },
+        const { value } = e.target;
+        set(() => ({ selectedSortOption: value }));
 
-      sortModificationsByDateIntervalPerDay: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          state.modifications.forEach((client) => {
-            const modificationDate = client.dateModification!;
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-            // Vérifiez si la date d'ajout est dans l'intervalle spécifié
-            if (
-              modificationDate >= beginningDate &&
-              modificationDate <= endingDate
-            ) {
-              // Formatez la date d'ajout comme une chaîne de caractères "yyyy-MM-dd"
-              const dateKey = modificationDate.toISOString().split("T")[0];
+        const modificationsList = await ModificationsAPI.getAll(begin, end);
 
-              // Ajoutez le client au groupe correspondant à cette date
-              if (!state.modificationsPerDay.has(dateKey)) {
-                state.modificationsPerDay.set(dateKey, []);
-              }
-              state.modificationsPerDay.get(dateKey)!.push(client);
-            }
-          });
+        // if (value == "old-to-new") {
+        //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "new-to-old") {
+        //   modificationsList = await ModificationsAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "more-important") {
+        //   modificationsList = await ModificationsAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "less-important") {
+        //   modificationsList = await ModificationsAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "cim-benin-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (value == "cim-benin-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (value == "nocibe-more-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (value == "nocibe-less-important") {
+        //   modificationsList =
+        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        // }
 
-          state.modificationsPerDay.forEach((modifications) => {
-            // Triez les Modifications par dateModification, du plus ancien au plus récent
-            modifications.sort(
-              (a, b) =>
-                a.dateModification!.getTime() - b.dateModification!.getTime()
-            );
-          });
-
-          return { modificationsPerDay: state.modificationsPerDay };
-        });
+        set(() => ({ modifications: modificationsList }));
       },
     }),
     {

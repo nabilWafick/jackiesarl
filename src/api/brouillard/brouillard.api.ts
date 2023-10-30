@@ -48,10 +48,31 @@ class BrouillardAPI {
     return brouillard;
   }
 
-  static async getAll(): Promise<Brouillard[]> {
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Brouillard[]> {
     let brouillardList: Brouillard[] = [];
+
+    if (!startDate && !endDate) {
+      await axios
+        .get(`${BrouillardAPI.baseUrl}/brouillards-default`)
+        .then((response) => {
+          brouillardList = response.data.map((brouillard: BrouillardJSON) =>
+            Brouillard.fromJson(brouillard)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Brouillard[];
+        });
+      return brouillardList;
+    }
+
     await axios
-      .get(`${BrouillardAPI.baseUrl}/brouillard`)
+      .get(
+        `${BrouillardAPI.baseUrl}/brouillards-default/${startDate}/${endDate}`
+      )
       .then((response) => {
         brouillardList = response.data.map((brouillard: BrouillardJSON) =>
           Brouillard.fromJson(brouillard)

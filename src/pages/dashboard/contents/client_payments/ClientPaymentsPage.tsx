@@ -52,7 +52,7 @@ const ClientPaymentsPage: FC = () => {
         <AddingButton
           option="Ajouter un achat"
           onClick={() => {
-            toggleModal("client-purchase-adding-form");
+            toggleModal("client-payment-adding-form");
           }}
         />
       </div>

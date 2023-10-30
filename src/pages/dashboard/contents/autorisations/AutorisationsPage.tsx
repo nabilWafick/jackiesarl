@@ -1,5 +1,5 @@
 import RapportUserCard from "../../../../components/ui/dashboard/rapports/RapportUserCard";
-import GrantedRules from "../../../../components/ui/dashboard/permissions/GrantedRules";
+import GrantedRules from "../../../../components/ui/dashboard/permissions/ClientsMenuPermissions";
 
 const AutorisationsPage = () => {
   return (
@@ -20,10 +20,6 @@ const AutorisationsPage = () => {
           <div className="flex justify-center p-2 shadow-md rounded-md bg-secondary text-white font-semibold">
             Autorisations
           </div>
-          <GrantedRules />
-          <GrantedRules />
-          <GrantedRules />
-          <GrantedRules />
           <GrantedRules />
         </div>
       </div>

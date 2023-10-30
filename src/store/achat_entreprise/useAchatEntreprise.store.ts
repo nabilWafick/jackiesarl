@@ -3,136 +3,312 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AchatEntreprise from "../../models/achat_entreprise/achat_entreprise.model";
 import AchatEntrepriseAPI from "../../api/achat_entreprise/achat_entreprise.api";
+import { Moment } from "moment";
 
-interface CompanyPurchasesStore {
+interface CompanyPurchasesListStore {
   companyPurchases: AchatEntreprise[];
-  companyPurchasesPerDay: Map<string, AchatEntreprise[]>;
+  companyPurchasesListPerDay: Map<string, AchatEntreprise[]>;
   isLoading: boolean;
+  startDate: Date | Moment | undefined;
+  endDate: Date | Moment | undefined;
+  selectedSortOption: string;
   fetchAllCompanyPurchases: () => void;
-  //  sortCompanyPurchasesByCIMBENINCategory: () => void;
-  //  sortCompanyPurchasesNOCIBECategory: () => void;
-  //  sortCompanyPurchasesOTHERCategory: () => void;
-  sortCompanyPurchasesByDate: () => void;
-  sortCompanyPurchasesByDateInterval: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
-  sortCompanyPurchasesByDateIntervalPerDay: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
+  onStartDateChange: (date: Date | Moment) => void;
+  onEndDateChange: (date: Date | Moment) => void;
+  resetDatesInterval: () => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const useCompanyPurchasesStore = create<CompanyPurchasesStore>()(
+const useCompanyPurchasesListStore = create<CompanyPurchasesListStore>()(
   persist(
     (set, get) => ({
       companyPurchases: [],
-      companyPurchasesPerDay: new Map(),
+      companyPurchasesListPerDay: new Map(),
       isLoading: false,
+      startDate: undefined,
+      endDate: undefined,
+      selectedSortOption: "new-to-old",
       fetchAllCompanyPurchases: async () => {
-        const companyPurchases = await AchatEntrepriseAPI.getAll();
-        set(() => ({ companyPurchases: companyPurchases }));
+        const begin = get().startDate;
+        const end = get().endDate;
+        const companyPurchasesList = await AchatEntrepriseAPI.getAll(
+          begin ? begin.toLocaleString() : undefined,
+          end ? end.toLocaleString() : undefined
+        );
+        set(() => ({ companyPurchases: companyPurchasesList }));
       },
-      /*  sortCompanyPurchasesByCIMBENINCategory: () => {
-        set((state) => {
-          const sortedList = [...state.companyPurchases].filter(
-            (clientPurchase) => clientPurchase.categorie === "CIM BENIN"
-          );
 
-          return {
-            companyPurchases: sortedList,
-          };
-        });
-      },
-      sortCompanyPurchasesNOCIBECategory: () => {
-        set((state) => {
-          const sortedList = [...state.companyPurchases].filter(
-            (clientPurchase) => clientPurchase.categorie === "NOCIBE"
-          );
+      onStartDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
 
-          return {
-            companyPurchases: sortedList,
-          };
-        });
-      },
-      sortCompanyPurchasesOTHERCategory: () => {
-        set((state) => {
-          const sortedList = [...state.companyPurchases].filter(
-            (clientPurchase) => clientPurchase.categorie === "Autres"
-          );
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        }
 
-          return {
-            companyPurchases: sortedList,
-          };
-        });
-      },*/
-      sortCompanyPurchasesByDate: () => {
-        set((state) => {
-          const sortedList = [...state.companyPurchases].sort(
-            (clientPurchase1, clientPurchase2) =>
-              clientPurchase1.date_achat!.getTime() -
-              clientPurchase2.date_achat!.getTime()
-          );
-          return {
-            companyPurchases: sortedList,
-          };
-        });
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const companyPurchasesList = await AchatEntrepriseAPI.getAll(
+          begin,
+          end
+        );
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ companyPurchases: companyPurchasesList }));
+
+        // ============= TO EXECUTE ===========
       },
-      sortCompanyPurchasesByDateInterval: (
-        beginningDate: Date,
-        endingDate: Date
+      onEndDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const companyPurchasesList = await AchatEntrepriseAPI.getAll(
+          begin,
+          end
+        );
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ companyPurchases: companyPurchasesList }));
+
+        // ============= TO EXECUTE ===========
+      },
+      resetDatesInterval: async () => {
+        set(() => ({
+          startDate: undefined,
+          endDate: undefined,
+        }));
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const companyPurchasesList = await AchatEntrepriseAPI.getAll(
+          begin,
+          end
+        );
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ companyPurchases: companyPurchasesList }));
+      },
+      onSelectedSetOptionChange: async (
+        e: React.ChangeEvent<HTMLSelectElement>
       ) => {
-        set((state) => {
-          const sortedList = [...state.companyPurchases].filter(
-            (clientPurchase) => {
-              const purchaseDate = clientPurchase.date_achat!;
-              return (
-                purchaseDate >= beginningDate && purchaseDate <= endingDate
-              );
-            }
-          );
-          return {
-            companyPurchases: sortedList,
-          };
-        });
-      },
-      sortCompanyPurchasesByDateIntervalPerDay: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          state.companyPurchases.forEach((clientPurchase) => {
-            const clientDate = clientPurchase.date_achat!;
+        const { value } = e.target;
+        set(() => ({ selectedSortOption: value }));
 
-            // Vérifiez si la date d'ajout est dans l'intervalle spécifié
-            if (clientDate >= beginningDate && clientDate <= endingDate) {
-              // Formatez la date d'ajout comme une chaîne de caractères "yyyy-MM-dd"
-              const dateKey = clientDate.toISOString().split("T")[0];
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-              // Ajoutez le client au groupe correspondant à cette date
-              if (!state.companyPurchasesPerDay.has(dateKey)) {
-                state.companyPurchasesPerDay.set(dateKey, []);
-              }
-              state.companyPurchasesPerDay.get(dateKey)!.push(clientPurchase);
-            }
-          });
+        const companyPurchasesList = await AchatEntrepriseAPI.getAll(
+          begin,
+          end
+        );
 
-          state.companyPurchasesPerDay.forEach((clients) => {
-            // Triez les clients par date_ajout, du plus ancien au plus récent
-            clients.sort(
-              (a, b) => a.date_achat!.getTime() - b.date_achat!.getTime()
-            );
-          });
+        // if (value == "old-to-new") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "new-to-old") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "more-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "less-important") {
+        //   companyPurchasesList = await AchatEntrepriseAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "cim-benin-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (value == "cim-benin-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (value == "nocibe-more-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (value == "nocibe-less-important") {
+        //   companyPurchasesList =
+        //     await AchatEntrepriseAPI.getAllNOCIBELessImportant(begin, end);
+        // }
 
-          return { companyPurchasesPerDay: state.companyPurchasesPerDay };
-        });
+        set(() => ({ companyPurchases: companyPurchasesList }));
       },
     }),
     {
-      name: "CompanyPurchasesStore",
+      name: "CompanyPurchasesListStore",
       storage: createJSONStorage(() => sessionStorage),
     }
   )
 );
 
-export default useCompanyPurchasesStore;
+export default useCompanyPurchasesListStore;

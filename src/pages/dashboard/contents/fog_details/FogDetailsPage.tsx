@@ -15,13 +15,29 @@ const FogDetailsPage: FC = () => {
   const selectedBrouillard = useBrouillardStore(
     (state) => state.selectedBrouillard
   );
-
   const activitesDepot = useActivitesDepotStore(
     (state) => state.activitesDepot
   );
-
   const fetchAllActivitesDepot = useActivitesDepotStore(
     (state) => state.fetchAllActivitesDepot
+  );
+
+  // const selectedSortOption = useActivitesDepotStore(
+  //   (state) => state.selectedSortOption
+  // );
+  const startDate = useActivitesDepotStore((state) => state.startDate);
+  const endDate = useActivitesDepotStore((state) => state.endDate);
+  // const onSelectedSetOptionChange = useActivitesDepotStore(
+  //   (state) => state.onSelectedSetOptionChange
+  // );
+  const onStartDateChange = useActivitesDepotStore(
+    (state) => state.onStartDateChange
+  );
+  const onEndDateChange = useActivitesDepotStore(
+    (state) => state.onEndDateChange
+  );
+  const resetDatesInterval = useActivitesDepotStore(
+    (state) => state.resetDatesInterval
   );
 
   useEffect(() => {
@@ -43,7 +59,13 @@ const FogDetailsPage: FC = () => {
         {selectedBrouillard!.depot}
       </div>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
+        <DateIntervall
+          selectedStartDate={startDate}
+          selectedEndDate={endDate}
+          onStartDateChange={onStartDateChange}
+          onEndDateChange={onEndDateChange}
+          resetDatesInterval={resetDatesInterval}
+        />
         {/* <JSCategorySelect
           id="categoty"
           name="category"

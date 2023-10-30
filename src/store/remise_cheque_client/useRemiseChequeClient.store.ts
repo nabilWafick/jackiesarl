@@ -3,21 +3,21 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import RemiseChequeClient from "../../models/remise_cheque_client/remise_cheque_client.model";
 import RemiseChequeClientAPI from "../../api/remise_cheque_client/remise_cheque_client.api";
+import { Moment } from "moment";
 
 interface ClientChecksRemittanceStore {
   clientChecksRemittance: RemiseChequeClient[];
   clientChecksRemittancePerDay: Map<string, RemiseChequeClient[]>;
   isLoading: boolean;
+  selectedClientId: number;
+  startDate: Date | Moment | undefined;
+  endDate: Date | Moment | undefined;
+  selectedSortOption: string;
   fetchAllClientChecksRemittance: (clientId: number) => void;
-  sortClientChecksRemittanceByDate: () => void;
-  sortClientChecksRemittanceByDateInterval: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
-  sortClientChecksRemittanceByDateIntervalPerDay: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
+  onStartDateChange: (date: Date | Moment) => void;
+  onEndDateChange: (date: Date | Moment) => void;
+  resetDatesInterval: () => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
@@ -26,44 +26,549 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
       clientChecksRemittance: [],
       clientChecksRemittancePerDay: new Map(),
       isLoading: false,
+      selectedClientId: 0,
+      startDate: undefined,
+      endDate: undefined,
+      selectedSortOption: "new-to-old",
       fetchAllClientChecksRemittance: async (clientId: number) => {
+        set(() => ({ selectedClientId: clientId }));
+        const begin = get().startDate;
+        const end = get().endDate;
         const selectedclientChecksRemittance =
-          await RemiseChequeClientAPI.getAllOfClient(clientId);
+          await RemiseChequeClientAPI.getAllOfClient(
+            begin ? begin.toLocaleString() : undefined,
+            end ? end.toLocaleString() : undefined,
+            clientId
+          );
         set(() => ({ clientChecksRemittance: selectedclientChecksRemittance }));
       },
 
-      sortClientChecksRemittanceByDate: () => {
-        set((state) => {
-          const sortedList = [...state.clientChecksRemittance].sort(
-            (clientCheckRemittance1, clientCheckRemittance2) =>
-              clientCheckRemittance1.date_remise!.getTime() -
-              clientCheckRemittance2.date_remise!.getTime()
-          );
-          return {
-            clientChecksRemittance: sortedList,
-          };
-        });
+      onStartDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientCheckRemittance: RemiseChequeClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "rest-more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "rest-less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "validated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientValidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "unvalidated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+        // banks
+        else if (get().selectedSortOption == "BOA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBOABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "UBA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUBABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "NSIA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "BGFI") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "SGB") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "Ecobank") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientChecksRemittance: selectedClientCheckRemittance }));
+
+        // ============= TO EXECUTE ===========
       },
-      sortClientChecksRemittanceByDateInterval: (
-        beginningDate: Date,
-        endingDate: Date
+      onEndDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientCheckRemittance: RemiseChequeClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "rest-more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "rest-less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "validated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientValidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "unvalidated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+        // banks
+        else if (get().selectedSortOption == "BOA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBOABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "UBA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUBABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "NSIA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "BGFI") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "SGB") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "Ecobank") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientChecksRemittance: selectedClientCheckRemittance }));
+
+        // ============= TO EXECUTE ===========
+      },
+      resetDatesInterval: async () => {
+        set(() => ({
+          startDate: undefined,
+          endDate: undefined,
+        }));
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientCheckRemittance: RemiseChequeClient[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "new-to-old") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "rest-more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "rest-less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "validated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientValidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "unvalidated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+        // banks
+        else if (get().selectedSortOption == "BOA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBOABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "UBA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUBABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "NSIA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "BGFI") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "SGB") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "Ecobank") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientChecksRemittance: selectedClientCheckRemittance }));
+      },
+      onSelectedSetOptionChange: async (
+        e: React.ChangeEvent<HTMLSelectElement>
       ) => {
-        set((state) => {
-          const sortedList = [...state.clientChecksRemittance].filter(
-            (clientCheckRemittance) => {
-              const checkRemittanceDate = clientCheckRemittance.date_remise!;
-              return (
-                checkRemittanceDate >= beginningDate &&
-                checkRemittanceDate <= endingDate
-              );
-            }
-          );
-          return {
-            clientChecksRemittance: sortedList,
-          };
-        });
+        const { value } = e.target;
+        set(() => ({ selectedSortOption: value }));
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let selectedClientCheckRemittance: RemiseChequeClient[] = [];
+
+        if (value == "old-to-new") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "new-to-old") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "rest-more-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "rest-less-important") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "validated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientValidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (value == "unvalidated") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+        // banks
+        else if (get().selectedSortOption == "BOA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBOABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "UBA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientUBABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "NSIA") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "BGFI") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "SGB") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        } else if (get().selectedSortOption == "Ecobank") {
+          selectedClientCheckRemittance =
+            await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              begin,
+              end,
+              get().selectedClientId
+            );
+        }
+
+        set(() => ({ clientChecksRemittance: selectedClientCheckRemittance }));
       },
-      sortClientChecksRemittanceByDateIntervalPerDay: (
+      /* sortClientChecksRemittanceByDateIntervalPerDay: (
         beginningDate: Date,
         endingDate: Date
       ) => {
@@ -97,7 +602,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
             clientChecksRemittancePerDay: state.clientChecksRemittancePerDay,
           };
         });
-      },
+      },*/
     }),
     {
       name: "ClientChecksRemittanceStore",

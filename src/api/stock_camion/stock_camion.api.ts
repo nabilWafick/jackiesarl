@@ -49,10 +49,30 @@ class StockCamionAPI {
     return stockCamion;
   }
 
-  static async getAll(): Promise<StockCamion[]> {
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<StockCamion[]> {
     let stockCamionsList: StockCamion[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${StockCamionAPI.baseUrl}/stocks-camions-default`)
+        .then((response) => {
+          stockCamionsList = response.data.map((stockCamion: StockCamionJSON) =>
+            StockCamion.fromJson(stockCamion)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as StockCamion[];
+        });
+      return stockCamionsList;
+    }
     await axios
-      .get(`${StockCamionAPI.baseUrl}/stock-camion`)
+      .get(
+        `${StockCamionAPI.baseUrl}/stocks-camions-default/${startDate}/${endDate}`
+      )
       .then((response) => {
         stockCamionsList = response.data.map((stockCamion: StockCamionJSON) =>
           StockCamion.fromJson(stockCamion)

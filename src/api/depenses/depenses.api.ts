@@ -42,7 +42,7 @@ class DepensesAPI {
   static async getById(id: number): Promise<Depenses | undefined> {
     let depense: Depenses | undefined;
     await axios
-      .get(`${DepensesAPI.baseUrl}/depenses/${id}`)
+      .get(`${DepensesAPI.baseUrl}/depense/${id}`)
       .then((response) => {
         depense = Depenses.fromJson(response.data);
       })
@@ -52,10 +52,245 @@ class DepensesAPI {
     return depense;
   }
 
-  static async getAll(): Promise<Depenses[]> {
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
     let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses-default`)
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
     await axios
-      .get(`${DepensesAPI.baseUrl}/depenses`)
+      .get(`${DepensesAPI.baseUrl}/depenses-default/${startDate}/${endDate}`)
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllFromOldToNew(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/old-to-new`)
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(`${DepensesAPI.baseUrl}/depenses/old-to-new/${startDate}/${endDate}`)
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllFromNewToOld(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/new-to-old`)
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(`${DepensesAPI.baseUrl}/depenses/new-to-old/${startDate}/${endDate}`)
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllMostImportant(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/most-important`)
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(
+        `${DepensesAPI.baseUrl}/depenses/most-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllLessImportant(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/less-important`)
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(
+        `${DepensesAPI.baseUrl}/depenses/less-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllUnvalidated(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/unvalidated`)
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(
+        `${DepensesAPI.baseUrl}/depenses/unvalidated/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllValidated(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/validated`)
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(`${DepensesAPI.baseUrl}/depenses/validated/${startDate}/${endDate}`)
       .then((response) => {
         depensesList = response.data.map((depense: DepensesJSON) =>
           Depenses.fromJson(depense)

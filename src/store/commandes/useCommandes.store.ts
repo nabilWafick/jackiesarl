@@ -3,23 +3,19 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Commandes from "../../models/commandes/commandes.model";
 import CommandesAPI from "../../api/commandes/commandes.api";
+import { Moment } from "moment";
 interface CommandesStore {
   clientsOrders: Commandes[];
   clientsOrdersPerDay: Map<string, Commandes[]>;
   isLoading: boolean;
+  startDate: Date | Moment | undefined;
+  endDate: Date | Moment | undefined;
+  selectedSortOption: string;
   fetchAllClientsOrders: () => void;
-  sortClientsOrdersByCIMBENINCategory: () => void;
-  sortClientsOrdersNOCIBECategory: () => void;
-  sortClientsOrdersOTHERCategory: () => void;
-  sortClientsOrdersByDate: () => void;
-  sortClientsOrdersByDateInterval: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
-  sortClientsOrdersByDateIntervalPerDay: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
+  onStartDateChange: (date: Date | Moment) => void;
+  onEndDateChange: (date: Date | Moment) => void;
+  resetDatesInterval: () => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const useCommandesStore = create<CommandesStore>()(
@@ -28,101 +24,292 @@ const useCommandesStore = create<CommandesStore>()(
       clientsOrders: [],
       clientsOrdersPerDay: new Map(),
       isLoading: false,
+      startDate: undefined,
+      endDate: undefined,
+      selectedSortOption: "new-to-old",
       fetchAllClientsOrders: async () => {
-        const clientsOrdersList = await CommandesAPI.getAll();
+        const begin = get().startDate;
+        const end = get().endDate;
+        const clientsOrdersList = await CommandesAPI.getAll(
+          begin ? begin.toLocaleString() : undefined,
+          end ? end.toLocaleString() : undefined
+        );
 
         set(() => ({ clientsOrders: clientsOrdersList }));
       },
-      sortClientsOrdersByCIMBENINCategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientsOrders].filter(
-            (clientOrder) => clientOrder.categorie === "CIM BENIN"
-          );
 
-          return {
-            clientsOrders: sortedList,
-          };
-        });
-      },
-      sortClientsOrdersNOCIBECategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientsOrders].filter(
-            (clientOrder) => clientOrder.categorie === "NOCIBE"
-          );
-          return {
-            clientsOrders: sortedList,
-          };
-        });
-      },
-      sortClientsOrdersOTHERCategory: () => {
-        set((state) => {
-          const sortedList = [...state.clientsOrders].filter(
-            (clientOrder) => clientOrder.categorie === "Autres"
-          );
+      onStartDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
 
-          return {
-            clientsOrders: sortedList,
-          };
-        });
-      },
-      sortClientsOrdersByDate: () => {
-        set((state) => {
-          const sortedList = [...state.clientsOrders].sort(
-            (clientOrder1, clientOrder2) =>
-              clientOrder1.date_ajout!.getTime() -
-              clientOrder2.date_ajout!.getTime()
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let commandesList: Commandes[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+        } else if (get().selectedSortOption == "new-to-old") {
+          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+        } else if (get().selectedSortOption == "more-important") {
+          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+        } else if (get().selectedSortOption == "less-important") {
+          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            begin,
+            end
           );
-          return {
-            clientsOrders: sortedList,
-          };
-        });
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "delivered") {
+          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+        } else if (get().selectedSortOption == "undelivered") {
+          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+        } else if (get().selectedSortOption == "destination") {
+          commandesList = await CommandesAPI.getAllGroupByDestination(
+            begin,
+            end
+          );
+        }
+
+        set(() => ({ clientsOrders: commandesList }));
+
+        // ============= TO EXECUTE ===========
       },
-      sortClientsOrdersByDateInterval: (
-        beginningDate: Date,
-        endingDate: Date
+      onEndDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let commandesList: Commandes[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+        } else if (get().selectedSortOption == "new-to-old") {
+          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+        } else if (get().selectedSortOption == "more-important") {
+          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+        } else if (get().selectedSortOption == "less-important") {
+          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "delivered") {
+          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+        } else if (get().selectedSortOption == "undelivered") {
+          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+        } else if (get().selectedSortOption == "destination") {
+          commandesList = await CommandesAPI.getAllGroupByDestination(
+            begin,
+            end
+          );
+        }
+
+        set(() => ({ clientsOrders: commandesList }));
+
+        // ============= TO EXECUTE ===========
+      },
+      resetDatesInterval: async () => {
+        set(() => ({
+          startDate: undefined,
+          endDate: undefined,
+        }));
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        let commandesList: Commandes[] = [];
+
+        if (get().selectedSortOption == "old-to-new") {
+          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+        } else if (get().selectedSortOption == "new-to-old") {
+          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+        } else if (get().selectedSortOption == "more-important") {
+          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+        } else if (get().selectedSortOption == "less-important") {
+          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+        } else if (get().selectedSortOption == "cim-benin-more-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "cim-benin-less-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "nocibe-more-important") {
+          commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "nocibe-less-important") {
+          commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            begin,
+            end
+          );
+        } else if (get().selectedSortOption == "delivered") {
+          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+        } else if (get().selectedSortOption == "undelivered") {
+          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+        } else if (get().selectedSortOption == "destination") {
+          commandesList = await CommandesAPI.getAllGroupByDestination(
+            begin,
+            end
+          );
+        }
+
+        set(() => ({ clientsOrders: commandesList }));
+      },
+      onSelectedSetOptionChange: async (
+        e: React.ChangeEvent<HTMLSelectElement>
       ) => {
-        set((state) => {
-          const sortedList = [...state.clientsOrders].filter((clientOrder) => {
-            const orderDate = clientOrder.date_ajout!;
-            return orderDate >= beginningDate && orderDate <= endingDate;
-          });
-          return {
-            clientsOrders: sortedList,
-          };
-        });
-      },
-      sortClientsOrdersByDateIntervalPerDay: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          state.clientsOrders.forEach((clientOrder) => {
-            const clientDate = clientOrder.date_ajout!;
+        const { value } = e.target;
+        set(() => ({ selectedSortOption: value }));
 
-            // Vérifiez si la date d'ajout est dans l'intervalle spécifié
-            if (clientDate >= beginningDate && clientDate <= endingDate) {
-              // Formatez la date d'ajout comme une chaîne de caractères "yyyy-MM-dd"
-              const dateKey = clientDate.toISOString().split("T")[0];
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-              // Ajoutez le client au groupe correspondant à cette date
-              if (!state.clientsOrdersPerDay.has(dateKey)) {
-                state.clientsOrdersPerDay.set(dateKey, []);
-              }
-              state.clientsOrdersPerDay.get(dateKey)!.push(clientOrder);
-            }
-          });
+        let commandesList: Commandes[] = [];
 
-          state.clientsOrdersPerDay.forEach((clients) => {
-            // Triez les clients par date_ajout, du plus ancien au plus récent
-            clients.sort(
-              (a, b) => a.date_ajout!.getTime() - b.date_ajout!.getTime()
-            );
-          });
+        if (value == "old-to-new") {
+          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+        } else if (value == "new-to-old") {
+          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+        } else if (value == "more-important") {
+          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+        } else if (value == "less-important") {
+          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+        } else if (value == "cim-benin-more-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            begin,
+            end
+          );
+        } else if (value == "cim-benin-less-important") {
+          commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            begin,
+            end
+          );
+        } else if (value == "nocibe-more-important") {
+          commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            begin,
+            end
+          );
+        } else if (value == "nocibe-less-important") {
+          commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            begin,
+            end
+          );
+        } else if (value == "delivered") {
+          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+        } else if (value == "undelivered") {
+          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+        } else if (value == "destination") {
+          commandesList = await CommandesAPI.getAllGroupByDestination(
+            begin,
+            end
+          );
+        }
 
-          return {
-            clientsOrdersPerDay: state.clientsOrdersPerDay,
-          };
-        });
+        set(() => ({ clientsOrders: commandesList }));
       },
     }),
     {

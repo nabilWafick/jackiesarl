@@ -55,7 +55,7 @@ class ActivitesDepotAPI {
   static async getAll(): Promise<ActivitesDepot[]> {
     let activitesDepotList: ActivitesDepot[] = [];
     await axios
-      .get(`${ActivitesDepotAPI.baseUrl}/activites-depot`)
+      .get(`${ActivitesDepotAPI.baseUrl}/activites-depots`)
       .then((response) => {
         activitesDepotList = response.data.map(
           (activitesDepot: ActivitesDepotJSON) =>
@@ -69,10 +69,35 @@ class ActivitesDepotAPI {
     return activitesDepotList;
   }
 
-  static async getAllByDepotID(id_depot: number): Promise<ActivitesDepot[]> {
+  static async getAllByDepotID(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    id_depot: number
+  ): Promise<ActivitesDepot[]> {
     let activitesDepotList: ActivitesDepot[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}`
+        )
+        .then((response) => {
+          activitesDepotList = response.data.map(
+            (activitesDepot: ActivitesDepotJSON) =>
+              ActivitesDepot.fromJson(activitesDepot)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as ActivitesDepot[];
+        });
+      return activitesDepotList;
+    }
+
     await axios
-      .get(`${ActivitesDepotAPI.baseUrl}/activites-depot/depot/${id_depot}`)
+      .get(
+        `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}/${startDate}/${endDate}`
+      )
       .then((response) => {
         activitesDepotList = response.data.map(
           (activitesDepot: ActivitesDepotJSON) =>

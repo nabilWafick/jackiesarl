@@ -1,42 +1,45 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import StockCamion from "../../models/stock_camion/stock_camion.model";
-import StockCamionAPI from "../../api/stock_camion/stock_camion.api";
+import Depenses from "../../models/depenses/depenses.model";
+import DepensesAPI from "../../api/depenses/depenses.api";
 import { Moment } from "moment";
 
-interface TrucksStockStore {
-  trucksStock: StockCamion[];
-  trucksStockPerDay: Map<string, StockCamion[]>;
+interface DepensesValidationStore {
+  depenses: Depenses[];
+  depensesPerDay: Map<string, Depenses[]>;
   isLoading: boolean;
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  fetchAllTruckStock: () => void;
+  fetchAllDepenses: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
   resetDatesInterval: () => void;
-  // onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const useTrucksStockStore = create<TrucksStockStore>()(
+const useDepensesValidationStore = create<DepensesValidationStore>()(
   persist(
     (set, get) => ({
-      trucksStock: [],
-      trucksStockPerDay: new Map(),
+      depenses: [],
+      depensesPerDay: new Map(),
       isLoading: false,
+      selectedClientId: 0,
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      fetchAllTruckStock: async () => {
+      fetchAllDepenses: async () => {
         const begin = get().startDate;
         const end = get().endDate;
-        const selectedtrucksStock = await StockCamionAPI.getAll(
+        const depensesList: Depenses[] = await DepensesAPI.getAll(
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined
         );
-        set(() => ({ trucksStock: selectedtrucksStock }));
+
+        set(() => ({ depenses: depensesList }));
       },
+
       onStartDateChange: async (date: Date | Moment) => {
         // ======== dates setting up ===========
 
@@ -75,26 +78,23 @@ const useTrucksStockStore = create<TrucksStockStore>()(
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-        const truckStocksList: StockCamion[] = await StockCamionAPI.getAll(
-          begin,
-          end
-        );
+        let companyExpenses: Depenses[] = [];
 
-        // if (get().selectedSortOption == "old-to-new") {
-        //   truckStocksList = await StockCamionAPI.getAllFromOldToNew(begin, end);
-        // } else if (get().selectedSortOption == "new-to-old") {
-        //   truckStocksList = await StockCamionAPI.getAllFromNewToOld(begin, end);
-        // } else if (get().selectedSortOption == "more-important") {
-        //   truckStocksList = await StockCamionAPI.getAllMostImportant(begin, end);
-        // } else if (get().selectedSortOption == "less-important") {
-        //   truckStocksList = await StockCamionAPI.getAllLessImportant(begin, end);
-        // } else if (get().selectedSortOption == "validated") {
-        //   truckStocksList = await StockCamionAPI.getAllValidated(begin, end);
-        // } else if (get().selectedSortOption == "unvalidated") {
-        //   truckStocksList = await StockCamionAPI.getAllUnvalidated(begin, end);
-        // }
+        if (get().selectedSortOption == "old-to-new") {
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
+        } else if (get().selectedSortOption == "new-to-old") {
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
+        } else if (get().selectedSortOption == "more-important") {
+          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
+        } else if (get().selectedSortOption == "less-important") {
+          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
+        } else if (get().selectedSortOption == "validated") {
+          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
+        } else if (get().selectedSortOption == "unvalidated") {
+          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
+        }
 
-        set(() => ({ trucksStock: truckStocksList }));
+        set(() => ({ depenses: companyExpenses }));
 
         // ============= TO EXECUTE ===========
       },
@@ -136,26 +136,23 @@ const useTrucksStockStore = create<TrucksStockStore>()(
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-        const truckStocksList: StockCamion[] = await StockCamionAPI.getAll(
-          begin,
-          end
-        );
+        let companyExpenses: Depenses[] = [];
 
-        // if (get().selectedSortOption == "old-to-new") {
-        //   truckStocksList = await StockCamionAPI.getAllFromOldToNew(begin, end);
-        // } else if (get().selectedSortOption == "new-to-old") {
-        //   truckStocksList = await StockCamionAPI.getAllFromNewToOld(begin, end);
-        // } else if (get().selectedSortOption == "more-important") {
-        //   truckStocksList = await StockCamionAPI.getAllMostImportant(begin, end);
-        // } else if (get().selectedSortOption == "less-important") {
-        //   truckStocksList = await StockCamionAPI.getAllLessImportant(begin, end);
-        // } else if (get().selectedSortOption == "validated") {
-        //   truckStocksList = await StockCamionAPI.getAllValidated(begin, end);
-        // } else if (get().selectedSortOption == "unvalidated") {
-        //   truckStocksList = await StockCamionAPI.getAllUnvalidated(begin, end);
-        // }
+        if (get().selectedSortOption == "old-to-new") {
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
+        } else if (get().selectedSortOption == "new-to-old") {
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
+        } else if (get().selectedSortOption == "more-important") {
+          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
+        } else if (get().selectedSortOption == "less-important") {
+          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
+        } else if (get().selectedSortOption == "validated") {
+          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
+        } else if (get().selectedSortOption == "unvalidated") {
+          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
+        }
 
-        set(() => ({ trucksStock: truckStocksList }));
+        set(() => ({ depenses: companyExpenses }));
 
         // ============= TO EXECUTE ===========
       },
@@ -169,28 +166,25 @@ const useTrucksStockStore = create<TrucksStockStore>()(
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-        const truckStocksList: StockCamion[] = await StockCamionAPI.getAll(
-          begin,
-          end
-        );
+        let companyExpenses: Depenses[] = [];
 
-        // if (get().selectedSortOption == "old-to-new") {
-        //   truckStocksList = await StockCamionAPI.getAllFromOldToNew(begin, end);
-        // } else if (get().selectedSortOption == "new-to-old") {
-        //   truckStocksList = await StockCamionAPI.getAllFromNewToOld(begin, end);
-        // } else if (get().selectedSortOption == "more-important") {
-        //   truckStocksList = await StockCamionAPI.getAllMostImportant(begin, end);
-        // } else if (get().selectedSortOption == "less-important") {
-        //   truckStocksList = await StockCamionAPI.getAllLessImportant(begin, end);
-        // } else if (get().selectedSortOption == "validated") {
-        //   truckStocksList = await StockCamionAPI.getAllValidated(begin, end);
-        // } else if (get().selectedSortOption == "unvalidated") {
-        //   truckStocksList = await StockCamionAPI.getAllUnvalidated(begin, end);
-        // }
+        if (get().selectedSortOption == "old-to-new") {
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
+        } else if (get().selectedSortOption == "new-to-old") {
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
+        } else if (get().selectedSortOption == "more-important") {
+          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
+        } else if (get().selectedSortOption == "less-important") {
+          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
+        } else if (get().selectedSortOption == "validated") {
+          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
+        } else if (get().selectedSortOption == "unvalidated") {
+          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
+        }
 
-        set(() => ({ trucksStock: truckStocksList }));
+        set(() => ({ depenses: companyExpenses }));
       },
-      /*  onSelectedSetOptionChange: async (
+      onSelectedSetOptionChange: async (
         e: React.ChangeEvent<HTMLSelectElement>
       ) => {
         const { value } = e.target;
@@ -201,30 +195,30 @@ const useTrucksStockStore = create<TrucksStockStore>()(
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-        const truckStocksList: StockCamion[] = await StockCamionAPI.getAll(begin,end);
+        let companyExpenses: Depenses[] = [];
 
         if (value == "old-to-new") {
-          truckStocksList = await StockCamionAPI.getAllFromOldToNew(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
         } else if (value == "new-to-old") {
-          truckStocksList = await StockCamionAPI.getAllFromNewToOld(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
         } else if (value == "more-important") {
-          truckStocksList = await StockCamionAPI.getAllMostImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
         } else if (value == "less-important") {
-          truckStocksList = await StockCamionAPI.getAllLessImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
         } else if (value == "validated") {
-          truckStocksList = await StockCamionAPI.getAllValidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
         } else if (value == "unvalidated") {
-          truckStocksList = await StockCamionAPI.getAllUnvalidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
         }
 
-        set(() => ({ StockCamion: truckStocksList }));
-      },*/
+        set(() => ({ depenses: companyExpenses }));
+      },
     }),
     {
-      name: "TrucksStockStore",
+      name: "DepensesValidationStore",
       storage: createJSONStorage(() => sessionStorage),
     }
   )
 );
 
-export default useTrucksStockStore;
+export default useDepensesValidationStore;

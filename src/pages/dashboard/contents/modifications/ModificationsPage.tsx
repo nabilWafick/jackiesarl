@@ -1,14 +1,8 @@
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
-import JSCategorySelect from "../../../../components/form/widgets/CategorySelect.widget";
 import ModificationsTable from "../../../../components/ui/dashboard/modifications/ModificationsTable";
 import "../../../../assets/css/table.css";
 import { FC, useEffect } from "react";
 import useModificationsStore from "../../../../store/modifications/useModifications.store";
-
-const categories = [
-  { value: "this_week", label: "Cette semaine" },
-  { value: "this_month", label: "Ce mois" },
-];
 
 const ModificationsPage: FC = () => {
   // const employees = useEmployesStore((state) => state.employees);
@@ -18,6 +12,24 @@ const ModificationsPage: FC = () => {
     (state) => state.fetchAllModifications
   );
 
+  // const selectedSortOption = useModificationsStore(
+  //   (state) => state.selectedSortOption
+  // );
+  const startDate = useModificationsStore((state) => state.startDate);
+  const endDate = useModificationsStore((state) => state.endDate);
+  // const onSelectedSetOptionChange = useModificationsStore(
+  //   (state) => state.onSelectedSetOptionChange
+  // );
+  const onStartDateChange = useModificationsStore(
+    (state) => state.onStartDateChange
+  );
+  const onEndDateChange = useModificationsStore(
+    (state) => state.onEndDateChange
+  );
+  const resetDatesInterval = useModificationsStore(
+    (state) => state.resetDatesInterval
+  );
+
   useEffect(() => {
     fetchAllModifications();
   }, [fetchAllModifications]);
@@ -25,8 +37,13 @@ const ModificationsPage: FC = () => {
   return (
     <div className="h-full w-full flex flex-col">
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
-        <JSCategorySelect id="periode" name="periode" options={categories} />
+        <DateIntervall
+          selectedStartDate={startDate}
+          selectedEndDate={endDate}
+          onStartDateChange={onStartDateChange}
+          onEndDateChange={onEndDateChange}
+          resetDatesInterval={resetDatesInterval}
+        />
       </div>
       <ModificationsTable modifications={modifications} />
     </div>

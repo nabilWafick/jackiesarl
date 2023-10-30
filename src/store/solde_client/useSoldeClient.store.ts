@@ -61,7 +61,7 @@ const useSoldeClientStore = create<SoldeClientStore>()(
             clientId
           );
           set(() => ({
-            soldeClient: newSoldeClient,
+            soldeClient: newSoldeClient!,
           }));
         },
         onStartDateChange: async (date: Date | Moment) => {

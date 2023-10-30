@@ -13,6 +13,21 @@ const FogPage: FC = () => {
   const fetchAllBrouillard = useBrouillardStore(
     (state) => state.fetchAllBrouillard
   );
+  // const selectedSortOption = useBrouillardStore(
+  //   (state) => state.selectedSortOption
+  // );
+  const startDate = useBrouillardStore((state) => state.startDate);
+  const endDate = useBrouillardStore((state) => state.endDate);
+  // const onSelectedSetOptionChange = useBrouillardStore(
+  //   (state) => state.onSelectedSetOptionChange
+  // );
+  const onStartDateChange = useBrouillardStore(
+    (state) => state.onStartDateChange
+  );
+  const onEndDateChange = useBrouillardStore((state) => state.onEndDateChange);
+  const resetDatesInterval = useBrouillardStore(
+    (state) => state.resetDatesInterval
+  );
 
   useEffect(() => {
     fetchAllBrouillard();
@@ -27,7 +42,13 @@ const FogPage: FC = () => {
       </Link> */}
 
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
+        <DateIntervall
+          selectedStartDate={startDate}
+          selectedEndDate={endDate}
+          onStartDateChange={onStartDateChange}
+          onEndDateChange={onEndDateChange}
+          resetDatesInterval={resetDatesInterval}
+        />
         {/* <JSCategorySelect
           id="categoty"
           name="category"

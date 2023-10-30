@@ -3,25 +3,23 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Brouillard from "../../models/brouillard/brouillard.model";
 import BrouillardAPI from "../../api/brouillard/brouillard.api";
+import { Moment } from "moment";
 
 interface BrouillardStore {
   brouillards: Brouillard[];
   selectedBrouillard: Brouillard | undefined;
   brouillardPerDay: Map<string, Brouillard[]>;
   isLoading: boolean;
+  startDate: Date | Moment | undefined;
+  endDate: Date | Moment | undefined;
+  // selectedDepotId: number;
+  selectedSortOption: string;
   setSelectedBrouillard: (brouillard: Brouillard) => void;
   fetchAllBrouillard: () => void;
-  // sortBrouillardsNameByASC: () => void;
-  // sortBrouillardsNameByDESC: () => void;
-  sortBrouillardsByDate: () => void;
-  sortBrouillardsByDateInterval: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
-  sortBrouillardsByDateIntervalPerDay: (
-    beginningDate: Date,
-    endingDate: Date
-  ) => void;
+  onStartDateChange: (date: Date | Moment) => void;
+  onEndDateChange: (date: Date | Moment) => void;
+  resetDatesInterval: () => void;
+  onSelectedSetOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const useBrouillardStore = create<BrouillardStore>()(
@@ -31,110 +29,275 @@ const useBrouillardStore = create<BrouillardStore>()(
       brouillardPerDay: new Map(),
       selectedBrouillard: undefined,
       isLoading: false,
+      startDate: undefined,
+      endDate: undefined,
+      // selectedDepotId: 0,
+      selectedSortOption: "new-to-old",
       setSelectedBrouillard: (brouillard: Brouillard) => {
         set(() => ({ selectedBrouillard: brouillard }));
       },
       fetchAllBrouillard: async () => {
-        const brouillardsList: Brouillard[] = await BrouillardAPI.getAll();
+        const begin = get().startDate;
+        const end = get().endDate;
+        const brouillardsList: Brouillard[] = await BrouillardAPI.getAll(
+          begin ? begin.toLocaleString() : undefined,
+          end ? end.toLocaleString() : undefined
+        );
 
         set(() => ({ brouillards: brouillardsList }));
       },
 
-      /*   
-      sortBrouillardsNameByASC: () => {
-        set((state) => {
-          return {
-            brouillards: [...state.brouillards].sort(
-              (brouillard1, brouillard2) => {
-                return brouillard1.employe.nom.localeCompare(
-                  brouillard2.employe.nom
-                );
-              }
-            ),
-          };
-        });
-      },
-      sortBrouillardsNameByDESC: () => {
-        set((state) => {
-          return {
-            brouillards: [...state.brouillards].sort(
-              (brouillard1, brouillard2) => {
-                return brouillard2.employe.nom.localeCompare(
-                  brouillard1.employe.nom
-                );
-              }
-            ),
-          };
-        });
-      },
-          */
+      onStartDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
 
-      sortBrouillardsByDate: () => {
-        set((state) => {
-          const sortedList = [...state.brouillards].sort(
-            (brouillard1, brouillard2) => {
-              return (
-                brouillard1.date_ajout!.getTime() -
-                brouillard2.date_ajout!.getTime()
-              );
-            }
-          );
-          return {
-            brouillards: sortedList,
-          };
-        });
-      },
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          set(() => ({ startDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().endDate!.toLocaleString()) >
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ startDate: date }));
+          } else {
+            const tmp = get().endDate;
+            set(() => ({ endDate: date }));
+            set(() => ({ startDate: tmp }));
+          }
+        }
 
-      sortBrouillardsByDateInterval: (
-        beginningDate: Date,
-        endingDate: Date
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const brouillardList = await BrouillardAPI.getAll(begin, end);
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   BrouillardList = await BrouillardAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   BrouillardList = await BrouillardAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   BrouillardList = await BrouillardAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ brouillards: brouillardList }));
+
+        // ============= TO EXECUTE ===========
+      },
+      onEndDateChange: async (date: Date | Moment) => {
+        // ======== dates setting up ===========
+
+        if (get().startDate == undefined && get().endDate == undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate == undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        } else if (get().startDate == undefined && get().endDate != undefined) {
+          set(() => ({ endDate: date }));
+        } else if (get().startDate != undefined && get().endDate != undefined) {
+          if (
+            new Date(get().startDate!.toLocaleString()) <
+            new Date(date.toLocaleString())
+          ) {
+            set(() => ({ endDate: date }));
+          } else {
+            const tmp = get().startDate;
+            set(() => ({ startDate: date }));
+            set(() => ({ endDate: tmp }));
+          }
+        }
+
+        // ============= TO EXECUTE ===========
+
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const brouillardList = await BrouillardAPI.getAll(begin, end);
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   BrouillardList = await BrouillardAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   BrouillardList = await BrouillardAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   BrouillardList = await BrouillardAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ brouillards: brouillardList }));
+
+        // ============= TO EXECUTE ===========
+      },
+      resetDatesInterval: async () => {
+        set(() => ({
+          startDate: undefined,
+          endDate: undefined,
+        }));
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+
+        const brouillardList = await BrouillardAPI.getAll(begin, end);
+
+        // if (get().selectedSortOption == "old-to-new") {
+        //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "new-to-old") {
+        //   BrouillardList = await BrouillardAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "more-important") {
+        //   BrouillardList = await BrouillardAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "less-important") {
+        //   BrouillardList = await BrouillardAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (get().selectedSortOption == "cim-benin-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "cim-benin-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (get().selectedSortOption == "nocibe-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        // }
+
+        set(() => ({ brouillards: brouillardList }));
+      },
+      onSelectedSetOptionChange: async (
+        e: React.ChangeEvent<HTMLSelectElement>
       ) => {
-        set((state) => {
-          const sortedList = [...state.brouillards].filter((brouillard) => {
-            const brouillardDate = brouillard.date_ajout!;
-            return (
-              brouillardDate >= beginningDate && brouillardDate <= endingDate
-            );
-          });
-          return {
-            brouillards: sortedList,
-          };
-        });
-      },
+        const { value } = e.target;
+        set(() => ({ selectedSortOption: value }));
 
-      sortBrouillardsByDateIntervalPerDay: (
-        beginningDate: Date,
-        endingDate: Date
-      ) => {
-        set((state) => {
-          state.brouillards.forEach((brouillard) => {
-            const brouillardDate = brouillard.date_ajout!;
+        const begin = get().startDate
+          ? get().startDate!.toLocaleString()
+          : undefined;
+        const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
 
-            // Vérifiez si la date d'ajout est dans l'intervalle spécifié
-            if (
-              brouillardDate >= beginningDate &&
-              brouillardDate <= endingDate
-            ) {
-              // Formatez la date d'ajout comme une chaîne de caractères "yyyy-MM-dd"
-              const dateKey = brouillardDate.toISOString().split("T")[0];
+        const brouillardList = await BrouillardAPI.getAll(begin, end);
 
-              // Ajoutez le brouillard au groupe correspondant à cette date
-              if (!state.brouillardPerDay.has(dateKey)) {
-                state.brouillardPerDay.set(dateKey, []);
-              }
-              state.brouillardPerDay.get(dateKey)!.push(brouillard);
-            }
-          });
+        // if (value == "old-to-new") {
+        //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "new-to-old") {
+        //   BrouillardList = await BrouillardAPI.getAllFromNewToOld(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "more-important") {
+        //   BrouillardList = await BrouillardAPI.getAllMostImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "less-important") {
+        //   BrouillardList = await BrouillardAPI.getAllLessImportant(
+        //     begin,
+        //     end
+        //   );
+        // } else if (value == "cim-benin-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        // } else if (value == "cim-benin-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        // } else if (value == "nocibe-more-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        // } else if (value == "nocibe-less-important") {
+        //   BrouillardList =
+        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        // }
 
-          state.brouillardPerDay.forEach((brouillards) => {
-            // Triez les brouillards par.date_ajout, du plus ancien au plus récent
-            brouillards.sort(
-              (a, b) => a.date_ajout!.getTime() - b.date_ajout!.getTime()
-            );
-          });
-
-          return { brouillardPerDay: state.brouillardPerDay };
-        });
+        set(() => ({ brouillards: brouillardList }));
       },
     }),
     {

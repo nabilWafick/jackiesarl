@@ -21,6 +21,24 @@ const PurchasesPage: FC = () => {
     (state) => state.fetchAllCompanyPurchases
   );
 
+  // const selectedSortOption = useCompanyPurchasesStore(
+  //   (state) => state.selectedSortOption
+  // );
+  const startDate = useCompanyPurchasesStore((state) => state.startDate);
+  const endDate = useCompanyPurchasesStore((state) => state.endDate);
+  // const onSelectedSetOptionChange = useCompanyPurchasesStore(
+  //   (state) => state.onSelectedSetOptionChange
+  // );
+  const onStartDateChange = useCompanyPurchasesStore(
+    (state) => state.onStartDateChange
+  );
+  const onEndDateChange = useCompanyPurchasesStore(
+    (state) => state.onEndDateChange
+  );
+  const resetDatesInterval = useCompanyPurchasesStore(
+    (state) => state.resetDatesInterval
+  );
+
   useEffect(() => {
     fetchAllCompanyPurchases();
   }, [fetchAllCompanyPurchases]);
@@ -46,7 +64,13 @@ const PurchasesPage: FC = () => {
         <ActionResult />
       </div>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
+        <DateIntervall
+          selectedStartDate={startDate}
+          selectedEndDate={endDate}
+          onStartDateChange={onStartDateChange}
+          onEndDateChange={onEndDateChange}
+          resetDatesInterval={resetDatesInterval}
+        />
         {/* <JSCategorySelect
           id="category-ciment"
           name="category-ciment"

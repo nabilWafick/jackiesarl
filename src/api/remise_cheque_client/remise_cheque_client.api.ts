@@ -72,14 +72,37 @@ class RemiseChequeClientAPI {
     return remiseChequeClientsList;
   }
 
-  static async getAllOfClient(clientId: number): Promise<RemiseChequeClient[]> {
-    let remiseChecksClientList: RemiseChequeClient[] = [];
+  static async getAllOfClient(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/client/${clientId}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}/${startDate}/${endDate}`
       )
       .then((response) => {
-        remiseChecksClientList = response.data.map(
+        remiseChequesClientList = response.data.map(
           (remiseChequeClient: RemiseChequeClientJSON) => {
             return RemiseChequeClient.fromJson(remiseChequeClient);
           }
@@ -89,7 +112,609 @@ class RemiseChequeClientAPI {
         console.log(error);
         return [] as RemiseChequeClient[];
       });
-    return remiseChecksClientList;
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientFromOldToNew(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientFromNewToOld(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientMostImportant(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientLessImportant(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientRestMoreImportant(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientRestLessImportant(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientBOABank(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientUBABank(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientNSIABank(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientBGFIBank(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientSGBBank(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientEcobankBank(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientUnvalidated(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
+  }
+
+  static async getAllOfClientValidated(
+    startDate: string | undefined,
+    endDate: string | undefined,
+    clientId: number
+  ): Promise<RemiseChequeClient[]> {
+    let remiseChequesClientList: RemiseChequeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated`
+        )
+        .then((response) => {
+          remiseChequesClientList = response.data.map(
+            (remiseChequeClient: RemiseChequeClientJSON) => {
+              return RemiseChequeClient.fromJson(remiseChequeClient);
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as RemiseChequeClient[];
+        });
+      return remiseChequesClientList;
+    }
+
+    await axios
+      .get(
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        remiseChequesClientList = response.data.map(
+          (remiseChequeClient: RemiseChequeClientJSON) => {
+            return RemiseChequeClient.fromJson(remiseChequeClient);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as RemiseChequeClient[];
+      });
+    return remiseChequesClientList;
   }
 
   static async update(

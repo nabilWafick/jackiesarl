@@ -56,10 +56,30 @@ class AchatEntrepriseAPI {
     return achatEntreprise;
   }
 
-  static async getAll(): Promise<AchatEntreprise[]> {
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<AchatEntreprise[]> {
     let achatsEntrepriseList: AchatEntreprise[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default`)
+        .then((response) => {
+          achatsEntrepriseList = response.data.map(
+            (achatEntreprise: AchatEntrepriseJson) =>
+              AchatEntreprise.fromJson(achatEntreprise)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as AchatEntreprise[];
+        });
+      return achatsEntrepriseList;
+    }
     await axios
-      .get(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise`)
+      .get(
+        `${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default/${startDate}/${endDate}`
+      )
       .then((response) => {
         achatsEntrepriseList = response.data.map(
           (achatEntreprise: AchatEntrepriseJson) =>

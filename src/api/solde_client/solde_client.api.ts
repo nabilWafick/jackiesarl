@@ -11,7 +11,7 @@ interface ClientsJSON {
   date_ajout?: string;
 }
 interface SoldeClientJSON {
-  client: ClientsJSON;
+  client?: ClientsJSON;
   total_dettes_mois: number;
   total_paiements_mois: number;
   total_dettes_global: number;
@@ -30,6 +30,14 @@ interface SoldeClientJSON {
   avance_NOCIBE: number;
   creance_CIMBENIN: number;
   creance_NOCIBE: number;
+  total_avance_CIMBENIN: number;
+  total_avance_NOCIBE: number;
+  total_creance_CIMBENIN: number;
+  total_creance_NOCIBE: number;
+  total_avance_clients: number;
+  total_creance_clients: number;
+  pourcentage_avance_client: number;
+  pourcentage_creance_client: number;
 }
 
 class SoldeClientAPI {
@@ -47,7 +55,7 @@ class SoldeClientAPI {
         .get(`${SoldeClientAPI.baseUrl}/solde-client/${id}`)
         .then((response) => {
           soldeClient = SoldeClient.fromJson(response.data);
-          console.log("soldeClient", soldeClient);
+          //    console.log("soldeClient", soldeClient);
         })
         .catch((error) => {
           console.log(error);
@@ -61,7 +69,7 @@ class SoldeClientAPI {
       )
       .then((response) => {
         soldeClient = SoldeClient.fromJson(response.data);
-        console.log("soldeClient", soldeClient);
+        //  console.log("soldeClient", soldeClient);
       })
       .catch((error) => {
         console.log(error);
@@ -69,34 +77,188 @@ class SoldeClientAPI {
     return soldeClient;
   }
 
-  static async getAll(): Promise<SoldeClient[] | undefined> {
-    let soldesClients: SoldeClient[] = [];
+  static async getAll(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<SoldeClient[]> {
+    let soldeClientsList: SoldeClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${SoldeClientAPI.baseUrl}/soldes-clients/`)
+        .get(`${SoldeClientAPI.baseUrl}/soldes-clients-default`)
         .then((response) => {
-          soldesClients = response.data.map((soldeClient: SoldeClientJSON) =>
+          soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
             SoldeClient.fromJson(soldeClient)
           );
         })
         .catch((error) => {
           console.log(error);
+          return [] as SoldeClient[];
         });
-      return soldesClients;
+      return soldeClientsList;
     }
 
     await axios
-      .get(`${SoldeClientAPI.baseUrl}/soldes-clients/${startDate}/${endDate}`)
+      .get(
+        `${SoldeClientAPI.baseUrl}/soldes-clients-default/${startDate}/${endDate}`
+      )
       .then((response) => {
-        soldesClients = response.data.map((soldeClient: SoldeClientJSON) =>
+        soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
           SoldeClient.fromJson(soldeClient)
         );
       })
       .catch((error) => {
         console.log(error);
+        return [] as SoldeClient[];
       });
-    return soldesClients;
+    return soldeClientsList;
+  }
+
+  static async getAllAdvanceMoreImportant(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<SoldeClient[]> {
+    let soldeClientsList: SoldeClient[] = [];
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${SoldeClientAPI.baseUrl}/soldes-clients/advance-more-important`)
+        .then((response) => {
+          soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+            SoldeClient.fromJson(soldeClient)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as SoldeClient[];
+        });
+      return soldeClientsList;
+    }
+
+    await axios
+      .get(
+        `${SoldeClientAPI.baseUrl}/soldes-clients/advance-more-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+          SoldeClient.fromJson(soldeClient)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as SoldeClient[];
+      });
+    return soldeClientsList;
+  }
+
+  static async getAllAdvanceLessImportant(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<SoldeClient[]> {
+    let soldeClientsList: SoldeClient[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${SoldeClientAPI.baseUrl}/soldes-clients/advance-less-important`)
+        .then((response) => {
+          soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+            SoldeClient.fromJson(soldeClient)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as SoldeClient[];
+        });
+      return soldeClientsList;
+    }
+
+    await axios
+      .get(
+        `${SoldeClientAPI.baseUrl}/soldes-clients/advance-less-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+          SoldeClient.fromJson(soldeClient)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as SoldeClient[];
+      });
+    return soldeClientsList;
+  }
+
+  static async getAllDebtsMoreImportant(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<SoldeClient[]> {
+    let soldeClientsList: SoldeClient[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${SoldeClientAPI.baseUrl}/soldes-clients/debt-more-important`)
+        .then((response) => {
+          soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+            SoldeClient.fromJson(soldeClient)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as SoldeClient[];
+        });
+      return soldeClientsList;
+    }
+
+    await axios
+      .get(
+        `${SoldeClientAPI.baseUrl}/soldes-clients/debt-more-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+          SoldeClient.fromJson(soldeClient)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as SoldeClient[];
+      });
+    return soldeClientsList;
+  }
+
+  static async getAllDebtsLessImportant(
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<SoldeClient[]> {
+    let soldeClientsList: SoldeClient[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${SoldeClientAPI.baseUrl}/soldes-clients/debt-less-important`)
+        .then((response) => {
+          soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+            SoldeClient.fromJson(soldeClient)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as SoldeClient[];
+        });
+      return soldeClientsList;
+    }
+
+    await axios
+      .get(
+        `${SoldeClientAPI.baseUrl}/soldes-clients/debt-less-important/${startDate}/${endDate}`
+      )
+      .then((response) => {
+        soldeClientsList = response.data.map((soldeClient: SoldeClientJSON) =>
+          SoldeClient.fromJson(soldeClient)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as SoldeClient[];
+      });
+    return soldeClientsList;
   }
 }
 

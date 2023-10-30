@@ -91,7 +91,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
                 id="clientName"
                 type="text"
                 placeholder="Nom du Client"
-                autoComplete="clientName"
+                //  autoComplete="clientName"
               />
             </div>
             {formErrors.clientName && (

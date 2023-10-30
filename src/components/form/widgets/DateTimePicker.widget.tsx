@@ -38,7 +38,7 @@ const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
           id: id,
           name: name,
           placeholder: placeholder,
-          className: `w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`,
+          className: `w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border border-secondary  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`,
         }}
         timeFormat="HH:mm"
         dateFormat="DD/MM/YYYY"
