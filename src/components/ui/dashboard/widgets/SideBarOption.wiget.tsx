@@ -25,6 +25,7 @@ interface SideBarOptionProps {
     name: string,
     selectedClient: Clients | undefined
   ) => void;
+  logout?: () => void;
 }
 
 const SideBarOption: React.FC<SideBarOptionProps> = ({
@@ -36,16 +37,22 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
   currentActiveSideBarOption,
   subOptions,
   onSideBarOptionClick,
+  logout,
 }) => {
   const selectedClient = useClientsStore((state) => state.selectedClient);
   return (
     <div>
-      <Link to={to}>
+      <Link
+        to={to}
+        onClick={() => {
+          name == "Se Déconnecter" ? logout!() : "";
+          onSideBarOptionClick(index, name, selectedClient);
+        }}
+      >
         <div
           className={`flex flex-row ${
-            currentActiveSideBarOption == name && "bg-primary"
+            currentActiveSideBarOption == name && "bg-primary shadow-md"
           } h-10 rounded-md items-center content-center hover:cursor-pointer group`}
-          onClick={() => onSideBarOptionClick(index, name, selectedClient)}
         >
           <div className="h-full mx-[12px] flex justify-start items-center content-center">
             {icon}

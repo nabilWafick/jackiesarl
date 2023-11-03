@@ -13,7 +13,7 @@ const ProfileCard: FC<ProfileCardDimensions> = ({
 }) => {
   return (
     <div
-      className={` h-[${height}px] w-[${width}px] flex justify-center items-center rounded-full bg-gray-100 shadow-sm`}
+      className={`flex justify-center items-center rounded-full bg-gray-100 shadow-sm`}
       style={{ width: width, height: height }}
     >
       <BiUser size={iconSize} className="text-secondary" />

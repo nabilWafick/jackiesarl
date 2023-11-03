@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <Route path="/" component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/dashboard" component={Dashboard} />
-    </BrowserRouter>
+    <Router>
+      <Route path="/" Component={Home} />
+      <Route path="/login" Component={Login} />
+      <Route path="/register" Component={Register} />
+      <Route path="/dashboard" Component={Dashboard} />
+    </Router>
   );
 };
 
@@ -107,9 +107,9 @@ const Dashboard: React.FC = () => {
       <Sidebar />
       <main>
         {/* Utilisation de la route pour afficher le contenu correct */}
-        <Route path="/dashboard/home" component={Home} />
-        <Route path="/dashboard/stats" component={Stats} />
-        <Route path="/dashboard/settings" component={Settings} />
+        <Route path="/dashboard/home" Component={Home} />
+        <Route path="/dashboard/stats" Component={Stats} />
+        <Route path="/dashboard/settings" Component={Settings} />
       </main>
     </div>
   );

@@ -3,7 +3,7 @@
     
     "admin": false,
 
-    "lire-tableau-bord": false,
+    "lire-tableau-bord": true,
     "imprimer-interface" : false,
 
     "ajouter-client": false,

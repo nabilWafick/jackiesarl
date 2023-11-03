@@ -2,18 +2,24 @@ import { FC } from "react";
 import useLoginForm from "../../../../hooks/forms/login/useLoginForm";
 import JSInput from "../../widgets/Input.widget";
 import AuthenticationButton from "../../widgets/AuthenticationButton.widget";
+import { Link } from "react-router-dom";
 
-const LoginForm: FC = () => {
+interface LoginFormProps {
+  email: string;
+  password: string;
+}
+
+const LoginForm: FC<LoginFormProps> = ({ email, password }) => {
   const { formData, formErrors, onInputDataChange, onFormSubmit } =
     useLoginForm({
-      email: "",
-
-      password: "",
+      email: email,
+      password: password,
     });
+
   return (
     <form onSubmit={onFormSubmit}>
       <div
-        className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 
+        className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] px-5 py-3
         "
       >
         <div className="input-group">
@@ -42,7 +48,7 @@ const LoginForm: FC = () => {
               value={formData.password.toString()}
               name="password"
               id="password"
-              type="password"
+              type="text"
               placeholder="Mot de passe"
               autoComplete="password"
             />
@@ -54,9 +60,14 @@ const LoginForm: FC = () => {
           )}
         </div>
 
-        <div className="mt-5 w-full">
+        <div className="mt-1 w-full">
           <AuthenticationButton name="Connexion" onClick={() => {}} />
         </div>
+        <Link to="/creer-un-compte">
+          <p className="mt-5 flex self-center text-center text-tableTextColor hover:text-tableTextColor">
+            Créer un compte
+          </p>
+        </Link>
       </div>
     </form>
   );

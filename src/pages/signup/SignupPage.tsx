@@ -1,21 +1,30 @@
-import SignupForm from "../../components/form/forms/signup/signup";
+import { FC } from "react";
+import SignupForm from "../../components/form/forms/signup/Signup";
+import ActionResult from "../../components/ui/dashboard/widgets/ActionResult";
+import Auth from "../auth/Auth";
 
-function SignupPage() {
+const SignupPage: FC = () => {
   return (
-    <div className=" h-screen w-screen flex items-center justify-center content-center">
-      <div className="w-[350px] shadow-lg flex flex-col p-7 rounded-sm">
-        <h3 className="text-bold text-[30px] mb-7 flex justify-center text-center text-black">
-          Créer un compte
-        </h3>
+    <Auth needAuth={false}>
+      <div className="h-screen w-screen flex justify-center items-center overflow-x-hidden ">
+        <div className="w-[350px] shadow-lg flex flex-col p-7 rounded-sm">
+          <h3 className="text-bold text-[30px] mb-7 flex justify-center text-center text-tableTextColor">
+            Créer un compte
+          </h3>
 
-        <SignupForm />
-        {/* 
-          <Link to="/postes">
-            <AuthenticationButton name="Créer un compte" onClick={() => {}} />
-          </Link> */}
+          <SignupForm
+            firstname=""
+            lastname=""
+            email=""
+            role=""
+            phoneNumber=""
+            password=""
+          />
+          <ActionResult />
+        </div>
       </div>
-    </div>
+    </Auth>
   );
-}
+};
 
 export default SignupPage;

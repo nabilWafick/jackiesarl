@@ -11,12 +11,7 @@ const SideBarUserInfosCard: FC<SideBarUserInfosCardProps> = ({
   position,
 }) => {
   return (
-    <div
-      className="h-28 w-full flex flex-row justify-evenly content-center shadow-md items-center"
-      // onClick={() => {
-      //   window.alert("Hello World");
-      // }}
-    >
+    <div className="h-full w-full flex flex-row justify-evenly content-center items-center">
       <ProfileCard height={65} width={65} iconSize={20} />
       <div className="">
         <h2 className=" text-xs mb-1">{position}</h2>

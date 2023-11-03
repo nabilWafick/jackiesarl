@@ -28,7 +28,7 @@ class AchatEntrepriseAPI {
     await axios
       .post(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise`, data.toJson(), {
         headers: {
-          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {

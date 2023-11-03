@@ -1,29 +1,44 @@
 import axios from "axios";
 import Employes from "../../models/employes/employes.model";
 
+interface EmployesPromiseResponse {
+  status: number;
+  employe?: Employes;
+  employes?: Employes[];
+  error?: string;
+}
+
 interface EmployesJSON {
   id?: number;
   nom: string;
   prenoms: string;
   email: string;
+  numero_telephone: string;
   password: string;
   role: string;
-  token: string;
+  permissions: { [key: string]: boolean };
+  token?: string;
+  date_ajout?: string;
 }
 
 class EmployesAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  static async create(data: Employes) {
-    try {
-      const response = await axios.post(
-        `${EmployesAPI.baseUrl}/employes`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async create(
+    data: Employes
+  ): Promise<EmployesPromiseResponse | undefined> {
+    let promiseResponse: EmployesPromiseResponse | undefined = undefined;
+    await axios
+      .post(`${EmployesAPI.baseUrl}/employes`, data.toJson())
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+        console.error(error);
+      });
+
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<Employes | undefined> {
@@ -58,15 +73,18 @@ class EmployesAPI {
   }
 
   static async update(id: number, data: Employes) {
-    try {
-      const response = await axios.put(
-        `${EmployesAPI.baseUrl}/employes/${id}`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+    let promiseResponse: EmployesPromiseResponse | undefined = undefined;
+    await axios
+      .put(`${EmployesAPI.baseUrl}/employes/${id}`, data.toJson())
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        promiseResponse = error.response.data;
+        console.error(error);
+      });
+
+    return promiseResponse;
   }
 
   static async delete(id: number) {

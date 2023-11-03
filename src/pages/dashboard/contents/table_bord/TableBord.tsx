@@ -8,6 +8,7 @@ import TotalStockCard from "../../../../components/ui/dashboard/table_bord/Total
 import TransactionChartCard from "../../../../components/ui/dashboard/table_bord/TransactionChartCard";
 import VerticalDoughnutStatCard from "../../../../components/ui/dashboard/table_bord/VerticalDoughnutStatCard";
 import StatistiqueCard from "../../../../components/ui/dashboard/widgets/StatistiqueCard.widget";
+import { FC } from "react";
 
 const periods = [
   {
@@ -173,7 +174,7 @@ const horizDoughnutStatCardData = [
   },
 ];
 
-function TableBord() {
+const TableBord: FC = () => {
   return (
     <div className="h-max w-full flex flex-col justify-center items-center content-center">
       {/* Table de bord */}
@@ -237,6 +238,6 @@ function TableBord() {
       </div>
     </div>
   );
-}
+};
 
 export default TableBord;

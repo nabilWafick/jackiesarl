@@ -8,6 +8,11 @@ const ActionResult: FC = () => {
   const actionResultMessage = useInterfacesStore(
     (state) => state.actionResultMessage
   );
+
+  // const setActionResultMessage = useInterfacesStore(
+  //   (state) => state.setActionResultMessage
+  // );
+
   return (
     <Modal label="action-result-message">
       <div className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl">
@@ -21,7 +26,10 @@ const ActionResult: FC = () => {
           <JsOutlineButton
             type="button"
             name="Okay"
-            onClick={() => toggleModal("action-result-message")}
+            onClick={() => {
+              // setActionResultMessage(undefined);
+              toggleModal("action-result-message");
+            }}
           />
         </div>
       </div>

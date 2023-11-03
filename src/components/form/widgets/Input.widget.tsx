@@ -33,7 +33,7 @@ const JSInput: FC<JSInputProps> = ({
       disabled={disabled}
       onChange={onChange}
       //  required
-      className={` w-full text-black text-md rounded-md bg-transparent py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`}
+      className={` w-full text-black text-md rounded-md bg-white -z-10 py-1.5 px-2 border-2  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`}
     />
   );
 };

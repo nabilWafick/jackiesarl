@@ -5,7 +5,7 @@ import JSSearchInput from "../../components/form/widgets/SearchInput";
 const NavBar: FC = () => {
   return (
     <div
-      className=" h-[80px] w-10/12 flex flex-row items-center py-7 px-3 bg-white  fixed right-[-0.1px] shadow-sm"
+      className=" h-[80px] w-[83%] flex flex-row items-center px-3 bg-white  fixed top-0  right-1. shadow-sm"
       // style={{ width: "100%" }}
     >
       <div className="h-[75px] w-[100px] logo flex items-center">
@@ -15,7 +15,7 @@ const NavBar: FC = () => {
           className=" object-contain flex items-center"
         />
       </div>
-      <div className="main-input h-12 w-full mx-14 flex items-center shadow-md">
+      <div className="main-input h-12 w-full mx-14 flex items-center shadow-md opacity-100 bg-white">
         <JSSearchInput />
       </div>
       <div className="actions flex flex-row items-center">

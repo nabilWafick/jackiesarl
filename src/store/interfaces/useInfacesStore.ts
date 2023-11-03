@@ -7,7 +7,7 @@ interface InterfacesStore {
   isOpen: boolean[];
   currentActiveSideBarOption: string;
   currentActiveSideBarSubOption: string;
-  actionResultMessage: string;
+  actionResultMessage: string | undefined;
   setIsOpen: (newIsOpen: boolean[]) => void;
   toggleSideBarOptionDropdown: (
     index: number,
@@ -19,7 +19,7 @@ interface InterfacesStore {
     selectedClient: Clients | undefined
   ) => void;
   setCurrentActiveSideBarSubOption: (name: string) => void;
-  setActionResultMessage: (message: string) => void;
+  setActionResultMessage: (message: string | undefined) => void;
 }
 
 const useInterfacesStore = create<InterfacesStore>()(
@@ -77,14 +77,16 @@ const useInterfacesStore = create<InterfacesStore>()(
         name: string,
         selectedClient: Clients | undefined
       ) => {
-        //  const lastSideBarOptionName = get().currentActiveSideBarOption;
-        set((state) => {
-          state.setCurrentActiveSideBarSubOption("");
-          state.toggleSideBarOptionDropdown(index, selectedClient);
-          return { currentActiveSideBarOption: name };
-        });
-        //   console.log(`lastSideBarOptionName: ${lastSideBarOptionName}`);
-        // console.log(`newSideBarOptionName: ${get().currentActiveSideBarOption}`,)
+        if (name == "Se Déconnecter") {
+          localStorage.removeItem("AuthenticatedEmployeStore");
+          sessionStorage.clear();
+          location.reload();
+        } else
+          set((state) => {
+            state.setCurrentActiveSideBarSubOption("");
+            state.toggleSideBarOptionDropdown(index, selectedClient);
+            return { currentActiveSideBarOption: name };
+          });
       },
       setCurrentActiveSideBarSubOption: (name: string) => {
         set(() => ({ currentActiveSideBarSubOption: name }));
