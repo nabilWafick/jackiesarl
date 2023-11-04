@@ -80,20 +80,14 @@ const vertDoughnutStatCardData = [
       {
         name: "CIM BENIN",
         value: 1000,
-        increase: true,
-        percentage: 50,
+        // increase: true,
+        // percentage: 50,
       },
       {
         name: "NOCIBE BENIN",
         value: 500,
         increase: true,
         percentage: 25,
-      },
-      {
-        name: "Autres",
-        value: 100,
-        increase: true,
-        percentage: 5,
       },
     ],
   },
@@ -104,20 +98,14 @@ const vertDoughnutStatCardData = [
       {
         name: "CIM BENIN",
         value: 1000,
-        increase: true,
-        percentage: 50,
+        // increase: true,
+        // percentage: 50,
       },
       {
         name: "NOCIBE BENIN",
         value: 500,
         increase: true,
         percentage: 25,
-      },
-      {
-        name: "Autres",
-        value: 100,
-        increase: true,
-        percentage: 5,
       },
     ],
   },
@@ -128,20 +116,14 @@ const vertDoughnutStatCardData = [
       {
         name: "CIM BENIN",
         value: 1000,
-        increase: true,
-        percentage: 50,
+        // increase: true,
+        // percentage: 50,
       },
       {
         name: "NOCIBE BENIN",
         value: 500,
         increase: true,
         percentage: 25,
-      },
-      {
-        name: "Autres",
-        value: 100,
-        increase: true,
-        percentage: 5,
       },
     ],
   },
@@ -155,20 +137,14 @@ const horizDoughnutStatCardData = [
       {
         name: "CIM BENIN",
         value: 1000,
-        increase: true,
-        percentage: 50,
+        // increase: true,
+        // percentage: 50,
       },
       {
         name: "NOCIBE BENIN",
         value: 500,
         increase: true,
         percentage: 25,
-      },
-      {
-        name: "Autres",
-        value: 100,
-        increase: true,
-        percentage: 5,
       },
     ],
   },
@@ -201,8 +177,8 @@ const TableBord: FC = () => {
               <StatistiqueCard
                 name={stat.name}
                 icon={stat.icon}
-                percentage={stat.percentage}
-                increase={stat.increase}
+                // percentage={stat.percentage}
+                // increase={stat.increase}
                 value={stat.value}
               />
             </div>

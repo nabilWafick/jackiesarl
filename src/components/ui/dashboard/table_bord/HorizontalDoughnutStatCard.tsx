@@ -1,12 +1,12 @@
 import { FC } from "react";
-import { FaCaretDown, FaCaretUp, FaDotCircle } from "react-icons/fa";
+import { /* FaCaretDown, FaCaretUp,*/ FaDotCircle } from "react-icons/fa";
 import { DoughnutChart } from "../../../../pages_/charts/DoughnutChart";
 
 interface VDSData {
   name: string;
   value: number;
-  percentage: number;
-  increase: boolean;
+  percentage?: number;
+  increase?: boolean;
 }
 
 interface HorizontalDoughnutStatCardProps {
@@ -41,11 +41,11 @@ const HorizontalDoughnutStatCard: FC<HorizontalDoughnutStatCardProps> = ({
             >
               <div className="flex items-center">
                 <FaDotCircle className="mr-3 text-secondary" size={12} />
-                <p>{_data.name}</p>
+                <p className=" font-medium">{_data.name}</p>
               </div>
               <div className="flex items-center">
                 <p className="mr-4 ">{_data.value}</p>
-                <div className="flex">
+                {/* <div className="flex">
                   <div className="flex flex-col ">
                     {_data.increase ? (
                       <FaCaretUp color="green" />
@@ -54,7 +54,7 @@ const HorizontalDoughnutStatCard: FC<HorizontalDoughnutStatCardProps> = ({
                     )}
                   </div>
                   <p className="ml-1.5">{_data.percentage}%</p>
-                </div>
+                </div> */}
               </div>
             </div>
           ))}

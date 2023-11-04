@@ -63,7 +63,7 @@ class EmployesAPI {
         employesList = response.data.map((employe: EmployesJSON) =>
           Employes.fromJson(employe)
         );
-        //   console.log(employesList);
+        //    console.log(employesList);
       })
       .catch((error) => {
         console.log(error);
@@ -72,10 +72,14 @@ class EmployesAPI {
     return employesList;
   }
 
-  static async update(id: number, data: Employes) {
+  static async update(
+    id: number,
+    data: Employes
+  ): Promise<EmployesPromiseResponse | undefined> {
     let promiseResponse: EmployesPromiseResponse | undefined = undefined;
+    // console.log("employee toJSON", typeof data);
     await axios
-      .put(`${EmployesAPI.baseUrl}/employes/${id}`, data.toJson())
+      .put(`${EmployesAPI.baseUrl}/employes/${id}`, data)
       .then((response) => {
         promiseResponse = response.data;
       })

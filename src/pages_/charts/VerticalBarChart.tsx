@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +8,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import faker from "faker";
 
 ChartJS.register(
   CategoryScale,
@@ -20,7 +18,7 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+const options = {
   responsive: true,
   plugins: {
     /*
@@ -34,21 +32,21 @@ export const options = {
   },
 };
 
-const labels = ["CIM BENIN", "NOCIBE", "Autres"];
+const labels = ["Stock"];
 
-export const data = {
+const data = {
   labels,
   datasets: [
     {
-      label: "Stock Total",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: "#aaff9a",
+      label: "CIM BENIN",
+      data: [300],
+      backgroundColor: "#39C31D",
     },
-    /* {
-      label: "Dataset 2",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },*/
+    {
+      label: "NOCIBE",
+      data: [400],
+      backgroundColor: "#1AA5D7",
+    },
   ],
 };
 

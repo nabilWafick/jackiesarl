@@ -7,7 +7,7 @@ interface EmployesJSON {
   numero_telephone: string;
   password: string;
   role: string;
-  permissions?: { [key: string]: boolean };
+  permissions?: { [key: string]: boolean } | string;
   token?: string;
   accessToken?: string;
   date_ajout?: string;
@@ -21,7 +21,7 @@ class Employes {
   numero_telephone: string;
   password: string;
   role: string;
-  permissions?: { [key: string]: boolean };
+  permissions?: { [key: string]: boolean } | string;
   token?: string;
   accessToken?: string;
   date_ajout?: Date;
@@ -34,7 +34,7 @@ class Employes {
     password: string,
     role: string,
     id?: number,
-    permissions?: { [key: string]: boolean },
+    permissions?: { [key: string]: boolean } | string,
     token?: string,
     accessToken?: string,
     date_ajout?: Date
@@ -71,6 +71,7 @@ class Employes {
 
   // Méthode pour convertir un objet Employes en JSON générique
   toJson(): EmployesJSON {
+    //console.log("json test");
     return {
       id: this.id,
       nom: this.nom,

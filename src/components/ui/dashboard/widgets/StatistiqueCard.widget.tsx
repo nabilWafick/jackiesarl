@@ -4,8 +4,8 @@ import { FC, ReactElement } from "react";
 interface StatistiqueCardProps {
   name: string;
   icon: ReactElement;
-  percentage: number;
-  increase: boolean;
+  percentage?: number;
+  increase?: boolean;
   value: string;
 }
 
