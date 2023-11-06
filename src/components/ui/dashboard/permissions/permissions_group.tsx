@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { BsDot } from "react-icons/bs";
-import Employes from "../../../../models/employes/employes.model";
 import JSCheckBox from "../../../form/widgets/CheckBox.widget";
+//import useEmployesStore from "../../../../store/employes/useEmployes.store";
 
 interface PermissionCheckBoxData {
   label: string;
@@ -11,13 +11,11 @@ interface PermissionCheckBoxData {
 interface PermissionsGroupProps {
   permissionsGroupName: string;
   permissionsList: PermissionCheckBoxData[];
-  employee: Employes;
 }
 
 const PermissionsGroup: FC<PermissionsGroupProps> = ({
   permissionsGroupName,
   permissionsList,
-  employee,
 }) => {
   return (
     <div className="flex flex-col  p-2 mb-1">
@@ -28,11 +26,7 @@ const PermissionsGroup: FC<PermissionsGroupProps> = ({
       <ul className="ml-7">
         {permissionsList.map(({ label, permission }, index) => (
           <li key={index} className="text-sm flex text-start self-start">
-            <JSCheckBox
-              label={label}
-              permision={permission}
-              employee={employee}
-            />
+            <JSCheckBox label={label} permission={permission} />
           </li>
         ))}
       </ul>

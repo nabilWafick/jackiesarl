@@ -1,11 +1,5 @@
 import { FC } from "react";
-import Employes from "../../../../models/employes/employes.model";
 import PermissionsGroup from "./permissions_group";
-
-interface PermissionsProps {
-  empoyee: Employes;
-}
-
 interface PermissionCheckBoxData {
   label: string;
   permission: string;
@@ -14,7 +8,6 @@ interface PermissionCheckBoxData {
 interface PermissionsGroupProps {
   permissionsGroupName: string;
   permissionsList: PermissionCheckBoxData[];
-  //employee: Employes;
 }
 
 const permissionsGroupData: PermissionsGroupProps[] = [
@@ -374,16 +367,14 @@ const permissionsGroupData: PermissionsGroupProps[] = [
   },
 ];
 
-const Permissions: FC<PermissionsProps> = ({ empoyee }) => {
+const Permissions: FC = () => {
   return (
     <div>
-      <p>employee's id: {empoyee.id}</p>
       {permissionsGroupData.map((permissions, index) => (
         <PermissionsGroup
           key={index}
           permissionsGroupName={permissions.permissionsGroupName}
           permissionsList={permissions.permissionsList}
-          employee={empoyee}
         />
       ))}
     </div>

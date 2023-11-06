@@ -1,7 +1,7 @@
 import Permissions from "../../../../components/ui/dashboard/permissions/Permissions";
 import { FC, useEffect } from "react";
 import useEmployesStore from "../../../../store/employes/useEmployes.store";
-import SelectedEmployeeCard from "../../../../components/ui/dashboard/selected_employee_card/selected_employee_card";
+import SelectedEmployeeCard from "../../../../components/ui/dashboard/selected_employee_card/SelectedEmployeeCard";
 
 const AutorisationsPage: FC = () => {
   const employees = useEmployesStore((state) => state.employes);
@@ -29,11 +29,7 @@ const AutorisationsPage: FC = () => {
             Autorisations
           </div>
 
-          {selectedEmployee != undefined ? (
-            <Permissions empoyee={selectedEmployee} />
-          ) : (
-            ""
-          )}
+          {selectedEmployee != undefined ? <Permissions /> : ""}
         </div>
       </div>
     </div>

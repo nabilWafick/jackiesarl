@@ -50,7 +50,7 @@ const ClientPaymentsPage: FC = () => {
       <ClientCard client={selectedClient!} />
       <div className="flex  self-end items-center">
         <AddingButton
-          option="Ajouter un achat"
+          option="Ajouter un paiement"
           onClick={() => {
             toggleModal("client-payment-adding-form");
           }}

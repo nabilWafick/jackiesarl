@@ -16,12 +16,14 @@ const SelectedEmployeeCard: FC<SelectedEmployeeCardProps> = ({ employee }) => {
 
   return (
     <div
-      className={`h-[75px] w-52 px-2 flex flex-row ${
+      className={`h-[75px] w-52 px-2 flex flex-row hover:cursor-pointer ${
         selectedEmployee != undefined && employee.id! == selectedEmployee!.id!
           ? "bg-primary"
           : "bg-white"
       }  content-center shadow-md items-center my-3`}
-      onClick={() => setSelectedEmployee(employee)}
+      onClick={() => {
+        setSelectedEmployee(employee);
+      }}
     >
       <div className=" mr-3 rounded-full bg-gray-300 shadow-sm">
         <ProfileCard height={60} width={60} iconSize={20} />

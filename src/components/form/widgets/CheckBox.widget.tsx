@@ -1,60 +1,69 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import useEmployesStore from "../../../store/employes/useEmployes.store";
-import Employes from "../../../models/employes/employes.model";
 import EmployesAPI from "../../../api/employes/employes.api";
 
 interface JSCheckBoxProps {
-  employee: Employes;
   label: string;
-  permision: string;
+  permission: string;
 }
 
-const JSCheckBox: FC<JSCheckBoxProps> = ({ employee, label, permision }) => {
-  // const selectedEmployee = useEmployesStore((state) => state.selectedEmploye);
-  // const setSelectedEmployee = useEmployesStore(
-  //   (state) => state.setSelectedEmployee
-  // );
-
+const JSCheckBox: FC<JSCheckBoxProps> = ({ label, permission }) => {
   const fetchAllEmployes = useEmployesStore((state) => state.fetchAllEmployes);
+  const selectedEmployee = useEmployesStore((state) => state.selectedEmploye);
 
-  const permissions =
-    typeof employee!.permissions == "string"
-      ? JSON.parse(employee!.permissions as string)
-      : employee!.permissions;
+  const permissions = useRef<Record<string, boolean>>(
+    typeof selectedEmployee!.permissions == "string"
+      ? JSON.parse(selectedEmployee!.permissions as string)
+      : selectedEmployee!.permissions
+  );
 
-  const [isGranted, setIsGranted] = useState<boolean>(permissions[permision]);
-  // console.log("selected employee id", employee!.id!);
-  // console.log(permision, permissions[permision]);
+  const [isGranted, setIsGranted] = useState<boolean>(
+    permissions.current[permission]
+  );
+
+  useEffect(() => {
+    permissions.current =
+      typeof selectedEmployee!.permissions == "string"
+        ? JSON.parse(selectedEmployee!.permissions as string)
+        : selectedEmployee!.permissions;
+    setIsGranted(permissions.current[permission]);
+  }, [selectedEmployee, permission]);
 
   return (
-    <div className="flex gap-x-6">
-      <div className="flex">
+    <div className={`flex flex-col ${permission == "admin" ? "bg-white" : ""}`}>
+      <div className={`flex max-h-min`}>
         <input
           style={{ background: "blue", border: "red" }}
           type="checkbox"
           checked={isGranted}
           onChange={async () => {
             const employee_permission =
-              typeof employee!.permissions == "string"
-                ? JSON.parse(employee!.permissions as string)
-                : employee!.permissions;
+              typeof selectedEmployee!.permissions == "string"
+                ? JSON.parse(selectedEmployee!.permissions as string)
+                : selectedEmployee!.permissions;
 
             // update employee permission status
-            employee_permission[permision] = !employee_permission[permision];
-            employee!.permissions = employee_permission;
+            employee_permission[permission] = !employee_permission[permission];
+            selectedEmployee!.permissions = employee_permission;
 
-            const response = await EmployesAPI.update(employee.id!, employee);
+            const response = await EmployesAPI.update(
+              selectedEmployee!.id!,
+              selectedEmployee!
+            );
 
             if (response!.status == 200) {
               setIsGranted(!isGranted);
-              console.log("updated");
               fetchAllEmployes();
+              //    incrementOnce();
             }
           }}
-          className="shrink-0 mt-0.5 bg-blue-500  border-red-500 rounded text-yellow-600 focus:ring-blue-700 checked:bg-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-          id="hs-checkbox-group-1"
+          id={`permission-${permission}-checkbox`}
+          className={` hover:cursor-pointer`}
         />
-        <label htmlFor="hs-checkbox-group-1" className="text-sm ml-3">
+        <label
+          htmlFor={`permission-${permission}-checkbox`}
+          className="text-sm ml-3"
+        >
           {label}
         </label>
       </div>
@@ -63,6 +72,7 @@ const JSCheckBox: FC<JSCheckBoxProps> = ({ employee, label, permision }) => {
 };
 
 export default JSCheckBox;
+
 /**
  * SELECT
   CASE 

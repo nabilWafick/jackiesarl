@@ -55,10 +55,6 @@ class AchatClientAPI {
     return achatClient;
   }
 
-  /* if (!startDate || !endDate) {
-      
-  }
-*/
   static async getAll(
     startDate: string | undefined,
     endDate: string | undefined

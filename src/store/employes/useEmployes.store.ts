@@ -24,8 +24,6 @@ const useEmployesStore = create<EmployesStore>()(
       },
       setSelectedEmployee: (employe) => {
         set(() => ({ selectedEmploye: employe }));
-        //    const selectedEmployee = get().selectedEmploye;
-        // console.log("selectedEmployee", selectedEmployee!.id!);
       },
     }),
     {
