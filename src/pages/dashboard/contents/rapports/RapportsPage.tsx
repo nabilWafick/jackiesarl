@@ -9,7 +9,7 @@ const RapportsPage: FC = () => {
   //   (state) => state.authenticatedEmploye
   // );
   return (
-    <div className="w-full h-full flex-col justify-around items-center row-auto">
+    <div className="w-full h-full flex-col justify-around items-center">
       <ActionResult /> <AdminRapportsPage />
       <EmployeeRapportsPage />
     </div>

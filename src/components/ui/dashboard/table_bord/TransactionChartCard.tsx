@@ -1,6 +1,7 @@
+import { FC } from "react";
 import { LineBarChart } from "../../../../pages_/charts/LineBarChart";
 
-const TransactionChartCard = () => {
+const TransactionChartCard: FC = () => {
   return (
     <div className="h-full w-1/2 bg-slate-50 p-3 shadow-md rounded-xl courbe">
       <div className="flex mb-3 justify-between ">

@@ -8,6 +8,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import useDashBoardStore from "../../store/table_bord/useTableBord.store";
 
 ChartJS.register(
   CategoryScale,
@@ -20,36 +21,29 @@ ChartJS.register(
 
 const options = {
   responsive: true,
-  plugins: {
-    /*
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-      text: "Chart.js Bar Chart",
-    },*/
-  },
-};
-
-const labels = ["Stock"];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: "CIM BENIN",
-      data: [300],
-      backgroundColor: "#39C31D",
-    },
-    {
-      label: "NOCIBE",
-      data: [400],
-      backgroundColor: "#1AA5D7",
-    },
-  ],
+  plugins: {},
 };
 
 export function VerticalBarChart() {
+  const totalStocksBonCommande = useDashBoardStore(
+    (state) => state.totalStocksBonCommande
+  );
+  const labels = ["Stock"];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: totalStocksBonCommande[0].categorie,
+        data: [totalStocksBonCommande[0].total_stock_restant],
+        backgroundColor: "#39C31D",
+      },
+      {
+        label: totalStocksBonCommande[1].categorie,
+        data: [totalStocksBonCommande[1].total_stock_restant],
+        backgroundColor: "#1AA5D7",
+      },
+    ],
+  };
   return <Bar options={options} data={data} />;
 }

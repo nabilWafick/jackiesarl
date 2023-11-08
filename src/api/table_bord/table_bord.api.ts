@@ -1,48 +1,203 @@
+import axios from "axios";
+
+interface TotalPaiementsJournaliers {
+  jour: string;
+  total_paiement: number;
+}
+
+interface TotalClientsInscritsQuotidiens {
+  total_clients_incrits: number;
+}
+
+interface TotalVenteQuotidienne {
+  total_vente: 0;
+}
+
+interface TotalAchatsEntrepriseQuotidiens {
+  categorie: string;
+  total_achat: number;
+}
+
+interface TotalCommandesNonTraiteesQuotidiennes {
+  categorie: string;
+  total_commande_non_traitee: number;
+}
+
+interface TotalCommandesTraiteesQuotidiennes {
+  categorie: string;
+  total_commande_traitee: number;
+}
+
+interface TotalPaiementsBanquesQuotidiens {
+  banque: string;
+  total_paiement: number;
+}
+
+interface TotalStocksBonCommandeQuotidiens {
+  categorie: string;
+  total_stock_restant: number;
+}
+
+interface TotalAvancesCreancesQuotidiennes {
+  total_avances: number;
+  total_creances: number;
+}
 class TableBordAPI {
   private static baseUrl = "http://127.0.0.1:7000/api";
 
-  // fetch by date
+  static async getWeekDailyPayments(): Promise<TotalPaiementsJournaliers[]> {
+    let promiseResponse: TotalPaiementsJournaliers[] = [];
+    await axios
+      .get(`${TableBordAPI.baseUrl}/table-bord/total-paiements-hebdomadaire/`)
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getAchatClientByDate() {}
+  static async getDailyRegisteredCustumersTotal(
+    isToday: 1 | 0
+  ): Promise<TotalClientsInscritsQuotidiens> {
+    let promiseResponse: TotalClientsInscritsQuotidiens = {
+      total_clients_incrits: 0,
+    };
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-clients-inscrits-quotidien/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getAvanceByDate() {}
+  static async getDailySalesTotal(
+    isToday: 1 | 0
+  ): Promise<TotalVenteQuotidienne> {
+    let promiseResponse: TotalVenteQuotidienne = { total_vente: 0 };
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-ventes-quotidiennes/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getVenteByDate() {}
+  static async getDailyCompanyPurchases(
+    isToday: 1 | 0
+  ): Promise<TotalAchatsEntrepriseQuotidiens[]> {
+    let promiseResponse: TotalAchatsEntrepriseQuotidiens[] = [];
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-achats-entreprise-quotidiens/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getClientsNumberByDate() {}
+  static async getDailyUntraitedOrdersTotal(
+    isToday: 1 | 0
+  ): Promise<TotalCommandesNonTraiteesQuotidiennes[]> {
+    let promiseResponse: TotalCommandesNonTraiteesQuotidiennes[] = [];
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-commandes-non-traitees-quotidiennes/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getCreanceByDate() {}
+  static async getDailyTraitedOrdersTotal(
+    isToday: 1 | 0
+  ): Promise<TotalCommandesTraiteesQuotidiennes[]> {
+    let promiseResponse: TotalCommandesTraiteesQuotidiennes[] = [];
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-commandes-traitees-quotidiennes/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getStockTotalByDate() {}
+  static async getDailyPaymentPerBank(
+    isToday: 1 | 0
+  ): Promise<TotalPaiementsBanquesQuotidiens[]> {
+    let promiseResponse: TotalPaiementsBanquesQuotidiens[] = [];
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-paiements-banques-quotidiens/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getTotalAchatByDate() {}
+  static async getDailyPurchasesOrdersStockTotal(
+    isToday: 1 | 0
+  ): Promise<TotalStocksBonCommandeQuotidiens[]> {
+    let promiseResponse: TotalStocksBonCommandeQuotidiens[] = [];
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-stocks-bon-commande-quotidiens/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 
-  static async getCommandesTraiteesByDate() {}
-
-  static async getCommandesNonTraiteesByDate() {}
-  static async getTotalPaiementByDate() {}
-
-  // fetch by periode
-
-  static async getAchatClientByPeriode() {}
-
-  static async getAvanceByPeriode() {}
-
-  static async getVenteByPeriode() {}
-
-  static async getClientsNumberByPeriode() {}
-
-  static async getCreanceByPeriode() {}
-
-  static async getStockTotalByPeriode() {}
-
-  static async getTotalAchatByPeriode() {}
-
-  static async getCommandesTraiteesByPeriode() {}
-
-  static async getCommandesNonTraiteesByPeriode() {}
-
-  static async getTotalPaiementByPeriode() {}
+  static async getDailyAdvancesDebts(
+    isToday: 1 | 0
+  ): Promise<TotalAvancesCreancesQuotidiennes> {
+    let promiseResponse: TotalAvancesCreancesQuotidiennes = {
+      total_avances: 0,
+      total_creances: 0,
+    };
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-avances-creances-quotidiennes/${isToday}`
+      )
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
 }
 
 export default TableBordAPI;

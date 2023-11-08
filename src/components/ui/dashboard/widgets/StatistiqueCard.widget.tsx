@@ -6,7 +6,7 @@ interface StatistiqueCardProps {
   icon: ReactElement;
   percentage?: number;
   increase?: boolean;
-  value: string;
+  value: number;
 }
 
 const StatistiqueCard: FC<StatistiqueCardProps> = ({

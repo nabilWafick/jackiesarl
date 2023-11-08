@@ -28,8 +28,9 @@ const RapportFileUploadedCard: FC<RapportFileUploadedCardProps> = ({
         <h3 className="text-xs my-1 font-light">le {date_envoi}</h3>
         <a
           className="flex items-center"
-          href="https://images.freeimages.com/images/large-previews/add/golden-gate-1471075.jpg"
-          //   href={"http://127.0.0.1:7000/uploads/employees/reports/test.png"  }
+          // href="https://images.freeimages.com/images/large-previews/add/golden-gate-1471075.jpg"
+          href={"http://127.0.0.1:7000/uploads/test.png"}
+          target="_blank"
           download
         >
           <div className=" bg-secondary text-white text-[10px] px-[10px] py-[3px] hover:border-none rounded-sm">

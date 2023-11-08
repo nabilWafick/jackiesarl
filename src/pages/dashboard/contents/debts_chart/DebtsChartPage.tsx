@@ -13,7 +13,7 @@ const DebtsChartPage = () => {
         </div>
       </div>
 
-      <div className="h-[400px] w-full my-3 flex justify-center">
+      <div className="h-[400px] w-full  my-3 flex justify-center ">
         <LineBarChart />
       </div>
 

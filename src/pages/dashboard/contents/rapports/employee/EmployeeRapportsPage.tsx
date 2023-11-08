@@ -34,7 +34,7 @@ const EmployeeRapportsPage: FC<EmployeeRapportsPageProps> = () => {
   }, [fetchAllOfEmployeeReports, authenticatedEmploye]);
 
   return (
-    <div className="flex flex-col justify-center items-center flex-wrap">
+    <div className="flex flex-col justify-center items-center flex-wrap mx-40 ">
       <p className="text-lg text-center font-medium my-7">Employé(e)</p>
       {authEmployeeReports.length == 0 ? (
         <div className="flex justify-center items-center text-tableTextColor text-xl font-medium">
