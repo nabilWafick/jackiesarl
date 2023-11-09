@@ -73,7 +73,7 @@ const useClientPaymentValidationUpdateForm = (
     (state) => state.setPaymentValidationClient
   );
   const fetchAllClientsPaymentsValidation = useClientsPaymentsValidationStore(
-    (state) => state.fetchAllClientsPaymentsValidation
+    (state) => state.fetchAllClientPayments
   );
   const searchClients = useClientsStore((state) => state.searchClients);
   const refreshSearchedClients = useClientsStore(
@@ -83,6 +83,14 @@ const useClientPaymentValidationUpdateForm = (
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -291,9 +299,9 @@ const useClientPaymentValidationUpdateForm = (
     formErrors,
     onInputDataChange,
     onClientNameInputDataChange,
+    onCategorieSelectChange,
     updateClientNameFormData,
     onFileInputChange,
-
     onFormClose,
     onFormSubmit,
   };

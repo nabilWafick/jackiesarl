@@ -5,6 +5,7 @@ import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface ClientPaymentUpdateProps {
   id: number;
@@ -33,6 +34,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFileInputChange,
     onFormClose,
     onFormSubmit,
@@ -120,14 +122,19 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.bank}
-                name="bank"
+              <JSFormSelect
                 id="bank"
-                type="text"
-                placeholder="Banque"
-                autoComplete="bank"
+                name="bank"
+                options={[
+                  { value: "BOA", label: "BOA" },
+                  { value: "UBA", label: "UBA" },
+                  { value: "Ecobank", label: "Ecobank" },
+                  { value: "NSIA", label: "NSIA" },
+                  { value: "SGB", label: "SGB" },
+                  { value: "BGFI", label: "BGFI" },
+                ]}
+                selectedOption={formData.bank}
+                onChange={onCategorieSelectChange}
               />
             </div>
             {formErrors.bank && (

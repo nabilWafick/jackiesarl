@@ -1,4 +1,4 @@
-import { LineBarChart } from "./charts/LineBarChart";
+import { LineBarChart } from "../components/ui/dashboard/table_bord/charts/DailyPaymentsLineBarChart";
 
 const Charts: React.FC = () => {
   return (

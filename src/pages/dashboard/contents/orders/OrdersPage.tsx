@@ -102,7 +102,7 @@ const OrdersPage = () => {
           destination=""
           orderDate={undefined}
           deliveryDate={undefined}
-          category=""
+          category="CIM BENIN"
         />
         <ActionResult />
       </div>

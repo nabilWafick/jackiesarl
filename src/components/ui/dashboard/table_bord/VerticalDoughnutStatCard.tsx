@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { /* FaCaretDown, FaCaretUp,*/ FaDotCircle } from "react-icons/fa";
-import { DoughnutChart } from "../../../../pages_/charts/DoughnutChart";
+import { DoughnutChart } from "./charts/DoughnutChart";
 
 interface VDSData {
   name: string;

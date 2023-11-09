@@ -58,6 +58,7 @@ const useClientPaymentUpdateForm = (
     reference: null,
     slip: null,
   });
+
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
@@ -70,6 +71,13 @@ const useClientPaymentUpdateForm = (
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -239,6 +247,7 @@ const useClientPaymentUpdateForm = (
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFileInputChange,
     onFormClose,
     onFormSubmit,

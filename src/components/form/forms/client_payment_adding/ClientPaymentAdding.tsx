@@ -5,6 +5,7 @@ import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface ClientPaymentAddingProps {
   bcNumber: string;
@@ -27,6 +28,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFileInputChange,
     onFormClose,
     onFormSubmit,
@@ -69,25 +71,6 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
             )}
           </div>
 
-          {/* <div className="input-group">
-            <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.category}
-                name="category"
-                id="category"
-                type="text"
-                placeholder="Catégorie"
-                autoComplete="category"
-              />
-            </div>
-            {formErrors.category && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.category}
-              </p>
-            )}
-          </div> */}
-
           <div className="input-group">
             <div className="mt-3 msoldesb-1 w-full">
               <JSInput
@@ -107,7 +90,7 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -117,6 +100,30 @@ const ClientPaymentAdding: FC<ClientPaymentAddingProps> = ({
                 type="text"
                 placeholder="Banque"
                 autoComplete="bank"
+              />
+            </div>
+            {formErrors.bank && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.bank}
+              </p>
+            )}
+          </div> */}
+
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSFormSelect
+                id="bank"
+                name="bank"
+                options={[
+                  { value: "BOA", label: "BOA" },
+                  { value: "UBA", label: "UBA" },
+                  { value: "Ecobank", label: "Ecobank" },
+                  { value: "NSIA", label: "NSIA" },
+                  { value: "SGB", label: "SGB" },
+                  { value: "BGFI", label: "BGFI" },
+                ]}
+                selectedOption={formData.bank}
+                onChange={onCategorieSelectChange}
               />
             </div>
             {formErrors.bank && (

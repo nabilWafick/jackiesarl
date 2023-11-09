@@ -60,6 +60,14 @@ const useClientCheckRemittanceUpdateForm = (
     });
   };
 
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const onTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
 
@@ -187,6 +195,7 @@ const useClientCheckRemittanceUpdateForm = (
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onTextareaChange,
     onFormClose,
     onFormSubmit,

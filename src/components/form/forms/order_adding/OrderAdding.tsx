@@ -8,6 +8,7 @@ import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 import JSDateTimePicker from "../../widgets/DateTimePicker.widget";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import { Moment } from "moment";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface OrderAddingProps {
   clientName: string;
@@ -34,6 +35,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
     onClientNameInputDataChange,
     onOrderDateInputChange,
     onDeliveryDateInputChange,
+    onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
   } = useOrderAddingForm({
@@ -62,7 +64,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
             Commande
           </div>
 
-          <div className="pl-10 text-tableTextColor font-medium w-full block break-words">
+          <div className="pl-2 text-tableTextColor font-medium w-full block break-words">
             <ul>
               {searchedClients.map((searchedClient) => (
                 <li
@@ -91,7 +93,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
                 id="clientName"
                 type="text"
                 placeholder="Nom du Client"
-                //  autoComplete="clientName"
+                autoComplete=""
               />
             </div>
             {formErrors.clientName && (
@@ -145,7 +147,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantity.toString()}
+                value={formData.quantity}
                 name="quantity"
                 id="quantity"
                 type="text"
@@ -179,7 +181,7 @@ const OrderAdding: FC<OrderAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          {/* <div className="input-group">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -196,8 +198,26 @@ const OrderAdding: FC<OrderAddingProps> = ({
                 {formErrors.category}
               </p>
             )}
+          </div> */}
+          <div className="input-group">
+            <div className="mt-3 mb-1 w-full">
+              <JSFormSelect
+                id="category"
+                name="category"
+                options={[
+                  { value: "CIM BENIN", label: "CIM BENIN" },
+                  { value: "NOCIBE", label: "NOCIBE" },
+                ]}
+                selectedOption={formData.category}
+                onChange={onCategorieSelectChange}
+              />
+            </div>
+            {formErrors.category && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.category}
+              </p>
+            )}
           </div>
-
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
               type="button"

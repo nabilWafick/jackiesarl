@@ -66,6 +66,13 @@ const useClientPaymentAddingForm = ({
       [name]: value,
     });
   };
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
     const selectedFiles = e.target.files;
@@ -224,6 +231,7 @@ const useClientPaymentAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFileInputChange,
     onFormClose,
     onFormSubmit,

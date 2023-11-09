@@ -1,45 +1,45 @@
-export interface TotalPaiementsJournaliers {
+export type TotalPaiementsJournaliers = {
   jour: string;
   total_paiement: number;
-}
+};
 
-export interface TotalClientsInscritsQuotidiens {
+export type TotalClientsInscritsQuotidiens = {
   total_clients_incrits: number;
-}
+};
 
-export interface TotalVenteQuotidienne {
+export type TotalVenteQuotidienne = {
   total_vente: 0;
-}
+};
 
-export interface TotalAchatsEntrepriseQuotidiens {
+export type TotalAchatsEntrepriseQuotidiens = {
   categorie: string;
   total_achat: number;
-}
+};
 
-export interface TotalCommandesNonTraiteesQuotidiennes {
+export type TotalCommandesNonTraiteesQuotidiennes = {
   categorie: string;
   total_commande_non_traitee: number;
-}
+};
 
-export interface TotalCommandesTraiteesQuotidiennes {
+export type TotalCommandesTraiteesQuotidiennes = {
   categorie: string;
   total_commande_traitee: number;
-}
+};
 
-export interface TotalPaiementsBanquesQuotidiens {
+export type TotalPaiementsBanquesQuotidiens = {
   banque: string;
   total_paiement: number;
-}
+};
 
-export interface TotalStocksBonCommandeQuotidiens {
+export type TotalStocksBonCommandeQuotidiens = {
   categorie: string;
   total_stock_restant: number;
-}
+};
 
-export interface TotalAvancesCreancesQuotidiennes {
+export type TotalAvancesCreancesQuotidiennes = {
   total_avances: number;
   total_creances: number;
-}
+};
 
 export class TableBord {
   statistiquePaiementsHebdomadaires: TotalPaiementsJournaliers[];

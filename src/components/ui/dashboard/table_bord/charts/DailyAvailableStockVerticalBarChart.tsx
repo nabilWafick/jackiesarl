@@ -8,7 +8,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import useDashBoardStore from "../../store/table_bord/useTableBord.store";
+import useDashBoardStore from "../../../../../store/table_bord/useTableBord.store";
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +24,7 @@ const options = {
   plugins: {},
 };
 
-export function VerticalBarChart() {
+export function DailyAvailableStockVerticalBarChart() {
   const totalStocksBonCommande = useDashBoardStore(
     (state) => state.totalStocksBonCommande
   );

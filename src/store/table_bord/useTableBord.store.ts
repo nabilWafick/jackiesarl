@@ -21,7 +21,7 @@ interface DashBoardStore {
   totalVente: TotalVenteQuotidienne;
   totalAchatsEntreprise: TotalAchatsEntrepriseQuotidiens[];
   totalCommandesNonTraitees: TotalCommandesNonTraiteesQuotidiennes[];
-  totalCommandesTraites: TotalCommandesTraiteesQuotidiennes[];
+  totalCommandesTraitees: TotalCommandesTraiteesQuotidiennes[];
   totalPaiementsBanques: TotalPaiementsBanquesQuotidiens[];
   totalStocksBonCommande: TotalStocksBonCommandeQuotidiens[];
   totalAvancesCreances: TotalAvancesCreancesQuotidiennes;
@@ -32,7 +32,7 @@ interface DashBoardStore {
   fetchTotalVente: (isToday: 1 | 0) => void;
   fetchTotalAchatsEntreprise: (isToday: 1 | 0) => void;
   fetchTotalCommandesNonTraitees: (isToday: 1 | 0) => void;
-  fetchTotalCommandesTraites: (isToday: 1 | 0) => void;
+  fetchTotalCommandesTraitees: (isToday: 1 | 0) => void;
   fetchTotalPaiementsBanques: (isToday: 1 | 0) => void;
   fetchTotalStocksBonCommande: (isToday: 1 | 0) => void;
   fetchTotalAvancesCreances: (isToday: 1 | 0) => void;
@@ -43,14 +43,104 @@ const useDashBoardStore = create<DashBoardStore>()(
   persist(
     (set, get) => ({
       isToday: 1,
-      statistiquePaiementsHebdomadaires: [],
+      statistiquePaiementsHebdomadaires: [
+        {
+          jour: "",
+          total_paiement: 0,
+        },
+        {
+          jour: "",
+          total_paiement: 0,
+        },
+        {
+          jour: "",
+          total_paiement: 0,
+        },
+        {
+          jour: "",
+          total_paiement: 0,
+        },
+        {
+          jour: "",
+          total_paiement: 0,
+        },
+        {
+          jour: "",
+          total_paiement: 0,
+        },
+        {
+          jour: "",
+          total_paiement: 0,
+        },
+      ],
       totalClientsIncrits: { total_clients_incrits: 0 },
       totalVente: { total_vente: 0 },
-      totalAchatsEntreprise: [],
-      totalCommandesNonTraitees: [],
-      totalCommandesTraites: [],
-      totalPaiementsBanques: [],
-      totalStocksBonCommande: [],
+      totalAchatsEntreprise: [
+        {
+          categorie: "",
+          total_achat: 0,
+        },
+        {
+          categorie: "",
+          total_achat: 0,
+        },
+      ],
+      totalCommandesNonTraitees: [
+        {
+          categorie: "",
+          total_commande_non_traitee: 0,
+        },
+        {
+          categorie: "",
+          total_commande_non_traitee: 0,
+        },
+      ],
+      totalCommandesTraitees: [
+        {
+          categorie: "",
+          total_commande_traitee: 0,
+        },
+        {
+          categorie: "",
+          total_commande_traitee: 0,
+        },
+      ],
+      totalPaiementsBanques: [
+        {
+          banque: "",
+          total_paiement: 0,
+        },
+        {
+          banque: "",
+          total_paiement: 0,
+        },
+        {
+          banque: "",
+          total_paiement: 0,
+        },
+        {
+          banque: "",
+          total_paiement: 0,
+        },
+        {
+          banque: "",
+          total_paiement: 0,
+        },
+        {
+          banque: "",
+          total_paiement: 0,
+        },
+      ],
+      totalStocksBonCommande: [
+        {
+          categorie: "",
+          total_stock_restant: 0,
+        },
+        {
+          categorie: "",
+          total_stock_restant: 0,
+        },
+      ],
       totalAvancesCreances: { total_avances: 0, total_creances: 0 },
       isLoading: false,
 
@@ -61,7 +151,7 @@ const useDashBoardStore = create<DashBoardStore>()(
           state.fetchTotalVente(isToday);
           state.fetchTotalAchatsEntreprise(isToday);
           state.fetchTotalCommandesNonTraitees(isToday);
-          state.fetchTotalCommandesTraites(isToday);
+          state.fetchTotalCommandesTraitees(isToday);
           state.fetchTotalPaiementsBanques(isToday);
           state.fetchTotalStocksBonCommande(isToday);
           state.fetchTotalAvancesCreances(isToday);
@@ -72,6 +162,7 @@ const useDashBoardStore = create<DashBoardStore>()(
       fetchStatistiquePaiementsHebdomadaires: async () => {
         const statistiquePaiementsHebdomadairesData =
           await TableBordAPI.getWeekDailyPayments();
+
         set(() => ({
           statistiquePaiementsHebdomadaires:
             statistiquePaiementsHebdomadairesData,
@@ -94,14 +185,16 @@ const useDashBoardStore = create<DashBoardStore>()(
       fetchTotalCommandesNonTraitees: async (isToday: 1 | 0) => {
         const totalCommandesNonTraiteesData =
           await TableBordAPI.getDailyUntraitedOrdersTotal(isToday);
+
         set(() => ({
           totalCommandesNonTraitees: totalCommandesNonTraiteesData,
         }));
       },
-      fetchTotalCommandesTraites: async (isToday: 1 | 0) => {
-        const totalCommandesTraitesData =
+      fetchTotalCommandesTraitees: async (isToday: 1 | 0) => {
+        const totalCommandesTraiteesData =
           await TableBordAPI.getDailyTraitedOrdersTotal(isToday);
-        set(() => ({ totalCommandesTraites: totalCommandesTraitesData }));
+
+        set(() => ({ totalCommandesTraitees: totalCommandesTraiteesData }));
       },
       fetchTotalPaiementsBanques: async (isToday: 1 | 0) => {
         const totalPaiementsBanquesData =

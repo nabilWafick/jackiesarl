@@ -140,14 +140,19 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.bank}
-                name="bank"
+              <JSFormSelect
                 id="bank"
-                type="text"
-                placeholder="Banque"
-                autoComplete="bank"
+                name="bank"
+                options={[
+                  { value: "BOA", label: "BOA" },
+                  { value: "UBA", label: "UBA" },
+                  { value: "Ecobank", label: "Ecobank" },
+                  { value: "NSIA", label: "NSIA" },
+                  { value: "SGB", label: "SGB" },
+                  { value: "BGFI", label: "BGFI" },
+                ]}
+                selectedOption={formData.bank}
+                onChange={onCategorieSelectChange}
               />
             </div>
             {formErrors.bank && (

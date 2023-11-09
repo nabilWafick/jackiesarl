@@ -6,6 +6,7 @@ import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 import useClientPaymentValidationUpdateForm from "../../../../hooks/forms/client_payment_validation_update/useClientPaymentValidationUpdateForm";
 import useClientsStore from "../../../../store/clients/useClients.store";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface ClientPaymentValidationUpdateProps {
   id: number;
@@ -37,6 +38,7 @@ const ClientPaymentValidationUpdate: FC<ClientPaymentValidationUpdateProps> = ({
     formErrors,
     onInputDataChange,
     onClientNameInputDataChange,
+    onCategorieSelectChange,
     updateClientNameFormData,
     onFileInputChange,
     onFormClose,
@@ -173,14 +175,19 @@ const ClientPaymentValidationUpdate: FC<ClientPaymentValidationUpdateProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.bank}
-                name="bank"
+              <JSFormSelect
                 id="bank"
-                type="text"
-                placeholder="Banque"
-                autoComplete="bank"
+                name="bank"
+                options={[
+                  { value: "BOA", label: "BOA" },
+                  { value: "UBA", label: "UBA" },
+                  { value: "Ecobank", label: "Ecobank" },
+                  { value: "NSIA", label: "NSIA" },
+                  { value: "SGB", label: "SGB" },
+                  { value: "BGFI", label: "BGFI" },
+                ]}
+                selectedOption={formData.bank}
+                onChange={onCategorieSelectChange}
               />
             </div>
             {formErrors.bank && (

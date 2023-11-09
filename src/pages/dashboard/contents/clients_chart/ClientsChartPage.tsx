@@ -1,6 +1,6 @@
 import { BiArrowBack } from "react-icons/bi";
 import { FaArrowRight, FaCalendar } from "react-icons/fa";
-import { LineBarChart } from "../../../../pages_/charts/LineBarChart";
+import { DailyPaymentsLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailyPaymentsLineBarChart";
 import { Link } from "react-router-dom";
 
 const ClientsChartPage = () => {
@@ -23,7 +23,7 @@ const ClientsChartPage = () => {
       </div>
 
       <div className="h-[400px] w-full my-3 flex justify-center">
-        <LineBarChart />
+        <DailyPaymentsLineBarChart />
       </div>
 
       <Link

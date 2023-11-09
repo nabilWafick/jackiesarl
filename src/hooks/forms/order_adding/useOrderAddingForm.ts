@@ -106,6 +106,14 @@ const useOrderAddingForm = ({
     });
   };
 
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const validateForm = () => {
     const errors: FormErrors = {
       clientName: null,
@@ -254,6 +262,7 @@ const useOrderAddingForm = ({
     onClientNameInputDataChange,
     onOrderDateInputChange,
     onDeliveryDateInputChange,
+    onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
   };

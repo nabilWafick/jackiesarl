@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import useDashBoardStore from "../../store/table_bord/useTableBord.store";
+import useDashBoardStore from "../../../../../store/table_bord/useTableBord.store";
 
 ChartJS.register(
   CategoryScale,
@@ -26,24 +26,25 @@ const options = {
   plugins: {},
 };
 
-export function LineBarChart() {
+export function DailyPaymentsLineBarChart() {
   const statistiquePaiementsHebdomadaires = useDashBoardStore(
     (state) => state.statistiquePaiementsHebdomadaires
   );
 
-  const days = statistiquePaiementsHebdomadaires.map((data) => data.jour);
-  //  ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  const labels = statistiquePaiementsHebdomadaires.map((data) => data.jour);
+
   const payments = statistiquePaiementsHebdomadaires.map(
     (data) => data.total_paiement
   );
+
   const data = {
-    days,
+    labels,
     datasets: [
       {
         label: "Transactions",
         data: payments,
         borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "#D55F5A", //"rgba(255, 99, 132, 0.5)",
+        backgroundColor: "#D55F5A", //"rgba(255, 99, 132, 1)",
       },
     ],
   };

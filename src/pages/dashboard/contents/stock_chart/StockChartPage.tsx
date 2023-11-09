@@ -1,5 +1,5 @@
 import { FaCalendar } from "react-icons/fa";
-import { LineBarChart } from "../../../../pages_/charts/LineBarChart";
+import { DailyPaymentsLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailyPaymentsLineBarChart";
 
 const StockChartsPage = () => {
   return (
@@ -12,7 +12,7 @@ const StockChartsPage = () => {
           </div>
         </div>
         <div className="h-[400px] w-full my-3 flex justify-center object-cover">
-          <LineBarChart />
+          <DailyPaymentsLineBarChart />
         </div>
       </div>
       <div className="my-5">
@@ -23,7 +23,7 @@ const StockChartsPage = () => {
           </div>
         </div>
         <div className="h-[400px] w-full my-3 flex justify-center">
-          <LineBarChart />
+          <DailyPaymentsLineBarChart />
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface ClientCheckRemittanceAddingProps {
   description: string;
@@ -24,6 +25,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onTextareaChange,
     onFormClose,
     onFormSubmit,
@@ -63,14 +65,19 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.bank}
-                name="bank"
+              <JSFormSelect
                 id="bank"
-                type="text"
-                placeholder="Banque"
-                autoComplete="bank"
+                name="bank"
+                options={[
+                  { value: "BOA", label: "BOA" },
+                  { value: "UBA", label: "UBA" },
+                  { value: "Ecobank", label: "Ecobank" },
+                  { value: "NSIA", label: "NSIA" },
+                  { value: "SGB", label: "SGB" },
+                  { value: "BGFI", label: "BGFI" },
+                ]}
+                selectedOption={formData.bank}
+                onChange={onCategorieSelectChange}
               />
             </div>
             {formErrors.bank && (
