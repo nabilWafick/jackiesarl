@@ -8,6 +8,7 @@ import JSDateTimePicker from "../../widgets/DateTimePicker.widget";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import useOrderUpdateForm from "../../../../hooks/forms/order_update/useOrderUpdateForm";
 import { Moment } from "moment";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface OrderUpdateProps {
   id: number;
@@ -36,6 +37,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     updateClientNameFormData,
     onClientNameInputDataChange,
     onOrderDateInputChange,
@@ -232,14 +234,15 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.category}
-                name="category"
+              <JSFormSelect
                 id="category"
-                type="text"
-                placeholder="Catégorie"
-                autoComplete="category"
+                name="category"
+                options={[
+                  { value: "CIM BENIN", label: "CIM BENIN" },
+                  { value: "NOCIBE", label: "NOCIBE" },
+                ]}
+                selectedOption={formData.category}
+                onChange={onCategorieSelectChange}
               />
             </div>
             {formErrors.category && (

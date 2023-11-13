@@ -1,6 +1,8 @@
 import { FaFileUpload } from "react-icons/fa";
 import Rapports from "../../../../models/rapports/rapports.model";
 import { FC } from "react";
+//import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+//import { toggleModal } from "../widgets/ToggleModal";
 
 interface RapportFileUploadedCardProps {
   rapport: Rapports;
@@ -9,7 +11,9 @@ interface RapportFileUploadedCardProps {
 const RapportFileUploadedCard: FC<RapportFileUploadedCardProps> = ({
   rapport,
 }) => {
-  const date = new Date(rapport.date_envoi!); // Créez une instance de Date avec la date actuelle
+  // const setFileLink = useInterfacesStore((state) => state.setFileLink);
+
+  const date = new Date(rapport.date_envoi!);
 
   const date_envoi = date.toLocaleDateString("fr-FR", {
     year: "numeric",
@@ -27,14 +31,14 @@ const RapportFileUploadedCard: FC<RapportFileUploadedCardProps> = ({
         <h2 className=" text-sm font-semibold">Rapport uploadé</h2>
         <h3 className="text-xs my-1 font-light">le {date_envoi}</h3>
         <a
-          className="flex items-center"
+          className="flex items-center hover:cursor-pointer"
           // href="https://images.freeimages.com/images/large-previews/add/golden-gate-1471075.jpg"
-          href={"http://127.0.0.1:7000/uploads/test.png"}
+          href={rapport.rapport as string}
           target="_blank"
-          download
+          download={true}
         >
           <div className=" bg-secondary text-white text-[10px] px-[10px] py-[3px] hover:border-none rounded-sm">
-            Télécharger
+            Afficher
           </div>
         </a>
       </div>

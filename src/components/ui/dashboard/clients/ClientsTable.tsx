@@ -2,6 +2,9 @@ import { FC } from "react";
 import Clients from "../../../../models/clients/clients.model";
 import { Link } from "react-router-dom";
 import useClientsStore from "../../../../store/clients/useClients.store";
+import { toggleModal } from "../widgets/ToggleModal";
+import { FaEdit } from "react-icons/fa";
+import ClientUpdate from "../../../form/forms/client_update/ClientUpdate";
 
 interface ClientsTableProps {
   clientsList: Clients[];
@@ -18,6 +21,7 @@ const ClientsTable: FC<ClientsTableProps> = ({ clientsList }) => {
             <td className="font-medium">Numero IFU</td>
             <td className="font-medium">Numero de telephone</td>
             <td className="font-medium">Adresse Email</td>
+            <td className="font-medium"></td>
           </tr>
 
           {clientsList.map((client) => {
@@ -58,6 +62,26 @@ const ClientsTable: FC<ClientsTableProps> = ({ clientsList }) => {
                   >
                     {client.email}
                   </Link>
+                </td>
+                <td>
+                  <ClientUpdate
+                    key={Date.now() + client.id!}
+                    id={client.id!}
+                    firstname={client.prenoms}
+                    lastname={client.nom}
+                    ifuNumber={client.numero_ifu.toString()}
+                    phoneNumber={client.numero_telephone}
+                    email={client.email ?? undefined}
+                    modalLabel={`client-update-form-${client.id}`}
+                  />
+                  <center>
+                    <FaEdit
+                      color="green"
+                      onClick={() => {
+                        toggleModal(`client-update-form-${client.id}`);
+                      }}
+                    />
+                  </center>
                 </td>
               </tr>
             );

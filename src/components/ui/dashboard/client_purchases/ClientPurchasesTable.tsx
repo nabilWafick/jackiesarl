@@ -6,6 +6,7 @@ import ClientPurchaseUpdate from "../../../form/forms/client_purchase_update/Cli
 import AchatClientAPI from "../../../../api/achat_client/achat_client.api";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useClientPurchasesStore from "../../../../store/achat_client/useAchatClient.store";
+import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface ClientPurchasesTableProps {
   clientPurchases: AchatClient[];
@@ -14,16 +15,13 @@ interface ClientPurchasesTableProps {
 const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
   clientPurchases,
 }) => {
-  const openSlipFile = (file: string) => {
-    try {
-      window.open(file, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
+  const setFileLink = useInterfacesStore((state) => state.setFileLink);
   const fetchAllClientPurchases = useClientPurchasesStore(
     (state) => state.fetchAllClientPurchases
   );
@@ -62,19 +60,26 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                     {clientPurchase.bordereau == "" ? (
                       ""
                     ) : (
-                      <FaFile
-                        className="text-secondary"
-                        onClick={() =>
-                          openSlipFile(clientPurchase.bordereau.toString())
-                        }
-                      />
+                      <a
+                        href={clientPurchase.bordereau as string}
+                        target="_blank"
+                        download={true}
+                      >
+                        <FaFile
+                          className="text-secondary"
+                          onClick={() => {
+                            setFileLink(clientPurchase.bordereau as string);
+                            toggleModal("file-shower");
+                          }}
+                        />
+                      </a>
                     )}
                   </td>
 
                   <td>
                     <div>
                       <ClientPurchaseUpdate
-                        key={clientPurchase.id!}
+                        key={Date.now() + clientPurchase.id!}
                         id={clientPurchase.id!}
                         quantity={clientPurchase.quantite_achetee.toString()}
                         //  category={clientPurchase.categorie}
@@ -102,6 +107,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                         color="red"
                         onClick={async () => {
                           const response = await AchatClientAPI.delete(
+                            authenticatedEmploye!,
                             clientPurchase.id!
                           );
                           if (response!.status == 204) {
@@ -110,10 +116,22 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                             );
                             fetchAllClientPurchases(clientPurchase.id_client);
                             toggleModal("action-result-message");
+                          } else if (response!.status == 401) {
+                            setActionResultMessage(
+                              `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                            );
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 403) {
+                            setActionResultMessage(response!.error);
+
+                            toggleModal("action-result-message");
                           } else if (response!.status == 404) {
                             setActionResultMessage(
                               "L'achat du client n'a pas été trouvé"
                             );
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 406) {
+                            setActionResultMessage(response!.error!);
                             toggleModal("action-result-message");
                           } else {
                             setActionResultMessage(

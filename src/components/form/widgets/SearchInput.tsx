@@ -13,7 +13,7 @@ const JSSearchInput: FC<JSSearchInputProps> = () => {
       placeholder="Rechercher un client"
       value={searchInputData}
       onChange={onSearchInputDataChange}
-      className={`w-full h-full shadow-sm rounded-md bg-white border-[2px] border-secondary focus:outline-none focus:border-[3px] px-2`}
+      className={`w-full h-full shadow-sm rounded-md bg-white border-[2px] border-secondary focus:outline-none focus:border-[3px] px-2 z-[999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999]`}
     />
   );
 };

@@ -6,6 +6,7 @@ import TruckStockUpadate from "../../../form/forms/truck_stock_update/TruckStock
 import { toggleModal } from "../widgets/ToggleModal";
 import useTrucksStockStore from "../../../../store/stock_camion/useStockCamion.store";
 import StockCamionAPI from "../../../../api/stock_camion/stock_camion.api";
+import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface TruckStockTableProps {
   trucksStock: StockCamion[];
@@ -14,6 +15,9 @@ interface TruckStockTableProps {
 const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
+  );
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
   );
 
   const fetchAllTruckStock = useTrucksStockStore(
@@ -50,6 +54,7 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
                   <td>
                     <div>
                       <TruckStockUpadate
+                        key={Date.now() + truckStock.id!}
                         id={truckStock.id!}
                         truckNumber={truckStock.numero_camion}
                         category={truckStock.categorie}
@@ -76,6 +81,7 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
                         color="red"
                         onClick={async () => {
                           const response = await StockCamionAPI.delete(
+                            authenticatedEmploye!,
                             truckStock.id!
                           );
                           if (response!.status == 204) {
@@ -83,6 +89,14 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
                               "Le stock camion a été supprimé avec succès"
                             );
                             fetchAllTruckStock();
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 401) {
+                            setActionResultMessage(
+                              `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                            );
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 403) {
+                            setActionResultMessage(response!.error);
                             toggleModal("action-result-message");
                           } else if (response!.status == 404) {
                             setActionResultMessage(

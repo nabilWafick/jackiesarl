@@ -4,6 +4,7 @@ import BrouillardAPI from "../../../api/brouillard/brouillard.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useBrouillardStore from "../../../store/brouillard/useBrouillard.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   deposit: string;
@@ -38,6 +39,10 @@ const useFogAddingForm = ({
     managerName: null,
     managerNumber: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -135,6 +140,7 @@ const useFogAddingForm = ({
       });
 
       const response = await BrouillardAPI.create(
+        authenticatedEmploye!,
         new Brouillard(
           formData.deposit,
           parseFloat(formData.currentStock),
@@ -149,6 +155,18 @@ const useFogAddingForm = ({
         fetchAllBrouillard();
         setActionResultMessage("Le dépôt a été ajouté avec succès");
         console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("fog-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("fog-adding-form");
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         onFormClose();

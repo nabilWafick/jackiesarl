@@ -4,6 +4,7 @@ import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModa
 import StockCamion from "../../../models/stock_camion/stock_camion.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useTrucksStockStore from "../../../store/stock_camion/useStockCamion.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   truckNumber: string;
@@ -44,6 +45,10 @@ const useTruckStockAddingForm = ({
     quantity: null,
   });
 
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
@@ -55,6 +60,14 @@ const useTruckStockAddingForm = ({
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -150,6 +163,7 @@ const useTruckStockAddingForm = ({
       });
 
       const response = await StockCamionAPI.create(
+        authenticatedEmploye!,
         new StockCamion(
           formData.truckNumber,
           formData.category,
@@ -165,6 +179,18 @@ const useTruckStockAddingForm = ({
         fetchAllTruckStock();
         setActionResultMessage("Le stock de camion a été ajouté avec succès");
         toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("truck-stock-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("truck-stock-adding-form");
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
       } else {
         onFormClose();
         toggleModal("truck-stock-adding-form");
@@ -178,6 +204,7 @@ const useTruckStockAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
   };

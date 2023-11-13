@@ -1,5 +1,7 @@
 import axios from "axios";
 import StockBonCommande from "../../models/stock_bon_commande/stock_bon_commande.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 interface StockBonCommandePromiseResponse {
   status: number;
   stockBonCommande?: StockBonCommande;
@@ -19,16 +21,33 @@ interface StockBonCommandeJSON {
 }
 
 class StockBonCommandeAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: StockBonCommande
   ): Promise<StockBonCommandePromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: StockBonCommandePromiseResponse | undefined =
       undefined;
 
     await axios
-      .post(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande`, data.toJson())
+      .post(
+        `${StockBonCommandeAPI.baseUrl}/stock-bon-commande`,
+        data.toJson(),
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
+      )
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -70,7 +89,10 @@ class StockBonCommandeAPI {
     return stockBonCommandesList;
   }
 
-  static async update(id: number, data: StockBonCommande) {
+  // ================ Unused functions
+
+  /*
+  static async update(authenticatedEmployee: Employes,id: number, data: StockBonCommande) {
     try {
       const response = await axios.put(
         `${StockBonCommandeAPI.baseUrl}/stock-bon-commande/${id}`,
@@ -92,6 +114,7 @@ class StockBonCommandeAPI {
       console.error(error);
     }
   }
+  */
 }
 
 export default StockBonCommandeAPI;

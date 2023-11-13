@@ -6,6 +6,7 @@ import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModa
 import useClientsStore from "../../../store/clients/useClients.store";
 import useCommandesStore from "../../../store/commandes/useCommandes.store";
 import { Moment } from "moment";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   id: number;
@@ -60,6 +61,10 @@ const useOrderUpdateForm = (
     category: null,
   });
 
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const orderClient = useClientsStore((state) => state.orderClient);
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
   const fetchAllClientsOrders = useCommandesStore(
@@ -76,6 +81,14 @@ const useOrderUpdateForm = (
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -228,6 +241,7 @@ const useOrderUpdateForm = (
       });
 
       const response = await CommandesAPI.update(
+        authenticatedEmploye!,
         formData.id,
         new Commandes(
           formData.category,
@@ -244,6 +258,18 @@ const useOrderUpdateForm = (
         toggleModal(modalLabel);
         fetchAllClientsOrders();
         setActionResultMessage("La commande a été mise à jour avec succès");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();
@@ -265,10 +291,12 @@ const useOrderUpdateForm = (
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     updateClientNameFormData,
     onClientNameInputDataChange,
     onOrderDateInputChange,
     onDeliveryDateInputChange,
+
     onFormClose,
     onFormSubmit,
   };

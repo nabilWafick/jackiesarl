@@ -1,5 +1,6 @@
 import Employes from "../../models/employes/employes.model";
 import axios from "axios";
+import JSConstants from "../../utils/constants";
 
 axios.defaults.withCredentials = true;
 
@@ -37,7 +38,7 @@ interface EmployesJSON {
 */
 
 class AuthAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL; //  import.meta.env.VITE_API_BASE_URL;
 
   static async register(
     data: Employes

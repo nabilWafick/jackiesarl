@@ -1,5 +1,7 @@
 import axios from "axios";
 import Commandes from "../../models/commandes/commandes.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface CommandesPromiseResponse {
   status: number;
@@ -20,21 +22,34 @@ interface CommandesJSON {
 }
 
 class CommandesAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: Commandes
   ): Promise<CommandesPromiseResponse | undefined> {
-    let prromiseResponse: CommandesPromiseResponse | undefined = undefined;
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let promiseResponse: CommandesPromiseResponse | undefined = undefined;
     await axios
-      .post(`${CommandesAPI.baseUrl}/commandes`, data.toJson())
+      .post(`${CommandesAPI.baseUrl}/commandes`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
-        prromiseResponse = response.data;
+        promiseResponse = response.data;
       })
       .catch((error) => {
-        prromiseResponse = error.response.data;
+        promiseResponse = error.response.data;
       });
-    return prromiseResponse;
+    return promiseResponse;
   }
 
   static async getById(id: number): Promise<Commandes | undefined> {
@@ -490,34 +505,60 @@ class CommandesAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: Commandes
   ): Promise<CommandesPromiseResponse | undefined> {
-    let prromiseResponse: CommandesPromiseResponse | undefined = undefined;
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let promiseResponse: CommandesPromiseResponse | undefined = undefined;
     await axios
-      .put(`${CommandesAPI.baseUrl}/commandes/${id}`, data.toJson())
+      .put(`${CommandesAPI.baseUrl}/commandes/${id}`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
-        prromiseResponse = response.data;
+        promiseResponse = response.data;
       })
       .catch((error) => {
-        prromiseResponse = error.response.data;
+        promiseResponse = error.response.data;
       });
-    return prromiseResponse;
+    return promiseResponse;
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<CommandesPromiseResponse | undefined> {
-    let prromiseResponse: CommandesPromiseResponse | undefined = undefined;
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let promiseResponse: CommandesPromiseResponse | undefined = undefined;
     await axios
-      .delete(`${CommandesAPI.baseUrl}/commandes/${id}`)
+      .delete(`${CommandesAPI.baseUrl}/commandes/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
-        prromiseResponse = response;
+        promiseResponse = response;
       })
       .catch((error) => {
-        prromiseResponse = error.response.data;
+        promiseResponse = error.response.data;
       });
-    return prromiseResponse;
+    return promiseResponse;
   }
 }
 

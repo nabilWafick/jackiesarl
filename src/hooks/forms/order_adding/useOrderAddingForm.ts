@@ -6,6 +6,7 @@ import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModa
 import useClientsStore from "../../../store/clients/useClients.store";
 import useCommandesStore from "../../../store/commandes/useCommandes.store";
 import { Moment } from "moment";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   clientName: string;
@@ -50,6 +51,10 @@ const useOrderAddingForm = ({
     deliveryDate: null,
     category: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const orderClient = useClientsStore((state) => state.orderClient);
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
@@ -225,6 +230,7 @@ const useOrderAddingForm = ({
       });
 
       const response = await CommandesAPI.create(
+        authenticatedEmploye!,
         new Commandes(
           formData.category,
           parseFloat(formData.quantity),
@@ -240,7 +246,19 @@ const useOrderAddingForm = ({
         toggleModal("order-adding-form");
         fetchAllClientsOrders();
         setActionResultMessage("La commande a été ajoutée avec succès");
-        // console.log("Added successfuly");
+
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("order-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("order-adding-form");
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         onFormClose();

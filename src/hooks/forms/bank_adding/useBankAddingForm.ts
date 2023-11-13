@@ -4,6 +4,7 @@ import SoldeCourantAPI from "../../../api/solde_courant/solde_courant.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useSoldeCourantStore from "../../../store/solde_courant/useSoldeCourant.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   bank: string;
@@ -33,6 +34,11 @@ const useBankAddingForm = ({
     accountNumber: null,
     currentBalence: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
@@ -43,6 +49,13 @@ const useBankAddingForm = ({
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -100,13 +113,8 @@ const useBankAddingForm = ({
     e.preventDefault();
 
     if (validateForm()) {
-      setFormErrors({
-        bank: null,
-        accountNumber: null,
-        currentBalence: null,
-      });
-
       const response = await SoldeCourantAPI.create(
+        authenticatedEmploye!,
         new SoldeCourant(
           formData.bank,
           parseFloat(formData.accountNumber),
@@ -119,6 +127,23 @@ const useBankAddingForm = ({
         toggleModal("bank-adding-form");
         fetchAllSoldeCourant();
         setActionResultMessage("La banque a été ajoutée avec succès");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("bank-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("bank-adding-form");
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
+      } else if (response!.status == 406) {
+        onFormClose();
+        toggleModal("bank-adding-form");
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         onFormClose();
@@ -133,6 +158,7 @@ const useBankAddingForm = ({
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
   };

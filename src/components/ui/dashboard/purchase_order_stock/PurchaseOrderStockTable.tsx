@@ -33,7 +33,9 @@ const PurchaseOrderStockTable: FC<PurchaseOrderStockTableProps> = ({
                     {purchaseOrderStock.quantite_achetee}
                     <i> t</i>
                   </td>
-                  <td>{purchaseOrderStock.stock_initial}</td>
+                  <td>
+                    {purchaseOrderStock.stock_initial} <i> t</i>
+                  </td>
                   <td>
                     {purchaseOrderStock.stock_avant_vente}
                     <i> t</i>

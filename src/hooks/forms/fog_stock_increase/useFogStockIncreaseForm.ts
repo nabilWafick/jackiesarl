@@ -4,6 +4,7 @@ import BrouillardAPI from "../../../api/brouillard/brouillard.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useBrouillardStore from "../../../store/brouillard/useBrouillard.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   id: number;
@@ -34,6 +35,10 @@ const useFogAddingForm = (
   const [formErrors, setFormErrors] = useState<FormErrors>({
     newStock: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -94,6 +99,7 @@ const useFogAddingForm = (
       });
 
       const response = await BrouillardAPI.update(
+        authenticatedEmploye!,
         formData.id,
         1,
         new Brouillard(
@@ -110,6 +116,18 @@ const useFogAddingForm = (
         fetchAllBrouillard();
         setActionResultMessage("Le stock du dépôt a été augmenté avec succès");
         console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         onFormClose();

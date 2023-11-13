@@ -7,7 +7,7 @@ import "../../../../assets/css/table.css";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import { FC, useEffect } from "react";
 import useClientPurchasesStore from "../../../../store/achat_client/useAchatClient.store";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ClientPurchaseAdding from "../../../../components/form/forms/client_purchase_adding/ClientPurchaseAdding";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 import JSSelect from "../../../../components/form/widgets/Select.widget";
@@ -37,12 +37,13 @@ const ClientPurchasesPage: FC = () => {
   const resetDatesInterval = useClientPurchasesStore(
     (state) => state.resetDatesInterval
   );
-  if (!selectedClient) {
-    redirect("/clients");
-  }
+  const navigateTo = useNavigate();
   useEffect(() => {
+    if (selectedClient == undefined) {
+      navigateTo("/clients");
+    }
     fetchAllClientPurchases(selectedClient!.id!);
-  }, [fetchAllClientPurchases, selectedClient]);
+  }, [navigateTo, fetchAllClientPurchases, selectedClient]);
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center content-center">

@@ -14,7 +14,7 @@ interface ReportsStore {
   //   startDate: Date | Moment | undefined;
   //   endDate: Date | Moment | undefined;
   //   selectedSortOption: string;
-  fetchAllEmployeesReports: () => void;
+  fetchAllEmployeesReports: (authenticatedEmployee: Employes) => void;
   fetchAllOfEmployeeReports: (employee_id: number) => void;
   setReportSelectedEmployee: (employee: Employes) => void;
   //   onStartDateChange: (date: Date | Moment) => void;
@@ -33,11 +33,13 @@ const useReportsStore = create<ReportsStore>()(
       //   endDate: undefined,
       //   selectedSortOption: "new-to-old",
       isLoading: false,
-      fetchAllEmployeesReports: async () => {
+      fetchAllEmployeesReports: async (authenticatedEmployee: Employes) => {
         // set(() => ({ selectedClientId: clientId }));
         // const begin = get().startDate;
         // const end = get().endDate;
-        const employeesReportsList = await RapportsAPI.getAll();
+        const employeesReportsList = await RapportsAPI.getAll(
+          authenticatedEmployee
+        );
         //   begin ? begin.toLocaleString() : undefined,
         //   end ? end.toLocaleString() : undefined
         //();

@@ -5,6 +5,7 @@ import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useSoldeCourantStore from "../../../store/solde_courant/useSoldeCourant.store";
 import useActivitesBanqueStore from "../../../store/activites_banque/useActivitesBanque.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   description: string;
@@ -39,6 +40,10 @@ FormData) => {
     credit: null,
     // currentBalence: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const selectedSoldeCourant = useSoldeCourantStore(
     (state) => state.selectedSoldeCourant
@@ -149,8 +154,15 @@ FormData) => {
       if (!formData.credit) {
         formData.credit = "0";
       }
+      const errors: FormErrors = {
+        description: null,
+        debit: null,
+        credit: null,
+        //   currentBalence: null,
+      };
 
       const response = await ActivitesBanqueAPI.create(
+        authenticatedEmploye!,
         new ActivitesBanque(
           selectedSoldeCourant!.id!,
           formData.description,
@@ -169,6 +181,21 @@ FormData) => {
         );
         // console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("current-balence-details-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("current-balence-details-adding-form");
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
+      } else if (response!.status == 406) {
+        errors.credit = response!.error!;
+        setFormErrors(errors);
       } else {
         onFormClose();
         toggleModal("current-balence-details-adding-form");

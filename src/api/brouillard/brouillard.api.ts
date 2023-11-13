@@ -1,5 +1,7 @@
 import axios from "axios";
 import Brouillard from "../../models/brouillard/brouillard.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface BrouillardPromiseRsponse {
   status: number;
@@ -17,15 +19,28 @@ interface BrouillardJSON {
 }
 
 class BrouillardAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: Brouillard
   ): Promise<BrouillardPromiseRsponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: BrouillardPromiseRsponse | undefined = undefined;
 
     await axios
-      .post(`${BrouillardAPI.baseUrl}/brouillard`, data.toJson())
+      .post(`${BrouillardAPI.baseUrl}/brouillard`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -86,16 +101,30 @@ class BrouillardAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     is_current_stock_increasing: number,
     data: Brouillard
   ): Promise<BrouillardPromiseRsponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: BrouillardPromiseRsponse | undefined = undefined;
 
     await axios
       .put(
         `${BrouillardAPI.baseUrl}/brouillard/${id}/${is_current_stock_increasing}`,
-        data.toJson()
+        data.toJson(),
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         promiseResponse = response.data;
@@ -107,12 +136,25 @@ class BrouillardAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<BrouillardPromiseRsponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: BrouillardPromiseRsponse | undefined = undefined;
 
     await axios
-      .delete(`${BrouillardAPI.baseUrl}/brouillard/${id}`)
+      .delete(`${BrouillardAPI.baseUrl}/brouillard/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })

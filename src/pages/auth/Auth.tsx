@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
+import JSConstants from "../../utils/constants";
 
 interface AuthProps {
   needAuth: boolean;
@@ -23,7 +24,7 @@ const Auth: FC<AuthProps> = ({ needAuth, children }) => {
         sessionStorage.clear();
       } else {
         axios
-          .get("http://127.0.0.1:7000/api/auth/verify-authentication", {
+          .get(`${JSConstants.API_BASE_URL}/auth/verify-authentication`, {
             headers: {
               "authorization-tokens": `Bearer ${
                 authenticatedEmploye!.accessToken

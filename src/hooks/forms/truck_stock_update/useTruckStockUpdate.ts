@@ -4,6 +4,7 @@ import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModa
 import StockCamion from "../../../models/stock_camion/stock_camion.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useTrucksStockStore from "../../../store/stock_camion/useStockCamion.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   id: number;
@@ -43,6 +44,10 @@ const useTruckStockUpdateForm = (
     quantity: null,
   });
 
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
@@ -53,6 +58,14 @@ const useTruckStockUpdateForm = (
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const onCategorieSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -149,6 +162,7 @@ const useTruckStockUpdateForm = (
       });
 
       const response = await StockCamionAPI.update(
+        authenticatedEmploye!,
         formData.id!,
         new StockCamion(
           formData.truckNumber,
@@ -166,7 +180,18 @@ const useTruckStockUpdateForm = (
         setActionResultMessage(
           "Le stock de camion a été mis à jour avec succès"
         );
-
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();
@@ -188,6 +213,7 @@ const useTruckStockUpdateForm = (
     formData,
     formErrors,
     onInputDataChange,
+    onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
   };

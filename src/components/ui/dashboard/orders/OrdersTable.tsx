@@ -7,12 +7,17 @@ import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useCommandesStore from "../../../../store/commandes/useCommandes.store";
 import CommandesAPI from "../../../../api/commandes/commandes.api";
 import Commandes from "../../../../models/commandes/commandes.model";
+import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface OrdersTableProps {
   orders: Commandes[];
 }
 
 const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -23,6 +28,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
 
   const updateOrderDeliveryStatus = async (order: Commandes) => {
     const response = await CommandesAPI.update(
+      authenticatedEmploye!,
       order.id!,
       new Commandes(
         order.categorie,
@@ -37,6 +43,14 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
     if (response!.status == 200) {
       fetchAllClientsOrders();
       setActionResultMessage("La commande a été mise à jour avec succès");
+      toggleModal("action-result-message");
+    } else if (response!.status == 401) {
+      setActionResultMessage(
+        `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+      );
+      toggleModal("action-result-message");
+    } else if (response!.status == 403) {
+      setActionResultMessage(response!.error);
       toggleModal("action-result-message");
     } else if (response!.status == 404) {
       setActionResultMessage("La commande n'a pas été trouvée");
@@ -75,8 +89,20 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                   <i> t</i>
                 </td>
                 <td>{order.destination}</td>
-                <td>{order.date_commande.toLocaleString()}</td>
-                <td>{order.date_livraison.toLocaleString()}</td>
+                <td>
+                  {order.date_commande.toLocaleDateString("fr-FR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </td>
+                <td>
+                  {order.date_livraison.toLocaleDateString("fr-FR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </td>
                 <td>{order.categorie}</td>
                 <td className="">
                   {order.est_traitee == 1 ? (
@@ -99,10 +125,11 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 </td>
                 <td>
                   <OrderUpdate
+                    key={Date.now() + order.id!}
                     id={order.id!}
                     clientName={`${order.client!.prenoms} ${order.client!.nom}`}
                     quantity={order.quantite_achetee.toString()}
-                    destination={order.categorie}
+                    destination={order.destination}
                     orderDate={order.date_commande}
                     deliveryDate={order.date_livraison}
                     category={order.categorie}
@@ -124,13 +151,24 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                     <FaTrash
                       color="red"
                       onClick={async () => {
-                        const response = await CommandesAPI.delete(order.id!);
+                        const response = await CommandesAPI.delete(
+                          authenticatedEmploye!,
+                          order.id!
+                        );
                         if (response!.status == 204) {
                           setActionResultMessage(
                             "La commande a été supprimée avec succès"
                           );
                           toggleModal("action-result-message");
                           fetchAllClientsOrders();
+                        } else if (response!.status == 401) {
+                          setActionResultMessage(
+                            `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                          );
+                          toggleModal("action-result-message");
+                        } else if (response!.status == 403) {
+                          setActionResultMessage(response!.error);
+                          toggleModal("action-result-message");
                         } else if (response!.status == 404) {
                           setActionResultMessage(
                             "La commande n'a pas été trouvée"

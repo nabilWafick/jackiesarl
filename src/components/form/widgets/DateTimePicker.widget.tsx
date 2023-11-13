@@ -33,7 +33,7 @@ const JSDateTimePicker: FC<JSDateTimePickerProps> = ({
             onDateChange(date);
           }
         }}
-        locale="fr"
+        locale="fr-FR"
         inputProps={{
           id: id,
           name: name,

@@ -103,7 +103,7 @@ const useLoginForm = ({ email, password }: FormData) => {
       } else if (response!.status == 202) {
         setActionResultMessage(`Bienvenue M./Mme ${response!.employe!.nom}`);
         toggleModal("action-result-message");
-        console.log("authenticated Employee", response!.employe!);
+        //console.log("authenticated Employee", response!.employe!);
         setAuthenticatedEmploye(response!.employe!);
         setTimeout(() => {
           navigateTo("/");

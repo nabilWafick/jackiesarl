@@ -1,6 +1,8 @@
 import axios from "axios";
 import Clients from "../../models/clients/clients.model";
 import Rapports from "../../models/rapports/rapports.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface RapportsPromiseResponse {
   status: number;
@@ -16,17 +18,27 @@ interface RapportsJSON {
 }
 
 class RapportsAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: Rapports
   ): Promise<RapportsPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: RapportsPromiseResponse | undefined = undefined;
 
     await axios
-      .post(`${RapportsAPI.baseUrl}/rapports`, data.toJson(), {
+      .post(`${RapportsAPI.baseUrl}/rapports`, data, {
         headers: {
-          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          "Content-Type": "multipart/form-data",
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
       .then((response) => {
@@ -39,10 +51,25 @@ class RapportsAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<RapportsJSON | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<RapportsJSON | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let rapport: RapportsJSON | undefined;
     await axios
-      .get(`${RapportsAPI.baseUrl}/rapport/${id}`)
+      .get(`${RapportsAPI.baseUrl}/rapport/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         console.log(response.data);
         rapport = response.data;
@@ -53,10 +80,22 @@ class RapportsAPI {
     return rapport;
   }
 
-  static async getAll(): Promise<Rapports[]> {
+  static async getAll(authenticatedEmployee: Employes): Promise<Rapports[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let rapportsList: Rapports[] = [];
     await axios
-      .get(`${RapportsAPI.baseUrl}/rapports`)
+      .get(`${RapportsAPI.baseUrl}/rapports`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         rapportsList = response.data;
       })
@@ -82,15 +121,25 @@ class RapportsAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: Rapports
   ): Promise<RapportsPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: RapportsPromiseResponse | undefined = undefined;
 
     await axios
       .put(`${RapportsAPI.baseUrl}/rapports/${id}`, data.toJson(), {
         headers: {
-          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          "Content-Type": "multipart/form-data",
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
       .then((response) => {
@@ -104,12 +153,25 @@ class RapportsAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<RapportsPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: RapportsPromiseResponse | undefined = undefined;
 
     await axios
-      .post(`${RapportsAPI.baseUrl}/rapports/${id}`)
+      .post(`${RapportsAPI.baseUrl}/rapports/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })

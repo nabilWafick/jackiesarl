@@ -30,6 +30,7 @@ const useDepensesValidationStore = create<DepensesValidationStore>()(
       endDate: undefined,
       selectedSortOption: "new-to-old",
       fetchAllDepenses: async () => {
+        //    console.log("fetching data");
         const begin = get().startDate;
         const end = get().endDate;
         const depensesList: Depenses[] = await DepensesAPI.getAll(

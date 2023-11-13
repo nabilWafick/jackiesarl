@@ -8,7 +8,7 @@ interface EmployesStore {
   employes: Employes[];
   selectedEmploye: Employes | undefined;
   isLoading: boolean;
-  fetchAllEmployes: () => void;
+  fetchAllEmployes: (authenticatedEmployee: Employes) => void;
   setSelectedEmployee: (employe: Employes) => void;
 }
 
@@ -18,8 +18,10 @@ const useEmployesStore = create<EmployesStore>()(
       employes: [],
       selectedEmploye: undefined,
       isLoading: false,
-      fetchAllEmployes: async () => {
-        const employeesList: Employes[] = await EmployesAPI.getAll();
+      fetchAllEmployes: async (authenticatedEmployee: Employes) => {
+        const employeesList: Employes[] = await EmployesAPI.getAll(
+          authenticatedEmployee
+        );
         set(() => ({ employes: employeesList }));
       },
       setSelectedEmployee: (employe) => {

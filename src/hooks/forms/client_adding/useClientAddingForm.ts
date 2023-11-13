@@ -4,6 +4,7 @@ import Clients from "../../../models/clients/clients.model";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useClientsStore from "../../../store/clients/useClients.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   firstname: string;
@@ -43,6 +44,10 @@ const useClientAddingForm = ({
     ifuNumber: null,
     email: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   // const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -141,6 +146,7 @@ const useClientAddingForm = ({
       };
       //  let exist = false;
       const response = await ClientsAPI.create(
+        authenticatedEmploye!,
         new Clients(
           formData.lastname,
           formData.firstname,
@@ -152,7 +158,7 @@ const useClientAddingForm = ({
         )
       );
 
-      if (response!.status == 400) {
+      if (response!.status == 406) {
         errors.firstname = response!.errors!.firstname;
         errors.lastname = response!.errors!.lastname;
         errors.phoneNumber = response!.errors!.phoneNumber;
@@ -164,6 +170,18 @@ const useClientAddingForm = ({
         toggleModal("client-adding-form");
         fetchAllClients();
         setActionResultMessage("Le client a été ajouté avec succès");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("client-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("client-adding-form");
+        setActionResultMessage(response!.error!);
         toggleModal("action-result-message");
       } else {
         onFormClose();

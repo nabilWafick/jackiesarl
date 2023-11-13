@@ -1,5 +1,7 @@
 import axios from "axios";
 import SoldeCourant from "../../models/solde_courant/solde_courant.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface SoldeCourantPromiserResponse {
   status: number;
@@ -16,14 +18,27 @@ interface SoldeCourantJSON {
 }
 
 class SoldeCourantAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: SoldeCourant
   ): Promise<SoldeCourantPromiserResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: SoldeCourantPromiserResponse | undefined = undefined;
     await axios
-      .post(`${SoldeCourantAPI.baseUrl}/solde-courant`, data.toJson())
+      .post(`${SoldeCourantAPI.baseUrl}/solde-courant`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -46,13 +61,12 @@ class SoldeCourantAPI {
     return soldeCourant;
   }
 
-  static async getAll(
-    startDate: string | undefined,
-    endDate: string | undefined
-  ): Promise<SoldeCourant[]> {
+  static async getAll(): //  startDate: string | undefined,
+  //  endDate: string | undefined
+  Promise<SoldeCourant[]> {
     let soldeCourantsList: SoldeCourant[] = [];
 
-    if (!startDate || !endDate) {
+    /* if (!startDate || !endDate) {
       await axios
         .get(`${SoldeCourantAPI.baseUrl}/soldes-courants`)
         .then((response) => {
@@ -66,12 +80,10 @@ class SoldeCourantAPI {
           return [] as SoldeCourant[];
         });
       return soldeCourantsList;
-    }
+    }*/
 
     await axios
-      .get(
-        `${SoldeCourantAPI.baseUrl}/soldes-courants-default/${startDate}/${endDate}`
-      )
+      .get(`${SoldeCourantAPI.baseUrl}/soldes-courants`)
       .then((response) => {
         soldeCourantsList = response.data.map(
           (soldeCourant: SoldeCourantJSON) =>
@@ -86,12 +98,25 @@ class SoldeCourantAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: SoldeCourant
   ): Promise<SoldeCourantPromiserResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: SoldeCourantPromiserResponse | undefined = undefined;
     await axios
-      .put(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, data.toJson())
+      .put(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -102,11 +127,24 @@ class SoldeCourantAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<SoldeCourantPromiserResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: SoldeCourantPromiserResponse | undefined = undefined;
     await axios
-      .post(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`)
+      .post(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response;
       })

@@ -2,7 +2,7 @@ import { FC } from "react";
 
 interface JsButtonProps {
   name: string;
-  type: "submit" | "button" | undefined;
+  type?: "submit" | "button" | undefined;
   enable?: boolean;
   onClick?: () => void;
 }

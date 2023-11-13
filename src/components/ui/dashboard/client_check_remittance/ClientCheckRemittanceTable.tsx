@@ -7,6 +7,7 @@ import RemiseChequeClientAPI from "../../../../api/remise_cheque_client/remise_c
 import useClientChecksRemittanceStore from "../../../../store/remise_cheque_client/useRemiseChequeClient.store";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useClientsStore from "../../../../store/clients/useClients.store";
+import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface ClientChecksRemittanceTableProps {
   clientChecksRemittance: RemiseChequeClient[];
@@ -24,9 +25,13 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
   );
 
   const selectedClient = useClientsStore((state) => state.selectedClient);
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const updateCheckValidationStatus = async (check: RemiseChequeClient) => {
     const response = await RemiseChequeClientAPI.update(
+      authenticatedEmploye!,
       check.id!,
       new RemiseChequeClient(
         check.description,
@@ -44,6 +49,14 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
       );
       toggleModal("action-result-message");
       fetchAllClientChecksRemittance(selectedClient!.id!);
+    } else if (response!.status == 401) {
+      setActionResultMessage(
+        `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+      );
+      toggleModal("action-result-message");
+    } else if (response!.status == 403) {
+      setActionResultMessage(response!.error!);
+      toggleModal("action-result-message");
     } else if (response!.status == 404) {
       setActionResultMessage(
         "La remise de chèque du client n'a pas été trouvé"
@@ -108,6 +121,7 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
                 <td>
                   <div>
                     <ClientCheckRemittanceUpdate
+                      key={Date.now() + clientCheckRemittance.id!}
                       id={clientCheckRemittance.id!}
                       description={clientCheckRemittance.description}
                       bank={clientCheckRemittance.banque}
@@ -134,6 +148,7 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
                       color="red"
                       onClick={async () => {
                         const response = await RemiseChequeClientAPI.delete(
+                          authenticatedEmploye!,
                           clientCheckRemittance.id!
                         );
 
@@ -145,6 +160,14 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
                           fetchAllClientChecksRemittance(
                             clientCheckRemittance.id_client
                           );
+                        } else if (response!.status == 401) {
+                          setActionResultMessage(
+                            `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                          );
+                          toggleModal("action-result-message");
+                        } else if (response!.status == 403) {
+                          setActionResultMessage(response!.error!);
+                          toggleModal("action-result-message");
                         } else if (response!.status == 404) {
                           setActionResultMessage(
                             "La remise de chèque n'a pas été trouvé"

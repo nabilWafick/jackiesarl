@@ -1,4 +1,3 @@
-import PurchasesTable from "../../../../components/ui/dashboard/company_purchases/CompanyPurchasesTable";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
@@ -7,6 +6,7 @@ import { FC, useEffect } from "react";
 import useCompanyPurchasesStore from "../../../../store/achat_entreprise/useAchatEntreprise.store";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 import CompanyPurchasseAdding from "../../../../components/form/forms/company_purchase_adding/CompanyPurchaseAdding";
+import CompanyPurchasesTable from "../../../../components/ui/dashboard/company_purchases/CompanyPurchasesTable";
 
 // const categories = [
 //   { value: "cim_benin", label: "CIM BENIN" },
@@ -55,7 +55,7 @@ const PurchasesPage: FC = () => {
         <CompanyPurchasseAdding
           bcNumber=""
           category="CIM BENIN"
-          bank=""
+          bank="BOA"
           purchasedQuantity=""
           amount=""
           check=""
@@ -77,7 +77,7 @@ const PurchasesPage: FC = () => {
           options={categories}
         /> */}
       </div>
-      <PurchasesTable companyPurchases={companyPurchases} />
+      <CompanyPurchasesTable companyPurchases={companyPurchases} />
     </div>
   );
 };

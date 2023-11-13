@@ -25,7 +25,7 @@ const ActionResult: FC = () => {
         <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
           <JsOutlineButton
             type="button"
-            name="Okay"
+            name="Fermer"
             onClick={() => {
               // setActionResultMessage(undefined);
               toggleModal("action-result-message");

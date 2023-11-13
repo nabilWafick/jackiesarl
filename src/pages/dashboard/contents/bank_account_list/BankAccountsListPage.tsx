@@ -28,7 +28,7 @@ const BankAccountsListPage = () => {
             toggleModal("bank-adding-form");
           }}
         />
-        <BankAdding bank="" accountNumber="" currentBalence="" />
+        <BankAdding bank="BOA" accountNumber="" currentBalence="" />
         <ActionResult />
       </div>
       <BankAccountTable bankAccountList={soldeCourant} />

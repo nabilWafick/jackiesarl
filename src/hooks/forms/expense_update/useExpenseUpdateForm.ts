@@ -3,7 +3,8 @@ import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import DepensesAPI from "../../../api/depenses/depenses.api";
 import Depenses from "../../../models/depenses/depenses.model";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
-import useDepensesStore from "../../../store/depenses/useDepenses.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import useDepensesValidationStore from "../../../store/depenses_validation/useDepensesValidation.store";
 
 interface FormData {
   id: number;
@@ -31,17 +32,25 @@ const useExpenseUpdateForm = (
     est_validee: est_validee,
   });
 
+  const [refresh, setRefresh] = useState(false);
+
   const [formErrors, setFormErrors] = useState<FormErrors>({
     description: null,
     amount: null,
     piece: null,
   });
 
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
 
-  const fetchAllDepenses = useDepensesStore((state) => state.fetchAllDepenses);
+  const fetchAllDepenses = useDepensesValidationStore(
+    (state) => state.fetchAllDepenses
+  );
 
   const onInputDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -141,6 +150,7 @@ const useExpenseUpdateForm = (
       });
 
       const response = await DepensesAPI.update(
+        authenticatedEmploye!,
         formData.id,
         new Depenses(
           formData.description,
@@ -151,11 +161,23 @@ const useExpenseUpdateForm = (
       );
 
       if (response!.status == 200) {
+        fetchAllDepenses();
         onFormClose();
         toggleModal(modalLabel);
-        fetchAllDepenses();
+        setRefresh(!refresh);
         setActionResultMessage("La dépense a été modifiée avec succès");
-        console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();

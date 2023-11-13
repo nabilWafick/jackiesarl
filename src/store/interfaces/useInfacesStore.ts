@@ -3,11 +3,27 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Clients from "../../models/clients/clients.model";
 
+const detectFileExtension = (fileLink: string | undefined) => {
+  if (fileLink == undefined) {
+    return undefined;
+  }
+  const lastDotIndex = fileLink.lastIndexOf(".");
+  if (lastDotIndex === -1) {
+    return undefined;
+  }
+
+  const extension = fileLink.slice(lastDotIndex + 1);
+  // console.log("file extension", extension);
+  return extension;
+};
+
 interface InterfacesStore {
   isOpen: boolean[];
   currentActiveSideBarOption: string;
   currentActiveSideBarSubOption: string;
   actionResultMessage: string | undefined;
+  fileLink: string | undefined;
+  fileExtension: string | undefined;
   setIsOpen: (newIsOpen: boolean[]) => void;
   toggleSideBarOptionDropdown: (
     index: number,
@@ -20,6 +36,8 @@ interface InterfacesStore {
   ) => void;
   setCurrentActiveSideBarSubOption: (name: string) => void;
   setActionResultMessage: (message: string | undefined) => void;
+  setFileLink: (link: string | undefined) => void;
+  setFileExtension: (extension: string | undefined) => void;
 }
 
 const useInterfacesStore = create<InterfacesStore>()(
@@ -46,6 +64,8 @@ const useInterfacesStore = create<InterfacesStore>()(
       currentActiveSideBarOption: "Table de bord",
       currentActiveSideBarSubOption: "",
       actionResultMessage: "",
+      fileLink: "",
+      fileExtension: "",
       setIsOpen: (newIsOpen: boolean[]) => {
         set(() => ({ isOpen: newIsOpen }));
       },
@@ -93,6 +113,16 @@ const useInterfacesStore = create<InterfacesStore>()(
       },
       setActionResultMessage: (message) => {
         set(() => ({ actionResultMessage: message }));
+      },
+      setFileLink: (link: string | undefined) => {
+        const extension = detectFileExtension(link);
+        // console.log("extension", extension);
+        set(() => ({ fileLink: link, fileExtension: extension }));
+      },
+      setFileExtension: (extension: string | undefined) => {
+        set(() => ({
+          fileExtension: extension,
+        }));
       },
     }),
     {

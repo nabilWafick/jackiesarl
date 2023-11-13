@@ -1,5 +1,7 @@
 import axios from "axios";
 import ActivitesDepot from "../../models/activites_depot/activites_depot.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface ActivitesDepotPromiseResponse {
   status: number;
@@ -20,15 +22,28 @@ interface ActivitesDepotJSON {
 }
 
 class ActivitesDepotAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: ActivitesDepot
   ): Promise<ActivitesDepotPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: ActivitesDepotPromiseResponse | undefined = undefined;
 
     await axios
-      .post(`${ActivitesDepotAPI.baseUrl}/activites-depot`, data)
+      .post(`${ActivitesDepotAPI.baseUrl}/activites-depot`, data, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -111,27 +126,52 @@ class ActivitesDepotAPI {
     return activitesDepotList;
   }
 
-  static async update(id: number, data: ActivitesDepot) {
-    try {
-      const response = await axios.put(
-        `${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`,
-        data
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async update(
+    authenticatedEmployee: Employes,
+    id: number,
+    data: ActivitesDepot
+  ) {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    await axios
+      .put(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, data, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
-  static async delete(id: number) {
-    try {
-      const response = await axios.delete(
-        `${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async delete(authenticatedEmployee: Employes, id: number) {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    await axios
+      .delete(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
+      .then(() => {})
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
 

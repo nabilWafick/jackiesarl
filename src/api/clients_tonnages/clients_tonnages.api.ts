@@ -1,5 +1,6 @@
 import axios from "axios";
 import ClientsTonnages from "../../models/clients_tonnages/clients_tonnages.model";
+import JSConstants from "../../utils/constants";
 
 interface ClientsJSON {
   id?: number;
@@ -19,7 +20,7 @@ interface ClientsTonnagesJSON {
 }
 
 class ClientsTonnagesAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async getById(id: number): Promise<ClientsTonnages | undefined> {
     let client: ClientsTonnages | undefined;

@@ -1,5 +1,7 @@
 import axios from "axios";
 import AchatClient from "../../models/achat_client/achat_client.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface AchatClientPromiseResponse {
   status: number;
@@ -20,17 +22,28 @@ interface AchatClientJSON {
 }
 
 class AchatClientAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: AchatClient
   ): Promise<AchatClientPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+
     let promiseResponse: AchatClientPromiseResponse | undefined = undefined;
 
     await axios
       .post(`${AchatClientAPI.baseUrl}/achat-client`, data.toJson(), {
         headers: {
-          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          "Content-Type": "multipart/form-data",
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
       .then((response) => {
@@ -764,15 +777,25 @@ class AchatClientAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: AchatClient
   ): Promise<AchatClientPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: AchatClientPromiseResponse | undefined = undefined;
 
     await axios
       .put(`${AchatClientAPI.baseUrl}/achat-client/${id}`, data.toJson(), {
         headers: {
-          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          "Content-Type": "multipart/form-data",
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
       .then((response) => {
@@ -786,17 +809,32 @@ class AchatClientAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<AchatClientPromiseResponse | undefined> {
+    // console.log("In API func delete");
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: AchatClientPromiseResponse | undefined = undefined;
 
     await axios
-      .delete(`${AchatClientAPI.baseUrl}/achat-client/${id}`)
+      .delete(`${AchatClientAPI.baseUrl}/achat-client/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response;
+        console.log("delete response", response);
       })
       .catch((error) => {
-        promiseResponse = error.response;
+        promiseResponse = error.response.data;
       });
     return promiseResponse;
   }

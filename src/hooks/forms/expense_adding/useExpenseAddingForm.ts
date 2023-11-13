@@ -4,6 +4,7 @@ import DepensesAPI from "../../../api/depenses/depenses.api";
 import Depenses from "../../../models/depenses/depenses.model";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useDepensesStore from "../../../store/depenses/useDepenses.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   description: string;
@@ -29,6 +30,10 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
     amount: null,
     piece: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -132,6 +137,7 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
       });
 
       const response = await DepensesAPI.create(
+        authenticatedEmploye!,
         new Depenses(
           formData.description,
           parseFloat(formData.amount),
@@ -145,6 +151,18 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
         toggleModal("expense-adding-form");
         fetchAllDepenses();
         setActionResultMessage("La dépense a été ajoutée avec succès");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("expense-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("expense-adding-form");
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         onFormClose();

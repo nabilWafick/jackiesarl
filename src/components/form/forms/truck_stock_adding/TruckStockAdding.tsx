@@ -5,6 +5,7 @@ import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface TruckStockAddingProps {
   truckNumber: string;
@@ -21,14 +22,20 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
   bcNumber,
   quantity,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormClose, onFormSubmit } =
-    useTruckStockAddingForm({
-      truckNumber: truckNumber,
-      category: category,
-      driverNumber: driverNumber,
-      bcNumber: bcNumber,
-      quantity: quantity,
-    });
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onCategorieSelectChange,
+    onFormClose,
+    onFormSubmit,
+  } = useTruckStockAddingForm({
+    truckNumber: truckNumber,
+    category: category,
+    driverNumber: driverNumber,
+    bcNumber: bcNumber,
+    quantity: quantity,
+  });
 
   return (
     <Modal label="truck-stock-adding-form">
@@ -62,7 +69,17 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
+              <JSFormSelect
+                id="category"
+                name="category"
+                options={[
+                  { value: "CIM BENIN", label: "CIM BENIN" },
+                  { value: "NOCIBE", label: "NOCIBE" },
+                ]}
+                selectedOption={formData.category}
+                onChange={onCategorieSelectChange}
+              />
+              {/* <JSInput
                 onChange={onInputDataChange}
                 value={formData.category}
                 name="category"
@@ -70,7 +87,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 type="text"
                 placeholder="Catégorie"
                 autoComplete="category"
-              />
+              /> */}
             </div>
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">

@@ -4,6 +4,7 @@ import BrouillardAPI from "../../../api/brouillard/brouillard.api";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useBrouillardStore from "../../../store/brouillard/useBrouillard.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   id: number;
@@ -38,6 +39,10 @@ const useFogUpdateForm = (
     managerName: null,
     managerNumber: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -143,6 +148,7 @@ const useFogUpdateForm = (
       });
 
       const response = await BrouillardAPI.update(
+        authenticatedEmploye!,
         formData.id,
         0,
         new Brouillard(
@@ -159,7 +165,19 @@ const useFogUpdateForm = (
         fetchAllBrouillard();
         setActionResultMessage("Le dépôt a été mise à jour avec succès");
         toggleModal("action-result-message");
-      } else if (response!.status == 405) {
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
+      } else if (response!.status == 406) {
         errors.currentStock = response!.error!;
         setFormErrors(errors);
       } else {

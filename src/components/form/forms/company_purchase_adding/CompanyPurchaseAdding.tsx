@@ -1,5 +1,5 @@
 import { FC } from "react";
-import useCompanyPurchaseForm from "../../../../hooks/forms/company_purchase_adding/useCompanyPurchaseAddingForm";
+import useCompanyPurchaseAddingForm from "../../../../hooks/forms/company_purchase_adding/useCompanyPurchaseAddingForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
@@ -34,7 +34,7 @@ const CompanyPurchasseAdding: FC<CompanyPurchasseAddingProps> = ({
     onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
-  } = useCompanyPurchaseForm({
+  } = useCompanyPurchaseAddingForm({
     bcNumber: bcNumber,
     category: category,
     purchasedQuantity: purchasedQuantity,

@@ -6,9 +6,7 @@ import JSInput from "../../../../../components/form/widgets/Input.widget";
 import useReportsStore from "../../../../../store/rapports/useRapports.store";
 import useAuthenticatedEmployeStore from "../../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
-interface EmployeeRapportsPageProps {}
-
-const EmployeeRapportsPage: FC<EmployeeRapportsPageProps> = () => {
+const EmployeeRapportsPage: FC = () => {
   const {
     // formData,
     formErrors,
@@ -35,13 +33,13 @@ const EmployeeRapportsPage: FC<EmployeeRapportsPageProps> = () => {
 
   return (
     <div className="flex flex-col justify-center items-center flex-wrap mx-40 ">
-      <p className="text-lg text-center font-medium my-7">Employé(e)</p>
+      <p className="text-lg text-center font-medium my-7">Vos rapports</p>
       {authEmployeeReports.length == 0 ? (
         <div className="flex justify-center items-center text-tableTextColor text-xl font-medium">
           Aucun rapport soumis pour l'instant
         </div>
       ) : (
-        <div className="flex h-96 min-h-min max-w-full justify-center items-center mb-7 p-2 border border-secondary flex-wrap sidebar overflow-x-hidden">
+        <div className="flex min-h-min max-h-96 max-w-full justify-center items-center mb-7 p-2 border border-secondary flex-wrap sidebar overflow-x-hidden">
           {authEmployeeReports.map((authEmployeeReport) => (
             <RapportFileUploadedCard
               key={authEmployeeReport.id}

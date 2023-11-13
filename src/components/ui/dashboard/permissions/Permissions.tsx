@@ -93,7 +93,7 @@ const permissionsGroupData: PermissionsGroupProps[] = [
     ],
   },
   {
-    permissionsGroupName: "Client",
+    permissionsGroupName: "Paiement Client",
     permissionsList: [
       {
         label: "Ajouter les données du paiement d'un client",

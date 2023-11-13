@@ -14,19 +14,6 @@ interface ClientPaymentsTableProps {
 const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
   clientPayments,
 }) => {
-  const openSlipFile = (file: string) => {
-    try {
-      window.open(file, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // const setActionResultMessage = useInterfacesStore(
-  //   (state) => state.setActionResultMessage
-  // );
-  // const fetchAllClientPayments = useClientPaymentsStore(
-  //   (state) => state.fetchAllClientPayments
-  // );
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -59,12 +46,13 @@ const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
                       {clientPayment.bordereau == "" ? (
                         ""
                       ) : (
-                        <FaFile
-                          className="text-secondary"
-                          onClick={() =>
-                            openSlipFile(clientPayment.bordereau.toString())
-                          }
-                        />
+                        <a
+                          href={clientPayment.bordereau as string}
+                          target="_blank"
+                          download={true}
+                        >
+                          <FaFile className="text-secondary" />
+                        </a>
                       )}
                     </td>
                     {/* <td>

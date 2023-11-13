@@ -13,6 +13,7 @@ import ClientPaymentValidationUpdate from "../../../form/forms/client_payment_va
 import PaiementClientAPI from "../../../../api/paiement_client/paiement_client.api";
 import PaiementClient from "../../../../models/paiement_client/paiement.model";
 import usePaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
+import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface ClientsPaymentsValidationsTableProps {
   clientsPaymentsValidations: PaiementClient[];
@@ -21,13 +22,9 @@ interface ClientsPaymentsValidationsTableProps {
 const ClientsPaymentsValidationsTable: FC<
   ClientsPaymentsValidationsTableProps
 > = ({ clientsPaymentsValidations }) => {
-  const openSlipFile = (file: string) => {
-    try {
-      window.open(file, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -42,6 +39,7 @@ const ClientsPaymentsValidationsTable: FC<
 
   const updatePaymentValidationStatus = async (payment: PaiementClient) => {
     const response = await PaiementClientAPI.update(
+      authenticatedEmploye!,
       payment.id!,
       new PaiementClient(
         payment.montant,
@@ -57,7 +55,14 @@ const ClientsPaymentsValidationsTable: FC<
     if (response!.status == 200) {
       fetchAllClientsPayments();
       setActionResultMessage("Le paiement du client a été modifié avec succès");
-      console.log("Added successfuly");
+      toggleModal("action-result-message");
+    } else if (response!.status == 401) {
+      setActionResultMessage(
+        `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+      );
+      toggleModal("action-result-message");
+    } else if (response!.status == 403) {
+      setActionResultMessage(response!.error);
       toggleModal("action-result-message");
     } else if (response!.status == 404) {
       setActionResultMessage("Le paiement du client n'a pas été trouvé");
@@ -106,14 +111,13 @@ const ClientsPaymentsValidationsTable: FC<
                   {clientsPaymentValidation.bordereau == "" ? (
                     ""
                   ) : (
-                    <FaFile
-                      className="text-secondary"
-                      onClick={() =>
-                        openSlipFile(
-                          clientsPaymentValidation.bordereau.toString()
-                        )
-                      }
-                    />
+                    <a
+                      href={clientsPaymentValidation.bordereau as string}
+                      target="_blank"
+                      download={true}
+                    >
+                      <FaFile className="text-secondary" onClick={() => {}} />
+                    </a>
                   )}
                 </td>
                 <td className="w-min">
@@ -146,6 +150,7 @@ const ClientsPaymentsValidationsTable: FC<
                 <td>
                   <div>
                     <ClientPaymentValidationUpdate
+                      key={Date.now() + clientsPaymentValidation.id!}
                       id={clientsPaymentValidation.id!}
                       clientName={`${
                         clientsPaymentValidation.client!.prenoms
@@ -181,6 +186,7 @@ const ClientsPaymentsValidationsTable: FC<
                       color="red"
                       onClick={async () => {
                         const response = await PaiementClientAPI.delete(
+                          authenticatedEmploye!,
                           clientsPaymentValidation.id!
                         );
                         if (response!.status == 204) {
@@ -188,8 +194,16 @@ const ClientsPaymentsValidationsTable: FC<
                             "Le paiement du client a été supprimé avec succès"
                           );
                           toggleModal("action-result-message");
-                          //fetchAllClientPayments(clientPayment.id_client);
+
                           fetchAllClientsPayments();
+                        } else if (response!.status == 401) {
+                          setActionResultMessage(
+                            `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                          );
+                          toggleModal("action-result-message");
+                        } else if (response!.status == 403) {
+                          setActionResultMessage(response!.error);
+                          toggleModal("action-result-message");
                         } else if (response!.status == 404) {
                           setActionResultMessage(
                             "Le paiement du client n'a pas été trouvé"

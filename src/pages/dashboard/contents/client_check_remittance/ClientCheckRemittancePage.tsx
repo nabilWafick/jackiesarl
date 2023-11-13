@@ -112,7 +112,12 @@ const ClientCheckRemittancePage: FC = () => {
           ]}
           onChange={onSelectedSetOptionChange}
         />
-        <ClientCheckRemittanceAdding description="" bank="" amount="" rest="" />
+        <ClientCheckRemittanceAdding
+          description=""
+          bank="BOA"
+          amount=""
+          rest=""
+        />
         <ActionResult />
       </div>
       <ClientCheckRemittanceTable

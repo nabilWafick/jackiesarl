@@ -1,4 +1,5 @@
 import axios from "axios";
+import JSConstants from "../../utils/constants";
 
 interface TotalPaiementsJournaliers {
   jour: string;
@@ -43,7 +44,7 @@ interface TotalAvancesCreancesQuotidiennes {
   total_creances: number;
 }
 class TableBordAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async getWeekDailyPayments(): Promise<TotalPaiementsJournaliers[]> {
     let promiseResponse: TotalPaiementsJournaliers[] = [];

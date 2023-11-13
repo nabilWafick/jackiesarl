@@ -5,6 +5,7 @@ import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useClientsStore from "../../../store/clients/useClients.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useClientChecksRemittanceStore from "../../../store/remise_cheque_client/useRemiseChequeClient.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   description: string;
@@ -39,6 +40,10 @@ const useClientCheckRemittanceAddingForm = ({
     amount: null,
     rest: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -147,6 +152,7 @@ const useClientCheckRemittanceAddingForm = ({
       });
 
       const response = await RemiseChequeClientAPI.create(
+        authenticatedEmploye!,
         new RemiseChequeClient(
           formData.description,
           formData.bank,
@@ -165,6 +171,18 @@ const useClientCheckRemittanceAddingForm = ({
           "La remise de chèque du client a été ajoutée avec succès"
         );
         console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("client-check-remittance-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("client-check-remittance-adding-form");
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         onFormClose();

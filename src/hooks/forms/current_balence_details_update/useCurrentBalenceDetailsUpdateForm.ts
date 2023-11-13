@@ -4,6 +4,7 @@ import ActivitesBanque from "../../../models/activites_banque/activites_banque.m
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useActivitesBanqueStore from "../../../store/activites_banque/useActivitesBanque.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 //import useSoldeCourantStore from "../../../store/solde_courant/useSoldeCourant.store";
 
 interface FormData {
@@ -45,6 +46,11 @@ const useCurrentBalenceDetailsUpdateForm = (
   //   const selectedSoldeCourant = useSoldeCourantStore(
   //     (state) => state.selectedSoldeCourant
   //   );
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
@@ -148,6 +154,7 @@ const useCurrentBalenceDetailsUpdateForm = (
 
     if (validateForm()) {
       const response = await ActivitesBanqueAPI.update(
+        authenticatedEmploye!,
         formData.id,
         new ActivitesBanque(
           formData.id_banque,
@@ -166,6 +173,18 @@ const useCurrentBalenceDetailsUpdateForm = (
           "L'activité de la banque a été modifiée avec succès"
         );
         // console.log("Added successfuly");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();

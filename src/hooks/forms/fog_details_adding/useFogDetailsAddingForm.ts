@@ -5,6 +5,7 @@ import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useBrouillardStore from "../../../store/brouillard/useBrouillard.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useActivitesDepotStore from "../../../store/activites_depot/useActivitesDepot.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   // quantityBeforeSelling: string;
@@ -49,6 +50,10 @@ const useFogDetailsAddingForm = ({
     expense: null,
     observation: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const selectedBrouillard = useBrouillardStore(
     (state) => state.selectedBrouillard
@@ -198,6 +203,7 @@ const useFogDetailsAddingForm = ({
       };
 
       const response = await ActivitesDepotAPI.create(
+        authenticatedEmploye!,
         new ActivitesDepot(
           selectedBrouillard!.id!,
           0,
@@ -216,7 +222,19 @@ const useFogDetailsAddingForm = ({
         setActionResultMessage("L'activité du dépôt a été ajouté avec succès");
         console.log("Added successfuly");
         toggleModal("action-result-message");
-      } else if (response!.status == 402) {
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("fog-details-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("fog-details-adding-form");
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
+      } else if (response!.status == 406) {
         errors.sale = response!.error!;
         setFormErrors(errors);
       } else {

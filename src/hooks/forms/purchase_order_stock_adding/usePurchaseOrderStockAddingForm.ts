@@ -4,6 +4,7 @@ import StockBonCommande from "../../../models/stock_bon_commande/stock_bon_comma
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import usePurchasesOrderStockStore from "../../../store/stock_bon_commande/useStockBonCommande.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   bcNumber: string;
@@ -48,6 +49,10 @@ FormData) => {
     //  sale: null,
     //  quantityAfterSelling: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -163,6 +168,7 @@ FormData) => {
       };
 
       const response = await StockBonCommandeAPI.create(
+        authenticatedEmploye!,
         new StockBonCommande(
           parseInt(formData.bcNumber),
           "",
@@ -181,17 +187,29 @@ FormData) => {
         setActionResultMessage(
           "Le stock de bon de commande a été ajouté avec succès"
         );
-        console.log("Added successfuly");
+        //  console.log("Added successfuly");
         toggleModal("action-result-message");
-      } else if (response!.status == 401) {
+      } else if (response!.status == 406) {
         errors.initialStock = response!.error!;
         setFormErrors(errors);
-      } else if (response!.status == 402) {
+      } else if (response!.status == 405) {
         errors.initialStock = response!.error!;
         setFormErrors(errors);
       } else if (response!.status == 404) {
         errors.bcNumber = response!.error!;
         setFormErrors(errors);
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("purchase-order-stock-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("purchase-order-stock-adding-form");
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
       } else {
         onFormClose();
         toggleModal("purchase-order-stock-adding-form");

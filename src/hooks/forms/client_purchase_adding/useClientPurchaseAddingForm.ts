@@ -5,6 +5,7 @@ import useClientsStore from "../../../store/clients/useClients.store";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import useClientPurchasesStore from "../../../store/achat_client/useAchatClient.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   quantity: string;
@@ -49,6 +50,10 @@ const useClientPurchaseAddingForm = ({
     slip: null,
     bcNumber: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -201,6 +206,7 @@ const useClientPurchaseAddingForm = ({
       };
 
       const response = await AchatClientAPI.create(
+        authenticatedEmploye!,
         new AchatClient(
           parseFloat(formData.quantity),
           //  formData.category,
@@ -217,14 +223,26 @@ const useClientPurchaseAddingForm = ({
         toggleModal("client-purchase-adding-form");
         fetchAllClientPurchases(selectedClient!.id!);
         setActionResultMessage("L'achat du client a été ajouté avec succès");
-        console.log("Added successfuly");
+        //   console.log("Added successfuly");
         toggleModal("action-result-message");
-      } else if (response!.status == 402) {
+      } else if (response!.status == 406) {
         errors.quantity = response!.error!;
         setFormErrors(errors);
       } else if (response!.status == 404) {
         errors.bcNumber = response!.error!;
         setFormErrors(errors);
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("client-purchase-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("client-purchase-adding-form");
+        setActionResultMessage(response!.error!);
+        toggleModal("action-result-message");
       } else {
         onFormClose();
         toggleModal("client-purchase-adding-form");

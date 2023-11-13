@@ -1,5 +1,7 @@
 import axios from "axios";
 import ActivitesBanque from "../../models/activites_banque/activites_banque.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface ActivitesBanquePromiseResponse {
   status: number;
@@ -18,14 +20,27 @@ interface ActivitesBanqueJSON {
 }
 
 class ActivitesBanqueAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: ActivitesBanque
   ): Promise<ActivitesBanquePromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: ActivitesBanquePromiseResponse | undefined = undefined;
     await axios
-      .post(`${ActivitesBanqueAPI.baseUrl}/activites-banque`, data.toJson())
+      .post(`${ActivitesBanqueAPI.baseUrl}/activites-banque`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -84,14 +99,28 @@ class ActivitesBanqueAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: ActivitesBanque
   ): Promise<ActivitesBanquePromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: ActivitesBanquePromiseResponse | undefined = undefined;
     await axios
       .put(
         `${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`,
-        data.toJson()
+        data.toJson(),
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         promiseResponse = response.data;
@@ -103,11 +132,24 @@ class ActivitesBanqueAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<ActivitesBanquePromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: ActivitesBanquePromiseResponse | undefined = undefined;
     await axios
-      .delete(`${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`)
+      .delete(`${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response;
       })

@@ -1,5 +1,7 @@
 import axios from "axios";
 import PaiementClient from "../../models/paiement_client/paiement.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface PaiementClientPromiseResponse {
   status: number;
@@ -21,16 +23,26 @@ interface PaiementClientJSON {
 }
 
 class PaiementClientAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: PaiementClient
   ): Promise<PaiementClientPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: PaiementClientPromiseResponse | undefined = undefined;
     await axios
       .post(`${PaiementClientAPI.baseUrl}/paiement-client`, data.toJson(), {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
       .then((response) => {
@@ -971,9 +983,20 @@ class PaiementClientAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: PaiementClient
   ): Promise<PaiementClientPromiseResponse | undefined> {
+    console.log("Paiement update call");
+    console.log("Paiement Data", data);
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: PaiementClientPromiseResponse | undefined = undefined;
     await axios
       .put(
@@ -981,7 +1004,8 @@ class PaiementClientAPI {
         data.toJson(),
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
           },
         }
       )
@@ -995,12 +1019,24 @@ class PaiementClientAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<PaiementClientPromiseResponse | undefined> {
     let promiseResponse: PaiementClientPromiseResponse | undefined = undefined;
-
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     await axios
-      .delete(`${PaiementClientAPI.baseUrl}/paiement-client/${id}`)
+      .delete(`${PaiementClientAPI.baseUrl}/paiement-client/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response;
       })

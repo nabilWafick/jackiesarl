@@ -29,7 +29,6 @@ const SelectedEmployeeCard: FC<SelectedEmployeeCardProps> = ({ employee }) => {
         <ProfileCard height={60} width={60} iconSize={20} />
       </div>
       <div className="mr-2">
-        <p className=" text-xs mb-1">{employee.id}</p>
         <p className=" text-xs mb-1">{employee.role}</p>
         <p className="text-xs font-bold">
           {employee.prenoms} {employee.nom}

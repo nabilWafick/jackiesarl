@@ -78,6 +78,7 @@ const useReportSubmittingForm = ({ report }: FormData) => {
 
     if (validateForm()) {
       const response = await RapportsAPI.create(
+        authenticatedEmploye!,
         new Rapports(
           formData.report,
           undefined,
@@ -88,6 +89,14 @@ const useReportSubmittingForm = ({ report }: FormData) => {
       if (response!.status == 201) {
         fetchAllOfEmployeeReports(authenticatedEmploye!.id!);
         setActionResultMessage("Le rapport a été soumis avec succès");
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         setActionResultMessage("Erreur lors de l'ajout de l'achat du client");

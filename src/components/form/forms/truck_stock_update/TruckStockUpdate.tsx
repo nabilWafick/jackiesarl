@@ -5,6 +5,7 @@ import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
 import useTruckStockUpdateForm from "../../../../hooks/forms/truck_stock_update/useTruckStockUpdate";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
 interface TruckStockUpadateProps {
   id: number;
@@ -25,18 +26,24 @@ const TruckStockUpadate: FC<TruckStockUpadateProps> = ({
   quantity,
   modalLabel,
 }) => {
-  const { formData, formErrors, onInputDataChange, onFormClose, onFormSubmit } =
-    useTruckStockUpdateForm(
-      {
-        id: id,
-        truckNumber: truckNumber,
-        category: category,
-        driverNumber: driverNumber,
-        bcNumber: bcNumber,
-        quantity: quantity,
-      },
-      modalLabel
-    );
+  const {
+    formData,
+    formErrors,
+    onInputDataChange,
+    onCategorieSelectChange,
+    onFormClose,
+    onFormSubmit,
+  } = useTruckStockUpdateForm(
+    {
+      id: id,
+      truckNumber: truckNumber,
+      category: category,
+      driverNumber: driverNumber,
+      bcNumber: bcNumber,
+      quantity: quantity,
+    },
+    modalLabel
+  );
 
   return (
     <Modal label={modalLabel}>
@@ -70,7 +77,17 @@ const TruckStockUpadate: FC<TruckStockUpadateProps> = ({
 
           <div className="input-group">
             <div className="mt-3 mb-1 w-full">
-              <JSInput
+              <JSFormSelect
+                id="category"
+                name="category"
+                options={[
+                  { value: "CIM BENIN", label: "CIM BENIN" },
+                  { value: "NOCIBE", label: "NOCIBE" },
+                ]}
+                selectedOption={formData.category}
+                onChange={onCategorieSelectChange}
+              />
+              {/* <JSInput
                 onChange={onInputDataChange}
                 value={formData.category}
                 name="category"
@@ -78,7 +95,7 @@ const TruckStockUpadate: FC<TruckStockUpadateProps> = ({
                 type="text"
                 placeholder="Catégorie"
                 autoComplete="category"
-              />
+              /> */}
             </div>
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">

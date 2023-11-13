@@ -64,7 +64,7 @@ const TruckStockPage: FC = () => {
 
         <TruckStockAdding
           truckNumber=""
-          category=""
+          category="CIM BENIN"
           driverNumber=""
           bcNumber=""
           quantity=""

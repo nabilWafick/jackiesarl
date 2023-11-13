@@ -33,13 +33,13 @@ const JSDateIntervalDateTimePicker: FC<JSDateIntervalDateTimePickerProps> = ({
             onDateChange(date);
           }
         }}
-        locale="fr"
+        locale="fr-FR"
         inputProps={{
           id: id,
           name: name,
           placeholder: placeholder,
 
-          className: `w-full text-black text-md rounded-md bg-white py-1.5 px-2 border border-secondary  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary`,
+          className: `w-full text-black text-md rounded-md bg-white py-1.5 px-2 border border-secondary  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary z-0`,
           autoComplete: "",
         }}
         timeFormat="HH:mm"

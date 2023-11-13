@@ -1,6 +1,7 @@
 import { FC, useState, useEffect, useRef } from "react";
 import useEmployesStore from "../../../store/employes/useEmployes.store";
 import EmployesAPI from "../../../api/employes/employes.api";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface JSCheckBoxProps {
   label: string;
@@ -10,6 +11,9 @@ interface JSCheckBoxProps {
 const JSCheckBox: FC<JSCheckBoxProps> = ({ label, permission }) => {
   const fetchAllEmployes = useEmployesStore((state) => state.fetchAllEmployes);
   const selectedEmployee = useEmployesStore((state) => state.selectedEmploye);
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const permissions = useRef<Record<string, boolean>>(
     typeof selectedEmployee!.permissions == "string"
@@ -41,20 +45,27 @@ const JSCheckBox: FC<JSCheckBoxProps> = ({ label, permission }) => {
               typeof selectedEmployee!.permissions == "string"
                 ? JSON.parse(selectedEmployee!.permissions as string)
                 : selectedEmployee!.permissions;
+            if (
+              authenticatedEmploye!.role == "Administrateur" &&
+              permission.split("-")[0] != "lire" &&
+              permission != "admin"
+            ) {
+              // update employee permission status
+              employee_permission[permission] =
+                !employee_permission[permission];
+              selectedEmployee!.permissions = employee_permission;
 
-            // update employee permission status
-            employee_permission[permission] = !employee_permission[permission];
-            selectedEmployee!.permissions = employee_permission;
+              const response = await EmployesAPI.update(
+                authenticatedEmploye!,
+                selectedEmployee!.id!,
+                selectedEmployee!
+              );
 
-            const response = await EmployesAPI.update(
-              selectedEmployee!.id!,
-              selectedEmployee!
-            );
-
-            if (response!.status == 200) {
-              setIsGranted(!isGranted);
-              fetchAllEmployes();
-              //    incrementOnce();
+              if (response!.status == 200) {
+                setIsGranted(!isGranted);
+                fetchAllEmployes(authenticatedEmploye!);
+                //    incrementOnce();
+              }
             }
           }}
           id={`permission-${permission}-checkbox`}

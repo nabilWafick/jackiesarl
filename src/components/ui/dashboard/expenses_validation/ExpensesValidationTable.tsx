@@ -11,7 +11,8 @@ import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import ExpenseUpdate from "../../../form/forms/expense_update/ExpenseUpdate";
 import { toggleModal } from "../widgets/ToggleModal";
 import DepensesAPI from "../../../../api/depenses/depenses.api";
-import useDepensesStore from "../../../../store/depenses/useDepenses.store";
+import useDepensesValidationStore from "../../../../store/depenses_validation/useDepensesValidation.store";
+import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface ExpensesValidationTableProps {
   expensesList: Depenses[];
@@ -20,21 +21,21 @@ interface ExpensesValidationTableProps {
 const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
   expensesList,
 }) => {
-  const openSlipFile = (file: string) => {
-    try {
-      window.open(file, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
 
-  const fetchAllDepenses = useDepensesStore((state) => state.fetchAllDepenses);
+  const fetchAllDepenses = useDepensesValidationStore(
+    (state) => state.fetchAllDepenses
+  );
 
   const updateExpenseValidationStatus = async (expense: Depenses) => {
     const response = await DepensesAPI.update(
+      authenticatedEmploye!,
       expense.id!,
       new Depenses(
         expense.description,
@@ -47,7 +48,14 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
     if (response!.status == 200) {
       fetchAllDepenses();
       setActionResultMessage("La dépense a été modifiée avec succès");
-      console.log("Added successfuly");
+      toggleModal("action-result-message");
+    } else if (response!.status == 401) {
+      setActionResultMessage(
+        `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+      );
+      toggleModal("action-result-message");
+    } else if (response!.status == 403) {
+      setActionResultMessage(response!.error);
       toggleModal("action-result-message");
     } else if (response!.status == 404) {
       setActionResultMessage("La dépense n'a pas été trouvée");
@@ -85,10 +93,13 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
                   {expense.piece == "" ? (
                     ""
                   ) : (
-                    <FaFile
-                      className="text-secondary"
-                      onClick={() => openSlipFile(expense.piece.toString())}
-                    />
+                    <a
+                      href={expense.piece as string}
+                      target="_blank"
+                      download={true}
+                    >
+                      <FaFile className="text-secondary" />
+                    </a>
                   )}
                 </td>
                 <td>
@@ -112,6 +123,7 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
                 <td>
                   <div>
                     <ExpenseUpdate
+                      key={Date.now() + expense.id!}
                       id={expense.id!}
                       description={expense.description}
                       amount={expense.montant.toString()}
@@ -122,9 +134,9 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
                     <i className="flex justify-end">
                       <FaEdit
                         color="green"
-                        onClick={() =>
-                          toggleModal(`expense-update-form-${expense.id}`)
-                        }
+                        onClick={() => {
+                          toggleModal(`expense-update-form-${expense.id}`);
+                        }}
                       />
                     </i>
                   </div>
@@ -134,13 +146,24 @@ const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
                     <FaTrash
                       color="red"
                       onClick={async () => {
-                        const response = await DepensesAPI.delete(expense.id!);
+                        const response = await DepensesAPI.delete(
+                          authenticatedEmploye!,
+                          expense.id!
+                        );
 
                         if (response!.status == 204) {
                           setActionResultMessage(
                             "La dépense a été supprimée avec succès"
                           );
                           fetchAllDepenses();
+                          toggleModal("action-result-message");
+                        } else if (response!.status == 401) {
+                          setActionResultMessage(
+                            `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                          );
+                          toggleModal("action-result-message");
+                        } else if (response!.status == 403) {
+                          setActionResultMessage(response!.error);
                           toggleModal("action-result-message");
                         } else if (response!.status == 404) {
                           setActionResultMessage(

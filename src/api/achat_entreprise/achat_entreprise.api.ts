@@ -1,5 +1,7 @@
 import axios from "axios";
 import AchatEntreprise from "../../models/achat_entreprise/achat_entreprise.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 interface AchatEntreprisePromiseResponse {
   status: number;
   achatEntreprise?: number;
@@ -18,17 +20,27 @@ interface AchatEntrepriseJson {
 }
 
 class AchatEntrepriseAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: AchatEntreprise
   ): Promise<AchatEntreprisePromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: AchatEntreprisePromiseResponse | undefined = undefined;
 
     await axios
       .post(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data",
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
       .then((response) => {
@@ -94,9 +106,18 @@ class AchatEntrepriseAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     bonCommande: number,
     data: AchatEntreprise
   ): Promise<AchatEntreprisePromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: AchatEntreprisePromiseResponse | undefined = undefined;
 
     await axios
@@ -105,7 +126,8 @@ class AchatEntrepriseAPI {
         data.toJson(),
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
+            "Content-Type": "multipart/form-data",
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
           },
         }
       )
@@ -119,12 +141,25 @@ class AchatEntrepriseAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     bonCommande: number
   ): Promise<AchatEntreprisePromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: AchatEntreprisePromiseResponse | undefined = undefined;
 
     await axios
-      .delete(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`)
+      .delete(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response;
       })

@@ -5,6 +5,7 @@ import useClientsStore from "../../../store/clients/useClients.store";
 import useInterfacesStore from "../../../store/interfaces/useInfacesStore";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useClientPaymentsStore from "../../../store/paiement_client/usePaiementClient.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   id: number;
@@ -58,6 +59,10 @@ const useClientPaymentUpdateForm = (
     reference: null,
     slip: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -204,8 +209,9 @@ const useClientPaymentUpdateForm = (
         reference: null,
         slip: null,
       });
-
+      console.log("Update Form Validate");
       const response = await PaiementClientAPI.update(
+        authenticatedEmploye!,
         formData.id,
         new PaiementClient(
           parseFloat(formData.amount),
@@ -226,6 +232,18 @@ const useClientPaymentUpdateForm = (
           "Le paiement du client a été modifié avec succès"
         );
 
+        toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 404) {
         onFormClose();

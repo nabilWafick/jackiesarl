@@ -1,5 +1,7 @@
 import axios from "axios";
 import Clients from "../../models/clients/clients.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 interface ClientsPromiseResponse {
   status: number;
   client?: ClientsJSON;
@@ -24,14 +26,27 @@ interface ClientsJSON {
 }
 
 class ClientsAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: Clients
   ): Promise<ClientsPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: ClientsPromiseResponse | undefined = undefined;
     await axios
-      .post(`${ClientsAPI.baseUrl}/clients`, data.toJson())
+      .post(`${ClientsAPI.baseUrl}/clients`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -206,20 +221,53 @@ class ClientsAPI {
     return clientsList;
   }
 
-  static async update(id: number, data: Clients) {
+  static async update(
+    authenticatedEmployee: Employes,
+    id: number,
+    data: Clients
+  ): Promise<ClientsPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+
+    let promiseResponse: ClientsPromiseResponse | undefined = undefined;
+
     await axios
-      .put(`${ClientsAPI.baseUrl}/clients/${id}`, data.toJson())
+      .put(`${ClientsAPI.baseUrl}/clients/${id}`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
-        console.log(response.data);
+        promiseResponse = response.data;
       })
       .catch((error) => {
-        console.log(error);
+        promiseResponse = error.response.data;
       });
+    return promiseResponse;
   }
 
-  static async delete(id: number) {
+  /*
+  static async delete(authenticatedEmployee: Employes, id: number) {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     await axios
-      .delete(`${ClientsAPI.baseUrl}/clients/${id}`)
+      .delete(`${ClientsAPI.baseUrl}/clients/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         console.log(response.data);
       })
@@ -227,6 +275,7 @@ class ClientsAPI {
         console.log(error);
       });
   }
+  */
 }
 
 export default ClientsAPI;

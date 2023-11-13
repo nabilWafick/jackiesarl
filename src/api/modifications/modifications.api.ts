@@ -1,5 +1,6 @@
 import axios from "axios";
 import Modifications from "../../models/modifications/modifications.model";
+import JSConstants from "../../utils/constants";
 
 interface ModificationsJSON {
   id?: number;
@@ -10,7 +11,7 @@ interface ModificationsJSON {
 }
 
 class ModificationsAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(data: Modifications) {
     try {

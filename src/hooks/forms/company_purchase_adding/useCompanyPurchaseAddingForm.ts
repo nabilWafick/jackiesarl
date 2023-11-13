@@ -4,6 +4,7 @@ import AchatEntrepriseAPI from "../../../api/achat_entreprise/achat_entreprise.a
 import AchatEntreprise from "../../../models/achat_entreprise/achat_entreprise.model";
 import { toggleModal } from "../../../components/ui/dashboard/widgets/ToggleModal";
 import useCompanyPurchasesStore from "../../../store/achat_entreprise/useAchatEntreprise.store";
+import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
   bcNumber: string;
@@ -25,7 +26,7 @@ interface FormErrors {
   slip: string | null;
 }
 
-const useCompanyPurchaseForm = ({
+const useCompanyPurchaseAddingForm = ({
   bcNumber,
   category,
   bank,
@@ -53,6 +54,10 @@ const useCompanyPurchaseForm = ({
     check: null,
     slip: null,
   });
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
@@ -213,7 +218,7 @@ const useCompanyPurchaseForm = ({
     e.preventDefault();
 
     if (validateForm()) {
-      setFormErrors({
+      const errors: FormErrors = {
         bcNumber: null,
         category: null,
         purchasedQuantity: null,
@@ -221,9 +226,10 @@ const useCompanyPurchaseForm = ({
         bank: null,
         check: null,
         slip: null,
-      });
+      };
 
       const response = await AchatEntrepriseAPI.create(
+        authenticatedEmploye!,
         new AchatEntreprise(
           parseFloat(formData.bcNumber),
           formData.category,
@@ -242,8 +248,22 @@ const useCompanyPurchaseForm = ({
         setActionResultMessage(
           "L'achat de l'entreprise a été ajouté avec succès"
         );
-        console.log("Added successfuly");
         toggleModal("action-result-message");
+      } else if (response!.status == 401) {
+        onFormClose();
+        toggleModal("company-purchase-adding-form");
+        setActionResultMessage(
+          `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+        );
+        toggleModal("action-result-message");
+      } else if (response!.status == 403) {
+        onFormClose();
+        toggleModal("company-purchase-adding-form");
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
+      } else if (response!.status == 406) {
+        errors.bcNumber = response!.error!;
+        setFormErrors(errors);
       } else {
         onFormClose();
         toggleModal("company-purchase-adding-form");
@@ -266,4 +286,4 @@ const useCompanyPurchaseForm = ({
   };
 };
 
-export default useCompanyPurchaseForm;
+export default useCompanyPurchaseAddingForm;

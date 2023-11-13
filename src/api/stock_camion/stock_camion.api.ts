@@ -1,5 +1,7 @@
 import axios from "axios";
 import StockCamion from "../../models/stock_camion/stock_camion.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface StockCamionPromiseResponse {
   status: number;
@@ -18,15 +20,28 @@ interface StockCamionJSON {
 }
 
 class StockCamionAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: StockCamion
   ): Promise<StockCamionPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: StockCamionPromiseResponse | undefined = undefined;
 
     await axios
-      .post(`${StockCamionAPI.baseUrl}/stock-camion`, data.toJson())
+      .post(`${StockCamionAPI.baseUrl}/stock-camion`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -86,13 +101,26 @@ class StockCamionAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: StockCamion
   ): Promise<StockCamionPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: StockCamionPromiseResponse | undefined = undefined;
 
     await axios
-      .put(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, data.toJson())
+      .put(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -104,12 +132,25 @@ class StockCamionAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<StockCamionPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: StockCamionPromiseResponse | undefined = undefined;
 
     await axios
-      .delete(`${StockCamionAPI.baseUrl}/stock-camion/${id}`)
+      .delete(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response;
       })

@@ -97,7 +97,7 @@ const ClientPaymentsPage: FC = () => {
           bcNumber=""
           //   category=""
           amount=""
-          bank=""
+          bank="BOA"
           reference=""
           slip=""
         />

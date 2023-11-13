@@ -7,14 +7,6 @@ interface ExpensesTableProps {
 }
 
 const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
-  const openSlipFile = (file: string) => {
-    try {
-      window.open(file, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2> */}
@@ -41,10 +33,13 @@ const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
                       {expense.piece == "" ? (
                         ""
                       ) : (
-                        <FaFile
-                          className="text-secondary"
-                          onClick={() => openSlipFile(expense.piece.toString())}
-                        />
+                        <a
+                          href={expense.piece as string}
+                          target="_blank"
+                          download={true}
+                        >
+                          <FaFile className="text-secondary" />
+                        </a>
                       )}
                     </td>
                   </tr>

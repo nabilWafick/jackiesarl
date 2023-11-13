@@ -1,5 +1,7 @@
 import axios from "axios";
 import RemiseChequeClient from "../../models/remise_cheque_client/remise_cheque_client.model";
+import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface RemiseChequeClientPromiseResponse {
   status: number;
@@ -19,17 +21,31 @@ interface RemiseChequeClientJSON {
 }
 
 class RemiseChequeClientAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: RemiseChequeClient
   ): Promise<RemiseChequeClientPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: RemiseChequeClientPromiseResponse | undefined =
       undefined;
     await axios
       .post(
         `${RemiseChequeClientAPI.baseUrl}/remise-cheque-client`,
-        data.toJson()
+        data.toJson(),
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         promiseResponse = response.data;
@@ -718,16 +734,30 @@ class RemiseChequeClientAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: RemiseChequeClient
   ): Promise<RemiseChequeClientPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: RemiseChequeClientPromiseResponse | undefined =
       undefined;
 
     await axios
       .put(
         `${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`,
-        data.toJson()
+        data.toJson(),
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         promiseResponse = response.data;
@@ -741,12 +771,25 @@ class RemiseChequeClientAPI {
   }
 
   static async delete(
+    authenticatedEmployee: Employes,
     id: number
   ): Promise<RemiseChequeClientPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: RemiseChequeClientPromiseResponse | undefined =
       undefined;
     await axios
-      .delete(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`)
+      .delete(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response;
       })

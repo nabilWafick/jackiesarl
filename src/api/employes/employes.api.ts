@@ -1,5 +1,6 @@
 import axios from "axios";
 import Employes from "../../models/employes/employes.model";
+import JSConstants from "../../utils/constants";
 
 interface EmployesPromiseResponse {
   status: number;
@@ -22,14 +23,27 @@ interface EmployesJSON {
 }
 
 class EmployesAPI {
-  private static baseUrl = "http://127.0.0.1:7000/api";
+  private static baseUrl = JSConstants.API_BASE_URL;
 
   static async create(
+    authenticatedEmployee: Employes,
     data: Employes
   ): Promise<EmployesPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: EmployesPromiseResponse | undefined = undefined;
     await axios
-      .post(`${EmployesAPI.baseUrl}/employes`, data.toJson())
+      .post(`${EmployesAPI.baseUrl}/employes`, data.toJson(), {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -41,10 +55,25 @@ class EmployesAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<Employes | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<Employes | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let employe: Employes | undefined;
     await axios
-      .get(`${EmployesAPI.baseUrl}/employes/${id}`)
+      .get(`${EmployesAPI.baseUrl}/employes/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         //  console.log(response.data);
         employe = Employes.fromJson(response.data);
@@ -55,10 +84,22 @@ class EmployesAPI {
     return employe;
   }
 
-  static async getAll(): Promise<Employes[]> {
+  static async getAll(authenticatedEmployee: Employes): Promise<Employes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let employesList: Employes[] = [];
     await axios
-      .get(`${EmployesAPI.baseUrl}/employes`)
+      .get(`${EmployesAPI.baseUrl}/employes`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         employesList = response.data.map((employe: EmployesJSON) =>
           Employes.fromJson(employe)
@@ -73,13 +114,26 @@ class EmployesAPI {
   }
 
   static async update(
+    authenticatedEmployee: Employes,
     id: number,
     data: Employes
   ): Promise<EmployesPromiseResponse | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let promiseResponse: EmployesPromiseResponse | undefined = undefined;
     // console.log("employee toJSON", typeof data);
     await axios
-      .put(`${EmployesAPI.baseUrl}/employes/${id}`, data)
+      .put(`${EmployesAPI.baseUrl}/employes/${id}`, data, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -91,15 +145,25 @@ class EmployesAPI {
     return promiseResponse;
   }
 
-  static async delete(id: number) {
-    try {
-      const response = await axios.delete(
-        `${EmployesAPI.baseUrl}/employes/${id}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  static async delete(authenticatedEmployee: Employes, id: number) {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    await axios
+      .delete(`${EmployesAPI.baseUrl}/employes/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
+      .then(() => {})
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
 
