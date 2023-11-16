@@ -8,9 +8,10 @@ import useActivitesDepotStore from "../../../store/activites_depot/useActivitesD
 import useAuthenticatedEmployeStore from "../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 interface FormData {
-  // quantityBeforeSelling: string;
+  id: number;
+  quantityBeforeSelling: string;
   sale: string;
-  // quantityAfterSelling: string;
+  quantityAfterSelling: string;
   payment: string;
   expense: string;
   observation: string;
@@ -25,18 +26,23 @@ interface FormErrors {
   observation: string | null;
 }
 
-const useFogDetailsAddingForm = ({
-  //  quantityBeforeSelling,
-  sale,
-  //  quantityAfterSelling,
-  payment,
-  expense,
-  observation,
-}: FormData) => {
+const useFogDetailsUpdateForm = (
+  {
+    id,
+    quantityBeforeSelling,
+    sale,
+    quantityAfterSelling,
+    payment,
+    expense,
+    observation,
+  }: FormData,
+  modalLabel: string
+) => {
   const [formData, setFormData] = useState<FormData>({
-    //   quantityBeforeSelling: quantityBeforeSelling,
+    id,
+    quantityBeforeSelling: quantityBeforeSelling,
     sale: sale,
-    //  quantityAfterSelling: quantityAfterSelling,
+    quantityAfterSelling: quantityAfterSelling,
     payment: payment,
     expense: expense,
     observation: observation,
@@ -172,9 +178,10 @@ const useFogDetailsAddingForm = ({
 
   const onFormClose = () => {
     setFormData({
-      //  quantityBeforeSelling: quantityBeforeSelling,
+      id,
+      quantityBeforeSelling: quantityBeforeSelling,
       sale: sale,
-      //   quantityAfterSelling: quantityAfterSelling,
+      quantityAfterSelling: quantityAfterSelling,
       payment: payment,
       expense: expense,
       observation: observation,
@@ -202,36 +209,44 @@ const useFogDetailsAddingForm = ({
         observation: null,
       };
 
-      const response = await ActivitesDepotAPI.create(
+      const response = await ActivitesDepotAPI.update(
         authenticatedEmploye!,
+        id,
         new ActivitesDepot(
           selectedBrouillard!.id!,
-          0,
+          parseFloat(quantityBeforeSelling),
           parseFloat(formData.sale),
-          0,
+          parseFloat(quantityAfterSelling),
           parseFloat(formData.payment),
           parseFloat(formData.expense),
           formData.observation
         )
       );
 
-      if (response!.status == 201) {
+      if (response!.status == 200) {
         onFormClose();
-        toggleModal("fog-details-adding-form");
+        toggleModal(modalLabel);
         fetchAllActivitesDepot(selectedBrouillard!.id!);
-        setActionResultMessage("L'activité du dépôt a été ajouté avec succès");
+        setActionResultMessage(
+          "L'activité du dépôt a été mise à jour avec succès"
+        );
 
+        toggleModal("action-result-message");
+      } else if (response!.status == 400) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 401) {
         onFormClose();
-        toggleModal("fog-details-adding-form");
+        toggleModal(modalLabel);
         setActionResultMessage(
           `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
         );
         toggleModal("action-result-message");
       } else if (response!.status == 403) {
         onFormClose();
-        toggleModal("fog-details-adding-form");
+        toggleModal(modalLabel);
         setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 406) {
@@ -239,7 +254,7 @@ const useFogDetailsAddingForm = ({
         setFormErrors(errors);
       } else {
         onFormClose();
-        toggleModal("fog-details-adding-form");
+        toggleModal(modalLabel);
         setActionResultMessage("Erreur lors de l'ajout de l'activité du dépôt");
         toggleModal("action-result-message");
       }
@@ -256,4 +271,4 @@ const useFogDetailsAddingForm = ({
   };
 };
 
-export default useFogDetailsAddingForm;
+export default useFogDetailsUpdateForm;

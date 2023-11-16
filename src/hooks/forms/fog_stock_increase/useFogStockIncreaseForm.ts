@@ -97,6 +97,12 @@ const useFogAddingForm = (
       setFormErrors({
         newStock: null,
       });
+      console.log("added stock", formData.newStock);
+      console.log("last stock", formData.currentStock);
+      console.log(
+        "new stock",
+        parseFloat(formData.newStock) + parseFloat(formData.currentStock)
+      );
 
       const response = await BrouillardAPI.update(
         authenticatedEmploye!,
@@ -114,8 +120,7 @@ const useFogAddingForm = (
         onFormClose();
         toggleModal(modalLabel);
         fetchAllBrouillard();
-        setActionResultMessage("Le stock du dépôt a été augmenté avec succès");
-        console.log("Added successfuly");
+        setActionResultMessage("Le stock du dépôt a été complété avec succès");
         toggleModal("action-result-message");
       } else if (response!.status == 401) {
         onFormClose();

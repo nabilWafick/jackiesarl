@@ -43,7 +43,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             Stock Bon de Commande
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -52,7 +52,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 id="bcNumber"
                 type="text"
                 placeholder="Bon de Commande"
-                autoComplete="bcNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.bcNumber && (
@@ -62,7 +62,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             )}
           </div>
 
-          {/* <div className="input-group">
+          {/* <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -71,7 +71,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 id="category"
                 type="text"
                 placeholder="Catégorie"
-                autoComplete="category"
+               // autoComplete="category"
               />
             </div>
             {formErrors.category && (
@@ -81,7 +81,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -90,7 +90,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 id="purchasedQuantity"
                 type="text"
                 placeholder="Quantité Achetée"
-                autoComplete="purchasedQuantity"
+               // autoComplete="purchasedQuantity"
               />
             </div>
             {formErrors.purchasedQuantity && (
@@ -100,7 +100,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             )}
           </div> */}
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -109,7 +109,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 id="initialStock"
                 type="text"
                 placeholder="Stock Initial"
-                autoComplete="initialStock"
+                autoComplete="off"
               />
             </div>
             {formErrors.initialStock && (
@@ -119,7 +119,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             )}
           </div>
 
-          {/* <div className="input-group">
+          {/* <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -128,7 +128,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 id="sale"
                 type="text"
                 placeholder="Vente"
-                autoComplete="sale"
+               // autoComplete="sale"
               />
             </div>
             {formErrors.sale && (
@@ -138,7 +138,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -147,7 +147,7 @@ const PurchaseOrderStockAdding: FC<PurchaseOrderStockAddingProps> = ({
                 id="quantityAfterSelling"
                 type="text"
                 placeholder="Stock Après Vente"
-                autoComplete="quantityAfterSelling"
+               // autoComplete="quantityAfterSelling"
               />
             </div>
             {formErrors.quantityAfterSelling && (

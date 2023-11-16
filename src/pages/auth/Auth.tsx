@@ -18,7 +18,7 @@ const Auth: FC<AuthProps> = ({ needAuth, children }) => {
   );
 
   useEffect(() => {
-    if (needAuth)
+    if (needAuth) {
       if (!authenticatedEmploye) {
         navigateTo("/se-connecter");
         sessionStorage.clear();
@@ -40,12 +40,12 @@ const Auth: FC<AuthProps> = ({ needAuth, children }) => {
             }
           })
           .catch(async () => {
-            await localStorage.removeItem("AuthenticatedEmployeStore");
-            await sessionStorage.clear();
+            localStorage.removeItem("AuthenticatedEmployeStore");
+            sessionStorage.clear();
             navigateTo("/se-connecter");
           });
       }
-    else if (!authenticatedEmploye) {
+    } else if (!authenticatedEmploye) {
       setIsLoading(false);
     } else {
       axios

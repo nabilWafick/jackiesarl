@@ -150,7 +150,7 @@ const SideBar: FC = () => {
       onSideBarOptionClick: onSideBarOptionClick,
     },
     {
-      to: "/avance",
+      to: "/avances",
       icon: <GiPayMoney size={20} className=" text-gray-500" />,
       name: "Avance",
       index: 5,

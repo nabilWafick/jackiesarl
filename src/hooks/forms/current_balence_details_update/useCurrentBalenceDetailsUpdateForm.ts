@@ -191,6 +191,11 @@ const useCurrentBalenceDetailsUpdateForm = (
         toggleModal(modalLabel);
         setActionResultMessage("L'activité de la banque n'a pas été trouvée");
         toggleModal("action-result-message");
+      } else if (response!.status == 406) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error);
+        toggleModal("action-result-message");
       } else {
         onFormClose();
         toggleModal(modalLabel);

@@ -63,7 +63,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
             Paiement
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -72,7 +72,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
                 id="bcNumber"
                 type="text"
                 placeholder="Bon de Commande"
-                autoComplete="bcNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.bcNumber && (
@@ -82,7 +82,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -91,7 +91,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
                 id="category"
                 type="text"
                 placeholder="Catégorie"
-                autoComplete="category"
+                autoComplete="off"
               />
             </div>
             {formErrors.category && (
@@ -101,7 +101,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 msoldesb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -110,7 +110,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
                 id="amount"
                 type="text"
                 placeholder="Montant"
-                autoComplete="amount"
+                autoComplete="off"
               />
             </div>
             {formErrors.amount && (
@@ -120,7 +120,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSFormSelect
                 id="bank"
@@ -144,7 +144,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -153,7 +153,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
                 id="reference"
                 type="text"
                 placeholder="Référence"
-                autoComplete="reference"
+                autoComplete="off"
               />
             </div>
             {formErrors.reference && (
@@ -163,7 +163,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onFileInputChange}
@@ -172,7 +172,7 @@ const ClientPaymentUpdate: FC<ClientPaymentUpdateProps> = ({
                 id="slip"
                 type="file"
                 placeholder="Bordereau"
-                autoComplete="slip"
+                autoComplete="off"
               />
             </div>
             {formErrors.slip && (

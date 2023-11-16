@@ -46,7 +46,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
             Client
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 value={formData.firstname}
@@ -55,7 +55,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
                 id="firstname"
                 type="text"
                 placeholder="Prénoms"
-                autoComplete="firstname"
+                autoComplete="off"
               />
             </div>
             {formErrors.firstname && (
@@ -65,7 +65,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 value={formData.lastname}
@@ -74,7 +74,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
                 id="lastname"
                 type="text"
                 placeholder="Nom"
-                autoComplete="lastname"
+                autoComplete="off"
               />
             </div>
             {formErrors.lastname && (
@@ -84,7 +84,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 value={formData.ifuNumber}
@@ -93,7 +93,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
                 id="ifuNumber"
                 type="text"
                 placeholder="Numéro IFU"
-                autoComplete="ifuNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.ifuNumber && (
@@ -103,7 +103,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 value={formData.phoneNumber}
@@ -112,7 +112,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
                 id="phoneNumber"
                 type="text"
                 placeholder="Numéro de téléphone"
-                autoComplete="phoneNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.phoneNumber && (
@@ -122,7 +122,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 value={formData.email}
@@ -131,7 +131,7 @@ const ClientAdding: FC<ClientAddingProps> = ({
                 id="email"
                 type="email"
                 placeholder="Adresse email"
-                autoComplete="email"
+                autoComplete="off"
               />
             </div>
             {formErrors.email && (

@@ -3,7 +3,7 @@ import SoldeCourant from "../../models/solde_courant/solde_courant.model";
 import Employes from "../../models/employes/employes.model";
 import JSConstants from "../../utils/constants";
 
-interface SoldeCourantPromiserResponse {
+interface SoldeCourantPromiseResponse {
   status: number;
   soldeCourant?: SoldeCourant;
   error?: string;
@@ -23,7 +23,7 @@ class SoldeCourantAPI {
   static async create(
     authenticatedEmployee: Employes,
     data: SoldeCourant
-  ): Promise<SoldeCourantPromiserResponse | undefined> {
+  ): Promise<SoldeCourantPromiseResponse | undefined> {
     const accesToken =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.accessToken
@@ -32,7 +32,7 @@ class SoldeCourantAPI {
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
         : "token";
-    let promiseResponse: SoldeCourantPromiserResponse | undefined = undefined;
+    let promiseResponse: SoldeCourantPromiseResponse | undefined = undefined;
     await axios
       .post(`${SoldeCourantAPI.baseUrl}/solde-courant`, data.toJson(), {
         headers: {
@@ -101,7 +101,7 @@ class SoldeCourantAPI {
     authenticatedEmployee: Employes,
     id: number,
     data: SoldeCourant
-  ): Promise<SoldeCourantPromiserResponse | undefined> {
+  ): Promise<SoldeCourantPromiseResponse | undefined> {
     const accesToken =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.accessToken
@@ -110,7 +110,7 @@ class SoldeCourantAPI {
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
         : "token";
-    let promiseResponse: SoldeCourantPromiserResponse | undefined = undefined;
+    let promiseResponse: SoldeCourantPromiseResponse | undefined = undefined;
     await axios
       .put(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, data.toJson(), {
         headers: {
@@ -129,7 +129,7 @@ class SoldeCourantAPI {
   static async delete(
     authenticatedEmployee: Employes,
     id: number
-  ): Promise<SoldeCourantPromiserResponse | undefined> {
+  ): Promise<SoldeCourantPromiseResponse | undefined> {
     const accesToken =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.accessToken
@@ -138,9 +138,9 @@ class SoldeCourantAPI {
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
         : "token";
-    let promiseResponse: SoldeCourantPromiserResponse | undefined = undefined;
+    let promiseResponse: SoldeCourantPromiseResponse | undefined = undefined;
     await axios
-      .post(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, {
+      .delete(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, {
         headers: {
           "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },

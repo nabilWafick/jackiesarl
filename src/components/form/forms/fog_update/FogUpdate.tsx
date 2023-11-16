@@ -45,7 +45,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
             Brouillard
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -54,7 +54,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
                 id="deposit"
                 type="text"
                 placeholder="Dépot"
-                autoComplete="deposit"
+                autoComplete="off"
               />
             </div>
             {formErrors.deposit && (
@@ -64,7 +64,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -73,7 +73,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
                 id="currentStock"
                 type="text"
                 placeholder="Stock Actuel"
-                autoComplete="currentStock"
+                autoComplete="off"
               />
             </div>
             {formErrors.currentStock && (
@@ -82,7 +82,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
               </p>
             )}
           </div>
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -91,7 +91,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
                 id="managerName"
                 type="text"
                 placeholder="Nom Gérant"
-                autoComplete="managerName"
+                autoComplete="off"
               />
             </div>
             {formErrors.managerName && (
@@ -100,7 +100,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
               </p>
             )}
           </div>
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -109,7 +109,7 @@ const FogUpdate: FC<FogUpdateProps> = ({
                 id="managerNumber"
                 type="text"
                 placeholder="Numero Gérant Ex: 00229|22954252525"
-                autoComplete="managerNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.managerNumber && (

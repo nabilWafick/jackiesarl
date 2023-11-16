@@ -54,7 +54,7 @@ const SignupForm: FC<SignupFormProps> = ({
         className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] px-5 py-3
         "
       >
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
@@ -63,7 +63,7 @@ const SignupForm: FC<SignupFormProps> = ({
               id="firstname"
               type="text"
               placeholder="Prénoms"
-              autoComplete="firstname"
+              autoComplete="off"
             />
           </div>
           {formErrors.firstname && (
@@ -73,7 +73,7 @@ const SignupForm: FC<SignupFormProps> = ({
           )}
         </div>
 
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
@@ -82,7 +82,7 @@ const SignupForm: FC<SignupFormProps> = ({
               id="lastname"
               type="text"
               placeholder="Nom"
-              autoComplete="lastname"
+              autoComplete="off"
             />
           </div>
           {formErrors.lastname && (
@@ -92,7 +92,7 @@ const SignupForm: FC<SignupFormProps> = ({
           )}
         </div>
 
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
@@ -101,7 +101,7 @@ const SignupForm: FC<SignupFormProps> = ({
               id="email"
               type="email"
               placeholder="Email"
-              autoComplete="email"
+              autoComplete="off"
             />
           </div>
           {formErrors.email && (
@@ -111,7 +111,7 @@ const SignupForm: FC<SignupFormProps> = ({
           )}
         </div>
 
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
@@ -120,7 +120,7 @@ const SignupForm: FC<SignupFormProps> = ({
               id="role"
               type="text"
               placeholder="Poste | Rôle"
-              autoComplete="role"
+              autoComplete="off"
             />
           </div>
           {formErrors.role && (
@@ -130,7 +130,7 @@ const SignupForm: FC<SignupFormProps> = ({
           )}
         </div>
 
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
@@ -139,7 +139,7 @@ const SignupForm: FC<SignupFormProps> = ({
               id="phoneNumber"
               type="text"
               placeholder="Téléphone Ind: +229 | 00229"
-              autoComplete="phoneNumber"
+              autoComplete="off"
             />
           </div>
           {formErrors.phoneNumber && (
@@ -149,7 +149,7 @@ const SignupForm: FC<SignupFormProps> = ({
           )}
         </div>
 
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
@@ -158,7 +158,7 @@ const SignupForm: FC<SignupFormProps> = ({
               id="password"
               type="text"
               placeholder="Mot de passe"
-              autoComplete="password"
+              autoComplete="off"
             />
           </div>
           {formErrors.password && (

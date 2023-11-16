@@ -2,6 +2,12 @@
 import SoldeCourant from "../../../../models/solde_courant/solde_courant.model";
 import { FC, useEffect } from "react";
 import useActivitesBanque from "../../../../store/activites_banque/useActivitesBanque.store";
+import CurrentBalenceDetailsUpdate from "../../../form/forms/current_balence_details_update/CurrentBalenceDetailsUpdate";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { toggleModal } from "../widgets/ToggleModal";
+import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import ActivitesBanqueAPI from "../../../../api/activites_banque/activites_banque.api";
+import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 // import CurrentBalenceDetailsUpdate from "../../../form/forms/current_balence_details_update/CurrentBalenceDetailsUpdate";
 // import { toggleModal } from "../widgets/ToggleModal";
 // import ActivitesBanqueAPI from "../../../../api/activites_banque/activites_banque.api";
@@ -20,9 +26,13 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
   const fetchAllActivitesBanque = useActivitesBanque(
     (state) => state.fetchAllActivitesBanque
   );
-  // const setActionResultMessage = useInterfacesStore(
-  //   (state) => state.setActionResultMessage
-  // );
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+
+  const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
 
   useEffect(() => {
     fetchAllActivitesBanque(selectedBank!.id!);
@@ -39,8 +49,8 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
               <td className="font-medium">Débit</td>
               <td className="font-medium">Crédit</td>
               <td className="font-medium">Solde Actuel</td>
-              {/* <td className="font-medium"></td> */}
-              {/* <td className="font-medium"></td> */}
+              <td className="font-medium"></td>
+              <td className="font-medium"></td>
             </tr>
 
             {currentsBalenceDetails.map((currentBalence) => (
@@ -55,10 +65,10 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                 <td>
                   {currentBalence.solde_actuel} <i> fcfa</i>
                 </td>
-                {/* <td>
+                <td>
                   <div>
-                 
                     <CurrentBalenceDetailsUpdate
+                      key={Date.now() + currentBalence.id!}
                       id={currentBalence.id!}
                       id_banque={currentBalence.id_banque}
                       description={currentBalence.description}
@@ -67,7 +77,6 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                       currentBalence={currentBalence.solde_actuel.toString()}
                       modalLabel={`current-balence-details-update-form-${currentBalence.id}`}
                     />
-                    
 
                     <i className="flex justify-end">
                       <FaEdit
@@ -80,13 +89,14 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                       />
                     </i>
                   </div>
-                </td> */}
-                {/* <td>
-                  <i className="flex justify-end">
+                </td>
+                <td>
+                  <i className="flex justify-en d">
                     <FaTrash
                       color="red"
                       onClick={async () => {
                         const response = await ActivitesBanqueAPI.delete(
+                          authenticatedEmploye!,
                           currentBalence.id!
                         );
 
@@ -96,21 +106,32 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                           );
                           fetchAllActivitesBanque(selectedBank!.id!);
                           toggleModal("action-result-message");
+                        } else if (response!.status == 401) {
+                          setActionResultMessage(
+                            `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                          );
+                          toggleModal("action-result-message");
+                        } else if (response!.status == 403) {
+                          setActionResultMessage(response!.error);
+                          toggleModal("action-result-message");
                         } else if (response!.status == 404) {
                           setActionResultMessage(
                             "L'activité de la banque n'a pas été trouvée"
                           );
                           toggleModal("action-result-message");
+                        } else if (response!.status == 406) {
+                          setActionResultMessage(response!.error);
+                          toggleModal("action-result-message");
                         } else {
                           setActionResultMessage(
-                            "Erreur lors de la suppression de l''activité de la banque"
+                            "Erreur lors de la suppression de l'activité de la banque"
                           );
                           toggleModal("action-result-message");
                         }
                       }}
                     />
                   </i>
-                </td> */}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -46,7 +46,7 @@ const FogStockUpdate: FC<FogStockUpdateProps> = ({
             Brouillard
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -55,7 +55,7 @@ const FogStockUpdate: FC<FogStockUpdateProps> = ({
                 id="newStock"
                 type="text"
                 placeholder="Stock à ajouter"
-                autoComplete="newStock"
+                autoComplete="off"
               />
             </div>
             {formErrors.newStock && (

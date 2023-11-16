@@ -22,16 +22,16 @@ const LoginForm: FC<LoginFormProps> = ({ email, password }) => {
         className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] px-5 py-3
         "
       >
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
               value={formData.email}
               name="email"
-              id="email"
+              id="email1"
               type="email"
               placeholder="Email"
-              autoComplete="email"
+              autoComplete="off"
             />
           </div>
           {formErrors.email && (
@@ -41,7 +41,7 @@ const LoginForm: FC<LoginFormProps> = ({ email, password }) => {
           )}
         </div>
 
-        <div className="input-group">
+        <div className="input-group w-full">
           <div className="mt-3 mb-1 w-full">
             <JSInput
               onChange={onInputDataChange}
@@ -50,7 +50,7 @@ const LoginForm: FC<LoginFormProps> = ({ email, password }) => {
               id="password"
               type="text"
               placeholder="Mot de passe"
-              autoComplete="password"
+              autoComplete="off"
             />
           </div>
           {formErrors.password && (

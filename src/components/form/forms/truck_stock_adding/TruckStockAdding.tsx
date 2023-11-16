@@ -48,7 +48,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             Stock Camion
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -57,7 +57,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 id="truckNumber"
                 type="text"
                 placeholder="Num Camiom"
-                autoComplete="truckNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.truckNumber && (
@@ -67,7 +67,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSFormSelect
                 id="category"
@@ -86,8 +86,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 id="category"
                 type="text"
                 placeholder="Catégorie"
-                autoComplete="category"
-              /> */}
+               autoComplete="off"        /> */}
             </div>
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -96,7 +95,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -105,7 +104,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 id="driverNumber"
                 type="text"
                 placeholder="Num Chauffeur"
-                autoComplete="driverNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.driverNumber && (
@@ -115,7 +114,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -124,7 +123,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 id="bcNumber"
                 type="text"
                 placeholder="Bon de Commande"
-                autoComplete="bcNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.bcNumber && (
@@ -134,7 +133,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -143,7 +142,7 @@ const TruckStockAdding: FC<TruckStockAddingProps> = ({
                 id="quantity"
                 type="text"
                 placeholder="Quantité"
-                autoComplete="quantity"
+                autoComplete="off"
               />
             </div>
             {formErrors.quantity && (

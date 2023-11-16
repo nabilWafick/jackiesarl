@@ -50,7 +50,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             Vente
           </div>
 
-          {/* <div className="input-group">
+          {/* <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -59,7 +59,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
                 id="quantityBeforeSelling"
                 type="text"
                 placeholder="Quantité Avant Vente"
-                autoComplete="quantityBeforeSelling"
+               autoComplete="off"Selling"
               />
             </div>
             {formErrors.quantityBeforeSelling && (
@@ -69,7 +69,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             )}
           </div> */}
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -78,7 +78,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
                 id="sale"
                 type="text"
                 placeholder="Vente"
-                autoComplete="sale"
+                autoComplete="off"
               />
             </div>
             {formErrors.sale && (
@@ -88,7 +88,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             )}
           </div>
 
-          {/* <div className="input-group">
+          {/* <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -97,7 +97,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
                 id="quantityAfterSelling"
                 type="text"
                 placeholder="Quantité Après Vente"
-                autoComplete="quantityAfterSelling"
+               autoComplete="off"elling"
               />
             </div>
             {formErrors.quantityAfterSelling && (
@@ -107,7 +107,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             )}
           </div> */}
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -116,7 +116,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
                 id="payment"
                 type="text"
                 placeholder="Versement"
-                autoComplete="payment"
+                autoComplete="off"
               />
             </div>
             {formErrors.payment && (
@@ -126,7 +126,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -135,7 +135,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
                 id="expense"
                 type="text"
                 placeholder="Dépense"
-                autoComplete="expense"
+                autoComplete="off"
               />
             </div>
             {formErrors.expense && (
@@ -145,7 +145,7 @@ const FogDetailsAdding: FC<FogDetailsAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
                 onChange={onTextareaChange}

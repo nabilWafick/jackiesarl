@@ -1,50 +1,52 @@
 import { FC } from "react";
+import useFogDetailsUpdateForm from "../../../../hooks/forms/fog_details_update/useFogDetailsUpdateForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
+import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
-import useTruckStockUpdateForm from "../../../../hooks/forms/truck_stock_update/useTruckStockUpdate";
-import JSFormSelect from "../../widgets/FormSelect.widget";
 
-interface TruckStockUpadateProps {
+interface FogDetailsUpdateProps {
   id: number;
-  truckNumber: string;
-  category: string;
-  driverNumber: string;
-  bcNumber: string;
-  quantity: string;
+  quantityBeforeSelling: string;
+  sale: string;
+  quantityAfterSelling: string;
+  payment: string;
+  expense: string;
+  observation: string;
   modalLabel: string;
 }
 
-const TruckStockUpadate: FC<TruckStockUpadateProps> = ({
-  id: id,
-  truckNumber,
-  category,
-  driverNumber,
-  bcNumber,
-  quantity,
+const FogDetailsUpdate: FC<FogDetailsUpdateProps> = ({
+  id,
+  quantityBeforeSelling,
+  sale,
+  quantityAfterSelling,
+  payment,
+  expense,
+  observation,
   modalLabel,
 }) => {
   const {
     formData,
     formErrors,
     onInputDataChange,
-    onCategorieSelectChange,
+    onTextareaChange,
     onFormClose,
     onFormSubmit,
-  } = useTruckStockUpdateForm(
+  } = useFogDetailsUpdateForm(
     {
-      id: id,
-      truckNumber: truckNumber,
-      category: category,
-      driverNumber: driverNumber,
-      bcNumber: bcNumber,
-      quantity: quantity,
+      id,
+      quantityBeforeSelling: quantityBeforeSelling,
+      sale: sale,
+      quantityAfterSelling: quantityAfterSelling,
+      payment: payment,
+      expense: expense,
+      observation: observation,
     },
     modalLabel
   );
-
   return (
     <Modal label={modalLabel}>
       <form onSubmit={onFormSubmit}>
@@ -53,90 +55,81 @@ const TruckStockUpadate: FC<TruckStockUpadateProps> = ({
         "
         >
           <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
-            Stock Camion
+            Vente
           </div>
+
+          {/* <div className="input-group w-full">
+            <div className="mt-3 mb-1 w-full">
+              <JSInput
+                onChange={onInputDataChange}
+                value={formData.quantityBeforeSelling}
+                name="quantityBeforeSelling"
+                id="quantityBeforeSelling"
+                type="text"
+                placeholder="Quantité Avant Vente"
+              autoComplete="off"elling"
+              />
+            </div>
+            {formErrors.quantityBeforeSelling && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.quantityBeforeSelling}
+              </p>
+            )}
+          </div> */}
 
           <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.truckNumber}
-                name="truckNumber"
-                id="truckNumber"
+                value={formData.sale}
+                name="sale"
+                id="sale"
                 type="text"
-                placeholder="Num Camiom"
+                placeholder="Vente"
                 autoComplete="off"
               />
             </div>
-            {formErrors.truckNumber && (
+            {formErrors.sale && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.truckNumber}
+                {formErrors.sale}
               </p>
             )}
           </div>
 
-          <div className="input-group w-full">
+          {/* <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
-              <JSFormSelect
-                id="category"
-                name="category"
-                options={[
-                  { value: "CIM BENIN", label: "CIM BENIN" },
-                  { value: "NOCIBE", label: "NOCIBE" },
-                ]}
-                selectedOption={formData.category}
-                onChange={onCategorieSelectChange}
-              />
-              {/* <JSInput
+              <JSInput
                 onChange={onInputDataChange}
-                value={formData.category}
-                name="category"
-                id="category"
+                value={formData.quantityAfterSelling}
+                name="quantityAfterSelling"
+                id="quantityAfterSelling"
                 type="text"
-                placeholder="Catégorie"
-               autoComplete="off"     /> */}
+                placeholder="Quantité Après Vente"
+              autoComplete="off"lling"
+              />
             </div>
-            {formErrors.category && (
+            {formErrors.quantityAfterSelling && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.category}
+                {formErrors.quantityAfterSelling}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.driverNumber}
-                name="driverNumber"
-                id="driverNumber"
+                value={formData.payment}
+                name="payment"
+                id="payment"
                 type="text"
-                placeholder="Num Chauffeur"
+                placeholder="Versement"
                 autoComplete="off"
               />
             </div>
-            {formErrors.driverNumber && (
+            {formErrors.payment && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.driverNumber}
-              </p>
-            )}
-          </div>
-
-          <div className="input-group w-full">
-            <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.bcNumber}
-                name="bcNumber"
-                id="bcNumber"
-                type="text"
-                placeholder="Bon de Commande"
-                autoComplete="off"
-              />
-            </div>
-            {formErrors.bcNumber && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.bcNumber}
+                {formErrors.payment}
               </p>
             )}
           </div>
@@ -145,17 +138,34 @@ const TruckStockUpadate: FC<TruckStockUpadateProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.quantity}
-                name="quantity"
-                id="quantity"
+                value={formData.expense}
+                name="expense"
+                id="expense"
                 type="text"
-                placeholder="Quantité"
+                placeholder="Dépense"
                 autoComplete="off"
               />
             </div>
-            {formErrors.quantity && (
+            {formErrors.expense && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.quantity}
+                {formErrors.expense}
+              </p>
+            )}
+          </div>
+
+          <div className="input-group w-full">
+            <div className="mt-3 mb-1 w-full">
+              <JsTextarea
+                onChange={onTextareaChange}
+                value={formData.observation}
+                name="observation"
+                id="observation"
+                placeholder="Observation"
+              />
+            </div>
+            {formErrors.observation && (
+              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
+                {formErrors.observation}
               </p>
             )}
           </div>
@@ -177,4 +187,4 @@ const TruckStockUpadate: FC<TruckStockUpadateProps> = ({
   );
 };
 
-export default TruckStockUpadate;
+export default FogDetailsUpdate;

@@ -9,6 +9,7 @@ import {
   TotalCommandesTraiteesQuotidiennes,
   TotalPaiementsBanquesQuotidiens,
   TotalPaiementsJournaliers,
+  TotalVentesJournaliers,
   TotalStocksBonCommandeQuotidiens,
   TotalVenteQuotidienne,
 } from "../../models/table_bord/table_bord.model";
@@ -17,6 +18,7 @@ import TableBordAPI from "../../api/table_bord/table_bord.api";
 interface DashBoardStore {
   isToday: 1 | 0;
   statistiquePaiementsHebdomadaires: TotalPaiementsJournaliers[];
+  statistiqueVentesHebdomadaires: TotalVentesJournaliers[];
   totalClientsIncrits: TotalClientsInscritsQuotidiens;
   totalVente: TotalVenteQuotidienne;
   totalAchatsEntreprise: TotalAchatsEntrepriseQuotidiens[];
@@ -28,6 +30,7 @@ interface DashBoardStore {
   isLoading: boolean;
   fetchDashBoardData: (isToday: 1 | 0) => void;
   fetchStatistiquePaiementsHebdomadaires: () => void;
+  fetchStatistiqueSalesHebdomadaires: () => void;
   fetchTotalClientsIncrits: (isToday: 1 | 0) => void;
   fetchTotalVente: (isToday: 1 | 0) => void;
   fetchTotalAchatsEntreprise: (isToday: 1 | 0) => void;
@@ -73,8 +76,39 @@ const useDashBoardStore = create<DashBoardStore>()(
           total_paiement: 0,
         },
       ],
+      statistiqueVentesHebdomadaires: [
+        {
+          jour: "",
+          total_vente: 0,
+        },
+        {
+          jour: "",
+          total_vente: 0,
+        },
+        {
+          jour: "",
+          total_vente: 0,
+        },
+        {
+          jour: "",
+          total_vente: 0,
+        },
+        {
+          jour: "",
+          total_vente: 0,
+        },
+        {
+          jour: "",
+          total_vente: 0,
+        },
+        {
+          jour: "",
+          total_vente: 0,
+        },
+      ],
+
       totalClientsIncrits: { total_clients_incrits: 0 },
-      totalVente: { total_vente: 0 },
+      totalVente: { total_quantite: 0, total_vente: 0 },
       totalAchatsEntreprise: [
         {
           categorie: "",
@@ -159,6 +193,7 @@ const useDashBoardStore = create<DashBoardStore>()(
           return {};
         });
       },
+
       fetchStatistiquePaiementsHebdomadaires: async () => {
         const statistiquePaiementsHebdomadairesData =
           await TableBordAPI.getWeekDailyPayments();
@@ -166,6 +201,14 @@ const useDashBoardStore = create<DashBoardStore>()(
         set(() => ({
           statistiquePaiementsHebdomadaires:
             statistiquePaiementsHebdomadairesData,
+        }));
+      },
+      fetchStatistiqueSalesHebdomadaires: async () => {
+        const statistiqueVentesHebdomadairesData =
+          await TableBordAPI.getWeekDailySales();
+
+        set(() => ({
+          statistiqueVentesHebdomadaires: statistiqueVentesHebdomadairesData,
         }));
       },
       fetchTotalClientsIncrits: async (isToday: 1 | 0) => {

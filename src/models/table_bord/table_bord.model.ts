@@ -3,12 +3,18 @@ export type TotalPaiementsJournaliers = {
   total_paiement: number;
 };
 
+export interface TotalVentesJournaliers {
+  jour: string;
+  total_vente: number;
+}
+
 export type TotalClientsInscritsQuotidiens = {
   total_clients_incrits: number;
 };
 
 export type TotalVenteQuotidienne = {
-  total_vente: 0;
+  total_quantite: number;
+  total_vente: number;
 };
 
 export type TotalAchatsEntrepriseQuotidiens = {

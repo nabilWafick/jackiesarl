@@ -54,7 +54,7 @@ const ExpenseUpdate: FC<ExpenseUpdateProps> = ({
             Dépense
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
                 onChange={onTextareaChange}
@@ -71,7 +71,7 @@ const ExpenseUpdate: FC<ExpenseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -80,7 +80,7 @@ const ExpenseUpdate: FC<ExpenseUpdateProps> = ({
                 id="amount"
                 type="text"
                 placeholder="Montant"
-                autoComplete="amount"
+                autoComplete="off"
               />
             </div>
             {formErrors.amount && (
@@ -90,7 +90,7 @@ const ExpenseUpdate: FC<ExpenseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onFileInputChange}
@@ -98,7 +98,7 @@ const ExpenseUpdate: FC<ExpenseUpdateProps> = ({
                 id="piece"
                 type="file"
                 placeholder="Pièce"
-                autoComplete="piece"
+                autoComplete="off"
               />
             </div>
             {formErrors.piece && (

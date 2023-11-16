@@ -1,5 +1,5 @@
-import { BiArrowBack } from "react-icons/bi";
-import { Link } from "react-router-dom";
+// import { BiArrowBack } from "react-icons/bi";
+// import { Link } from "react-router-dom";
 import DebtsTable from "../../../../components/ui/dashboard/debts/DebtsTable";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import "../../../../assets/css/table.css";
@@ -30,7 +30,7 @@ const DebtsListPage: FC = () => {
   }, [fetchCreances]);
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="w-full flex justify-between items-center">
+      {/* <div className="w-full flex justify-between items-center">
         <Link
           className="w-max flex text-black hover:text-black font-normal"
           to="/creances"
@@ -40,7 +40,7 @@ const DebtsListPage: FC = () => {
             la page précédente
           </div>
         </Link>
-      </div>
+      </div> */}
 
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
         <DateIntervall

@@ -57,7 +57,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             Achat
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -66,7 +66,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
                 id="quantity"
                 type="text"
                 placeholder="Quantité"
-                autoComplete="quantity"
+                autoComplete="off"
               />
             </div>
             {formErrors.quantity && (
@@ -76,7 +76,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -85,7 +85,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
                 id="bcNumber"
                 type="text"
                 placeholder="Bon de commande"
-                autoComplete="bcNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.bcNumber && (
@@ -95,7 +95,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             )}
           </div>
 
-          {/* <div className="input-group">
+          {/* <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -104,8 +104,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
                 id="category"
                 type="text"
                 placeholder="Catégorie"
-                autoComplete="category"
-              />
+               autoComplete="off"          />
             </div>
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -114,7 +113,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             )}
           </div> */}
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -123,7 +122,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
                 id="amount"
                 type="text"
                 placeholder="Montant"
-                autoComplete="amount"
+                autoComplete="off"
               />
             </div>
             {formErrors.amount && (
@@ -133,7 +132,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -142,7 +141,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
                 id="ctpNumber"
                 type="text"
                 placeholder="Numéro CTP"
-                autoComplete="ctpNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.ctpNumber && (
@@ -152,7 +151,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onFileInputChange}
@@ -161,7 +160,7 @@ const ClientPurchaseUpdate: FC<ClientPurchaseUpdateProps> = ({
                 id="slip"
                 type="file"
                 placeholder="Bordereau"
-                autoComplete="slip"
+                autoComplete="off"
               />
             </div>
             {formErrors.slip && (

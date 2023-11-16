@@ -48,10 +48,10 @@ const permissionsGroupData: PermissionsGroupProps[] = [
         label: "Modifier les données d'un client",
         permission: "modifier-client",
       },
-      {
+      /* {
         label: "Supprimer les données d'un client",
         permission: "supprimer-client",
-      },
+      },*/
     ],
   },
   {
@@ -145,14 +145,14 @@ const permissionsGroupData: PermissionsGroupProps[] = [
         label: "Lire les données d'un stock bon de commande",
         permission: "lire-stock-bon-commande",
       },
-      {
+      /*  {
         label: "Modifier les données d'un stock bon de commande",
         permission: "modifier-stock-bon-commande",
       },
       {
         label: "Supprimer les données d'un stock bon de commande",
         permission: "supprimer-stock-bon-commande",
-      },
+      },*/
     ],
   },
   {
@@ -200,26 +200,26 @@ const permissionsGroupData: PermissionsGroupProps[] = [
   {
     permissionsGroupName: "Modification",
     permissionsList: [
-      {
+      /*   {
         label: "Ajouter une modification",
         permission: "ajouter-modification",
-      },
+      },*/
       {
         label: "Lire une modification",
         permission: "lire-modification",
       },
-      {
+      /* {
         label: "Modifier une modification",
         permission: "modifier-modification",
       },
-      {
+        {
         label: "Supprimer une modification",
         permission: "supprimer-modification",
-      },
+      },*/
     ],
   },
   {
-    permissionsGroupName: "Dépôt",
+    permissionsGroupName: "Brouillard",
     permissionsList: [
       {
         label: "Ajouter les données d'un dépôt",
@@ -292,14 +292,14 @@ const permissionsGroupData: PermissionsGroupProps[] = [
         label: "Lire un rapport",
         permission: "lire-rapport",
       },
-      {
+      /*{
         label: "Modifier un rapport",
         permission: "modifier-rapport",
       },
       {
         label: "Supprimer un rapport",
         permission: "supprimer-rapport",
-      },
+      },*/
     ],
   },
   {
@@ -334,14 +334,14 @@ const permissionsGroupData: PermissionsGroupProps[] = [
         label: "Lire les données d'une banque",
         permission: "lire-solde-courant",
       },
-      {
+      /* {
         label: "Modifier les données d'une banque",
         permission: "modifier-solde-courant",
       },
       {
         label: "Supprimer les données d'une banque",
         permission: "supprimer-solde-courant",
-      },
+      },*/
     ],
   },
   {
@@ -355,14 +355,14 @@ const permissionsGroupData: PermissionsGroupProps[] = [
         label: "Lire les données de l'activité d'une banque",
         permission: "lire-activite-banque",
       },
-      {
+      /* {
         label: "Modifier les données de l'activité d'une banque",
         permission: "modifier-activite-banque",
       },
       {
         label: "Supprimer les données de l'activité d'une banque",
         permission: "supprimer-activite-banque",
-      },
+      },*/
     ],
   },
 ];

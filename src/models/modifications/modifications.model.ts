@@ -2,6 +2,7 @@
 interface ModificationsJSON {
   id?: number;
   modification: string;
+  details: string;
   nom_employe: string;
   prenoms_employe: string;
   dateModification?: string; // Une chaîne de caractères pour la date au format ISO
@@ -10,12 +11,14 @@ interface ModificationsJSON {
 class Modifications {
   id?: number;
   modification: string;
+  details: string;
   nom_employe: string;
   prenoms_employe: string;
   dateModification?: Date;
 
   constructor(
     modification: string,
+    details: string,
     nom_employe: string,
     prenoms_employe: string,
     id?: number,
@@ -23,6 +26,7 @@ class Modifications {
   ) {
     this.id = id;
     this.modification = modification;
+    this.details = details;
     this.nom_employe = nom_employe;
     this.prenoms_employe = prenoms_employe;
     this.dateModification = dateModification;
@@ -32,6 +36,7 @@ class Modifications {
   static fromJson(json: ModificationsJSON): Modifications {
     return new Modifications(
       json.modification,
+      json.details,
       json.nom_employe,
       json.prenoms_employe,
       json.id,
@@ -44,6 +49,7 @@ class Modifications {
     return {
       id: this.id,
       modification: this.modification,
+      details: this.details,
       nom_employe: this.nom_employe,
       prenoms_employe: this.prenoms_employe,
       dateModification:

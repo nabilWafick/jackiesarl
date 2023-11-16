@@ -95,7 +95,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             </ul>
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onClientNameInputDataChange}
@@ -104,7 +104,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
                 id="clientName"
                 type="text"
                 placeholder="Nom du Client"
-                autoComplete="clientName"
+                //  autoComplete="clientName"
               />
             </div>
             {formErrors.clientName && (
@@ -114,7 +114,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group mt-3">
+          <div className="input-group w-full mt-3">
             {/* <label htmlFor="orderDate" className="text-black ">
               Date de commande
             </label> */}
@@ -134,7 +134,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group mt-3">
+          <div className="input-group w-full mt-3">
             {/* <label htmlFor="deliveryDate" className="text-black">
               Date de Livraison
             </label> */}
@@ -154,7 +154,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -163,7 +163,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
                 id="quantity"
                 type="text"
                 placeholder="Quantité"
-                autoComplete="quantity"
+                //  autoComplete="quantity"
               />
             </div>
             {formErrors.quantity && (
@@ -173,7 +173,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -182,7 +182,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
                 id="destination"
                 type="text"
                 placeholder="Destination"
-                autoComplete="destination"
+                //  autoComplete="destination"
               />
             </div>
             {formErrors.destination && (
@@ -192,7 +192,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
-          {/* <div className="input-group mt-3">
+          {/* <div className="input-group w-full mt-3">
             <label htmlFor="orderDate" className="text-black ">
               Date de commande
             </label>
@@ -212,7 +212,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group mt-3">
+          <div className="input-group w-full mt-3">
             <label htmlFor="deliveryDate" className="text-black">
               Date de Livraison
             </label>
@@ -232,7 +232,7 @@ const OrderUpdate: FC<OrderUpdateProps> = ({
             )}
           </div> */}
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSFormSelect
                 id="category"

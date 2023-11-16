@@ -41,7 +41,7 @@ const BankAdding: FC<BankAddingProps> = ({
             Banque
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSFormSelect
                 id="bank"
@@ -65,7 +65,7 @@ const BankAdding: FC<BankAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -74,7 +74,7 @@ const BankAdding: FC<BankAddingProps> = ({
                 id="accountNumber"
                 type="text"
                 placeholder="Numéro de compte"
-                autoComplete="accountNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.accountNumber && (
@@ -84,7 +84,7 @@ const BankAdding: FC<BankAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -93,7 +93,7 @@ const BankAdding: FC<BankAddingProps> = ({
                 id="currentBalence"
                 type="text"
                 placeholder="Solde actuel"
-                autoComplete="currentBalence"
+                autoComplete="off"
               />
             </div>
             {formErrors.currentBalence && (

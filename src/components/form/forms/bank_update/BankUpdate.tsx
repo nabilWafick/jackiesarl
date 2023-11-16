@@ -1,59 +1,74 @@
 import { FC } from "react";
-import useCurrentBalenceDetailsAddingForm from "../../../../hooks/forms/current_balence_details_adding/useCurrentBalenceDetailsAddingForm";
+import useBankUpdateForm from "../../../../hooks/forms/bank_update/useBankUpdateForm";
 import Modal from "../../../ui/dashboard/widgets/Modal.widget";
 import JsButton from "../../../ui/widgets/Button";
 import JsOutlineButton from "../../../ui/widgets/OutlineButton";
 import JSInput from "../../widgets/Input.widget";
-import JsTextarea from "../../widgets/Textarea.widget";
 import { toggleModal } from "../../../ui/dashboard/widgets/ToggleModal";
+import JSFormSelect from "../../widgets/FormSelect.widget";
 
-interface CurrentBalenceDetailsAddingProps {
-  description: string;
-  debit: string;
-  credit: string;
+interface BankUpdateProps {
+  id: number;
+  bank: string;
+  accountNumber: string;
+  currentBalence: string;
+  modalLabel: string;
 }
 
-const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
-  description,
-  debit,
-  credit,
+const BankUpdate: FC<BankUpdateProps> = ({
+  id,
+  bank,
+  accountNumber,
+  currentBalence,
+  modalLabel,
 }) => {
   const {
     formData,
     formErrors,
     onInputDataChange,
-    onTextareaChange,
+    onCategorieSelectChange,
     onFormClose,
     onFormSubmit,
-  } = useCurrentBalenceDetailsAddingForm({
-    description: description,
-    debit: debit,
-    credit: credit,
-  });
+  } = useBankUpdateForm(
+    {
+      id,
+      bank: bank,
+      accountNumber: accountNumber,
+      currentBalence: currentBalence,
+    },
+    modalLabel
+  );
   return (
-    <Modal label="current-balence-details-adding-form">
+    <Modal label={modalLabel}>
       <form onSubmit={onFormSubmit}>
         <div
           className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl
         "
         >
           <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">
-            Activité
+            Banque
           </div>
 
           <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
-              <JsTextarea
-                onChange={onTextareaChange}
-                value={formData.description}
-                name="description"
-                id="description"
-                placeholder="Description"
+              <JSFormSelect
+                id="bank"
+                name="bank"
+                options={[
+                  { value: "BOA", label: "BOA" },
+                  { value: "UBA", label: "UBA" },
+                  { value: "Ecobank", label: "Ecobank" },
+                  { value: "NSIA", label: "NSIA" },
+                  { value: "SGB", label: "SGB" },
+                  { value: "BGFI", label: "BGFI" },
+                ]}
+                selectedOption={formData.bank}
+                onChange={onCategorieSelectChange}
               />
             </div>
-            {formErrors.description && (
+            {formErrors.bank && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.description}
+                {formErrors.bank}
               </p>
             )}
           </div>
@@ -62,43 +77,22 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
-                value={formData.debit}
-                name="debit"
-                id="debit"
+                value={formData.accountNumber}
+                name="accountNumber"
+                id="accountNumber"
                 type="text"
-                placeholder="Débit"
+                placeholder="Numéro de compte"
                 autoComplete="off"
-                disabled={formData.credit != ""}
               />
             </div>
-            {formErrors.debit && (
+            {formErrors.accountNumber && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.debit}
+                {formErrors.accountNumber}
               </p>
             )}
           </div>
 
           <div className="input-group w-full">
-            <div className="mt-3 mb-1 w-full">
-              <JSInput
-                onChange={onInputDataChange}
-                value={formData.credit}
-                name="credit"
-                id="credit"
-                type="text"
-                placeholder="Crédit"
-                autoComplete="off"
-                disabled={formData.debit != ""}
-              />
-            </div>
-            {formErrors.credit && (
-              <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
-                {formErrors.credit}
-              </p>
-            )}
-          </div>
-
-          {/* <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -107,14 +101,15 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
                 id="currentBalence"
                 type="text"
                 placeholder="Solde actuel"
-               autoComplete="off"             />
+                autoComplete="off"
+              />
             </div>
             {formErrors.currentBalence && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
                 {formErrors.currentBalence}
               </p>
             )}
-          </div> */}
+          </div>
 
           <div className="w-full flex flex-row justify-around items-center mt-4 mb-1">
             <JsOutlineButton
@@ -122,7 +117,7 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
               name="Fermer"
               onClick={() => {
                 onFormClose();
-                toggleModal("current-balence-details-adding-form");
+                toggleModal(modalLabel);
               }}
             />
             <JsButton type="submit" name="Valider" />
@@ -133,4 +128,4 @@ const CurrentBalenceDetailsAdding: FC<CurrentBalenceDetailsAddingProps> = ({
   );
 };
 
-export default CurrentBalenceDetailsAdding;
+export default BankUpdate;

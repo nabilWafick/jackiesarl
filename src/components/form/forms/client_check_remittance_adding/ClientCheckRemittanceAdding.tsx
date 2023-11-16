@@ -46,7 +46,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
             Remise de chèque
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
                 onChange={onTextareaChange}
@@ -63,7 +63,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSFormSelect
                 id="bank"
@@ -87,7 +87,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -96,7 +96,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
                 id="amount"
                 type="text"
                 placeholder="Montant"
-                autoComplete="amount"
+                autoComplete="off"
               />
             </div>
             {formErrors.amount && (
@@ -106,7 +106,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -115,7 +115,7 @@ const ClientCheckRemittanceAdding: FC<ClientCheckRemittanceAddingProps> = ({
                 id="rest"
                 type="text"
                 placeholder="Reste"
-                autoComplete="rest"
+                autoComplete="off"
               />
             </div>
             {formErrors.rest && (

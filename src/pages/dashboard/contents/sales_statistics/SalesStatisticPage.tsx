@@ -1,18 +1,21 @@
-import { FaCalendar } from "react-icons/fa";
-import { DailyPaymentsLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailyPaymentsLineBarChart";
+import { useEffect } from "react";
 import "../../../../assets/css/table.css";
+import { DailySalesLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailySalesLineDarChart";
+import useDashBoardStore from "../../../../store/table_bord/useTableBord.store";
 
 const SellingStatisticsPage = () => {
+  const fetchStatistiqueSalesHebdomadaires = useDashBoardStore(
+    (state) => state.fetchStatistiqueSalesHebdomadaires
+  );
+
+  useEffect(() => {
+    fetchStatistiqueSalesHebdomadaires();
+  }, [fetchStatistiqueSalesHebdomadaires]);
+
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="flex my-1 justify-between items-center">
-        <p className="text-lg   ">Statistique des ventes</p>
-        <div className="flex flex-row text-sm p-2 bg-white border border-primary items-center    ">
-          Juin 2024 <FaCalendar size={25} className="pl-3 text-secondary" />
-        </div>
-      </div>
-      <div className="h-[400px] w-12/12 my-3 flex justify-center">
-        <DailyPaymentsLineBarChart />
+      <div className="h-[500px] my-16 flex justify-center">
+        <DailySalesLineBarChart />
       </div>
     </div>
   );

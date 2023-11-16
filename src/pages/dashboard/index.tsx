@@ -30,7 +30,6 @@ import SellingStatisticsPage from "./contents/sales_statistics/SalesStatisticPag
 import PaymentsValidationsPage from "./contents/payments_validations/PaymentsValidationsPage";
 import ClientsChartPage from "./contents/clients_chart/ClientsChartPage";
 import ClientsTonnageListPage from "./contents/clients_tonnage_list/ClientsTonnageListPage";
-import DebtsChartPage from "./contents/debts_chart/DebtsChartPage";
 import ExpensesValidationsPage from "./contents/expenses_validation/ExpensesValidationPage";
 import FogPage from "./contents/fog/FogPage";
 import SelectedClientPage from "./contents/selected_client/SelectedClient";
@@ -102,19 +101,10 @@ const Dashboard: FC = () => {
                     path="/paiements/validations"
                     Component={PaymentsValidationsPage}
                   />
-                  <Route path="/avance" Component={AdvancePage} />
+                  <Route path="/avances" Component={AdvancePage} />
                   <Route path="/achat" Component={PurchasesPage} />
                   <Route path="/modifications" Component={ModificationsPage} />
-                  <Route
-                    path="/modifications/cette-semaine"
-                    Component={ModificationsPage}
-                  />
-                  <Route
-                    path="/modifications/ce-mois"
-                    Component={ModificationsPage}
-                  />
-                  <Route path="/creances" Component={DebtsChartPage} />
-                  <Route path="/creances/liste" Component={DebtsListPage} />
+                  <Route path="/creances" Component={DebtsListPage} />
                   <Route path="/brouillard" Component={FogPage} />
                   <Route
                     path="/brouillard/details"

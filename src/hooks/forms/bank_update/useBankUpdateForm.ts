@@ -20,7 +20,8 @@ interface FormErrors {
 }
 
 const useBankUpdateForm = (
-  { id, bank, accountNumber, currentBalence }: FormData // modalLabel: string
+  { id, bank, accountNumber, currentBalence }: FormData,
+  modalLabel: string
 ) => {
   const [formData, setFormData] = useState<FormData>({
     id: id,
@@ -126,30 +127,30 @@ const useBankUpdateForm = (
 
       if (response!.status == 200) {
         onFormClose();
-        toggleModal("bank-adding-form");
+        toggleModal(modalLabel);
         fetchAllSoldeCourant();
-        setActionResultMessage("La banque a été ajoutée avec succès");
+        setActionResultMessage("La banque a été mise à jour avec succès");
         toggleModal("action-result-message");
       } else if (response!.status == 401) {
         onFormClose();
-        toggleModal("bank-adding-form");
+        toggleModal(modalLabel);
         setActionResultMessage(
           `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
         );
         toggleModal("action-result-message");
       } else if (response!.status == 403) {
         onFormClose();
-        toggleModal("bank-adding-form");
+        toggleModal(modalLabel);
         setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else if (response!.status == 406) {
         onFormClose();
-        toggleModal("bank-adding-form");
+        toggleModal(modalLabel);
         setActionResultMessage(response!.error);
         toggleModal("action-result-message");
       } else {
         onFormClose();
-        toggleModal("bank-adding-form");
+        toggleModal(modalLabel);
         setActionResultMessage("Erreur lors de l'ajout de la banque");
         toggleModal("action-result-message");
       }

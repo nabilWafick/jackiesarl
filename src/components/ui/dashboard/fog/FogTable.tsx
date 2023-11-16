@@ -92,6 +92,7 @@ const FogTable: FC<FogTableProps> = ({ fogs }) => {
                 <td>
                   <div>
                     <FogStockUpdate
+                      key={Date.now() + fog.id!}
                       id={fog.id!}
                       deposit={fog.depot}
                       currentStock={fog.stock_actuel.toString()}

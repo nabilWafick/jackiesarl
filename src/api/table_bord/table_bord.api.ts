@@ -6,12 +6,18 @@ interface TotalPaiementsJournaliers {
   total_paiement: number;
 }
 
+interface TotalVentesJournaliers {
+  jour: string;
+  total_vente: number;
+}
+
 interface TotalClientsInscritsQuotidiens {
   total_clients_incrits: number;
 }
 
 interface TotalVenteQuotidienne {
-  total_vente: 0;
+  total_quantite: number;
+  total_vente: number;
 }
 
 interface TotalAchatsEntrepriseQuotidiens {
@@ -59,6 +65,19 @@ class TableBordAPI {
     return promiseResponse;
   }
 
+  static async getWeekDailySales(): Promise<TotalVentesJournaliers[]> {
+    let promiseResponse: TotalVentesJournaliers[] = [];
+    await axios
+      .get(`${TableBordAPI.baseUrl}/table-bord/total-ventes-hebdomadaire/`)
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
+
   static async getDailyRegisteredCustumersTotal(
     isToday: 1 | 0
   ): Promise<TotalClientsInscritsQuotidiens> {
@@ -81,7 +100,10 @@ class TableBordAPI {
   static async getDailySalesTotal(
     isToday: 1 | 0
   ): Promise<TotalVenteQuotidienne> {
-    let promiseResponse: TotalVenteQuotidienne = { total_vente: 0 };
+    let promiseResponse: TotalVenteQuotidienne = {
+      total_quantite: 0,
+      total_vente: 0,
+    };
     await axios
       .get(
         `${TableBordAPI.baseUrl}/table-bord/total-ventes-quotidiennes/${isToday}`

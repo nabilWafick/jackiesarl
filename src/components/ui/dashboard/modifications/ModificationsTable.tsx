@@ -14,9 +14,16 @@ const ModificationsTable: FC<ModificationsTableProps> = ({ modifications }) => {
           <tbody>
             {modifications.map((modification) => (
               <tr key={modification.id}>
-                <td className="text-[15px]">
-                  {modification.prenoms_employe} {modification.nom_employe} :{" "}
-                  {modification.modification}
+                <td className="text-[15px] flex flex-col">
+                  <div className="mb-2 font-medium flex justify-between">
+                    <p className=" font-semibold">
+                      {modification.modification}
+                    </p>
+                    <p className=" font-medium">
+                      {modification.prenoms_employe} {modification.nom_employe}
+                    </p>
+                  </div>
+                  <span> {modification.details}</span>
                 </td>
               </tr>
             ))}

@@ -55,7 +55,7 @@ const CurrentBalenceDetailsUpdate: FC<CurrentBalenceDetailsUpdateProps> = ({
             Activité
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JsTextarea
                 onChange={onTextareaChange}
@@ -72,7 +72,7 @@ const CurrentBalenceDetailsUpdate: FC<CurrentBalenceDetailsUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -81,7 +81,7 @@ const CurrentBalenceDetailsUpdate: FC<CurrentBalenceDetailsUpdateProps> = ({
                 id="debit"
                 type="text"
                 placeholder="Débit"
-                autoComplete="debit"
+                autoComplete="off"
               />
             </div>
             {formErrors.debit && (
@@ -91,7 +91,7 @@ const CurrentBalenceDetailsUpdate: FC<CurrentBalenceDetailsUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -100,7 +100,7 @@ const CurrentBalenceDetailsUpdate: FC<CurrentBalenceDetailsUpdateProps> = ({
                 id="credit"
                 type="text"
                 placeholder="Crédit"
-                autoComplete="credit"
+                autoComplete="off"
               />
             </div>
             {formErrors.credit && (
@@ -110,7 +110,7 @@ const CurrentBalenceDetailsUpdate: FC<CurrentBalenceDetailsUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -119,7 +119,7 @@ const CurrentBalenceDetailsUpdate: FC<CurrentBalenceDetailsUpdateProps> = ({
                 id="currentBalence"
                 type="text"
                 placeholder="Solde actuel"
-                autoComplete="currentBalence"
+                autoComplete="off"
               />
             </div>
             {formErrors.currentBalence && (

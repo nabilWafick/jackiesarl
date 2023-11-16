@@ -59,7 +59,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
             Achat Entreprise
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -68,7 +68,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
                 id="bcNumber"
                 type="text"
                 placeholder="Bon de Commande"
-                autoComplete="bcNumber"
+                autoComplete="off"
               />
             </div>
             {formErrors.bcNumber && (
@@ -77,7 +77,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
               </p>
             )}
           </div>
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSFormSelect
                 id="category"
@@ -96,8 +96,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
                 id="category"
                 type="text"
                 placeholder="Catégorie"
-                autoComplete="category"
-              /> */}
+               autoComplete="off"           /> */}
             </div>
             {formErrors.category && (
               <p className="erreur ml-1.5 text-[12px] font-medium text-secondary">
@@ -105,7 +104,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
               </p>
             )}
           </div>
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -114,7 +113,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
                 id="purchasedQuantity"
                 type="text"
                 placeholder="Quantité Achetée"
-                autoComplete="purchasedQuantity"
+                autoComplete="off"
               />
             </div>
             {formErrors.purchasedQuantity && (
@@ -124,7 +123,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -133,7 +132,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
                 id="amount"
                 type="text"
                 placeholder="Montant"
-                autoComplete="amount"
+                autoComplete="off"
               />
             </div>
             {formErrors.amount && (
@@ -143,7 +142,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSFormSelect
                 id="bank"
@@ -167,7 +166,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onInputDataChange}
@@ -176,7 +175,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
                 id="check"
                 type="text"
                 placeholder="Chèque"
-                autoComplete="check"
+                autoComplete="off"
               />
             </div>
             {formErrors.check && (
@@ -186,7 +185,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
             )}
           </div>
 
-          <div className="input-group">
+          <div className="input-group w-full">
             <div className="mt-3 mb-1 w-full">
               <JSInput
                 onChange={onFileInputChange}
@@ -195,7 +194,7 @@ const CompanyPurchasseUpdate: FC<CompanyPurchasseUpdateProps> = ({
                 id="slip"
                 type="file"
                 placeholder="Bordereau"
-                autoComplete="slip"
+                autoComplete="off"
               />
             </div>
             {formErrors.slip && (

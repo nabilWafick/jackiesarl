@@ -4,14 +4,16 @@ import { FC, ReactElement } from "react";
 interface StatistiqueCardProps {
   name: string;
   icon: ReactElement;
-  percentage?: number;
-  increase?: boolean;
+  // percentage?: number;
+  // increase?: boolean;
+  supValue?: number;
   value: number;
 }
 
 const StatistiqueCard: FC<StatistiqueCardProps> = ({
   name,
   icon,
+  supValue,
   //   percentage,
   //  increase,
   value,
@@ -31,6 +33,9 @@ const StatistiqueCard: FC<StatistiqueCardProps> = ({
 
           <p>{percentage}%</p>
         </div> */}
+        <p className="text-center text-[20px] font-bold mr-2">
+          {supValue} {supValue != undefined && <i> t</i>}
+        </p>
       </div>
 
       <p className="text-center text-[30px] font-bold">{value}</p>

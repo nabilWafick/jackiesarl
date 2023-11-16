@@ -156,7 +156,7 @@ class BrouillardAPI {
         },
       })
       .then((response) => {
-        promiseResponse = response.data;
+        promiseResponse = response;
       })
       .catch((error) => {
         promiseResponse = error.response.data;

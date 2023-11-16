@@ -5,8 +5,8 @@ import JSConstants from "../../utils/constants";
 
 interface ActivitesDepotPromiseResponse {
   status: number;
-  activiteDepot: ActivitesDepot;
-  error: string;
+  activiteDepot?: ActivitesDepot;
+  error?: string;
 }
 
 interface ActivitesDepotJSON {
@@ -130,7 +130,7 @@ class ActivitesDepotAPI {
     authenticatedEmployee: Employes,
     id: number,
     data: ActivitesDepot
-  ) {
+  ): Promise<ActivitesDepotPromiseResponse | undefined> {
     const accesToken =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.accessToken
@@ -139,6 +139,8 @@ class ActivitesDepotAPI {
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
         : "token";
+    let promiseResponse: ActivitesDepotPromiseResponse | undefined = undefined;
+
     await axios
       .put(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, data, {
         headers: {
@@ -146,14 +148,19 @@ class ActivitesDepotAPI {
         },
       })
       .then((response) => {
-        console.log(response);
+        promiseResponse = response.data;
       })
       .catch((error) => {
-        console.error(error);
+        promiseResponse = error.response.data;
       });
+
+    return promiseResponse;
   }
 
-  static async delete(authenticatedEmployee: Employes, id: number) {
+  static async delete(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<ActivitesDepotPromiseResponse | undefined> {
     const accesToken =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.accessToken
@@ -162,16 +169,22 @@ class ActivitesDepotAPI {
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
         : "token";
+    let promiseResponse: ActivitesDepotPromiseResponse | undefined = undefined;
+
     await axios
       .delete(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, {
         headers: {
           "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
-      .then(() => {})
+      .then((response) => {
+        promiseResponse = response;
+      })
       .catch((error) => {
-        console.error(error);
+        promiseResponse = error.response.data;
       });
+
+    return promiseResponse;
   }
 }
 

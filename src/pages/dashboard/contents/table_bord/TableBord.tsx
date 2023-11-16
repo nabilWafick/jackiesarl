@@ -55,6 +55,7 @@ const TableBord: FC = () => {
             <StatistiqueCard
               name={"Vente"}
               icon={<BsHandbag className="text-secondary" size={40} />}
+              supValue={totalVente.total_quantite}
               value={totalVente.total_vente}
             />
           </div>
