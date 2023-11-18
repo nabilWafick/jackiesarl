@@ -37,16 +37,25 @@ import SearchPage from "./contents/search/SearchPage";
 import { FC } from "react";
 import NotFoundPage from "../unfounded_page/404";
 import Auth from "../auth/Auth";
+import Main from "../../layouts/main/Main.layout";
 
 const Dashboard: FC = () => {
   return (
     <Auth needAuth={true}>
-      <div className=" h-screen w-screen flex flex-row justify-center overflow-y-visible overflow-x-auto sidebar ">
+      <div
+        className="flex flex-row h-screen w-screen"
+        // className=" h-screen w-screen flex flex-row justify-center overflow-y-visible overflow-x-auto sidebar "
+      >
         {/*===================== SIDEBAR ====================*/}
 
         <SideBar />
 
         {/*====================== MAIN ======================*/}
+
+        <div className="flex flex-col w-full flex-1'">
+          <NavBar />
+          <Main />
+        </div>
 
         <div className="flex flex-row h-full w-full ">
           <div className="w-[20.1%] h-full"></div>
