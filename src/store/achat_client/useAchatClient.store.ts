@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClient from "../../models/achat_client/achat_client.model";
 import AchatClientAPI from "../../api/achat_client/achat_client.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface ClientPurchasesStore {
   clientPurchases: AchatClient[];
@@ -13,6 +14,8 @@ interface ClientPurchasesStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientPurchases: (clientId: number) => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -30,13 +33,20 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllClientPurchases: async (clientId: number) => {
         set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const selectedClientPurchases = await AchatClientAPI.getAllOfClient(
+          auth!,
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined,
+
           clientId
         );
         set(() => ({ clientPurchases: selectedClientPurchases }));
@@ -78,12 +88,13 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-
+        const auth = get().authenticatedEmployee;
         let selectedClientPurchases: AchatClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -91,6 +102,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -98,6 +110,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -105,6 +118,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -112,6 +126,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -119,6 +134,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -126,6 +142,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -133,6 +150,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -143,7 +161,9 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
 
         // ============= TO EXECUTE ===========
       },
+
       onEndDateChange: async (date: Date | Moment) => {
+        const auth = get().authenticatedEmployee;
         // ======== dates setting up ===========
 
         if (get().startDate == undefined && get().endDate == undefined) {
@@ -186,6 +206,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -193,6 +214,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -200,6 +222,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -207,6 +230,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -214,6 +238,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -221,6 +246,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -228,6 +254,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -235,6 +262,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -246,6 +274,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         // ============= TO EXECUTE ===========
       },
       resetDatesInterval: async () => {
+        const auth = get().authenticatedEmployee;
         set(() => ({
           startDate: undefined,
           endDate: undefined,
@@ -262,6 +291,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -269,6 +299,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -276,6 +307,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -283,6 +315,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -290,6 +323,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -297,6 +331,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -304,6 +339,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -311,6 +347,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -328,12 +365,13 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-
+        const auth = get().authenticatedEmployee;
         let selectedClientPurchases: AchatClient[] = [];
 
         if (value == "old-to-new") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -341,6 +379,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (value == "new-to-old") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -348,6 +387,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (value == "more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -355,6 +395,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (value == "less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -362,6 +403,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (value == "cim-benin-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -369,6 +411,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (value == "cim-benin-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientCIMBENINLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -376,6 +419,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (value == "nocibe-more-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBEMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -383,6 +427,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         } else if (value == "nocibe-less-important") {
           selectedClientPurchases =
             await AchatClientAPI.getAllOfClientNOCIBELessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId

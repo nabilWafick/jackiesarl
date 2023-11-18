@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import SoldeClient from "../../models/solde_client/solde_client.model";
 import SoldeClientAPI from "../../api/solde_client/solde_client.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface AvanceStore {
   avances: SoldeClient[];
@@ -11,6 +12,8 @@ interface AvanceStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAvances: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -27,10 +30,16 @@ const useAvanceStore = create<AvanceStore>()(
         startDate: undefined,
         endDate: undefined,
         selectedSortOption: "more-important",
+        authenticatedEmployee: undefined,
+        setAuthenticatedEmployee: (employee) => {
+          set(() => ({ authenticatedEmployee: employee }));
+        },
         fetchAvances: async () => {
           const begin = get().startDate;
           const end = get().endDate;
+          const auth = get().authenticatedEmployee;
           const creancesList = await SoldeClientAPI.getAllAdvanceMoreImportant(
+            auth!,
             begin ? begin.toLocaleString() : undefined,
             end ? end.toLocaleString() : undefined
           );
@@ -88,14 +97,16 @@ const useAvanceStore = create<AvanceStore>()(
             : undefined;
 
           let soldesClientsList: SoldeClient[] = [];
-
+          const auth = get().authenticatedEmployee;
           if (get().selectedSortOption == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (get().selectedSortOption == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceLessImportant(
+              auth!,
               begin,
               end
             );
@@ -153,16 +164,19 @@ const useAvanceStore = create<AvanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
+          const auth = get().authenticatedEmployee;
 
           let soldesClientsList: SoldeClient[] = [];
 
           if (get().selectedSortOption == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (get().selectedSortOption == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceLessImportant(
+              auth!,
               begin,
               end
             );
@@ -183,16 +197,19 @@ const useAvanceStore = create<AvanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
+          const auth = get().authenticatedEmployee;
 
           let soldesClientsList: SoldeClient[] = [];
 
           if (get().selectedSortOption == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (get().selectedSortOption == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceLessImportant(
+              auth!,
               begin,
               end
             );
@@ -212,16 +229,19 @@ const useAvanceStore = create<AvanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
+          const auth = get().authenticatedEmployee;
 
           let soldesClientsList: SoldeClient[] = [];
 
           if (value == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (value == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllAdvanceLessImportant(
+              auth!,
               begin,
               end
             );

@@ -48,10 +48,25 @@ class SoldeCourantAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<SoldeCourant | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<SoldeCourant | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let soldeCourant: SoldeCourant | undefined;
     await axios
-      .get(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`)
+      .get(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         soldeCourant = SoldeCourant.fromJson(response.data);
       })
@@ -61,29 +76,27 @@ class SoldeCourantAPI {
     return soldeCourant;
   }
 
-  static async getAll(): //  startDate: string | undefined,
+  static async getAll(
+    authenticatedEmployee: Employes
+  ): //  startDate: string | undefined,
   //  endDate: string | undefined
   Promise<SoldeCourant[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let soldeCourantsList: SoldeCourant[] = [];
 
-    /* if (!startDate || !endDate) {
-      await axios
-        .get(`${SoldeCourantAPI.baseUrl}/soldes-courants`)
-        .then((response) => {
-          soldeCourantsList = response.data.map(
-            (soldeCourant: SoldeCourantJSON) =>
-              SoldeCourant.fromJson(soldeCourant)
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-          return [] as SoldeCourant[];
-        });
-      return soldeCourantsList;
-    }*/
-
     await axios
-      .get(`${SoldeCourantAPI.baseUrl}/soldes-courants`)
+      .get(`${SoldeCourantAPI.baseUrl}/soldes-courants`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         soldeCourantsList = response.data.map(
           (soldeCourant: SoldeCourantJSON) =>

@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import RemiseChequeClient from "../../models/remise_cheque_client/remise_cheque_client.model";
 import RemiseChequeClientAPI from "../../api/remise_cheque_client/remise_cheque_client.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface ClientChecksRemittanceStore {
   clientChecksRemittance: RemiseChequeClient[];
@@ -13,6 +14,8 @@ interface ClientChecksRemittanceStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientChecksRemittance: (clientId: number) => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -30,12 +33,18 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllClientChecksRemittance: async (clientId: number) => {
         set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const selectedclientChecksRemittance =
           await RemiseChequeClientAPI.getAllOfClient(
+            auth!,
             begin ? begin.toLocaleString() : undefined,
             end ? end.toLocaleString() : undefined,
             clientId
@@ -80,12 +89,14 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -93,6 +104,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -100,6 +112,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -107,6 +120,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -114,6 +128,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "rest-more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -121,6 +136,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "rest-less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -128,6 +144,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "validated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientValidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -135,6 +152,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "unvalidated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -144,6 +162,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         else if (get().selectedSortOption == "BOA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBOABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -151,6 +170,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "UBA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUBABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -158,6 +178,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "NSIA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -165,6 +186,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "BGFI") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -172,6 +194,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "SGB") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -179,6 +202,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "Ecobank") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -226,12 +250,14 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -239,6 +265,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -246,6 +273,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -253,6 +281,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -260,6 +289,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "rest-more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -267,6 +297,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "rest-less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -274,6 +305,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "validated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientValidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -281,6 +313,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "unvalidated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -290,6 +323,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         else if (get().selectedSortOption == "BOA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBOABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -297,6 +331,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "UBA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUBABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -304,6 +339,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "NSIA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -311,6 +347,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "BGFI") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -318,6 +355,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "SGB") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -325,6 +363,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "Ecobank") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -344,12 +383,14 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -357,6 +398,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -364,6 +406,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -371,6 +414,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -378,6 +422,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "rest-more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -385,6 +430,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "rest-less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -392,6 +438,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "validated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientValidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -399,6 +446,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "unvalidated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -408,6 +456,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         else if (get().selectedSortOption == "BOA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBOABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -415,6 +464,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "UBA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUBABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -422,6 +472,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "NSIA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -429,6 +480,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "BGFI") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -436,6 +488,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "SGB") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -443,6 +496,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "Ecobank") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -461,12 +515,14 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 
         if (value == "old-to-new") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromOldToNew(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -474,6 +530,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (value == "new-to-old") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientFromNewToOld(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -481,6 +538,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (value == "more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientMostImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -488,6 +546,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (value == "less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -495,6 +554,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (value == "rest-more-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestMoreImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -502,6 +562,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (value == "rest-less-important") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientRestLessImportant(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -509,6 +570,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (value == "validated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientValidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -516,6 +578,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (value == "unvalidated") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUnvalidated(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -525,6 +588,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         else if (get().selectedSortOption == "BOA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBOABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -532,6 +596,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "UBA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientUBABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -539,6 +604,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "NSIA") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientNSIABank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -546,6 +612,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "BGFI") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientBGFIBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -553,6 +620,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "SGB") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientSGBBank(
+              auth!,
               begin,
               end,
               get().selectedClientId
@@ -560,6 +628,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
         } else if (get().selectedSortOption == "Ecobank") {
           selectedClientCheckRemittance =
             await RemiseChequeClientAPI.getAllOfClientEcobankBank(
+              auth!,
               begin,
               end,
               get().selectedClientId

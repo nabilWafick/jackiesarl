@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import ModificationsAPI from "../../api/modifications/modifications.api";
 import Modifications from "../../models/modifications/modifications.model";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface ModificationsStore {
   modifications: Modifications[];
@@ -12,6 +13,8 @@ interface ModificationsStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllModifications: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -29,14 +32,20 @@ const useModificationsStore = create<ModificationsStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllModifications: async () => {
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const modificationsList = await ModificationsAPI.getAll(
+          auth!,
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined
         );
-
+        // console.log(modificationsList);
         set(() => ({ modifications: modificationsList }));
       },
       onStartDateChange: async (date: Date | Moment) => {
@@ -76,8 +85,13 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
-        const modificationsList = await ModificationsAPI.getAll(begin, end);
+        const modificationsList = await ModificationsAPI.getAll(
+          auth!,
+          begin,
+          end
+        );
 
         // if (get().selectedSortOption == "old-to-new") {
         //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
@@ -101,16 +115,16 @@ const useModificationsStore = create<ModificationsStore>()(
         //   );
         // } else if (get().selectedSortOption == "cim-benin-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "cim-benin-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ modifications: modificationsList }));
@@ -154,8 +168,13 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
-        const modificationsList = await ModificationsAPI.getAll(begin, end);
+        const modificationsList = await ModificationsAPI.getAll(
+          auth!,
+          begin,
+          end
+        );
 
         // if (get().selectedSortOption == "old-to-new") {
         //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
@@ -179,16 +198,16 @@ const useModificationsStore = create<ModificationsStore>()(
         //   );
         // } else if (get().selectedSortOption == "cim-benin-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "cim-benin-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ modifications: modificationsList }));
@@ -204,8 +223,13 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
-        const modificationsList = await ModificationsAPI.getAll(begin, end);
+        const modificationsList = await ModificationsAPI.getAll(
+          auth!,
+          begin,
+          end
+        );
 
         // if (get().selectedSortOption == "old-to-new") {
         //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
@@ -229,16 +253,16 @@ const useModificationsStore = create<ModificationsStore>()(
         //   );
         // } else if (get().selectedSortOption == "cim-benin-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "cim-benin-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ modifications: modificationsList }));
@@ -253,8 +277,13 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
-        const modificationsList = await ModificationsAPI.getAll(begin, end);
+        const modificationsList = await ModificationsAPI.getAll(
+          auth!,
+          begin,
+          end
+        );
 
         // if (value == "old-to-new") {
         //   modificationsList = await ModificationsAPI.getAllFromOldToNew(
@@ -278,16 +307,16 @@ const useModificationsStore = create<ModificationsStore>()(
         //   );
         // } else if (value == "cim-benin-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (value == "cim-benin-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await ModificationsAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (value == "nocibe-more-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (value == "nocibe-less-important") {
         //   modificationsList =
-        //     await ModificationsAPI.getAllNOCIBELessImportant(begin, end);
+        //     await ModificationsAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ modifications: modificationsList }));

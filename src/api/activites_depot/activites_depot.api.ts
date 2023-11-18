@@ -54,10 +54,25 @@ class ActivitesDepotAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<ActivitesDepot | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<ActivitesDepot | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let activitesDepot: ActivitesDepot | undefined;
     await axios
-      .get(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`)
+      .get(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         activitesDepot = ActivitesDepot.fromJson(response.data);
       })
@@ -67,10 +82,24 @@ class ActivitesDepotAPI {
     return activitesDepot;
   }
 
-  static async getAll(): Promise<ActivitesDepot[]> {
+  static async getAll(
+    authenticatedEmployee: Employes
+  ): Promise<ActivitesDepot[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let activitesDepotList: ActivitesDepot[] = [];
     await axios
-      .get(`${ActivitesDepotAPI.baseUrl}/activites-depots`)
+      .get(`${ActivitesDepotAPI.baseUrl}/activites-depots`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         activitesDepotList = response.data.map(
           (activitesDepot: ActivitesDepotJSON) =>
@@ -85,16 +114,30 @@ class ActivitesDepotAPI {
   }
 
   static async getAllByDepotID(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     id_depot: number
   ): Promise<ActivitesDepot[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let activitesDepotList: ActivitesDepot[] = [];
 
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}`
+          `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           activitesDepotList = response.data.map(
@@ -111,7 +154,12 @@ class ActivitesDepotAPI {
 
     await axios
       .get(
-        `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}/${startDate}/${endDate}`
+        `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         activitesDepotList = response.data.map(

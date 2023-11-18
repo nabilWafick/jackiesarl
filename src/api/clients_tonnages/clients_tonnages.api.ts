@@ -1,6 +1,7 @@
 import axios from "axios";
 import ClientsTonnages from "../../models/clients_tonnages/clients_tonnages.model";
 import JSConstants from "../../utils/constants";
+import Employes from "../../models/employes/employes.model";
 
 interface ClientsJSON {
   id?: number;
@@ -22,10 +23,25 @@ interface ClientsTonnagesJSON {
 class ClientsTonnagesAPI {
   private static baseUrl = JSConstants.API_BASE_URL;
 
-  static async getById(id: number): Promise<ClientsTonnages | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<ClientsTonnages | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let client: ClientsTonnages | undefined;
     await axios
-      .get(`${ClientsTonnagesAPI.baseUrl}/clients-tonnages/${id}`)
+      .get(`${ClientsTonnagesAPI.baseUrl}/clients-tonnages/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         client = ClientsTonnages.fromJson(response.data);
       })
@@ -35,10 +51,24 @@ class ClientsTonnagesAPI {
     return client;
   }
 
-  static async getAll(): Promise<ClientsTonnages[]> {
+  static async getAll(
+    authenticatedEmployee: Employes
+  ): Promise<ClientsTonnages[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let clientsList: ClientsTonnages[] = [];
     await axios
-      .get(`${ClientsTonnagesAPI.baseUrl}/clients-tonnages/`)
+      .get(`${ClientsTonnagesAPI.baseUrl}/clients-tonnages/`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         clientsList = response.data.map((clientTonnage: ClientsTonnagesJSON) =>
           ClientsTonnages.fromJson(clientTonnage)

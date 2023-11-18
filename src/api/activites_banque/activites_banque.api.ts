@@ -51,10 +51,25 @@ class ActivitesBanqueAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<ActivitesBanque | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<ActivitesBanque | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let activitesBanque: ActivitesBanque | undefined;
     await axios
-      .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`)
+      .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         activitesBanque = ActivitesBanque.fromJson(response.data);
       })
@@ -64,10 +79,24 @@ class ActivitesBanqueAPI {
     return activitesBanque;
   }
 
-  static async getAll(): Promise<ActivitesBanque[]> {
+  static async getAll(
+    authenticatedEmployee: Employes
+  ): Promise<ActivitesBanque[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let activitesBanqueList: ActivitesBanque[] = [];
     await axios
-      .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque`)
+      .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         activitesBanqueList = response.data.map(
           (activitesBanque: ActivitesBanqueJSON) =>
@@ -81,10 +110,28 @@ class ActivitesBanqueAPI {
     return activitesBanqueList;
   }
 
-  static async getAllByBanqueID(id_banque: number): Promise<ActivitesBanque[]> {
+  static async getAllByBanqueID(
+    authenticatedEmployee: Employes,
+    id_banque: number
+  ): Promise<ActivitesBanque[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let activitesBanqueList: ActivitesBanque[] = [];
     await axios
-      .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque/banque/${id_banque}`)
+      .get(
+        `${ActivitesBanqueAPI.baseUrl}/activites-banque/banque/${id_banque}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
+      )
       .then((response) => {
         activitesBanqueList = response.data.map(
           (activitesBanque: ActivitesBanqueJSON) =>

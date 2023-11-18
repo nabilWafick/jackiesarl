@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClient from "../../models/achat_client/achat_client.model";
 import AchatClientAPI from "../../api/achat_client/achat_client.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface SalesStore {
   clientPurchases: AchatClient[];
@@ -13,6 +14,8 @@ interface SalesStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllSales: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -30,11 +33,17 @@ const useSalesStore = create<SalesStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllSales: async () => {
         // set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const selectedClientPurchases = await AchatClientAPI.getAll(
+          auth!,
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined
         );
@@ -77,41 +86,46 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPurchases: AchatClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPurchases = await AchatClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPurchases = await AchatClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPurchases = await AchatClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPurchases = await AchatClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINMostImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINLessImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBEMostImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBELessImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBELessImportant(auth!, begin, end);
         }
 
         set(() => ({ clientPurchases: selectedClientPurchases }));
@@ -155,41 +169,46 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPurchases: AchatClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPurchases = await AchatClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPurchases = await AchatClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPurchases = await AchatClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPurchases = await AchatClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINMostImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINLessImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBEMostImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBELessImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBELessImportant(auth!, begin, end);
         }
 
         set(() => ({ clientPurchases: selectedClientPurchases }));
@@ -207,41 +226,46 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPurchases: AchatClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPurchases = await AchatClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPurchases = await AchatClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPurchases = await AchatClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPurchases = await AchatClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINMostImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINLessImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBEMostImportant(auth!, begin, end);
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBELessImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBELessImportant(auth!, begin, end);
         }
         set(() => ({ clientPurchases: selectedClientPurchases }));
       },
@@ -255,41 +279,46 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPurchases: AchatClient[] = [];
 
         if (value == "old-to-new") {
           selectedClientPurchases = await AchatClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (value == "new-to-old") {
           selectedClientPurchases = await AchatClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (value == "more-important") {
           selectedClientPurchases = await AchatClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "less-important") {
           selectedClientPurchases = await AchatClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "cim-benin-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINMostImportant(auth!, begin, end);
         } else if (value == "cim-benin-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await AchatClientAPI.getAllCIMBENINLessImportant(auth!, begin, end);
         } else if (value == "nocibe-more-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBEMostImportant(auth!, begin, end);
         } else if (value == "nocibe-less-important") {
           selectedClientPurchases =
-            await AchatClientAPI.getAllNOCIBELessImportant(begin, end);
+            await AchatClientAPI.getAllNOCIBELessImportant(auth!, begin, end);
         }
 
         set(() => ({ clientPurchases: selectedClientPurchases }));

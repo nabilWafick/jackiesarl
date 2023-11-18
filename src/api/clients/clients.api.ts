@@ -57,10 +57,25 @@ class ClientsAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<Clients | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<Clients | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let client: Clients | undefined;
     await axios
-      .get(`${ClientsAPI.baseUrl}/client/${id}`)
+      .get(`${ClientsAPI.baseUrl}/client/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         client = Clients.fromJson(response.data);
       })
@@ -70,10 +85,25 @@ class ClientsAPI {
     return client;
   }
 
-  static async getAllMatched(name: string): Promise<Clients[]> {
+  static async getAllMatched(
+    authenticatedEmployee: Employes,
+    name: string
+  ): Promise<Clients[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let clientsList: Clients[] = [];
     await axios
-      .get(`${ClientsAPI.baseUrl}/clients/search/${name}`)
+      .get(`${ClientsAPI.baseUrl}/clients/search/${name}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         clientsList = response.data.map((client: ClientsJSON) =>
           Clients.fromJson(client)
@@ -86,14 +116,27 @@ class ClientsAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let clientsList: Clients[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${ClientsAPI.baseUrl}/clients-default`)
+        .get(`${ClientsAPI.baseUrl}/clients-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           clientsList = response.data.map((client: ClientsJSON) =>
             Clients.fromJson(client)
@@ -107,7 +150,11 @@ class ClientsAPI {
     }
 
     await axios
-      .get(`${ClientsAPI.baseUrl}/clients/${startDate}/${endDate}`)
+      .get(`${ClientsAPI.baseUrl}/clients/${startDate}/${endDate}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         clientsList = response.data.map((client: ClientsJSON) =>
           Clients.fromJson(client)
@@ -120,14 +167,27 @@ class ClientsAPI {
   }
 
   static async getAllByAlphabeticalOrder(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let clientsList: Clients[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${ClientsAPI.baseUrl}/clients/alphabetical-order`)
+        .get(`${ClientsAPI.baseUrl}/clients/alphabetical-order`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           clientsList = response.data.map((client: ClientsJSON) =>
             Clients.fromJson(client)
@@ -142,7 +202,12 @@ class ClientsAPI {
 
     await axios
       .get(
-        `${ClientsAPI.baseUrl}/clients/alphabetical-order/${startDate}/${endDate}`
+        `${ClientsAPI.baseUrl}/clients/alphabetical-order/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         clientsList = response.data.map((client: ClientsJSON) =>
@@ -156,14 +221,27 @@ class ClientsAPI {
   }
 
   static async getAllFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let clientsList: Clients[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${ClientsAPI.baseUrl}/clients/old-to-new`)
+        .get(`${ClientsAPI.baseUrl}/clients/old-to-new`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           clientsList = response.data.map((client: ClientsJSON) =>
             Clients.fromJson(client)
@@ -177,7 +255,11 @@ class ClientsAPI {
     }
 
     await axios
-      .get(`${ClientsAPI.baseUrl}/clients/old-to-new/${startDate}/${endDate}`)
+      .get(`${ClientsAPI.baseUrl}/clients/old-to-new/${startDate}/${endDate}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         clientsList = response.data.map((client: ClientsJSON) =>
           Clients.fromJson(client)
@@ -190,13 +272,26 @@ class ClientsAPI {
   }
 
   static async getAllFromNewToOld(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let clientsList: Clients[] = [];
     if (!startDate || !endDate) {
       await axios
-        .get(`${ClientsAPI.baseUrl}/clients/new-to-old`)
+        .get(`${ClientsAPI.baseUrl}/clients/new-to-old`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           clientsList = response.data.map((client: ClientsJSON) =>
             Clients.fromJson(client)
@@ -209,7 +304,11 @@ class ClientsAPI {
       return clientsList;
     }
     await axios
-      .get(`${ClientsAPI.baseUrl}/clients/new-to-old/${startDate}/${endDate}`)
+      .get(`${ClientsAPI.baseUrl}/clients/new-to-old/${startDate}/${endDate}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         clientsList = response.data.map((client: ClientsJSON) =>
           Clients.fromJson(client)

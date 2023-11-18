@@ -14,6 +14,7 @@ import {
   TotalVenteQuotidienne,
 } from "../../models/table_bord/table_bord.model";
 import TableBordAPI from "../../api/table_bord/table_bord.api";
+import Employes from "../../models/employes/employes.model";
 
 interface DashBoardStore {
   isToday: 1 | 0;
@@ -28,6 +29,8 @@ interface DashBoardStore {
   totalStocksBonCommande: TotalStocksBonCommandeQuotidiens[];
   totalAvancesCreances: TotalAvancesCreancesQuotidiennes;
   isLoading: boolean;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchDashBoardData: (isToday: 1 | 0) => void;
   fetchStatistiquePaiementsHebdomadaires: () => void;
   fetchStatistiqueSalesHebdomadaires: () => void;
@@ -177,7 +180,10 @@ const useDashBoardStore = create<DashBoardStore>()(
       ],
       totalAvancesCreances: { total_avances: 0, total_creances: 0 },
       isLoading: false,
-
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchDashBoardData: async (isToday: 1 | 0) => {
         set((state) => {
           state.fetchStatistiquePaiementsHebdomadaires();
@@ -195,8 +201,9 @@ const useDashBoardStore = create<DashBoardStore>()(
       },
 
       fetchStatistiquePaiementsHebdomadaires: async () => {
+        const auth = get().authenticatedEmployee;
         const statistiquePaiementsHebdomadairesData =
-          await TableBordAPI.getWeekDailyPayments();
+          await TableBordAPI.getWeekDailyPayments(auth!);
 
         set(() => ({
           statistiquePaiementsHebdomadaires:
@@ -204,54 +211,66 @@ const useDashBoardStore = create<DashBoardStore>()(
         }));
       },
       fetchStatistiqueSalesHebdomadaires: async () => {
+        const auth = get().authenticatedEmployee;
         const statistiqueVentesHebdomadairesData =
-          await TableBordAPI.getWeekDailySales();
+          await TableBordAPI.getWeekDailySales(auth!);
 
         set(() => ({
           statistiqueVentesHebdomadaires: statistiqueVentesHebdomadairesData,
         }));
       },
       fetchTotalClientsIncrits: async (isToday: 1 | 0) => {
+        const auth = get().authenticatedEmployee;
         const totalClientsIncritsData =
-          await TableBordAPI.getDailyRegisteredCustumersTotal(isToday);
+          await TableBordAPI.getDailyRegisteredCustumersTotal(auth!, isToday);
         set(() => ({ totalClientsIncrits: totalClientsIncritsData }));
       },
       fetchTotalVente: async (isToday: 1 | 0) => {
-        const totalVenteData = await TableBordAPI.getDailySalesTotal(isToday);
+        const auth = get().authenticatedEmployee;
+        const totalVenteData = await TableBordAPI.getDailySalesTotal(
+          auth!,
+          isToday
+        );
         set(() => ({ totalVente: totalVenteData }));
       },
       fetchTotalAchatsEntreprise: async (isToday: 1 | 0) => {
+        const auth = get().authenticatedEmployee;
         const totalAchatsEntrepriseData =
-          await TableBordAPI.getDailyCompanyPurchases(isToday);
+          await TableBordAPI.getDailyCompanyPurchases(auth!, isToday);
         set(() => ({ totalAchatsEntreprise: totalAchatsEntrepriseData }));
       },
       fetchTotalCommandesNonTraitees: async (isToday: 1 | 0) => {
+        const auth = get().authenticatedEmployee;
         const totalCommandesNonTraiteesData =
-          await TableBordAPI.getDailyUntraitedOrdersTotal(isToday);
+          await TableBordAPI.getDailyUntraitedOrdersTotal(auth!, isToday);
 
         set(() => ({
           totalCommandesNonTraitees: totalCommandesNonTraiteesData,
         }));
       },
       fetchTotalCommandesTraitees: async (isToday: 1 | 0) => {
+        const auth = get().authenticatedEmployee;
         const totalCommandesTraiteesData =
-          await TableBordAPI.getDailyTraitedOrdersTotal(isToday);
+          await TableBordAPI.getDailyTraitedOrdersTotal(auth!, isToday);
 
         set(() => ({ totalCommandesTraitees: totalCommandesTraiteesData }));
       },
       fetchTotalPaiementsBanques: async (isToday: 1 | 0) => {
+        const auth = get().authenticatedEmployee;
         const totalPaiementsBanquesData =
-          await TableBordAPI.getDailyPaymentPerBank(isToday);
+          await TableBordAPI.getDailyPaymentPerBank(auth!, isToday);
         set(() => ({ totalPaiementsBanques: totalPaiementsBanquesData }));
       },
       fetchTotalStocksBonCommande: async (isToday: 1 | 0) => {
+        const auth = get().authenticatedEmployee;
         const totalStocksBonCommandeData =
-          await TableBordAPI.getDailyPurchasesOrdersStockTotal(isToday);
+          await TableBordAPI.getDailyPurchasesOrdersStockTotal(auth!, isToday);
         set(() => ({ totalStocksBonCommande: totalStocksBonCommandeData }));
       },
       fetchTotalAvancesCreances: async (isToday: 1 | 0) => {
+        const auth = get().authenticatedEmployee;
         const totalAvancesCreancesData =
-          await TableBordAPI.getDailyAdvancesDebts(isToday);
+          await TableBordAPI.getDailyAdvancesDebts(auth!, isToday);
         set(() => ({ totalAvancesCreances: totalAvancesCreancesData }));
       },
 

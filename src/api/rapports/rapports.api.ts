@@ -106,10 +106,25 @@ class RapportsAPI {
     return rapportsList;
   }
 
-  static async getAllOfEmployee(employee_id: number): Promise<Rapports[]> {
+  static async getAllOfEmployee(
+    authenticatedEmployee: Employes,
+    employee_id: number
+  ): Promise<Rapports[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let rapportsList: Rapports[] = [];
     await axios
-      .get(`${RapportsAPI.baseUrl}/rapports/employee/${employee_id}`)
+      .get(`${RapportsAPI.baseUrl}/rapports/employee/${employee_id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         rapportsList = response.data;
       })

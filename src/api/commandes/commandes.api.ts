@@ -52,10 +52,25 @@ class CommandesAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<Commandes | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<Commandes | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commande: Commandes | undefined;
     await axios
-      .get(`${CommandesAPI.baseUrl}/commande/${id}`)
+      .get(`${CommandesAPI.baseUrl}/commande/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         commande = Commandes.fromJson(response.data);
       })
@@ -66,49 +81,27 @@ class CommandesAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes-default`)
-        .then((response) => {
-          commandesList = response.data.map((commande: CommandesJSON) =>
-            Commandes.fromJson(commande)
-          );
+        .get(`${CommandesAPI.baseUrl}/commandes-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
         })
-        .catch((error) => {
-          console.log(error);
-          return [] as Commandes[];
-        });
-      return commandesList;
-    }
-
-    await axios
-      .get(`${CommandesAPI.baseUrl}/commandes-default/${startDate}/${endDate}`)
-      .then((response) => {
-        commandesList = response.data.map((commande: CommandesJSON) =>
-          Commandes.fromJson(commande)
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-        return [] as Commandes[];
-      });
-    return commandesList;
-  }
-
-  static async getAllFromNewToOld(
-    startDate: string | undefined,
-    endDate: string | undefined
-  ): Promise<Commandes[]> {
-    let commandesList: Commandes[] = [];
-
-    if (!startDate || !endDate) {
-      await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/new-to-old`)
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -123,7 +116,67 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/new-to-old/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes-default/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
+      )
+      .then((response) => {
+        commandesList = response.data.map((commande: CommandesJSON) =>
+          Commandes.fromJson(commande)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Commandes[];
+      });
+    return commandesList;
+  }
+
+  static async getAllFromNewToOld(
+    authenticatedEmployee: Employes,
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let commandesList: Commandes[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${CommandesAPI.baseUrl}/commandes/new-to-old`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
+        .then((response) => {
+          commandesList = response.data.map((commande: CommandesJSON) =>
+            Commandes.fromJson(commande)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Commandes[];
+        });
+      return commandesList;
+    }
+
+    await axios
+      .get(
+        `${CommandesAPI.baseUrl}/commandes/new-to-old/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -138,14 +191,27 @@ class CommandesAPI {
   }
 
   static async getAllFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/old-to-new`)
+        .get(`${CommandesAPI.baseUrl}/commandes/old-to-new`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -160,7 +226,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/old-to-new/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/old-to-new/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -175,14 +246,27 @@ class CommandesAPI {
   }
 
   static async getAllMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/most-important`)
+        .get(`${CommandesAPI.baseUrl}/commandes/most-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -197,7 +281,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/most-important/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -212,14 +301,27 @@ class CommandesAPI {
   }
 
   static async getAllLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/less-important`)
+        .get(`${CommandesAPI.baseUrl}/commandes/less-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -234,7 +336,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/less-important/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -249,14 +356,27 @@ class CommandesAPI {
   }
 
   static async getAllCIMBENINMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/cim-benin-most-important`)
+        .get(`${CommandesAPI.baseUrl}/commandes/cim-benin-most-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -271,7 +391,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/cim-benin-most-important/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/cim-benin-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -286,14 +411,27 @@ class CommandesAPI {
   }
 
   static async getAllCIMBENINLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/cim-benin-less-important`)
+        .get(`${CommandesAPI.baseUrl}/commandes/cim-benin-less-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -308,7 +446,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/cim-benin-less-important/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/cim-benin-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -323,14 +466,27 @@ class CommandesAPI {
   }
 
   static async getAllNOCIBEMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/nocibe-most-important`)
+        .get(`${CommandesAPI.baseUrl}/commandes/nocibe-most-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -345,7 +501,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/nocibe-most-important/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/nocibe-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -360,14 +521,27 @@ class CommandesAPI {
   }
 
   static async getAllNOCIBELessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/nocibe-less-important`)
+        .get(`${CommandesAPI.baseUrl}/commandes/nocibe-less-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) =>
             Commandes.fromJson(commande)
@@ -382,7 +556,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/nocibe-less-important/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/nocibe-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) =>
@@ -397,13 +576,26 @@ class CommandesAPI {
   }
 
   static async getAllUndelivered(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/undelivered`)
+        .get(`${CommandesAPI.baseUrl}/commandes/undelivered`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) => {
             return Commandes.fromJson(commande);
@@ -418,7 +610,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/undelivered/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/undelivered/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) => {
@@ -433,13 +630,26 @@ class CommandesAPI {
   }
 
   static async getAllDelivered(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/delivered`)
+        .get(`${CommandesAPI.baseUrl}/commandes/delivered`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) => {
             return Commandes.fromJson(commande);
@@ -454,7 +664,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/delivered/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/delivered/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) => {
@@ -469,13 +684,26 @@ class CommandesAPI {
   }
 
   static async getAllGroupByDestination(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let commandesList: Commandes[] = [];
     if (!startDate || !endDate) {
       await axios
-        .get(`${CommandesAPI.baseUrl}/commandes/destination`)
+        .get(`${CommandesAPI.baseUrl}/commandes/destination`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           commandesList = response.data.map((commande: CommandesJSON) => {
             return Commandes.fromJson(commande);
@@ -490,7 +718,12 @@ class CommandesAPI {
 
     await axios
       .get(
-        `${CommandesAPI.baseUrl}/commandes/destination/${startDate}/${endDate}`
+        `${CommandesAPI.baseUrl}/commandes/destination/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         commandesList = response.data.map((commande: CommandesJSON) => {
@@ -519,7 +752,7 @@ class CommandesAPI {
         : "token";
     let promiseResponse: CommandesPromiseResponse | undefined = undefined;
     await axios
-      .put(`${CommandesAPI.baseUrl}/commandes/${id}`, data.toJson(), {
+      .put(`${CommandesAPI.baseUrl}/commandes/${id}`, data, {
         headers: {
           "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },

@@ -152,7 +152,7 @@ const SideBar: FC = () => {
     {
       to: "/avances",
       icon: <GiPayMoney size={20} className=" text-gray-500" />,
-      name: "Avance",
+      name: "Avances",
       index: 5,
       isOpen: false,
       currentActiveSideBarOption: currentActiveSideBarOption,

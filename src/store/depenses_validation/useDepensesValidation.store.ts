@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import Depenses from "../../models/depenses/depenses.model";
 import DepensesAPI from "../../api/depenses/depenses.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface DepensesValidationStore {
   depenses: Depenses[];
@@ -12,6 +13,8 @@ interface DepensesValidationStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllDepenses: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -29,11 +32,17 @@ const useDepensesValidationStore = create<DepensesValidationStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllDepenses: async () => {
         //    console.log("fetching data");
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const depensesList: Depenses[] = await DepensesAPI.getAll(
+          auth!,
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined
         );
@@ -78,21 +87,46 @@ const useDepensesValidationStore = create<DepensesValidationStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let companyExpenses: Depenses[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
-          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "new-to-old") {
-          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "more-important") {
-          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "less-important") {
-          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "validated") {
-          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllValidated(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "unvalidated") {
-          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllUnvalidated(
+            auth!,
+            begin,
+            end
+          );
         }
 
         set(() => ({ depenses: companyExpenses }));
@@ -136,21 +170,46 @@ const useDepensesValidationStore = create<DepensesValidationStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let companyExpenses: Depenses[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
-          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "new-to-old") {
-          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "more-important") {
-          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "less-important") {
-          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "validated") {
-          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllValidated(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "unvalidated") {
-          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllUnvalidated(
+            auth!,
+            begin,
+            end
+          );
         }
 
         set(() => ({ depenses: companyExpenses }));
@@ -166,21 +225,46 @@ const useDepensesValidationStore = create<DepensesValidationStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let companyExpenses: Depenses[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
-          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "new-to-old") {
-          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "more-important") {
-          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "less-important") {
-          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "validated") {
-          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllValidated(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "unvalidated") {
-          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllUnvalidated(
+            auth!,
+            begin,
+            end
+          );
         }
 
         set(() => ({ depenses: companyExpenses }));
@@ -195,21 +279,46 @@ const useDepensesValidationStore = create<DepensesValidationStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let companyExpenses: Depenses[] = [];
 
         if (value == "old-to-new") {
-          companyExpenses = await DepensesAPI.getAllFromOldToNew(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "new-to-old") {
-          companyExpenses = await DepensesAPI.getAllFromNewToOld(begin, end);
+          companyExpenses = await DepensesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "more-important") {
-          companyExpenses = await DepensesAPI.getAllMostImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "less-important") {
-          companyExpenses = await DepensesAPI.getAllLessImportant(begin, end);
+          companyExpenses = await DepensesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "validated") {
-          companyExpenses = await DepensesAPI.getAllValidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllValidated(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "unvalidated") {
-          companyExpenses = await DepensesAPI.getAllUnvalidated(begin, end);
+          companyExpenses = await DepensesAPI.getAllUnvalidated(
+            auth!,
+            begin,
+            end
+          );
         }
 
         set(() => ({ depenses: companyExpenses }));

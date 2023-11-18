@@ -14,6 +14,8 @@ interface ReportsStore {
   //   startDate: Date | Moment | undefined;
   //   endDate: Date | Moment | undefined;
   //   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllEmployeesReports: (authenticatedEmployee: Employes) => void;
   fetchAllOfEmployeeReports: (employee_id: number) => void;
   setReportSelectedEmployee: (employee: Employes) => void;
@@ -32,7 +34,12 @@ const useReportsStore = create<ReportsStore>()(
       //   startDate: undefined,
       //   endDate: undefined,
       //   selectedSortOption: "new-to-old",
+
       isLoading: false,
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllEmployeesReports: async (authenticatedEmployee: Employes) => {
         // set(() => ({ selectedClientId: clientId }));
         // const begin = get().startDate;
@@ -51,7 +58,11 @@ const useReportsStore = create<ReportsStore>()(
         // const begin = get().startDate;
         // const end = get().endDate;
         //   console.log("employee_id in store", employee_id);
-        const employeeReports = await RapportsAPI.getAllOfEmployee(employee_id);
+        const auth = get().authenticatedEmployee;
+        const employeeReports = await RapportsAPI.getAllOfEmployee(
+          auth!,
+          employee_id
+        );
         //    console.log("employeeReports", employeeReports);
         //   begin ? begin.toLocaleString() : undefined,
         //   end ? end.toLocaleString() : undefined

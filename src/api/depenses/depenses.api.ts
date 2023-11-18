@@ -51,10 +51,25 @@ class DepensesAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<Depenses | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<Depenses | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let depense: Depenses | undefined;
     await axios
-      .get(`${DepensesAPI.baseUrl}/depense/${id}`)
+      .get(`${DepensesAPI.baseUrl}/depense/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         depense = Depenses.fromJson(response.data);
       })
@@ -65,14 +80,27 @@ class DepensesAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let depensesList: Depenses[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${DepensesAPI.baseUrl}/depenses-default`)
+        .get(`${DepensesAPI.baseUrl}/depenses-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           depensesList = response.data.map((depense: DepensesJSON) =>
             Depenses.fromJson(depense)
@@ -86,7 +114,11 @@ class DepensesAPI {
     }
 
     await axios
-      .get(`${DepensesAPI.baseUrl}/depenses-default/${startDate}/${endDate}`)
+      .get(`${DepensesAPI.baseUrl}/depenses-default/${startDate}/${endDate}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         depensesList = response.data.map((depense: DepensesJSON) =>
           Depenses.fromJson(depense)
@@ -100,84 +132,27 @@ class DepensesAPI {
   }
 
   static async getAllFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let depensesList: Depenses[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${DepensesAPI.baseUrl}/depenses/old-to-new`)
-        .then((response) => {
-          depensesList = response.data.map((depense: DepensesJSON) =>
-            Depenses.fromJson(depense)
-          );
+        .get(`${DepensesAPI.baseUrl}/depenses/old-to-new`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
         })
-        .catch((error) => {
-          console.log(error);
-          return [] as Depenses[];
-        });
-      return depensesList;
-    }
-
-    await axios
-      .get(`${DepensesAPI.baseUrl}/depenses/old-to-new/${startDate}/${endDate}`)
-      .then((response) => {
-        depensesList = response.data.map((depense: DepensesJSON) =>
-          Depenses.fromJson(depense)
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-        return [] as Depenses[];
-      });
-    return depensesList;
-  }
-
-  static async getAllFromNewToOld(
-    startDate: string | undefined,
-    endDate: string | undefined
-  ): Promise<Depenses[]> {
-    let depensesList: Depenses[] = [];
-
-    if (!startDate || !endDate) {
-      await axios
-        .get(`${DepensesAPI.baseUrl}/depenses/new-to-old`)
-        .then((response) => {
-          depensesList = response.data.map((depense: DepensesJSON) =>
-            Depenses.fromJson(depense)
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-          return [] as Depenses[];
-        });
-      return depensesList;
-    }
-
-    await axios
-      .get(`${DepensesAPI.baseUrl}/depenses/new-to-old/${startDate}/${endDate}`)
-      .then((response) => {
-        depensesList = response.data.map((depense: DepensesJSON) =>
-          Depenses.fromJson(depense)
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-        return [] as Depenses[];
-      });
-    return depensesList;
-  }
-
-  static async getAllMostImportant(
-    startDate: string | undefined,
-    endDate: string | undefined
-  ): Promise<Depenses[]> {
-    let depensesList: Depenses[] = [];
-
-    if (!startDate || !endDate) {
-      await axios
-        .get(`${DepensesAPI.baseUrl}/depenses/most-important`)
         .then((response) => {
           depensesList = response.data.map((depense: DepensesJSON) =>
             Depenses.fromJson(depense)
@@ -192,7 +167,122 @@ class DepensesAPI {
 
     await axios
       .get(
-        `${DepensesAPI.baseUrl}/depenses/most-important/${startDate}/${endDate}`
+        `${DepensesAPI.baseUrl}/depenses/old-to-new/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
+      )
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllFromNewToOld(
+    authenticatedEmployee: Employes,
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/new-to-old`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(
+        `${DepensesAPI.baseUrl}/depenses/new-to-old/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
+      )
+      .then((response) => {
+        depensesList = response.data.map((depense: DepensesJSON) =>
+          Depenses.fromJson(depense)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as Depenses[];
+      });
+    return depensesList;
+  }
+
+  static async getAllMostImportant(
+    authenticatedEmployee: Employes,
+    startDate: string | undefined,
+    endDate: string | undefined
+  ): Promise<Depenses[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let depensesList: Depenses[] = [];
+
+    if (!startDate || !endDate) {
+      await axios
+        .get(`${DepensesAPI.baseUrl}/depenses/most-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
+        .then((response) => {
+          depensesList = response.data.map((depense: DepensesJSON) =>
+            Depenses.fromJson(depense)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          return [] as Depenses[];
+        });
+      return depensesList;
+    }
+
+    await axios
+      .get(
+        `${DepensesAPI.baseUrl}/depenses/most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         depensesList = response.data.map((depense: DepensesJSON) =>
@@ -207,14 +297,27 @@ class DepensesAPI {
   }
 
   static async getAllLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let depensesList: Depenses[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${DepensesAPI.baseUrl}/depenses/less-important`)
+        .get(`${DepensesAPI.baseUrl}/depenses/less-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           depensesList = response.data.map((depense: DepensesJSON) =>
             Depenses.fromJson(depense)
@@ -229,7 +332,12 @@ class DepensesAPI {
 
     await axios
       .get(
-        `${DepensesAPI.baseUrl}/depenses/less-important/${startDate}/${endDate}`
+        `${DepensesAPI.baseUrl}/depenses/less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         depensesList = response.data.map((depense: DepensesJSON) =>
@@ -244,14 +352,27 @@ class DepensesAPI {
   }
 
   static async getAllUnvalidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let depensesList: Depenses[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${DepensesAPI.baseUrl}/depenses/unvalidated`)
+        .get(`${DepensesAPI.baseUrl}/depenses/unvalidated`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           depensesList = response.data.map((depense: DepensesJSON) =>
             Depenses.fromJson(depense)
@@ -266,7 +387,12 @@ class DepensesAPI {
 
     await axios
       .get(
-        `${DepensesAPI.baseUrl}/depenses/unvalidated/${startDate}/${endDate}`
+        `${DepensesAPI.baseUrl}/depenses/unvalidated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         depensesList = response.data.map((depense: DepensesJSON) =>
@@ -281,14 +407,27 @@ class DepensesAPI {
   }
 
   static async getAllValidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let depensesList: Depenses[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${DepensesAPI.baseUrl}/depenses/validated`)
+        .get(`${DepensesAPI.baseUrl}/depenses/validated`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           depensesList = response.data.map((depense: DepensesJSON) =>
             Depenses.fromJson(depense)
@@ -302,7 +441,14 @@ class DepensesAPI {
     }
 
     await axios
-      .get(`${DepensesAPI.baseUrl}/depenses/validated/${startDate}/${endDate}`)
+      .get(
+        `${DepensesAPI.baseUrl}/depenses/validated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
+      )
       .then((response) => {
         depensesList = response.data.map((depense: DepensesJSON) =>
           Depenses.fromJson(depense)

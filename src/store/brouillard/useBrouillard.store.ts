@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import Brouillard from "../../models/brouillard/brouillard.model";
 import BrouillardAPI from "../../api/brouillard/brouillard.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface BrouillardStore {
   brouillards: Brouillard[];
@@ -14,6 +15,8 @@ interface BrouillardStore {
   endDate: Date | Moment | undefined;
   // selectedDepotId: number;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   setSelectedBrouillard: (brouillard: Brouillard) => void;
   fetchAllBrouillard: () => void;
   onStartDateChange: (date: Date | Moment) => void;
@@ -33,13 +36,19 @@ const useBrouillardStore = create<BrouillardStore>()(
       endDate: undefined,
       // selectedDepotId: 0,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       setSelectedBrouillard: (brouillard: Brouillard) => {
         set(() => ({ selectedBrouillard: brouillard }));
       },
       fetchAllBrouillard: async () => {
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const brouillardsList: Brouillard[] = await BrouillardAPI.getAll(
+          auth!,
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined
         );
@@ -84,7 +93,8 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const brouillardList = await BrouillardAPI.getAll(begin, end);
+        const auth = get().authenticatedEmployee;
+        const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 
         // if (get().selectedSortOption == "old-to-new") {
         //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
@@ -108,16 +118,16 @@ const useBrouillardStore = create<BrouillardStore>()(
         //   );
         // } else if (get().selectedSortOption == "cim-benin-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "cim-benin-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ brouillards: brouillardList }));
@@ -161,8 +171,9 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
-        const brouillardList = await BrouillardAPI.getAll(begin, end);
+        const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 
         // if (get().selectedSortOption == "old-to-new") {
         //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
@@ -186,16 +197,16 @@ const useBrouillardStore = create<BrouillardStore>()(
         //   );
         // } else if (get().selectedSortOption == "cim-benin-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "cim-benin-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ brouillards: brouillardList }));
@@ -211,8 +222,9 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
-        const brouillardList = await BrouillardAPI.getAll(begin, end);
+        const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 
         // if (get().selectedSortOption == "old-to-new") {
         //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
@@ -236,16 +248,16 @@ const useBrouillardStore = create<BrouillardStore>()(
         //   );
         // } else if (get().selectedSortOption == "cim-benin-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "cim-benin-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (get().selectedSortOption == "nocibe-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ brouillards: brouillardList }));
@@ -260,8 +272,9 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
-        const brouillardList = await BrouillardAPI.getAll(begin, end);
+        const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 
         // if (value == "old-to-new") {
         //   BrouillardList = await BrouillardAPI.getAllFromOldToNew(
@@ -285,16 +298,16 @@ const useBrouillardStore = create<BrouillardStore>()(
         //   );
         // } else if (value == "cim-benin-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINMostImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINMostImportant(auth!,begin, end);
         // } else if (value == "cim-benin-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllCIMBENINLessImportant(begin, end);
+        //     await BrouillardAPI.getAllCIMBENINLessImportant(auth!,begin, end);
         // } else if (value == "nocibe-more-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBEMostImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBEMostImportant(auth!,begin, end);
         // } else if (value == "nocibe-less-important") {
         //   BrouillardList =
-        //     await BrouillardAPI.getAllNOCIBELessImportant(begin, end);
+        //     await BrouillardAPI.getAllNOCIBELessImportant(auth!,begin, end);
         // }
 
         set(() => ({ brouillards: brouillardList }));

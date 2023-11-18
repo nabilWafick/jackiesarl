@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import Commandes from "../../models/commandes/commandes.model";
 import CommandesAPI from "../../api/commandes/commandes.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 interface CommandesStore {
   clientsOrders: Commandes[];
   clientsOrdersPerDay: Map<string, Commandes[]>;
@@ -11,6 +12,8 @@ interface CommandesStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientsOrders: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -27,10 +30,16 @@ const useCommandesStore = create<CommandesStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllClientsOrders: async () => {
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const clientsOrdersList = await CommandesAPI.getAll(
+          auth!,
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined
         );
@@ -75,43 +84,69 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let commandesList: Commandes[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
-          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+          commandesList = await CommandesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "new-to-old") {
-          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+          commandesList = await CommandesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "more-important") {
-          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+          commandesList = await CommandesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "less-important") {
-          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+          commandesList = await CommandesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "nocibe-more-important") {
           commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "nocibe-less-important") {
           commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "delivered") {
-          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+          commandesList = await CommandesAPI.getAllDelivered(auth!, begin, end);
         } else if (get().selectedSortOption == "undelivered") {
-          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+          commandesList = await CommandesAPI.getAllUndelivered(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "destination") {
           commandesList = await CommandesAPI.getAllGroupByDestination(
+            auth!,
             begin,
             end
           );
@@ -158,43 +193,69 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let commandesList: Commandes[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
-          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+          commandesList = await CommandesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "new-to-old") {
-          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+          commandesList = await CommandesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "more-important") {
-          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+          commandesList = await CommandesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "less-important") {
-          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+          commandesList = await CommandesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "nocibe-more-important") {
           commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "nocibe-less-important") {
           commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "delivered") {
-          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+          commandesList = await CommandesAPI.getAllDelivered(auth!, begin, end);
         } else if (get().selectedSortOption == "undelivered") {
-          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+          commandesList = await CommandesAPI.getAllUndelivered(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "destination") {
           commandesList = await CommandesAPI.getAllGroupByDestination(
+            auth!,
             begin,
             end
           );
@@ -213,43 +274,69 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let commandesList: Commandes[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
-          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+          commandesList = await CommandesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "new-to-old") {
-          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+          commandesList = await CommandesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "more-important") {
-          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+          commandesList = await CommandesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "less-important") {
-          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+          commandesList = await CommandesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "nocibe-more-important") {
           commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "nocibe-less-important") {
           commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "delivered") {
-          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+          commandesList = await CommandesAPI.getAllDelivered(auth!, begin, end);
         } else if (get().selectedSortOption == "undelivered") {
-          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+          commandesList = await CommandesAPI.getAllUndelivered(
+            auth!,
+            begin,
+            end
+          );
         } else if (get().selectedSortOption == "destination") {
           commandesList = await CommandesAPI.getAllGroupByDestination(
+            auth!,
             begin,
             end
           );
@@ -267,43 +354,69 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let commandesList: Commandes[] = [];
 
         if (value == "old-to-new") {
-          commandesList = await CommandesAPI.getAllFromOldToNew(begin, end);
+          commandesList = await CommandesAPI.getAllFromOldToNew(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "new-to-old") {
-          commandesList = await CommandesAPI.getAllFromNewToOld(begin, end);
+          commandesList = await CommandesAPI.getAllFromNewToOld(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "more-important") {
-          commandesList = await CommandesAPI.getAllMostImportant(begin, end);
+          commandesList = await CommandesAPI.getAllMostImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "less-important") {
-          commandesList = await CommandesAPI.getAllLessImportant(begin, end);
+          commandesList = await CommandesAPI.getAllLessImportant(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "cim-benin-more-important") {
           commandesList = await CommandesAPI.getAllCIMBENINMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "cim-benin-less-important") {
           commandesList = await CommandesAPI.getAllCIMBENINLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "nocibe-more-important") {
           commandesList = await CommandesAPI.getAllNOCIBEMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "nocibe-less-important") {
           commandesList = await CommandesAPI.getAllNOCIBELessImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "delivered") {
-          commandesList = await CommandesAPI.getAllDelivered(begin, end);
+          commandesList = await CommandesAPI.getAllDelivered(auth!, begin, end);
         } else if (value == "undelivered") {
-          commandesList = await CommandesAPI.getAllUndelivered(begin, end);
+          commandesList = await CommandesAPI.getAllUndelivered(
+            auth!,
+            begin,
+            end
+          );
         } else if (value == "destination") {
           commandesList = await CommandesAPI.getAllGroupByDestination(
+            auth!,
             begin,
             end
           );

@@ -54,10 +54,25 @@ class PaiementClientAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<PaiementClient | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<PaiementClient | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementClient: PaiementClient | undefined;
     await axios
-      .get(`${PaiementClientAPI.baseUrl}/paiement-client/${id}`)
+      .get(`${PaiementClientAPI.baseUrl}/paiement-client/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         console.log(response.data);
         paiementClient = PaiementClient.fromJson(response.data);
@@ -69,14 +84,27 @@ class PaiementClientAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${PaiementClientAPI.baseUrl}/paiements-clients-default`)
+        .get(`${PaiementClientAPI.baseUrl}/paiements-clients-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           paiementsClientList = response.data.map(
             (paiementClient: PaiementClientJSON) =>
@@ -92,7 +120,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients-default/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients-default/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -108,14 +141,27 @@ class PaiementClientAPI {
   }
 
   static async getAllFromNewToOld(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/new-to-old`)
+        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/new-to-old`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           paiementsClientList = response.data.map(
             (paiementClient: PaiementClientJSON) =>
@@ -131,7 +177,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/new-to-old/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/new-to-old/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -147,14 +198,27 @@ class PaiementClientAPI {
   }
 
   static async getAllFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/old-to-new`)
+        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/old-to-new`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           paiementsClientList = response.data.map(
             (paiementClient: PaiementClientJSON) =>
@@ -170,7 +234,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/old-to-new/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/old-to-new/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -186,14 +255,27 @@ class PaiementClientAPI {
   }
 
   static async getAllMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/most-important`)
+        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/most-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           paiementsClientList = response.data.map(
             (paiementClient: PaiementClientJSON) =>
@@ -209,7 +291,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/most-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -225,14 +312,27 @@ class PaiementClientAPI {
   }
 
   static async getAllLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/less-important`)
+        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/less-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           paiementsClientList = response.data.map(
             (paiementClient: PaiementClientJSON) =>
@@ -248,7 +348,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/less-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -264,15 +369,29 @@ class PaiementClientAPI {
   }
 
   static async getAllCIMBENINMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-most-important`
+          `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -289,7 +408,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-most-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -305,15 +429,29 @@ class PaiementClientAPI {
   }
 
   static async getAllCIMBENINLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-less-important`
+          `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -330,7 +468,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-less-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -346,15 +489,29 @@ class PaiementClientAPI {
   }
 
   static async getAllNOCIBEMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-most-important`
+          `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -371,7 +528,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-most-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -387,15 +549,29 @@ class PaiementClientAPI {
   }
 
   static async getAllNOCIBELessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-less-important`
+          `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -412,7 +588,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-less-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -428,13 +609,26 @@ class PaiementClientAPI {
   }
 
   static async getAllUnvalidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
-        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/unvalidated`)
+        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/unvalidated`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           paiementsClientList = response.data.map(
             (paiementClient: PaiementClientJSON) => {
@@ -451,7 +645,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/unvalidated/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/unvalidated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -468,13 +667,26 @@ class PaiementClientAPI {
   }
 
   static async getAllValidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
-        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/validated`)
+        .get(`${PaiementClientAPI.baseUrl}/paiements-clients/validated`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           paiementsClientList = response.data.map(
             (paiementClient: PaiementClientJSON) => {
@@ -491,7 +703,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-clients/validated/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-clients/validated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -510,15 +727,29 @@ class PaiementClientAPI {
   // =========== Selectionned Client
 
   static async getAllOfClient(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client-default/${clientId}`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client-default/${clientId}`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -536,7 +767,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client-default/${clientId}/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client-default/${clientId}/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -553,15 +789,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/old-to-new`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/old-to-new`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -579,7 +829,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/old-to-new/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/old-to-new/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -596,15 +851,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientFromNewToOld(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/new-to-important`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/new-to-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -622,7 +891,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/new-to-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/new-to-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -639,15 +913,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/most-important`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -665,7 +953,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/most-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -682,15 +975,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/less-important`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -708,7 +1015,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/less-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -725,15 +1037,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientCIMBENINMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-most-important`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -751,7 +1077,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-most-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -768,15 +1099,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientCIMBENINLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-less-important`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -794,7 +1139,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-less-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -811,15 +1161,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientNOCIBEMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-most-important`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -837,7 +1201,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-most-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -854,15 +1223,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientNOCIBELessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-less-important`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -880,7 +1263,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-less-important/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -897,15 +1285,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientUnvalidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/unvalidated`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/unvalidated`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -923,7 +1325,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/unvalidated/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/unvalidated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(
@@ -940,15 +1347,29 @@ class PaiementClientAPI {
   }
 
   static async getAllOfClientValidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let paiementsClientList: PaiementClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/validated`
+          `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/validated`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           paiementsClientList = response.data.map(
@@ -966,7 +1387,12 @@ class PaiementClientAPI {
 
     await axios
       .get(
-        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/validated/${startDate}/${endDate}`
+        `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/validated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         paiementsClientList = response.data.map(

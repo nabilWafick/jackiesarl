@@ -57,10 +57,25 @@ class RemiseChequeClientAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<RemiseChequeClient | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<RemiseChequeClient | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequeClient: RemiseChequeClient | undefined;
     await axios
-      .get(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`)
+      .get(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         remiseChequeClient = RemiseChequeClient.fromJson(response.data);
       })
@@ -70,10 +85,24 @@ class RemiseChequeClientAPI {
     return remiseChequeClient;
   }
 
-  static async getAll(): Promise<RemiseChequeClient[]> {
+  static async getAll(
+    authenticatedEmployee: Employes
+  ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequeClientsList: RemiseChequeClient[] = [];
     await axios
-      .get(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client`)
+      .get(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         remiseChequeClientsList = response.data.map(
           (remiseChequeClient: RemiseChequeClientJSON) => {
@@ -89,15 +118,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClient(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -115,7 +158,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -132,15 +180,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -158,7 +220,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -175,15 +242,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientFromNewToOld(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -201,7 +282,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -218,15 +304,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -244,7 +344,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -261,15 +366,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -287,7 +406,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -304,15 +428,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientRestMoreImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -330,7 +468,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -347,15 +490,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientRestLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -373,7 +530,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -390,15 +552,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientBOABank(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -416,7 +592,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -433,15 +614,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientUBABank(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -459,7 +654,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -476,15 +676,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientNSIABank(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -502,7 +716,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -519,15 +738,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientBGFIBank(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -545,7 +778,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -562,15 +800,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientSGBBank(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -588,7 +840,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -605,15 +862,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientEcobankBank(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -631,7 +902,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -648,15 +924,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientUnvalidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -674,7 +964,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(
@@ -691,15 +986,29 @@ class RemiseChequeClientAPI {
   }
 
   static async getAllOfClientValidated(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let remiseChequesClientList: RemiseChequeClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated`
+          `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           remiseChequesClientList = response.data.map(
@@ -717,7 +1026,12 @@ class RemiseChequeClientAPI {
 
     await axios
       .get(
-        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated/${startDate}/${endDate}`
+        `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         remiseChequesClientList = response.data.map(

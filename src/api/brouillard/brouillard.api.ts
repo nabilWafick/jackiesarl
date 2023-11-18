@@ -50,10 +50,25 @@ class BrouillardAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<Brouillard | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<Brouillard | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let brouillard: Brouillard | undefined;
     await axios
-      .get(`${BrouillardAPI.baseUrl}/brouillard/${id}`)
+      .get(`${BrouillardAPI.baseUrl}/brouillard/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         brouillard = Brouillard.fromJson(response.data);
       })
@@ -64,14 +79,27 @@ class BrouillardAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Brouillard[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let brouillardList: Brouillard[] = [];
 
     if (!startDate && !endDate) {
       await axios
-        .get(`${BrouillardAPI.baseUrl}/brouillards-default`)
+        .get(`${BrouillardAPI.baseUrl}/brouillards-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           brouillardList = response.data.map((brouillard: BrouillardJSON) =>
             Brouillard.fromJson(brouillard)
@@ -86,7 +114,12 @@ class BrouillardAPI {
 
     await axios
       .get(
-        `${BrouillardAPI.baseUrl}/brouillards-default/${startDate}/${endDate}`
+        `${BrouillardAPI.baseUrl}/brouillards-default/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         brouillardList = response.data.map((brouillard: BrouillardJSON) =>

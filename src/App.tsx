@@ -20,7 +20,7 @@ const App: FC = () => {
         <Route path="/se-connecter" Component={LoginPage} />
         <Route path="/postes" Component={PositionsPage} />
         <Route path="/bienvenue" Component={WelcomePage} />
-        <Route path="" Component={Dashboard} /> // empty ""
+        <Route path="/*" Component={Dashboard} /> // empty ""
         <Route path="*" Component={Dashboard} /> // star *
         <Route Component={Dashboard} /> // without path
       </Routes>

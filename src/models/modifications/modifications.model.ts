@@ -5,7 +5,7 @@ interface ModificationsJSON {
   details: string;
   nom_employe: string;
   prenoms_employe: string;
-  dateModification?: string; // Une chaîne de caractères pour la date au format ISO
+  date_modification?: string; // Une chaîne de caractères pour la date au format ISO
 }
 
 class Modifications {
@@ -14,7 +14,7 @@ class Modifications {
   details: string;
   nom_employe: string;
   prenoms_employe: string;
-  dateModification?: Date;
+  date_modification?: Date;
 
   constructor(
     modification: string,
@@ -22,14 +22,14 @@ class Modifications {
     nom_employe: string,
     prenoms_employe: string,
     id?: number,
-    dateModification?: Date
+    date_modification?: Date
   ) {
     this.id = id;
     this.modification = modification;
     this.details = details;
     this.nom_employe = nom_employe;
     this.prenoms_employe = prenoms_employe;
-    this.dateModification = dateModification;
+    this.date_modification = date_modification;
   }
 
   // Méthode pour créer un objet Modifications à partir d'un objet JSON générique
@@ -40,7 +40,7 @@ class Modifications {
       json.nom_employe,
       json.prenoms_employe,
       json.id,
-      new Date(json.dateModification!)
+      new Date(json.date_modification!)
     );
   }
 
@@ -52,9 +52,9 @@ class Modifications {
       details: this.details,
       nom_employe: this.nom_employe,
       prenoms_employe: this.prenoms_employe,
-      dateModification:
-        this.dateModification != null
-          ? this.dateModification.toISOString()
+      date_modification:
+        this.date_modification != null
+          ? this.date_modification.toISOString()
           : undefined,
     };
   }

@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import PaiementClient from "../../models/paiement_client/paiement.model";
 import PaiementClientAPI from "../../api/paiement_client/paiement_client.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface ClientPaymentsStore {
   clientPayments: PaiementClient[];
@@ -13,6 +14,8 @@ interface ClientPaymentsStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientPayments: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -31,11 +34,17 @@ const usePaymentsStore = create<ClientPaymentsStore>()(
       endDate: undefined,
       selectedSortOption: "new-to-old",
       isLoading: false,
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllClientPayments: async () => {
         // set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const selectedClientPayments = await PaiementClientAPI.getAll(
+          auth!,
           begin ? begin.toLocaleString() : undefined,
           end ? end.toLocaleString() : undefined
         );
@@ -84,41 +93,62 @@ const usePaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPayments: PaiementClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPayments = await PaiementClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPayments = await PaiementClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPayments = await PaiementClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPayments = await PaiementClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINLessImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBEMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBELessImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBELessImportant(
+              auth!,
+              begin,
+              end
+            );
         }
 
         set(() => ({ clientPayments: selectedClientPayments }));
@@ -162,41 +192,62 @@ const usePaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPayments: PaiementClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPayments = await PaiementClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPayments = await PaiementClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPayments = await PaiementClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPayments = await PaiementClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINLessImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBEMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBELessImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBELessImportant(
+              auth!,
+              begin,
+              end
+            );
         }
 
         set(() => ({ clientPayments: selectedClientPayments }));
@@ -212,41 +263,62 @@ const usePaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPayments: PaiementClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
           selectedClientPayments = await PaiementClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "new-to-old") {
           selectedClientPayments = await PaiementClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "more-important") {
           selectedClientPayments = await PaiementClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "less-important") {
           selectedClientPayments = await PaiementClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (get().selectedSortOption == "cim-benin-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "cim-benin-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINLessImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "nocibe-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBEMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (get().selectedSortOption == "nocibe-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBELessImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBELessImportant(
+              auth!,
+              begin,
+              end
+            );
         }
 
         set(() => ({ clientPayments: selectedClientPayments }));
@@ -261,41 +333,62 @@ const usePaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         let selectedClientPayments: PaiementClient[] = [];
 
         if (value == "old-to-new") {
           selectedClientPayments = await PaiementClientAPI.getAllFromOldToNew(
+            auth!,
             begin,
             end
           );
         } else if (value == "new-to-old") {
           selectedClientPayments = await PaiementClientAPI.getAllFromNewToOld(
+            auth!,
             begin,
             end
           );
         } else if (value == "more-important") {
           selectedClientPayments = await PaiementClientAPI.getAllMostImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "less-important") {
           selectedClientPayments = await PaiementClientAPI.getAllLessImportant(
+            auth!,
             begin,
             end
           );
         } else if (value == "cim-benin-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINMostImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (value == "cim-benin-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllCIMBENINLessImportant(begin, end);
+            await PaiementClientAPI.getAllCIMBENINLessImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (value == "nocibe-more-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBEMostImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBEMostImportant(
+              auth!,
+              begin,
+              end
+            );
         } else if (value == "nocibe-less-important") {
           selectedClientPayments =
-            await PaiementClientAPI.getAllNOCIBELessImportant(begin, end);
+            await PaiementClientAPI.getAllNOCIBELessImportant(
+              auth!,
+              begin,
+              end
+            );
         }
 
         set(() => ({ clientPayments: selectedClientPayments }));

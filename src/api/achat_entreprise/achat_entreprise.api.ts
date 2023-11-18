@@ -54,11 +54,24 @@ class AchatEntrepriseAPI {
   }
 
   static async getByBonCommande(
+    authenticatedEmployee: Employes,
     bonCommande: number
   ): Promise<AchatEntreprise | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatEntreprise: AchatEntreprise | undefined;
     await axios
-      .get(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`)
+      .get(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         achatEntreprise = AchatEntreprise.fromJson(response.data);
       })
@@ -69,13 +82,26 @@ class AchatEntrepriseAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatEntreprise[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsEntrepriseList: AchatEntreprise[] = [];
     if (!startDate || !endDate) {
       await axios
-        .get(`${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default`)
+        .get(`${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           achatsEntrepriseList = response.data.map(
             (achatEntreprise: AchatEntrepriseJson) =>
@@ -90,7 +116,12 @@ class AchatEntrepriseAPI {
     }
     await axios
       .get(
-        `${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default/${startDate}/${endDate}`
+        `${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsEntrepriseList = response.data.map(

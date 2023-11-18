@@ -55,10 +55,25 @@ class AchatClientAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<AchatClient | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<AchatClient | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatClient: AchatClient | undefined;
     await axios
-      .get(`${AchatClientAPI.baseUrl}/achat-client/${id}`)
+      .get(`${AchatClientAPI.baseUrl}/achat-client/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         achatClient = AchatClient.fromJson(response.data);
       })
@@ -69,14 +84,27 @@ class AchatClientAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${AchatClientAPI.baseUrl}/achats-clients-default`)
+        .get(`${AchatClientAPI.baseUrl}/achats-clients-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
             AchatClient.fromJson(achatClient)
@@ -91,7 +119,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients-default/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients-default/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -106,14 +139,27 @@ class AchatClientAPI {
   }
 
   static async getAllFromNewToOld(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${AchatClientAPI.baseUrl}/achats-clients/new-to-old`)
+        .get(`${AchatClientAPI.baseUrl}/achats-clients/new-to-old`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
             AchatClient.fromJson(achatClient)
@@ -128,7 +174,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/new-to-old/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/new-to-old/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -143,14 +194,27 @@ class AchatClientAPI {
   }
 
   static async getAllFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${AchatClientAPI.baseUrl}/achats-clients/old-to-new`)
+        .get(`${AchatClientAPI.baseUrl}/achats-clients/old-to-new`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
             AchatClient.fromJson(achatClient)
@@ -165,7 +229,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/old-to-new/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/old-to-new/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -180,9 +249,18 @@ class AchatClientAPI {
   }
 
   static async getAllMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
@@ -202,7 +280,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/most-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/most-important/${startDate}/${endDate},`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -217,14 +300,27 @@ class AchatClientAPI {
   }
 
   static async getAllLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${AchatClientAPI.baseUrl}/achats-clients/less-important`)
+        .get(`${AchatClientAPI.baseUrl}/achats-clients/less-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
             AchatClient.fromJson(achatClient)
@@ -239,7 +335,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/less-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -254,15 +355,29 @@ class AchatClientAPI {
   }
 
   static async getAllCIMBENINMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-most-important`
+          `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -278,7 +393,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-most-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -293,15 +413,29 @@ class AchatClientAPI {
   }
 
   static async getAllCIMBENINLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-less-important`
+          `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -317,7 +451,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-less-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -332,14 +471,27 @@ class AchatClientAPI {
   }
 
   static async getAllNOCIBEMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${AchatClientAPI.baseUrl}/achats-clients/nocibe-most-important`)
+        .get(`${AchatClientAPI.baseUrl}/achats-clients/nocibe-most-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
             AchatClient.fromJson(achatClient)
@@ -354,7 +506,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/nocibe-most-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/nocibe-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -369,14 +526,27 @@ class AchatClientAPI {
   }
 
   static async getAllNOCIBELessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${AchatClientAPI.baseUrl}/achats-clients/nocibe-less-important`)
+        .get(`${AchatClientAPI.baseUrl}/achats-clients/nocibe-less-important`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
             AchatClient.fromJson(achatClient)
@@ -391,7 +561,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-clients/nocibe-less-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-clients/nocibe-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
@@ -408,15 +583,29 @@ class AchatClientAPI {
   // =========== Selectionned Client
 
   static async getAllOfClient(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client-default/${clientId}`
+          `${AchatClientAPI.baseUrl}/achats-client/client-default/${clientId}`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -434,7 +623,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client-default/${clientId}/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client-default/${clientId}/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -449,15 +643,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientFromOldToNew(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/old-to-new`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/old-to-new`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -475,7 +683,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/old-to-new/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/old-to-new/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -490,15 +703,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientFromNewToOld(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/new-to-important`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/new-to-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -516,7 +743,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/new-to-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/new-to-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -531,15 +763,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/most-important`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -557,7 +803,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/most-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -572,15 +823,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/less-important`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -598,7 +863,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/less-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -613,15 +883,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientCIMBENINMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-most-important`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -639,7 +923,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-most-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -654,15 +943,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientCIMBENINLessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-less-important`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -680,7 +983,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-less-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -695,15 +1003,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientNOCIBEMostImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-most-important`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-most-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -721,7 +1043,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-most-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-most-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {
@@ -736,15 +1063,29 @@ class AchatClientAPI {
   }
 
   static async getAllOfClientNOCIBELessImportant(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let achatsClientList: AchatClient[] = [];
     if (!startDate || !endDate) {
       await axios
         .get(
-          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-less-important`
+          `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-less-important`,
+          {
+            headers: {
+              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            },
+          }
         )
         .then((response) => {
           achatsClientList = response.data.map(
@@ -762,7 +1103,12 @@ class AchatClientAPI {
 
     await axios
       .get(
-        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-less-important/${startDate}/${endDate}`
+        `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-less-important/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         achatsClientList = response.data.map((achatClient: AchatClientJSON) => {

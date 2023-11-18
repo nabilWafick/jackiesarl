@@ -1,34 +1,39 @@
 import axios from "axios";
 import Modifications from "../../models/modifications/modifications.model";
 import JSConstants from "../../utils/constants";
+import Employes from "../../models/employes/employes.model";
 
 interface ModificationsJSON {
   id?: number;
   modification: string;
+  details: string;
   nom_employe: string;
   prenoms_employe: string;
-  dateModification?: string; // Une chaîne de caractères pour la date au format ISO
+  date_modification?: string; // Une chaîne de caractères pour la date au format ISO
 }
 
 class ModificationsAPI {
   private static baseUrl = JSConstants.API_BASE_URL;
 
-  static async create(data: Modifications) {
-    try {
-      const response = await axios.post(
-        `${ModificationsAPI.baseUrl}/modifications`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  static async getById(id: number): Promise<Modifications | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<Modifications | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let modification: Modifications | undefined;
     await axios
-      .get(`${ModificationsAPI.baseUrl}/modifications/${id}`)
+      .get(`${ModificationsAPI.baseUrl}/modifications/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         console.log(response.data);
         modification = Modifications.fromJson(response.data);
@@ -40,14 +45,27 @@ class ModificationsAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Modifications[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let modificationsList: Modifications[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${ModificationsAPI.baseUrl}/modifications-default`)
+        .get(`${ModificationsAPI.baseUrl}/modifications-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           modificationsList = response.data.map(
             (modification: ModificationsJSON) => {
@@ -64,7 +82,12 @@ class ModificationsAPI {
 
     await axios
       .get(
-        `${ModificationsAPI.baseUrl}/modifications-default/${startDate}/${endDate}`
+        `${ModificationsAPI.baseUrl}/modifications-default/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         modificationsList = response.data.map(
@@ -78,29 +101,6 @@ class ModificationsAPI {
         return [] as Modifications[];
       });
     return modificationsList;
-  }
-
-  static async update(id: number, data: Modifications) {
-    try {
-      const response = await axios.put(
-        `${ModificationsAPI.baseUrl}/modifications/${id}`,
-        data.toJson()
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  static async delete(id: number) {
-    try {
-      const response = await axios.delete(
-        `${ModificationsAPI.baseUrl}/modifications/${id}`
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
   }
 }
 

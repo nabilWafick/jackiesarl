@@ -90,14 +90,14 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 </td>
                 <td>{order.destination}</td>
                 <td>
-                  {order.date_commande.toLocaleDateString("fr-FR", {
+                  {new Date(order.date_commande)!.toLocaleDateString("fr-FR", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
                 </td>
                 <td>
-                  {order.date_livraison.toLocaleDateString("fr-FR", {
+                  {new Date(order.date_livraison)!.toLocaleDateString("fr-FR", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",

@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import ActivitesDepot from "../../models/activites_depot/activites_depot.model";
 import ActivitesDepotAPI from "../../api/activites_depot/activites_depot.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface ActivitesDepotStore {
   activitesDepot: ActivitesDepot[];
@@ -13,6 +14,8 @@ interface ActivitesDepotStore {
   endDate: Date | Moment | undefined;
   selectedDepotId: number;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllActivitesDepot: (id_depot: number) => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -29,12 +32,18 @@ const useActivitesDepotStore = create<ActivitesDepotStore>()(
       endDate: undefined,
       selectedDepotId: 0,
       selectedSortOption: "new-to-old",
+      authenticatedEmployee: undefined,
+      setAuthenticatedEmployee: (employee) => {
+        set(() => ({ authenticatedEmployee: employee }));
+      },
       fetchAllActivitesDepot: async (id_depot: number) => {
         set(() => ({ selectedDepotId: id_depot }));
         const begin = get().startDate;
         const end = get().endDate;
+        const auth = get().authenticatedEmployee;
         const activitesDepotList: ActivitesDepot[] =
           await ActivitesDepotAPI.getAllByDepotID(
+            auth!,
             begin ? begin.toLocaleString() : undefined,
             end ? end.toLocaleString() : undefined,
             id_depot
@@ -79,7 +88,9 @@ const useActivitesDepotStore = create<ActivitesDepotStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
         const activitesDepotList = await ActivitesDepotAPI.getAllByDepotID(
+          auth!,
           begin,
           end,
           get().selectedDepotId
@@ -160,8 +171,10 @@ const useActivitesDepotStore = create<ActivitesDepotStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         const activitesDepotList = await ActivitesDepotAPI.getAllByDepotID(
+          auth!,
           begin,
           end,
           get().selectedDepotId
@@ -214,8 +227,10 @@ const useActivitesDepotStore = create<ActivitesDepotStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         const activitesDepotList = await ActivitesDepotAPI.getAllByDepotID(
+          auth!,
           begin,
           end,
           get().selectedDepotId
@@ -267,8 +282,10 @@ const useActivitesDepotStore = create<ActivitesDepotStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
+        const auth = get().authenticatedEmployee;
 
         const activitesDepotList = await ActivitesDepotAPI.getAllByDepotID(
+          auth!,
           begin,
           end,
           get().selectedDepotId

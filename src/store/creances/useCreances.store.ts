@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import SoldeClient from "../../models/solde_client/solde_client.model";
 import SoldeClientAPI from "../../api/solde_client/solde_client.api";
 import { Moment } from "moment";
+import Employes from "../../models/employes/employes.model";
 
 interface CreanceStore {
   creances: SoldeClient[];
@@ -11,6 +12,8 @@ interface CreanceStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
+  authenticatedEmployee: Employes | undefined;
+  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchCreances: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -27,10 +30,17 @@ const useCreanceStore = create<CreanceStore>()(
         startDate: undefined,
         endDate: undefined,
         selectedSortOption: "more-important",
+        authenticatedEmployee: undefined,
+        setAuthenticatedEmployee: (employee) => {
+          set(() => ({ authenticatedEmployee: employee }));
+        },
         fetchCreances: async () => {
           const begin = get().startDate;
           const end = get().endDate;
+          const auth = get().authenticatedEmployee;
+
           const creancesList = await SoldeClientAPI.getAllDebtsMoreImportant(
+            auth!,
             begin ? begin.toLocaleString() : undefined,
             end ? end.toLocaleString() : undefined
           );
@@ -86,16 +96,19 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
+          const auth = get().authenticatedEmployee;
 
           let soldesClientsList: SoldeClient[] = [];
 
           if (get().selectedSortOption == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (get().selectedSortOption == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsLessImportant(
+              auth!,
               begin,
               end
             );
@@ -153,16 +166,19 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
+          const auth = get().authenticatedEmployee;
 
           let soldesClientsList: SoldeClient[] = [];
 
           if (get().selectedSortOption == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (get().selectedSortOption == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsLessImportant(
+              auth!,
               begin,
               end
             );
@@ -183,16 +199,19 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
+          const auth = get().authenticatedEmployee;
 
           let soldesClientsList: SoldeClient[] = [];
 
           if (get().selectedSortOption == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (get().selectedSortOption == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsLessImportant(
+              auth!,
               begin,
               end
             );
@@ -212,16 +231,19 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
+          const auth = get().authenticatedEmployee;
 
           let soldesClientsList: SoldeClient[] = [];
 
           if (value == "more-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsMoreImportant(
+              auth!,
               begin,
               end
             );
           } else if (value == "less-important") {
             soldesClientsList = await SoldeClientAPI.getAllDebtsLessImportant(
+              auth!,
               begin,
               end
             );

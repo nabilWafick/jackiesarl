@@ -23,7 +23,36 @@ const ModificationsTable: FC<ModificationsTableProps> = ({ modifications }) => {
                       {modification.prenoms_employe} {modification.nom_employe}
                     </p>
                   </div>
-                  <span> {modification.details}</span>
+                  <div>
+                    <span className=" font-medium">
+                      {modification.details.split("-")[0].split("::")[0]}:
+                    </span>
+                    <span>
+                      {modification.details.split("-")[0].split("::")[1]}
+                    </span>
+                  </div>
+                  <div>
+                    <span className=" font-medium">
+                      {modification.details.split("-")[1].split("::")[0]}:
+                    </span>
+                    <span>
+                      {modification.details.split("-")[1].split("::")[1]}
+                    </span>
+                  </div>
+                  <span className="flex self-end font-medium">
+                    {modification.date_modification &&
+                    new Date(modification.date_modification).getDate() ==
+                      new Date().getDate()
+                      ? "Aujourd'hui"
+                      : modification.date_modification!.toLocaleDateString(
+                          "fr-FR",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
+                  </span>
                 </td>
               </tr>
             ))}

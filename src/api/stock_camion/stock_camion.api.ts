@@ -51,10 +51,25 @@ class StockCamionAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<StockCamion | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<StockCamion | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let stockCamion: StockCamion | undefined;
     await axios
-      .get(`${StockCamionAPI.baseUrl}/stock-camion/${id}`)
+      .get(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         stockCamion = StockCamion.fromJson(response.data);
       })
@@ -65,14 +80,27 @@ class StockCamionAPI {
   }
 
   static async getAll(
+    authenticatedEmployee: Employes,
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<StockCamion[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let stockCamionsList: StockCamion[] = [];
 
     if (!startDate || !endDate) {
       await axios
-        .get(`${StockCamionAPI.baseUrl}/stocks-camions-default`)
+        .get(`${StockCamionAPI.baseUrl}/stocks-camions-default`, {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        })
         .then((response) => {
           stockCamionsList = response.data.map((stockCamion: StockCamionJSON) =>
             StockCamion.fromJson(stockCamion)
@@ -86,7 +114,12 @@ class StockCamionAPI {
     }
     await axios
       .get(
-        `${StockCamionAPI.baseUrl}/stocks-camions-default/${startDate}/${endDate}`
+        `${StockCamionAPI.baseUrl}/stocks-camions-default/${startDate}/${endDate}`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
       )
       .then((response) => {
         stockCamionsList = response.data.map((stockCamion: StockCamionJSON) =>

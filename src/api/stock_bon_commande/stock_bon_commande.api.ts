@@ -57,10 +57,25 @@ class StockBonCommandeAPI {
     return promiseResponse;
   }
 
-  static async getById(id: number): Promise<StockBonCommande | undefined> {
+  static async getById(
+    authenticatedEmployee: Employes,
+    id: number
+  ): Promise<StockBonCommande | undefined> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let stockBonCommande: StockBonCommande | undefined;
     await axios
-      .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande/${id}`)
+      .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande/${id}`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         stockBonCommande = StockBonCommande.fromJson(response.data);
       })
@@ -70,10 +85,24 @@ class StockBonCommandeAPI {
     return stockBonCommande;
   }
 
-  static async getAll(): Promise<StockBonCommande[]> {
+  static async getAll(
+    authenticatedEmployee: Employes
+  ): Promise<StockBonCommande[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
     let stockBonCommandesList: StockBonCommande[] = [];
     await axios
-      .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande`)
+      .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande`, {
+        headers: {
+          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+        },
+      })
       .then((response) => {
         //  console.log("Purchase Order Stock", response.data);
         stockBonCommandesList = response.data.map(
