@@ -24,7 +24,7 @@ const AutorisationsPage: FC = () => {
         <div className="flex justify-center my-3 row-auto">
           <div className="users col-span-4 mx-5">
             <div className="flex justify-center p-2 shadow-md rounded-md bg-secondary text-white font-semibold">
-              Utilisateurs
+              Collaborateurs
             </div>
 
             {employees.map((employe, index) => (

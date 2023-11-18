@@ -1,55 +1,20 @@
 import axios from "axios";
 import JSConstants from "../../utils/constants";
 import Employes from "../../models/employes/employes.model";
+import {
+  TotalAchatsEntrepriseQuotidiens,
+  TotalAvancesCreancesQuotidiennes,
+  TotalClientsInscritsQuotidiens,
+  TotalCommandesNonTraiteesQuotidiennes,
+  TotalCommandesTraiteesQuotidiennes,
+  TotalPaiementsBanquesQuotidiens,
+  TotalPaiementsJournaliers,
+  TotalQuantitesVentesJournaliers,
+  TotalStocksBonCommandeQuotidiens,
+  TotalVenteQuotidienne,
+  TotalVentesJournaliers,
+} from "../../models/table_bord/table_bord.model";
 
-interface TotalPaiementsJournaliers {
-  jour: string;
-  total_paiement: number;
-}
-
-interface TotalVentesJournaliers {
-  jour: string;
-  total_vente: number;
-}
-
-interface TotalClientsInscritsQuotidiens {
-  total_clients_incrits: number;
-}
-
-interface TotalVenteQuotidienne {
-  total_quantite: number;
-  total_vente: number;
-}
-
-interface TotalAchatsEntrepriseQuotidiens {
-  categorie: string;
-  total_achat: number;
-}
-
-interface TotalCommandesNonTraiteesQuotidiennes {
-  categorie: string;
-  total_commande_non_traitee: number;
-}
-
-interface TotalCommandesTraiteesQuotidiennes {
-  categorie: string;
-  total_commande_traitee: number;
-}
-
-interface TotalPaiementsBanquesQuotidiens {
-  banque: string;
-  total_paiement: number;
-}
-
-interface TotalStocksBonCommandeQuotidiens {
-  categorie: string;
-  total_stock_restant: number;
-}
-
-interface TotalAvancesCreancesQuotidiennes {
-  total_avances: number;
-  total_creances: number;
-}
 class TableBordAPI {
   private static baseUrl = JSConstants.API_BASE_URL;
 
@@ -98,6 +63,36 @@ class TableBordAPI {
           "authorization-tokens": `Bearer ${accesToken} ${token} `,
         },
       })
+      .then((response) => {
+        promiseResponse = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return promiseResponse;
+  }
+
+  static async getWeekDailySalesQuantity(
+    authenticatedEmployee: Employes
+  ): Promise<TotalQuantitesVentesJournaliers[]> {
+    const accesToken =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.accessToken
+        : "accessToken";
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let promiseResponse: TotalQuantitesVentesJournaliers[] = [];
+    await axios
+      .get(
+        `${TableBordAPI.baseUrl}/table-bord/total-quantites-ventes-hebdomadaire/`,
+        {
+          headers: {
+            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          },
+        }
+      )
       .then((response) => {
         promiseResponse = response.data;
       })

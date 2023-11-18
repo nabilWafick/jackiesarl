@@ -12,6 +12,8 @@ import useDashBoardStore from "../../../../store/table_bord/useTableBord.store";
 import DailyUnTraitedOrdersStatCard from "../../../../components/ui/dashboard/table_bord/DailyUnTraitedOrdersStatCard";
 import DailyTraitedOrdersStatCard from "../../../../components/ui/dashboard/table_bord/DailyTraitedOrdersStatCard";
 import DailyBanksPaymentsStatCard from "../../../../components/ui/dashboard/table_bord/DailyBanksPaymentsStatCard";
+import { DailySalesLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailySalesLineBarChart";
+import { DailySalesQuantityLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailySalesQuantityLineBarChart";
 
 const TableBord: FC = () => {
   const fetchDashBoardData = useDashBoardStore(
@@ -73,6 +75,15 @@ const TableBord: FC = () => {
               value={totalAvancesCreances.total_creances}
             />
           </div>
+        </div>
+      </div>
+
+      <div className="flex justify-between items-center  h-[350px] w-full rounded-sm shadow-md object-cover bg-slate-50 my-2 ">
+        <div className="h-full w-full mx-1 my-2  pt-5 pb-2 pr-5 pl-5">
+          <DailySalesLineBarChart />
+        </div>
+        <div className="h-full w-full mx-1 my-2  pt-5 pb-2 pr-5 pl-5">
+          <DailySalesQuantityLineBarChart />
         </div>
       </div>
 

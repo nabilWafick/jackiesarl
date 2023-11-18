@@ -1,5 +1,5 @@
-import NavBar from "../../layouts/navbar/NavBar";
-import SideBar from "../../layouts/sidebar/SideBar";
+import NavBar from "../../layouts/navbar/NavBar.layout";
+import SideBar from "../../layouts/sidebar/SideBar.layout";
 import RapportsPage from "./contents/rapports/RapportsPage";
 import { Route, Routes } from "react-router-dom";
 import TableBord from "./contents/table_bord/TableBord";
@@ -42,20 +42,20 @@ const Dashboard: FC = () => {
   return (
     <Auth needAuth={true}>
       <div className=" h-screen w-screen flex flex-row justify-center overflow-y-visible overflow-x-auto sidebar ">
-        {/*============================== SIDEBAR =============================*/}
+        {/*===================== SIDEBAR ====================*/}
 
         <SideBar />
 
-        {/*=============================== MAIN ===============================*/}
+        {/*====================== MAIN ======================*/}
 
         <div className="flex flex-row h-full w-full ">
           <div className="w-[20.1%] h-full"></div>
           <div className="flex flex-col h-full w-full ">
-            {/*============================= NAVBAR ===========================*/}
+            {/*==================== NAVBAR ==================*/}
 
             <NavBar />
 
-            {/*============================ CONTENT ===========================*/}
+            {/*=================== CONTENT ==================*/}
 
             <div className="flex flex-col h-full w-full">
               <div className="flex mt-[80px] px-2">
@@ -141,5 +141,3 @@ const Dashboard: FC = () => {
 };
 
 export default Dashboard;
-
-/**code en react+typescript+tailwind, un dashboard subdivisé en trois parties le navbar, le sidebar, et le main, le sidebar qui est fixe et prend toute la hauteur de l'ecran avec une width de 2/12 de l'ecran,le navbar qui est situe au dessus du main et colle a la sidebar a pour width 10/12 de l'ecran et une hauteur de 80px et est aussi fixe, le main occupe tout le reste de l'espace et delimite a gauche par le sidebar et en haut par le navbar, seul le main ou son contenu peut scroll, code les trois en differents components, avant de les utilise dans l'interface, fais que l'interface soit responsive,  et adaptees a tout les ecrans, allant ordinateurs aux smartphones, ecris un code irreprochable, structure et professionnel*/

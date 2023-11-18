@@ -34,7 +34,7 @@ const AdminRapportsPage: FC = () => {
       <div className="flex  justify-center my-3 sidebar ">
         <div className="users col-span-4 mx-5">
           <p className="flex justify-center py-2 shadow-md rounded-md bg-secondary text-white font-semibold px-10 mr mb-5">
-            Employés
+            Collaborateurs
           </p>
           <div className="h-96 sidebar overflow-x-hidden px-3">
             {employes.map((employe, index) => (

@@ -128,6 +128,7 @@ class ClientsAPI {
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
         : "token";
+
     let clientsList: Clients[] = [];
 
     if (!startDate || !endDate) {

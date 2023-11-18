@@ -41,17 +41,24 @@ const ModificationsTable: FC<ModificationsTableProps> = ({ modifications }) => {
                   </div>
                   <span className="flex self-end font-medium">
                     {modification.date_modification &&
-                    new Date(modification.date_modification).getDate() ==
+                    new Date(modification.date_modification!).getDate() ==
                       new Date().getDate()
-                      ? "Aujourd'hui"
-                      : modification.date_modification!.toLocaleDateString(
-                          "fr-FR",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )}
+                      ? `Aujourd'hui ${new Date(
+                          modification.date_modification!
+                        ).getHours()}:${new Date(
+                          modification.date_modification!
+                        ).getMinutes()}`
+                      : `${new Date(
+                          modification.date_modification!
+                        ).toLocaleDateString("fr-FR", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })} ${new Date(
+                          modification.date_modification!
+                        ).getHours()} :${new Date(
+                          modification.date_modification!
+                        ).getMinutes()}`}
                   </span>
                 </td>
               </tr>

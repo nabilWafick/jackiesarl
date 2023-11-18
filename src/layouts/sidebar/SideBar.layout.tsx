@@ -270,8 +270,10 @@ const SideBar: FC = () => {
   ];
 
   return (
-    <div
-      className="h-screen w-2/12 flex flex-col shadow-sm fixed top-0 left-0 overflow-x-hidden bg-white"
+    <aside
+      className="fixed top-0 left-0 h-full w-[33vh] bg-slate-400 z-10"
+
+      // className="h-screen w-2/12 flex flex-col shadow-sm fixed top-0 left-0 overflow-x-hidden bg-white" previous sytle
       //style={{ width: "30vh" }}
     >
       <div className="flex flex-col h-[20%]">
@@ -310,7 +312,7 @@ const SideBar: FC = () => {
           />
         ))}
       </div>
-    </div>
+    </aside>
   );
 };
 

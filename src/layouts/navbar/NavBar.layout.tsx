@@ -2,11 +2,12 @@ import { BsBellFill, BsChatTextFill } from "react-icons/bs";
 import { JSImages } from "../../utils/images";
 import { FC } from "react";
 import JSSearchInput from "../../components/form/widgets/SearchInput";
+
 const NavBar: FC = () => {
   return (
-    <div
-      className=" h-[80px] w-[83%] flex flex-row items-center px-3 bg-white  fixed top-0  right-1. shadow-sm"
-      // style={{ width: "100%" }}
+    <nav
+    //  className=" h-[80px] w-[83%] flex flex-row items-center px-3 bg-white  fixed top-0  right-1. shadow-sm" previous style
+    // style={{ width: "100%" }}
     >
       <div className="h-[75px] w-[100px] logo flex items-center">
         <img
@@ -22,7 +23,7 @@ const NavBar: FC = () => {
         <BsBellFill size={37} className="pr-3 text-secondary" />
         <BsChatTextFill size={37} className="pl-3 text-secondary" />
       </div>
-    </div>
+    </nav>
   );
 };
 

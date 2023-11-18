@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import "../../../../assets/css/table.css";
-import { DailySalesLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailySalesLineDarChart";
+import { DailySalesLineBarChart } from "../../../../components/ui/dashboard/table_bord/charts/DailySalesLineBarChart";
 import useDashBoardStore from "../../../../store/table_bord/useTableBord.store";
 
 const SellingStatisticsPage = () => {
-  const fetchStatistiqueSalesHebdomadaires = useDashBoardStore(
-    (state) => state.fetchStatistiqueSalesHebdomadaires
+  const fetchStatistiqueVentesHebdomadaires = useDashBoardStore(
+    (state) => state.fetchStatistiqueVentesHebdomadaires
   );
 
   useEffect(() => {
-    fetchStatistiqueSalesHebdomadaires();
-  }, [fetchStatistiqueSalesHebdomadaires]);
+    fetchStatistiqueVentesHebdomadaires();
+  }, [fetchStatistiqueVentesHebdomadaires]);
 
   return (
     <div className="h-full w-full flex flex-col">

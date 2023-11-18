@@ -32,7 +32,7 @@ const DashTest: React.FC = () => {
   return (
     <div className="flex flex-row w-screen">
       <Sidebar />
-      <div className="flex flex-col w-full flex-1">
+      <div className="flex flex-col w-full flex-1'">
         <Navbar />
         <MainContent />
       </div>

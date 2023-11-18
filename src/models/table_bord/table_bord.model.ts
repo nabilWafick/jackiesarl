@@ -8,6 +8,11 @@ export interface TotalVentesJournaliers {
   total_vente: number;
 }
 
+export interface TotalQuantitesVentesJournaliers {
+  jour: string;
+  total_quantite_vente: number;
+}
+
 export type TotalClientsInscritsQuotidiens = {
   total_clients_incrits: number;
 };
