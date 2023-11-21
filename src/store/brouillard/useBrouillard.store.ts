@@ -4,8 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import Brouillard from "../../models/brouillard/brouillard.model";
 import BrouillardAPI from "../../api/brouillard/brouillard.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
-
+import { authenticatedEmployee } from "../../data/GlobalData";
 interface BrouillardStore {
   brouillards: Brouillard[];
   selectedBrouillard: Brouillard | undefined;
@@ -15,8 +14,6 @@ interface BrouillardStore {
   endDate: Date | Moment | undefined;
   // selectedDepotId: number;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   setSelectedBrouillard: (brouillard: Brouillard) => void;
   fetchAllBrouillard: () => void;
   onStartDateChange: (date: Date | Moment) => void;
@@ -36,17 +33,13 @@ const useBrouillardStore = create<BrouillardStore>()(
       endDate: undefined,
       // selectedDepotId: 0,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       setSelectedBrouillard: (brouillard: Brouillard) => {
         set(() => ({ selectedBrouillard: brouillard }));
       },
       fetchAllBrouillard: async () => {
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const brouillardsList: Brouillard[] = await BrouillardAPI.getAll(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -93,7 +86,7 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 
         // if (get().selectedSortOption == "old-to-new") {
@@ -171,7 +164,7 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 
@@ -222,7 +215,7 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 
@@ -272,7 +265,7 @@ const useBrouillardStore = create<BrouillardStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const brouillardList = await BrouillardAPI.getAll(auth!, begin, end);
 

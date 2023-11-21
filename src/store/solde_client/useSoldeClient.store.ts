@@ -4,15 +4,13 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import SoldeClient from "../../models/solde_client/solde_client.model";
 import SoldeClientAPI from "../../api/solde_client/solde_client.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface SoldeClientStore {
   soldeClient: SoldeClient;
   selectedClientId: number;
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchSoldeClient: (idClient: number) => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -54,15 +52,11 @@ const useSoldeClientStore = create<SoldeClientStore>()(
         selectedClientId: 0,
         startDate: undefined,
         endDate: undefined,
-        authenticatedEmployee: undefined,
-        setAuthenticatedEmployee: (employee) => {
-          set(() => ({ authenticatedEmployee: employee }));
-        },
         fetchSoldeClient: async (clientId: number) => {
           set(() => ({ selectedClientId: clientId }));
           const begin = get().startDate;
           const end = get().endDate;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
           const newSoldeClient = await SoldeClientAPI.getById(
             auth!,
             begin ? begin.toLocaleString() : undefined,
@@ -121,7 +115,7 @@ const useSoldeClientStore = create<SoldeClientStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           const newSoldeClient = await SoldeClientAPI.getById(
             auth!,
@@ -181,7 +175,7 @@ const useSoldeClientStore = create<SoldeClientStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           const newSoldeClient = await SoldeClientAPI.getById(
             auth!,
@@ -204,7 +198,7 @@ const useSoldeClientStore = create<SoldeClientStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           const newSoldeClient = await SoldeClientAPI.getById(
             auth!,

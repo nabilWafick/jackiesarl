@@ -28,10 +28,6 @@ class AchatClientAPI {
     authenticatedEmployee: Employes,
     data: AchatClient
   ): Promise<AchatClientPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -43,7 +39,7 @@ class AchatClientAPI {
       .post(`${AchatClientAPI.baseUrl}/achat-client`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data",
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -59,10 +55,6 @@ class AchatClientAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<AchatClient | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -71,7 +63,7 @@ class AchatClientAPI {
     await axios
       .get(`${AchatClientAPI.baseUrl}/achat-client/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -88,10 +80,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -102,7 +90,7 @@ class AchatClientAPI {
       await axios
         .get(`${AchatClientAPI.baseUrl}/achats-clients-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -122,7 +110,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -143,10 +131,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -157,7 +141,7 @@ class AchatClientAPI {
       await axios
         .get(`${AchatClientAPI.baseUrl}/achats-clients/new-to-old`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -177,7 +161,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/new-to-old/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -198,10 +182,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -212,7 +192,7 @@ class AchatClientAPI {
       await axios
         .get(`${AchatClientAPI.baseUrl}/achats-clients/old-to-new`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -232,7 +212,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/old-to-new/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -253,10 +233,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -283,7 +259,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/most-important/${startDate}/${endDate},`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -304,10 +280,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -318,7 +290,7 @@ class AchatClientAPI {
       await axios
         .get(`${AchatClientAPI.baseUrl}/achats-clients/less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -338,7 +310,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -359,10 +331,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -375,7 +343,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -396,7 +364,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -417,10 +385,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -433,7 +397,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -454,7 +418,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/cim-benin-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -475,10 +439,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -489,7 +449,7 @@ class AchatClientAPI {
       await axios
         .get(`${AchatClientAPI.baseUrl}/achats-clients/nocibe-most-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -509,7 +469,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/nocibe-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -530,10 +490,6 @@ class AchatClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -544,7 +500,7 @@ class AchatClientAPI {
       await axios
         .get(`${AchatClientAPI.baseUrl}/achats-clients/nocibe-less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -564,7 +520,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-clients/nocibe-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -588,10 +544,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -603,7 +555,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client-default/${clientId}`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -626,7 +578,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client-default/${clientId}/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -648,10 +600,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -663,7 +611,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/old-to-new`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -686,7 +634,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/old-to-new/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -708,10 +656,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -723,7 +667,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/new-to-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -746,7 +690,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/new-to-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -768,10 +712,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -783,7 +723,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -806,7 +746,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -828,10 +768,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -843,7 +779,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -866,7 +802,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -888,10 +824,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -903,7 +835,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -926,7 +858,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -948,10 +880,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -963,7 +891,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -986,7 +914,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/cim-benin-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1008,10 +936,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1023,7 +947,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1046,7 +970,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1068,10 +992,6 @@ class AchatClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<AchatClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1083,7 +1003,7 @@ class AchatClientAPI {
           `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1106,7 +1026,7 @@ class AchatClientAPI {
         `${AchatClientAPI.baseUrl}/achats-client/client/${clientId}/nocibe-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1127,10 +1047,6 @@ class AchatClientAPI {
     id: number,
     data: AchatClient
   ): Promise<AchatClientPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1141,7 +1057,7 @@ class AchatClientAPI {
       .put(`${AchatClientAPI.baseUrl}/achat-client/${id}`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data",
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -1159,10 +1075,6 @@ class AchatClientAPI {
     id: number
   ): Promise<AchatClientPromiseResponse | undefined> {
     // console.log("In API func delete");
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1172,7 +1084,7 @@ class AchatClientAPI {
     await axios
       .delete(`${AchatClientAPI.baseUrl}/achat-client/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

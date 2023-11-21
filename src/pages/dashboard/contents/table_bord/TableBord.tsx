@@ -32,8 +32,10 @@ const TableBord: FC = () => {
     fetchDashBoardData(isToday);
   }, [fetchDashBoardData, isToday]);
 
+  setTimeout(() => {}, 1500);
+
   return (
-    <div className="h-max w-full flex flex-col justify-center items-center content-center">
+    <div className="h-max w-full flex flex-col justify-center items-center content-center mt-[1400px]">
       {/* Table de bord */}
       <div className=" p-3 w-full flex flex-row justify-between items-center ">
         <h2 className="font-medium text-2xl">Table de bord</h2>
@@ -78,16 +80,16 @@ const TableBord: FC = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center  h-[350px] w-full rounded-sm shadow-md object-cover bg-slate-50 my-2 ">
-        <div className="h-full w-full mx-1 my-2  pt-5 pb-2 pr-5 pl-5">
+      <div className="flex justify-between items-center  h-[350px] w-full my-2 ">
+        <div className="h-full w-full mr-2 my-2 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 shadow-md">
           <DailySalesLineBarChart />
         </div>
-        <div className="h-full w-full mx-1 my-2  pt-5 pb-2 pr-5 pl-5">
+        <div className="h-full w-full ml-1.5 my-1.5 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 shadow-md">
           <DailySalesQuantityLineBarChart />
         </div>
       </div>
 
-      <div className="h-[400px] w-full flex my-4 justify-between  ">
+      <div className="h-[400px] w-full ml-2 flex my-4 justify-between  ">
         <TotalStockCard />
 
         <CompanyDailyPurchasesStatCard />

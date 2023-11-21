@@ -9,7 +9,7 @@ const DailyUnTraitedOrdersStatCard: FC = () => {
   );
   return (
     <div
-      className={`h-full w-1/3 bg-slate-50  p-3 doughnut shadow-md rounded-lg `}
+      className={`h-full w-1/3 bg-slate-50 mr-1.5 p-3 doughnut shadow-md rounded-lg `}
     >
       <div className="flex mb-3 justify-between ">
         <p className="font-medium text-lg">Commandes Non Traitées</p>

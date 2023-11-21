@@ -7,11 +7,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { toggleModal } from "../widgets/ToggleModal";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import ActivitesBanqueAPI from "../../../../api/activites_banque/activites_banque.api";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
-// import CurrentBalenceDetailsUpdate from "../../../form/forms/current_balence_details_update/CurrentBalenceDetailsUpdate";
-// import { toggleModal } from "../widgets/ToggleModal";
-// import ActivitesBanqueAPI from "../../../../api/activites_banque/activites_banque.api";
-// import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 interface CurrentsBalenceDetailsTableProps {
   selectedBank: SoldeCourant | undefined;
@@ -28,10 +24,6 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
   );
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
-  );
-
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
   );
 
   useEffect(() => {
@@ -96,7 +88,7 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                       color="red"
                       onClick={async () => {
                         const response = await ActivitesBanqueAPI.delete(
-                          authenticatedEmploye!,
+                          authenticatedEmployee.value!,
                           currentBalence.id!
                         );
 

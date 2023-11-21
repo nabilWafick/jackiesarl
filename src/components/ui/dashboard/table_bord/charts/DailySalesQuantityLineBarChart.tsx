@@ -43,7 +43,7 @@ export function DailySalesQuantityLineBarChart() {
     labels,
     datasets: [
       {
-        label: "Quantités",
+        label: "Quantités vendues",
         data: salesQuantity,
         borderColor: "rgb(25, 170, 230)",
         backgroundColor: "#19AAE6", //"rgb(25, 170, 230)",

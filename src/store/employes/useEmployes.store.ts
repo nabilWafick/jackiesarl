@@ -3,13 +3,14 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Employes from "../../models/employes/employes.model";
 import EmployesAPI from "../../api/employes/employes.api";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface EmployesStore {
   employes: Employes[];
   selectedEmploye: Employes | undefined;
   isLoading: boolean;
-  fetchAllEmployes: (authenticatedEmployee: Employes) => void;
-  setSelectedEmployee: (employe: Employes) => void;
+  fetchAllEmployes: () => void;
+  setSelectedEmployee: (employee: Employes) => void;
 }
 
 const useEmployesStore = create<EmployesStore>()(
@@ -18,14 +19,13 @@ const useEmployesStore = create<EmployesStore>()(
       employes: [],
       selectedEmploye: undefined,
       isLoading: false,
-      fetchAllEmployes: async (authenticatedEmployee: Employes) => {
-        const employeesList: Employes[] = await EmployesAPI.getAll(
-          authenticatedEmployee
-        );
+      fetchAllEmployes: async () => {
+        const auth = authenticatedEmployee.value;
+        const employeesList: Employes[] = await EmployesAPI.getAll(auth!);
         set(() => ({ employes: employeesList }));
       },
-      setSelectedEmployee: (employe) => {
-        set(() => ({ selectedEmploye: employe }));
+      setSelectedEmployee: (employee) => {
+        set(() => ({ selectedEmploye: employee }));
       },
     }),
     {

@@ -4,7 +4,6 @@ import RapportFileUploadedCard from "../../../../../components/ui/dashboard/rapp
 import useReportSubmittingForm from "../../../../../hooks/forms/report_submitting/useReportSubmittingForm";
 import JSInput from "../../../../../components/form/widgets/Input.widget";
 import useReportsStore from "../../../../../store/rapports/useRapports.store";
-import useAuthenticatedEmployeStore from "../../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 const EmployeeRapportsPage: FC = () => {
   const {
@@ -16,20 +15,16 @@ const EmployeeRapportsPage: FC = () => {
   } = useReportSubmittingForm({
     report: "",
   });
-
   const fetchAllOfEmployeeReports = useReportsStore(
     (state) => state.fetchAllOfEmployeeReports
   );
   const authEmployeeReports = useReportsStore(
     (state) => state.authEmployeeReports
   );
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
 
   useEffect(() => {
-    fetchAllOfEmployeeReports(authenticatedEmploye!.id!);
-  }, [fetchAllOfEmployeeReports, authenticatedEmploye]);
+    fetchAllOfEmployeeReports();
+  }, [fetchAllOfEmployeeReports]);
 
   return (
     <div className="flex flex-col justify-center items-center flex-wrap mx-40 ">

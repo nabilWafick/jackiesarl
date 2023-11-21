@@ -20,7 +20,6 @@ const ClientCheckRemittancePage: FC = () => {
   const fetchAllClientChecksRemittance = useClientChecksRemittanceStore(
     (state) => state.fetchAllClientChecksRemittance
   );
-
   const selectedSortOption = useClientChecksRemittanceStore(
     (state) => state.selectedSortOption
   );

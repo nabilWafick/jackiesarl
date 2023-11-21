@@ -3,7 +3,8 @@ import AchatEntreprise from "../../../../models/achat_entreprise/achat_entrepris
 import { FaEdit, FaFile, FaTrash } from "react-icons/fa";
 import { toggleModal } from "../widgets/ToggleModal";
 import useCompanyPurchasesListStore from "../../../../store/achat_entreprise/useAchatEntreprise.store";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
+
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import AchatEntrepriseAPI from "../../../../api/achat_entreprise/achat_entreprise.api";
 import CompanyPurchasseUpdate from "../../../form/forms/company_purchase_update/CompanyPurchaseUpdate";
@@ -17,9 +18,7 @@ const CompanyPurchasesTable: FC<CompanyPurchasesTableProps> = ({
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const fetchAllCompanyPurchases = useCompanyPurchasesListStore(
     (state) => state.fetchAllCompanyPurchases

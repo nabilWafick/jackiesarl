@@ -2,7 +2,7 @@ import { FC } from "react";
 import SoldeCourant from "../../../../models/solde_courant/solde_courant.model";
 import useSoldeCourantStore from "../../../../store/solde_courant/useSoldeCourant.store";
 import { Link } from "react-router-dom";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 import { toggleModal } from "../widgets/ToggleModal";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
@@ -22,9 +22,7 @@ const BankAccountTable: FC<BankAccountTableProps> = ({ bankAccountList }) => {
     (state) => state.setActionResultMessage
   );
 
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const fetchAllSoldeCourant = useSoldeCourantStore(
     (state) => state.fetchAllSoldeCourant

@@ -10,7 +10,6 @@ import JSSelect from "../../../../components/form/widgets/Select.widget";
 const DebtsListPage: FC = () => {
   const creances = useCreanceStore((state) => state.creances);
   const fetchCreances = useCreanceStore((state) => state.fetchCreances);
-
   const selectedSortOption = useCreanceStore(
     (state) => state.selectedSortOption
   );

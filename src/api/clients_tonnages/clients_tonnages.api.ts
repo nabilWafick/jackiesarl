@@ -27,10 +27,6 @@ class ClientsTonnagesAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<ClientsTonnages | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -39,7 +35,7 @@ class ClientsTonnagesAPI {
     await axios
       .get(`${ClientsTonnagesAPI.baseUrl}/clients-tonnages/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -54,10 +50,6 @@ class ClientsTonnagesAPI {
   static async getAll(
     authenticatedEmployee: Employes
   ): Promise<ClientsTonnages[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -66,7 +58,7 @@ class ClientsTonnagesAPI {
     await axios
       .get(`${ClientsTonnagesAPI.baseUrl}/clients-tonnages/`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

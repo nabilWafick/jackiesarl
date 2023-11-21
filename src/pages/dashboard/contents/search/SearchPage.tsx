@@ -18,6 +18,7 @@ const SearchPage: FunctionComponent<SearchPageProps> = () => {
   );
   const navigateTo = useNavigate();
   const { clearSearchInputData } = useSearchInput();
+
   return (
     <div className="w-full h-full flex ">
       <div className=" text-tableTextColor font-medium w-full block break-words">

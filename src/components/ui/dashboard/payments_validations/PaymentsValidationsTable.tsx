@@ -13,7 +13,7 @@ import ClientPaymentValidationUpdate from "../../../form/forms/client_payment_va
 import PaiementClientAPI from "../../../../api/paiement_client/paiement_client.api";
 import PaiementClient from "../../../../models/paiement_client/paiement.model";
 import usePaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 interface ClientsPaymentsValidationsTableProps {
   clientsPaymentsValidations: PaiementClient[];
@@ -22,9 +22,7 @@ interface ClientsPaymentsValidationsTableProps {
 const ClientsPaymentsValidationsTable: FC<
   ClientsPaymentsValidationsTableProps
 > = ({ clientsPaymentsValidations }) => {
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage

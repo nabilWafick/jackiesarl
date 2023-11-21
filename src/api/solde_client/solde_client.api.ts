@@ -51,10 +51,6 @@ class SoldeClientAPI {
     endDate: string | undefined,
     id: number
   ): Promise<SoldeClient | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -65,7 +61,7 @@ class SoldeClientAPI {
       await axios
         .get(`${SoldeClientAPI.baseUrl}/solde-client/${id}`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -83,7 +79,7 @@ class SoldeClientAPI {
         `${SoldeClientAPI.baseUrl}/solde-client/${id}/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -102,10 +98,6 @@ class SoldeClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<SoldeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -116,7 +108,7 @@ class SoldeClientAPI {
       await axios
         .get(`${SoldeClientAPI.baseUrl}/soldes-clients-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -136,7 +128,7 @@ class SoldeClientAPI {
         `${SoldeClientAPI.baseUrl}/soldes-clients-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -157,10 +149,6 @@ class SoldeClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<SoldeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -172,7 +160,7 @@ class SoldeClientAPI {
           `${SoldeClientAPI.baseUrl}/soldes-clients/advance-more-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -193,7 +181,7 @@ class SoldeClientAPI {
         `${SoldeClientAPI.baseUrl}/soldes-clients/advance-more-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -214,10 +202,6 @@ class SoldeClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<SoldeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -230,7 +214,7 @@ class SoldeClientAPI {
           `${SoldeClientAPI.baseUrl}/soldes-clients/advance-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -251,7 +235,7 @@ class SoldeClientAPI {
         `${SoldeClientAPI.baseUrl}/soldes-clients/advance-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -272,10 +256,6 @@ class SoldeClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<SoldeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -286,7 +266,7 @@ class SoldeClientAPI {
       await axios
         .get(`${SoldeClientAPI.baseUrl}/soldes-clients/debt-more-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -306,7 +286,7 @@ class SoldeClientAPI {
         `${SoldeClientAPI.baseUrl}/soldes-clients/debt-more-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -327,10 +307,6 @@ class SoldeClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<SoldeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -341,7 +317,7 @@ class SoldeClientAPI {
       await axios
         .get(`${SoldeClientAPI.baseUrl}/soldes-clients/debt-less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -361,7 +337,7 @@ class SoldeClientAPI {
         `${SoldeClientAPI.baseUrl}/soldes-clients/debt-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )

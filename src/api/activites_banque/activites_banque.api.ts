@@ -26,10 +26,6 @@ class ActivitesBanqueAPI {
     authenticatedEmployee: Employes,
     data: ActivitesBanque
   ): Promise<ActivitesBanquePromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -38,7 +34,7 @@ class ActivitesBanqueAPI {
     await axios
       .post(`${ActivitesBanqueAPI.baseUrl}/activites-banque`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -55,10 +51,6 @@ class ActivitesBanqueAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<ActivitesBanque | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -67,7 +59,7 @@ class ActivitesBanqueAPI {
     await axios
       .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -82,10 +74,6 @@ class ActivitesBanqueAPI {
   static async getAll(
     authenticatedEmployee: Employes
   ): Promise<ActivitesBanque[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -94,7 +82,7 @@ class ActivitesBanqueAPI {
     await axios
       .get(`${ActivitesBanqueAPI.baseUrl}/activites-banque`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -114,10 +102,6 @@ class ActivitesBanqueAPI {
     authenticatedEmployee: Employes,
     id_banque: number
   ): Promise<ActivitesBanque[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -128,7 +112,7 @@ class ActivitesBanqueAPI {
         `${ActivitesBanqueAPI.baseUrl}/activites-banque/banque/${id_banque}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -150,10 +134,6 @@ class ActivitesBanqueAPI {
     id: number,
     data: ActivitesBanque
   ): Promise<ActivitesBanquePromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -165,7 +145,7 @@ class ActivitesBanqueAPI {
         data.toJson(),
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -182,10 +162,6 @@ class ActivitesBanqueAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<ActivitesBanquePromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -194,7 +170,7 @@ class ActivitesBanqueAPI {
     await axios
       .delete(`${ActivitesBanqueAPI.baseUrl}/activites-banque/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

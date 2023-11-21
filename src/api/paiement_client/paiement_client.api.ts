@@ -29,10 +29,6 @@ class PaiementClientAPI {
     authenticatedEmployee: Employes,
     data: PaiementClient
   ): Promise<PaiementClientPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -42,7 +38,7 @@ class PaiementClientAPI {
       .post(`${PaiementClientAPI.baseUrl}/paiement-client`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -58,10 +54,6 @@ class PaiementClientAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<PaiementClient | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -70,7 +62,7 @@ class PaiementClientAPI {
     await axios
       .get(`${PaiementClientAPI.baseUrl}/paiement-client/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -88,10 +80,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -102,7 +90,7 @@ class PaiementClientAPI {
       await axios
         .get(`${PaiementClientAPI.baseUrl}/paiements-clients-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -123,7 +111,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -145,10 +133,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -159,7 +143,7 @@ class PaiementClientAPI {
       await axios
         .get(`${PaiementClientAPI.baseUrl}/paiements-clients/new-to-old`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -180,7 +164,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/new-to-old/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -202,10 +186,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -216,7 +196,7 @@ class PaiementClientAPI {
       await axios
         .get(`${PaiementClientAPI.baseUrl}/paiements-clients/old-to-new`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -237,7 +217,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/old-to-new/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -259,10 +239,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -273,7 +249,7 @@ class PaiementClientAPI {
       await axios
         .get(`${PaiementClientAPI.baseUrl}/paiements-clients/most-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -294,7 +270,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -316,10 +292,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -330,7 +302,7 @@ class PaiementClientAPI {
       await axios
         .get(`${PaiementClientAPI.baseUrl}/paiements-clients/less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -351,7 +323,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -373,10 +345,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -389,7 +357,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -411,7 +379,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -433,10 +401,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -449,7 +413,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -471,7 +435,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/cim-benin-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -493,10 +457,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -509,7 +469,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -531,7 +491,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -553,10 +513,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -569,7 +525,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -591,7 +547,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/nocibe-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -613,10 +569,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -626,7 +578,7 @@ class PaiementClientAPI {
       await axios
         .get(`${PaiementClientAPI.baseUrl}/paiements-clients/unvalidated`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -648,7 +600,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/unvalidated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -671,10 +623,6 @@ class PaiementClientAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -684,7 +632,7 @@ class PaiementClientAPI {
       await axios
         .get(`${PaiementClientAPI.baseUrl}/paiements-clients/validated`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -706,7 +654,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-clients/validated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -732,10 +680,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -747,7 +691,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client-default/${clientId}`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -770,7 +714,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client-default/${clientId}/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -794,10 +738,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -809,7 +749,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/old-to-new`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -832,7 +772,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/old-to-new/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -856,10 +796,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -871,7 +807,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/new-to-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -894,7 +830,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/new-to-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -918,10 +854,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -933,7 +865,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -956,7 +888,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -980,10 +912,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -995,7 +923,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1018,7 +946,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1042,10 +970,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1057,7 +981,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1080,7 +1004,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1104,10 +1028,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1119,7 +1039,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1142,7 +1062,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/cim-benin-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1166,10 +1086,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1181,7 +1097,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1204,7 +1120,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1228,10 +1144,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1243,7 +1155,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1266,7 +1178,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/nocibe-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1290,10 +1202,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1305,7 +1213,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/unvalidated`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1328,7 +1236,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/unvalidated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1352,10 +1260,6 @@ class PaiementClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<PaiementClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1367,7 +1271,7 @@ class PaiementClientAPI {
           `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/validated`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1390,7 +1294,7 @@ class PaiementClientAPI {
         `${PaiementClientAPI.baseUrl}/paiements-client/client/${clientId}/validated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1415,10 +1319,6 @@ class PaiementClientAPI {
   ): Promise<PaiementClientPromiseResponse | undefined> {
     console.log("Paiement update call");
     console.log("Paiement Data", data);
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1431,7 +1331,7 @@ class PaiementClientAPI {
         {
           headers: {
             "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1449,10 +1349,6 @@ class PaiementClientAPI {
     id: number
   ): Promise<PaiementClientPromiseResponse | undefined> {
     let promiseResponse: PaiementClientPromiseResponse | undefined = undefined;
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1460,7 +1356,7 @@ class PaiementClientAPI {
     await axios
       .delete(`${PaiementClientAPI.baseUrl}/paiement-client/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

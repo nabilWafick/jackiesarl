@@ -26,10 +26,6 @@ class AchatEntrepriseAPI {
     authenticatedEmployee: Employes,
     data: AchatEntreprise
   ): Promise<AchatEntreprisePromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -40,7 +36,7 @@ class AchatEntrepriseAPI {
       .post(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data",
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -57,10 +53,6 @@ class AchatEntrepriseAPI {
     authenticatedEmployee: Employes,
     bonCommande: number
   ): Promise<AchatEntreprise | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -69,7 +61,7 @@ class AchatEntrepriseAPI {
     await axios
       .get(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -86,10 +78,6 @@ class AchatEntrepriseAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<AchatEntreprise[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -99,7 +87,7 @@ class AchatEntrepriseAPI {
       await axios
         .get(`${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -119,7 +107,7 @@ class AchatEntrepriseAPI {
         `${AchatEntrepriseAPI.baseUrl}/achats-entreprise-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -141,10 +129,6 @@ class AchatEntrepriseAPI {
     bonCommande: number,
     data: AchatEntreprise
   ): Promise<AchatEntreprisePromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -158,7 +142,7 @@ class AchatEntrepriseAPI {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -175,10 +159,6 @@ class AchatEntrepriseAPI {
     authenticatedEmployee: Employes,
     bonCommande: number
   ): Promise<AchatEntreprisePromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -188,7 +168,7 @@ class AchatEntrepriseAPI {
     await axios
       .delete(`${AchatEntrepriseAPI.baseUrl}/achat-entreprise/${bonCommande}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

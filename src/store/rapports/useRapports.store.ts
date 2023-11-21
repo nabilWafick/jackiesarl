@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Rapports from "../../models/rapports/rapports.model";
 import RapportsAPI from "../../api/rapports/rapports.api";
+import { authenticatedEmployee } from "../../data/GlobalData";
 import Employes from "../../models/employes/employes.model";
 
 interface ReportsStore {
@@ -10,14 +11,11 @@ interface ReportsStore {
   authEmployeeReports: Rapports[];
   isLoading: boolean;
   reportSelectedEmployee: Employes | undefined;
-
   //   startDate: Date | Moment | undefined;
   //   endDate: Date | Moment | undefined;
   //   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
-  fetchAllEmployeesReports: (authenticatedEmployee: Employes) => void;
-  fetchAllOfEmployeeReports: (employee_id: number) => void;
+  fetchAllEmployeesReports: () => void;
+  fetchAllOfEmployeeReports: () => void;
   setReportSelectedEmployee: (employee: Employes) => void;
   //   onStartDateChange: (date: Date | Moment) => void;
   //   onEndDateChange: (date: Date | Moment) => void;
@@ -36,32 +34,27 @@ const useReportsStore = create<ReportsStore>()(
       //   selectedSortOption: "new-to-old",
 
       isLoading: false,
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
-      fetchAllEmployeesReports: async (authenticatedEmployee: Employes) => {
+      fetchAllEmployeesReports: async () => {
         // set(() => ({ selectedClientId: clientId }));
         // const begin = get().startDate;
         // const end = get().endDate;
-        const employeesReportsList = await RapportsAPI.getAll(
-          authenticatedEmployee
-        );
+        const auth = authenticatedEmployee.value;
+        const employeesReportsList = await RapportsAPI.getAll(auth!);
         //   begin ? begin.toLocaleString() : undefined,
         //   end ? end.toLocaleString() : undefined
         //();
         //  console.log("employeesReportsList", employeesReportsList);
         set(() => ({ employeesReports: employeesReportsList }));
       },
-      fetchAllOfEmployeeReports: async (employee_id: number) => {
+      fetchAllOfEmployeeReports: async () => {
         // set(() => ({ selectedClientId: clientId }));
         // const begin = get().startDate;
         // const end = get().endDate;
         //   console.log("employee_id in store", employee_id);
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const employeeReports = await RapportsAPI.getAllOfEmployee(
           auth!,
-          employee_id
+          auth!.id!
         );
         //    console.log("employeeReports", employeeReports);
         //   begin ? begin.toLocaleString() : undefined,

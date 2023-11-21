@@ -6,7 +6,7 @@ import TruckStockUpadate from "../../../form/forms/truck_stock_update/TruckStock
 import { toggleModal } from "../widgets/ToggleModal";
 import useTrucksStockStore from "../../../../store/stock_camion/useStockCamion.store";
 import StockCamionAPI from "../../../../api/stock_camion/stock_camion.api";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 interface TruckStockTableProps {
   trucksStock: StockCamion[];
@@ -16,9 +16,7 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const fetchAllTruckStock = useTrucksStockStore(
     (state) => state.fetchAllTruckStock

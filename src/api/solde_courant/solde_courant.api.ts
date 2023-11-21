@@ -24,10 +24,6 @@ class SoldeCourantAPI {
     authenticatedEmployee: Employes,
     data: SoldeCourant
   ): Promise<SoldeCourantPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -36,7 +32,7 @@ class SoldeCourantAPI {
     await axios
       .post(`${SoldeCourantAPI.baseUrl}/solde-courant`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -52,10 +48,6 @@ class SoldeCourantAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<SoldeCourant | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -64,7 +56,7 @@ class SoldeCourantAPI {
     await axios
       .get(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -81,10 +73,6 @@ class SoldeCourantAPI {
   ): //  startDate: string | undefined,
   //  endDate: string | undefined
   Promise<SoldeCourant[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -94,7 +82,7 @@ class SoldeCourantAPI {
     await axios
       .get(`${SoldeCourantAPI.baseUrl}/soldes-courants`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -115,10 +103,6 @@ class SoldeCourantAPI {
     id: number,
     data: SoldeCourant
   ): Promise<SoldeCourantPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -127,7 +111,7 @@ class SoldeCourantAPI {
     await axios
       .put(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -143,10 +127,6 @@ class SoldeCourantAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<SoldeCourantPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -155,7 +135,7 @@ class SoldeCourantAPI {
     await axios
       .delete(`${SoldeCourantAPI.baseUrl}/solde-courant/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

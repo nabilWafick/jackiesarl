@@ -5,17 +5,17 @@ import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleM
 import "../../../../assets/css/table.css";
 import OrderAdding from "../../../../components/form/forms/order_adding/OrderAdding";
 import useCommandesStore from "../../../../store/commandes/useCommandes.store";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import JSSelect from "../../../../components/form/widgets/Select.widget";
-const OrdersPage = () => {
+
+const OrdersPage: FC = () => {
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
   const orders = useCommandesStore((state) => state.clientsOrders);
   const fetchAllClientsOrders = useCommandesStore(
     (state) => state.fetchAllClientsOrders
   );
-
   const selectedSortOption = useCommandesStore(
     (state) => state.selectedSortOption
   );

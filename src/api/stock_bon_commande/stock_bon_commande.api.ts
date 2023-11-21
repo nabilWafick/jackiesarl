@@ -27,10 +27,6 @@ class StockBonCommandeAPI {
     authenticatedEmployee: Employes,
     data: StockBonCommande
   ): Promise<StockBonCommandePromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -44,7 +40,7 @@ class StockBonCommandeAPI {
         data.toJson(),
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-tokens": `Bearer ${token}`,
           },
         }
       )
@@ -61,10 +57,6 @@ class StockBonCommandeAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<StockBonCommande | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -73,7 +65,7 @@ class StockBonCommandeAPI {
     await axios
       .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-tokens": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -88,10 +80,6 @@ class StockBonCommandeAPI {
   static async getAll(
     authenticatedEmployee: Employes
   ): Promise<StockBonCommande[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -100,7 +88,7 @@ class StockBonCommandeAPI {
     await axios
       .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-tokens": `Bearer ${token}`,
         },
       })
       .then((response) => {

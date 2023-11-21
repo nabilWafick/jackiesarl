@@ -10,7 +10,7 @@ const DailyTraitedOrdersStatCard: FC = () => {
 
   return (
     <div
-      className={`h-full w-1/3 bg-slate-50 ml-1 p-3 doughnut shadow-md rounded-lg `}
+      className={`h-full w-1/3 bg-slate-50 mx-1.5 p-3 doughnut shadow-md rounded-lg `}
     >
       <div className="flex mb-3 justify-between ">
         <p className="font-medium text-lg">Commandes Traitées</p>

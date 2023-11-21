@@ -37,7 +37,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
   currentActiveSideBarOption,
   subOptions,
   onSideBarOptionClick,
-  logout,
+  //  logout,
 }) => {
   const selectedClient = useClientsStore((state) => state.selectedClient);
   return (
@@ -45,7 +45,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
       <Link
         to={to}
         onClick={() => {
-          name == "Se Déconnecter" ? logout!() : "";
+          //  name == "Se Déconnecter" ? logout!() : "";
           onSideBarOptionClick(index, name, selectedClient);
         }}
       >
@@ -54,11 +54,11 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
             currentActiveSideBarOption == name && "bg-primary shadow-md"
           } h-10 rounded-md items-center content-center hover:cursor-pointer group`}
         >
-          <div className="h-full mx-[12px] flex justify-start items-center content-center">
+          <div className="h-full mx-[12px] text-secondary flex justify-start items-center content-center">
             {icon}
           </div>
           <div className={`w-full flex flex-row justify-between items-center`}>
-            <p className=" text-[15px] flex items-center text-black  group-hover:text-black ">
+            <p className="md:text-[12px] lg:text-[15px] flex items-center text-black  group-hover:text-black md:hidden' lg:block">
               {name}
             </p>
             {subOptions.length != 0 && (
@@ -80,7 +80,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
             <Link
               to={subOption.to}
               key={subOption.name}
-              className={`ml-[40px] my-[2px] py-2 pl-[10px] rounded-md flex items-center text-[12px] ${
+              className={`md:ml-0 lg:ml-[40px] my-[2px] py-2 pl-[10px] rounded-md flex items-center md:text-[10px] lg:text-[12px] ${
                 subOption.currentActiveSideBarSubOption == subOption.name &&
                 "bg-primary"
               } hover:cursor-pointer font-normal text-black hover:text-black`}

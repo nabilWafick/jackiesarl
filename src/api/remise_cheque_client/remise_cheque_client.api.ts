@@ -27,10 +27,6 @@ class RemiseChequeClientAPI {
     authenticatedEmployee: Employes,
     data: RemiseChequeClient
   ): Promise<RemiseChequeClientPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -43,7 +39,7 @@ class RemiseChequeClientAPI {
         data.toJson(),
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -61,10 +57,6 @@ class RemiseChequeClientAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<RemiseChequeClient | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -73,7 +65,7 @@ class RemiseChequeClientAPI {
     await axios
       .get(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -88,10 +80,6 @@ class RemiseChequeClientAPI {
   static async getAll(
     authenticatedEmployee: Employes
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -100,7 +88,7 @@ class RemiseChequeClientAPI {
     await axios
       .get(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -123,10 +111,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -138,7 +122,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -161,7 +145,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client-default/${clientId}/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -185,10 +169,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -200,7 +180,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -223,7 +203,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/old-to-new/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -247,10 +227,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -262,7 +238,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -285,7 +261,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/new-to-old/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -309,10 +285,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -324,7 +296,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -347,7 +319,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -371,10 +343,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -386,7 +354,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -409,7 +377,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -433,10 +401,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -448,7 +412,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -471,7 +435,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/more-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -495,10 +459,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -510,7 +470,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -533,7 +493,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/rest-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -557,10 +517,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -572,7 +528,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -595,7 +551,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BOA/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -619,10 +575,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -634,7 +586,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -657,7 +609,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/UBA/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -681,10 +633,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -696,7 +644,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -719,7 +667,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/NSIA/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -743,10 +691,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -758,7 +702,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -781,7 +725,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/BGFI/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -805,10 +749,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -820,7 +760,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -843,7 +783,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/SGB/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -867,10 +807,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -882,7 +818,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -905,7 +841,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/Ecobank/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -929,10 +865,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -944,7 +876,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -967,7 +899,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/unvalidated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -991,10 +923,6 @@ class RemiseChequeClientAPI {
     endDate: string | undefined,
     clientId: number
   ): Promise<RemiseChequeClient[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1006,7 +934,7 @@ class RemiseChequeClientAPI {
           `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -1029,7 +957,7 @@ class RemiseChequeClientAPI {
         `${RemiseChequeClientAPI.baseUrl}/remise-cheques-client/client/${clientId}/validated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1052,10 +980,6 @@ class RemiseChequeClientAPI {
     id: number,
     data: RemiseChequeClient
   ): Promise<RemiseChequeClientPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1069,7 +993,7 @@ class RemiseChequeClientAPI {
         data.toJson(),
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -1088,10 +1012,6 @@ class RemiseChequeClientAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<RemiseChequeClientPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -1101,7 +1021,7 @@ class RemiseChequeClientAPI {
     await axios
       .delete(`${RemiseChequeClientAPI.baseUrl}/remise-cheque-client/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

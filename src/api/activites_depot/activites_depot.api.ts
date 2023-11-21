@@ -28,10 +28,6 @@ class ActivitesDepotAPI {
     authenticatedEmployee: Employes,
     data: ActivitesDepot
   ): Promise<ActivitesDepotPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -41,7 +37,7 @@ class ActivitesDepotAPI {
     await axios
       .post(`${ActivitesDepotAPI.baseUrl}/activites-depot`, data, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -58,10 +54,6 @@ class ActivitesDepotAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<ActivitesDepot | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -70,7 +62,7 @@ class ActivitesDepotAPI {
     await axios
       .get(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -85,10 +77,6 @@ class ActivitesDepotAPI {
   static async getAll(
     authenticatedEmployee: Employes
   ): Promise<ActivitesDepot[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -97,7 +85,7 @@ class ActivitesDepotAPI {
     await axios
       .get(`${ActivitesDepotAPI.baseUrl}/activites-depots`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -119,10 +107,6 @@ class ActivitesDepotAPI {
     endDate: string | undefined,
     id_depot: number
   ): Promise<ActivitesDepot[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -135,7 +119,7 @@ class ActivitesDepotAPI {
           `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}`,
           {
             headers: {
-              "authorization-tokens": `Bearer ${accesToken} ${token} `,
+              "authorization-token": `Bearer ${token}`,
             },
           }
         )
@@ -157,7 +141,7 @@ class ActivitesDepotAPI {
         `${ActivitesDepotAPI.baseUrl}/activites-depot/depot-default/${id_depot}/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -179,10 +163,6 @@ class ActivitesDepotAPI {
     id: number,
     data: ActivitesDepot
   ): Promise<ActivitesDepotPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -192,7 +172,7 @@ class ActivitesDepotAPI {
     await axios
       .put(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, data, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -209,10 +189,6 @@ class ActivitesDepotAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<ActivitesDepotPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -222,7 +198,7 @@ class ActivitesDepotAPI {
     await axios
       .delete(`${ActivitesDepotAPI.baseUrl}/activites-depot/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

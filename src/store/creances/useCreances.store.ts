@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import SoldeClient from "../../models/solde_client/solde_client.model";
 import SoldeClientAPI from "../../api/solde_client/solde_client.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface CreanceStore {
   creances: SoldeClient[];
@@ -12,8 +12,6 @@ interface CreanceStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchCreances: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -30,14 +28,10 @@ const useCreanceStore = create<CreanceStore>()(
         startDate: undefined,
         endDate: undefined,
         selectedSortOption: "more-important",
-        authenticatedEmployee: undefined,
-        setAuthenticatedEmployee: (employee) => {
-          set(() => ({ authenticatedEmployee: employee }));
-        },
         fetchCreances: async () => {
           const begin = get().startDate;
           const end = get().endDate;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           const creancesList = await SoldeClientAPI.getAllDebtsMoreImportant(
             auth!,
@@ -96,7 +90,7 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           let soldesClientsList: SoldeClient[] = [];
 
@@ -166,7 +160,7 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           let soldesClientsList: SoldeClient[] = [];
 
@@ -199,7 +193,7 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           let soldesClientsList: SoldeClient[] = [];
 
@@ -231,7 +225,7 @@ const useCreanceStore = create<CreanceStore>()(
           const end = get().endDate
             ? get().endDate!.toLocaleString()
             : undefined;
-          const auth = get().authenticatedEmployee;
+          const auth = authenticatedEmployee.value;
 
           let soldesClientsList: SoldeClient[] = [];
 

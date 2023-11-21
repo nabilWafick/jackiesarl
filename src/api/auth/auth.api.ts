@@ -62,7 +62,9 @@ class AuthAPI {
     let promiseResponse: AuthPromiseResponse | undefined = undefined;
 
     await axios
-      .post(`${AuthAPI.baseUrl}/auth/login`, data)
+      .post(`${AuthAPI.baseUrl}/auth/login`, data, {
+        withCredentials: true,
+      })
       .then((response) => {
         promiseResponse = response.data;
       })
@@ -77,8 +79,6 @@ class AuthAPI {
   static verifyAuthentication(
     employee: Employes | undefined
   ): AuthPromiseResponse | undefined {
-    const accesToken =
-      employee != undefined ? employee.accessToken : "accessToken";
     const token = employee != undefined ? employee.token : "token";
 
     let promiseResponse: AuthPromiseResponse | undefined = undefined;
@@ -86,11 +86,12 @@ class AuthAPI {
     axios
       .get(`${AuthAPI.baseUrl}/auth/verify-authentication`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
         promiseResponse = response.data;
+        //    console.log("response.data", response.data);
       })
       .catch((error) => {
         promiseResponse = error.response.data;
@@ -100,13 +101,23 @@ class AuthAPI {
     return promiseResponse;
   }
 
-  static async logout(): Promise<AuthPromiseResponse | undefined> {
+  static async logout(
+    authenticatedEmployee: Employes
+  ): Promise<AuthPromiseResponse | undefined> {
+    console.log("Log out called");
     let promiseResponse: AuthPromiseResponse | undefined = undefined;
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
 
     await axios
-      .post(`${AuthAPI.baseUrl}/auth/logout`)
+      .get(`${AuthAPI.baseUrl}/auth/logout`, {
+        headers: {
+          "authorization-token": `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        location.reload();
         promiseResponse = response.data;
       })
       .catch((error) => {

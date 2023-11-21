@@ -26,10 +26,6 @@ class StockCamionAPI {
     authenticatedEmployee: Employes,
     data: StockCamion
   ): Promise<StockCamionPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -39,7 +35,7 @@ class StockCamionAPI {
     await axios
       .post(`${StockCamionAPI.baseUrl}/stock-camion`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -55,10 +51,6 @@ class StockCamionAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<StockCamion | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -67,7 +59,7 @@ class StockCamionAPI {
     await axios
       .get(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -84,10 +76,6 @@ class StockCamionAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<StockCamion[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -98,7 +86,7 @@ class StockCamionAPI {
       await axios
         .get(`${StockCamionAPI.baseUrl}/stocks-camions-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -117,7 +105,7 @@ class StockCamionAPI {
         `${StockCamionAPI.baseUrl}/stocks-camions-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -138,10 +126,6 @@ class StockCamionAPI {
     id: number,
     data: StockCamion
   ): Promise<StockCamionPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -151,7 +135,7 @@ class StockCamionAPI {
     await axios
       .put(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -168,10 +152,6 @@ class StockCamionAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<StockCamionPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -181,7 +161,7 @@ class StockCamionAPI {
     await axios
       .delete(`${StockCamionAPI.baseUrl}/stock-camion/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

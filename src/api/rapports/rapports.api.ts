@@ -24,10 +24,6 @@ class RapportsAPI {
     authenticatedEmployee: Employes,
     data: Rapports
   ): Promise<RapportsPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -38,7 +34,7 @@ class RapportsAPI {
       .post(`${RapportsAPI.baseUrl}/rapports`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -55,10 +51,6 @@ class RapportsAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<RapportsJSON | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -67,7 +59,7 @@ class RapportsAPI {
     await axios
       .get(`${RapportsAPI.baseUrl}/rapport/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -81,10 +73,6 @@ class RapportsAPI {
   }
 
   static async getAll(authenticatedEmployee: Employes): Promise<Rapports[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -93,7 +81,7 @@ class RapportsAPI {
     await axios
       .get(`${RapportsAPI.baseUrl}/rapports`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -110,10 +98,6 @@ class RapportsAPI {
     authenticatedEmployee: Employes,
     employee_id: number
   ): Promise<Rapports[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -122,7 +106,7 @@ class RapportsAPI {
     await axios
       .get(`${RapportsAPI.baseUrl}/rapports/employee/${employee_id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -140,10 +124,6 @@ class RapportsAPI {
     id: number,
     data: Rapports
   ): Promise<RapportsPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -154,7 +134,7 @@ class RapportsAPI {
       .put(`${RapportsAPI.baseUrl}/rapports/${id}`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data",
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -171,10 +151,6 @@ class RapportsAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<RapportsPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -184,7 +160,7 @@ class RapportsAPI {
     await axios
       .post(`${RapportsAPI.baseUrl}/rapports/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

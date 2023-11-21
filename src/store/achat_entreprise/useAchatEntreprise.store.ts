@@ -4,7 +4,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import AchatEntreprise from "../../models/achat_entreprise/achat_entreprise.model";
 import AchatEntrepriseAPI from "../../api/achat_entreprise/achat_entreprise.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface CompanyPurchasesListStore {
   companyPurchases: AchatEntreprise[];
@@ -13,8 +14,6 @@ interface CompanyPurchasesListStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllCompanyPurchases: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -31,14 +30,10 @@ const useCompanyPurchasesListStore = create<CompanyPurchasesListStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllCompanyPurchases: async () => {
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const companyPurchasesList = await AchatEntrepriseAPI.getAll(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -84,7 +79,7 @@ const useCompanyPurchasesListStore = create<CompanyPurchasesListStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const companyPurchasesList = await AchatEntrepriseAPI.getAll(
           auth!,
           begin,
@@ -166,7 +161,7 @@ const useCompanyPurchasesListStore = create<CompanyPurchasesListStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const companyPurchasesList = await AchatEntrepriseAPI.getAll(
           auth!,
@@ -221,7 +216,7 @@ const useCompanyPurchasesListStore = create<CompanyPurchasesListStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const companyPurchasesList = await AchatEntrepriseAPI.getAll(
           auth!,
@@ -275,7 +270,7 @@ const useCompanyPurchasesListStore = create<CompanyPurchasesListStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const companyPurchasesList = await AchatEntrepriseAPI.getAll(
           auth!,

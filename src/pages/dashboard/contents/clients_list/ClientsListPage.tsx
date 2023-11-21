@@ -5,12 +5,12 @@ import ClientsTable from "../../../../components/ui/dashboard/clients/ClientsTab
 import "../../../../assets/css/table.css";
 import ClientAdding from "../../../../components/form/forms/client_adding/ClientAdding";
 import useClientsStore from "../../../../store/clients/useClients.store";
-import { useEffect /* useReducer */ } from "react";
+import { FC, useEffect /* useReducer */ } from "react";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import JSSelect from "../../../../components/form/widgets/Select.widget";
 
-const ClientsListPage = () => {
+const ClientsListPage: FC = () => {
   const clientsList = useClientsStore((state) => state.clients);
   const selectedSortOption = useClientsStore(
     (state) => state.selectedSortOption
@@ -32,7 +32,7 @@ const ClientsListPage = () => {
   }, [fetchClientList]);
 
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center content-center">
+    <div className="h-full w-full flex flex-col justify-center items-center content-center mt-14">
       <div className="w-full flex flex-row justify-between items-center">
         <ShowStatisticsButton />
         <AddingButton

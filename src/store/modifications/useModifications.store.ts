@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import ModificationsAPI from "../../api/modifications/modifications.api";
 import Modifications from "../../models/modifications/modifications.model";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface ModificationsStore {
   modifications: Modifications[];
@@ -13,8 +13,6 @@ interface ModificationsStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllModifications: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -32,14 +30,10 @@ const useModificationsStore = create<ModificationsStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllModifications: async () => {
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const modificationsList = await ModificationsAPI.getAll(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -85,7 +79,7 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const modificationsList = await ModificationsAPI.getAll(
           auth!,
@@ -168,7 +162,7 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const modificationsList = await ModificationsAPI.getAll(
           auth!,
@@ -223,7 +217,7 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const modificationsList = await ModificationsAPI.getAll(
           auth!,
@@ -277,7 +271,7 @@ const useModificationsStore = create<ModificationsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const modificationsList = await ModificationsAPI.getAll(
           auth!,

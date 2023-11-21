@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC /*, useEffect */ } from "react";
 import { Routes, Route } from "react-router-dom";
 import AdvancePage from "../../pages/dashboard/contents/advance/AdvancePage";
 import AutorisationsPage from "../../pages/dashboard/contents/autorisations/AutorisationsPage";
@@ -7,17 +7,14 @@ import ClientBalancePage from "../../pages/dashboard/contents/client_balence/Cli
 import ClientCheckRemittancePage from "../../pages/dashboard/contents/client_check_remittance/ClientCheckRemittancePage";
 import ClientPaymentsPage from "../../pages/dashboard/contents/client_payments/ClientPaymentsPage";
 import ClientPurchasesPage from "../../pages/dashboard/contents/client_purchases/ClientPurchasesPage";
-import ClientsChartPage from "../../pages/dashboard/contents/clients_chart/ClientsChartPage";
 import ClientsListPage from "../../pages/dashboard/contents/clients_list/ClientsListPage";
 import ClientsTonnageListPage from "../../pages/dashboard/contents/clients_tonnage_list/ClientsTonnageListPage";
 import PurchasesPage from "../../pages/dashboard/contents/company_purchases/CompanyPurchasesPage";
 import DebtsListPage from "../../pages/dashboard/contents/debts_list/DebtListPage";
-import ExpensesPage from "../../pages/dashboard/contents/expenses/ExpensesPage";
 import ExpensesValidationsPage from "../../pages/dashboard/contents/expenses_validation/ExpensesValidationPage";
 import FogPage from "../../pages/dashboard/contents/fog/FogPage";
 import ModificationsPage from "../../pages/dashboard/contents/modifications/ModificationsPage";
 import OrdersPage from "../../pages/dashboard/contents/orders/OrdersPage";
-import PaymentsPage from "../../pages/dashboard/contents/payments/PaymentsPage";
 import PaymentsValidationsPage from "../../pages/dashboard/contents/payments_validations/PaymentsValidationsPage";
 import PurchaseOrderStockPage from "../../pages/dashboard/contents/purchase_order_stock/PurchaseOrderStockPage";
 import RapportsPage from "../../pages/dashboard/contents/rapports/RapportsPage";
@@ -31,10 +28,143 @@ import TableBord from "../../pages/dashboard/contents/table_bord/TableBord";
 import SalesPage from "../../pages/dashboard/contents/sales/SalesPage";
 import FogDetailsPage from "../../pages/dashboard/contents/fog_details/FogDetailsPage";
 import CurrentsBalenceDetailsPage from "../../pages/dashboard/contents/current_balences_details/CurrentBalencesDetailsPage";
+import "../../assets/css/Sidebar.css";
+/*import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import Employes from "../../models/employes/employes.model";
+import useClientPurchasesStore from "../../store/achat_client/useAchatClient.store";
+import useCompanyPurchasesListStore from "../../store/achat_entreprise/useAchatEntreprise.store";
+import useActivitesBanqueStore from "../../store/activites_banque/useActivitesBanque.store";
+import useActivitesDepotStore from "../../store/activites_depot/useActivitesDepot.store";
+import useAvanceStore from "../../store/avance/useAvance.store";
+import useBrouillardStore from "../../store/brouillard/useBrouillard.store";
+import useClientsStore from "../../store/clients/useClients.store";
+import useClientsTonnagesStore from "../../store/clients_tonnages/useClientsTonnages.store";
+import useCommandesStore from "../../store/commandes/useCommandes.store";
+import useCreanceStore from "../../store/creances/useCreances.store";
+import useDepensesStore from "../../store/depenses/useDepenses.store";
+import useDepensesValidationStore from "../../store/depenses_validation/useDepensesValidation.store";
+import useModificationsStore from "../../store/modifications/useModifications.store";
+import usePaymentsValidationStore from "../../store/paiement_client_validation/usePaiementClientValidation.store";
+import usePaymentsStore from "../../store/paiements/usePaiements.store";
+import useReportsStore from "../../store/rapports/useRapports.store";
+import useClientChecksRemittanceStore from "../../store/remise_cheque_client/useRemiseChequeClient.store";
+import useSoldeClientStore from "../../store/solde_client/useSoldeClient.store";
+import useSoldeCourantStore from "../../store/solde_courant/useSoldeCourant.store";
+import usePurchasesOrderStockStore from "../../store/stock_bon_commande/useStockBonCommande.store";
+import useTrucksStockStore from "../../store/stock_camion/useStockCamion.store";
+import useDashBoardStore from "../../store/table_bord/useTableBord.store";
+import useSalesStore from "../../store/vente/vente.store";
+
+*/ import PaymentsPage from "../../pages/dashboard/contents/payments/PaymentsPage";
+import ExpensesPage from "../../pages/dashboard/contents/expenses/ExpensesPage";
 
 const Main: FC = () => {
+  // authenticated user
+  /* const authenticatedEmploye = useAuthenticatedEmployeStore(
+    (state) => state.authenticatedEmploye
+  );
+  const setClientPurchasesStoreAuthenticatedEmploye = useClientPurchasesStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setCompanyPurchasesListStoreAuthenticatedEmploye =
+    useCompanyPurchasesListStore((state) => state.setAuthenticatedEmployee);
+  const setActivitesBanqueStoreAuthenticatedEmploye = useActivitesBanqueStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setActivitesDepotStoreAuthenticatedEmploye = useActivitesDepotStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setAvanceStoreAuthenticatedEmploye = useAvanceStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setBrouillardStoreAuthenticatedEmploye = useBrouillardStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setClientsStoreAuthenticatedEmploye = useClientsStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setClientsTonnagesStoreAuthenticatedEmploye = useClientsTonnagesStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setCommandesStoreAuthenticatedEmploye = useCommandesStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setCreanceStoreAuthenticatedEmploye = useCreanceStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setDepensesStoreAuthenticatedEmploye = useDepensesStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setDepensesValidationStoreAuthenticatedEmploye =
+    useDepensesValidationStore((state) => state.setAuthenticatedEmployee);
+  const setModificationsStoreAuthenticatedEmploye = useModificationsStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setPaymentsStoreAuthenticatedEmploye = usePaymentsStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setPaymentsValidationStoreAuthenticatedEmploye =
+    usePaymentsValidationStore((state) => state.setAuthenticatedEmployee);
+  const setReportsStoreAuthenticatedEmploye = useReportsStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setClientChecksRemittanceStoreAuthenticatedEmploye =
+    useClientChecksRemittanceStore((state) => state.setAuthenticatedEmployee);
+  const setSoldeClientStoreAuthenticatedEmploye = useSoldeClientStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setSoldeCourantStoreAuthenticatedEmploye = useSoldeCourantStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setPurchasesOrderStockStoreAuthenticatedEmploye =
+    usePurchasesOrderStockStore((state) => state.setAuthenticatedEmployee);
+  const setTrucksStockStoreAuthenticatedEmploye = useTrucksStockStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setDashBoardStoreAuthenticatedEmploye = useDashBoardStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  const setSalesStoreAuthenticatedEmploye = useSalesStore(
+    (state) => state.setAuthenticatedEmployee
+  );
+  */
+  // set authenticated user for every store
+
+  /*
+  useEffect(() => {
+    const setStoresAuthenticatedUser = (authEmployee: Employes) => {
+      setClientPurchasesStoreAuthenticatedEmploye(authEmployee);
+      setCompanyPurchasesListStoreAuthenticatedEmploye(authEmployee);
+      setActivitesBanqueStoreAuthenticatedEmploye(authEmployee);
+      setActivitesDepotStoreAuthenticatedEmploye(authEmployee);
+      setAvanceStoreAuthenticatedEmploye(authEmployee);
+      setBrouillardStoreAuthenticatedEmploye(authEmployee);
+      setClientsStoreAuthenticatedEmploye(authEmployee);
+      setClientsTonnagesStoreAuthenticatedEmploye(authEmployee);
+      setCommandesStoreAuthenticatedEmploye(authEmployee);
+      setCreanceStoreAuthenticatedEmploye(authEmployee);
+      setDepensesStoreAuthenticatedEmploye(authEmployee);
+      setDepensesValidationStoreAuthenticatedEmploye(authEmployee);
+      setModificationsStoreAuthenticatedEmploye(authEmployee);
+      setPaymentsStoreAuthenticatedEmploye(authEmployee);
+      setPaymentsValidationStoreAuthenticatedEmploye(authEmployee);
+      setReportsStoreAuthenticatedEmploye(authEmployee);
+      setClientChecksRemittanceStoreAuthenticatedEmploye(authEmployee);
+      setSoldeClientStoreAuthenticatedEmploye(authEmployee);
+      setSoldeClientStoreAuthenticatedEmploye(authEmployee);
+      setSoldeCourantStoreAuthenticatedEmploye(authEmployee);
+      setPurchasesOrderStockStoreAuthenticatedEmploye(authEmployee);
+      setTrucksStockStoreAuthenticatedEmploye(authEmployee);
+      setDashBoardStoreAuthenticatedEmploye(authEmployee);
+      setSalesStoreAuthenticatedEmploye(authEmployee);
+    };
+
+    setStoresAuthenticatedUser(authenticatedEmploye!);
+  });
+  */
+
   return (
-    <main className="ml-[33vh] mt-[12vh] h-[88vh] overflow-y-auto bg-lime-300 border-2 border-secondary flex justify-center items-center">
+    <main className="ml-[33vh] h-full pt-[14vh] overflow-y-auto flex justify-center items-center sidebar relative px-2.5">
       <Routes>
         <Route path="/" Component={TableBord} />
         <Route path="/search" Component={SearchPage} />
@@ -43,7 +173,6 @@ const Main: FC = () => {
         <Route path="/clients/achats" Component={ClientPurchasesPage} />
         <Route path="/clients/paiements" Component={ClientPaymentsPage} />
         <Route path="/clients/soldes" Component={ClientBalancePage} />
-        <Route path="/clients/statistiques" Component={ClientsChartPage} />
         <Route
           path="/clients/remise-de-cheque"
           Component={ClientCheckRemittancePage}

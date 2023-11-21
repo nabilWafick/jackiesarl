@@ -29,10 +29,6 @@ class EmployesAPI {
     authenticatedEmployee: Employes,
     data: Employes
   ): Promise<EmployesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -41,7 +37,7 @@ class EmployesAPI {
     await axios
       .post(`${EmployesAPI.baseUrl}/employes`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -59,10 +55,6 @@ class EmployesAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<Employes | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -71,7 +63,7 @@ class EmployesAPI {
     await axios
       .get(`${EmployesAPI.baseUrl}/employes/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -85,10 +77,6 @@ class EmployesAPI {
   }
 
   static async getAll(authenticatedEmployee: Employes): Promise<Employes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -97,7 +85,7 @@ class EmployesAPI {
     await axios
       .get(`${EmployesAPI.baseUrl}/employes`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -118,10 +106,6 @@ class EmployesAPI {
     id: number,
     data: Employes
   ): Promise<EmployesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -131,7 +115,7 @@ class EmployesAPI {
     await axios
       .put(`${EmployesAPI.baseUrl}/employes/${id}`, data, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -146,10 +130,6 @@ class EmployesAPI {
   }
 
   static async delete(authenticatedEmployee: Employes, id: number) {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -157,7 +137,7 @@ class EmployesAPI {
     await axios
       .delete(`${EmployesAPI.baseUrl}/employes/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then(() => {})

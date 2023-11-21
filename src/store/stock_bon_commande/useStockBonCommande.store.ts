@@ -3,14 +3,12 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import StockBonCommande from "../../models/stock_bon_commande/stock_bon_commande.model";
 import StockBonCommandeAPI from "../../api/stock_bon_commande/stock_bon_commande.api";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface PurchasesOrderStockStore {
   purchasesOrderStock: StockBonCommande[];
   purchasesOrderStockPerDay: Map<string, StockBonCommande[]>;
   isLoading: boolean;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllPurchasesOrderStock: () => void;
   sortPurchasesOrderStockByCIMBENINCategory: () => void;
   sortPurchasesOrderStockNOCIBECategory: () => void;
@@ -32,12 +30,8 @@ const usePurchasesOrderStockStore = create<PurchasesOrderStockStore>()(
       purchasesOrderStock: [],
       purchasesOrderStockPerDay: new Map(),
       isLoading: false,
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllPurchasesOrderStock: async () => {
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const selectedpurchasesOrderStock = await StockBonCommandeAPI.getAll(
           auth!
         );

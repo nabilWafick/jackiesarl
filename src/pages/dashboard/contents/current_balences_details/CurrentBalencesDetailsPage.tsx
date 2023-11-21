@@ -1,6 +1,5 @@
 import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
 import CurrentsBalenceTable from "../../../../components/ui/dashboard/current_balence_details/CurrentsBalenceTableDetails";
@@ -29,7 +28,7 @@ const CurrentsBalenceDetailsPage: FC = () => {
         {selectedSoldeCourant!.banque}
       </div>
       <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-        <DateIntervall />
+        {/* <DateIntervall /> */}
         {/* <JSCategorySelect
           id="categoty"
           name="category"

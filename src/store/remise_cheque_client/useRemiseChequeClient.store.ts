@@ -4,8 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import RemiseChequeClient from "../../models/remise_cheque_client/remise_cheque_client.model";
 import RemiseChequeClientAPI from "../../api/remise_cheque_client/remise_cheque_client.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
-
+import { authenticatedEmployee } from "../../data/GlobalData";
 interface ClientChecksRemittanceStore {
   clientChecksRemittance: RemiseChequeClient[];
   clientChecksRemittancePerDay: Map<string, RemiseChequeClient[]>;
@@ -14,8 +13,6 @@ interface ClientChecksRemittanceStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientChecksRemittance: (clientId: number) => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -33,15 +30,11 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllClientChecksRemittance: async (clientId: number) => {
         set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const selectedclientChecksRemittance =
           await RemiseChequeClientAPI.getAllOfClient(
             auth!,
@@ -89,7 +82,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 
@@ -250,7 +243,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 
@@ -383,7 +376,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 
@@ -515,7 +508,7 @@ const useClientChecksRemittanceStore = create<ClientChecksRemittanceStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientCheckRemittance: RemiseChequeClient[] = [];
 

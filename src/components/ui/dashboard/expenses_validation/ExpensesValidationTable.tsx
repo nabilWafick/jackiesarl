@@ -12,7 +12,7 @@ import ExpenseUpdate from "../../../form/forms/expense_update/ExpenseUpdate";
 import { toggleModal } from "../widgets/ToggleModal";
 import DepensesAPI from "../../../../api/depenses/depenses.api";
 import useDepensesValidationStore from "../../../../store/depenses_validation/useDepensesValidation.store";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 interface ExpensesValidationTableProps {
   expensesList: Depenses[];
@@ -21,9 +21,7 @@ interface ExpensesValidationTableProps {
 const ExpensesValidationTable: FC<ExpensesValidationTableProps> = ({
   expensesList,
 }) => {
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage

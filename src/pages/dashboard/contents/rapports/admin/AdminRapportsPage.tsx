@@ -4,7 +4,6 @@ import RapportFileUploadedCard from "../../../../../components/ui/dashboard/rapp
 import RapportUserCard from "../../../../../components/ui/dashboard/rapports/RapportUserCard";
 import useReportsStore from "../../../../../store/rapports/useRapports.store";
 import useEmployesStore from "../../../../../store/employes/useEmployes.store";
-import useAuthenticatedEmployeStore from "../../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 
 const AdminRapportsPage: FC = () => {
   const employes = useEmployesStore((state) => state.employes);
@@ -12,20 +11,18 @@ const AdminRapportsPage: FC = () => {
   const fetchAllEmployeesReports = useReportsStore(
     (state) => state.fetchAllEmployeesReports
   );
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
 
   const employeesReports = useReportsStore((state) => state.employeesReports);
 
   const reportSelectedEmployee = useReportsStore(
     (state) => state.reportSelectedEmployee
   );
+  //const re = useReportsStore(state=>state.setAuthenticatedEmployee)
 
   useEffect(() => {
-    fetchAllEmployes(authenticatedEmploye!);
-    fetchAllEmployeesReports(authenticatedEmploye!);
-  }, [fetchAllEmployeesReports, fetchAllEmployes, authenticatedEmploye]);
+    fetchAllEmployes();
+    fetchAllEmployeesReports();
+  }, [fetchAllEmployeesReports, fetchAllEmployes]);
 
   return (
     <div className="w-full flex-col justify-center items-center overflow-hidden mt-10 mb-20">

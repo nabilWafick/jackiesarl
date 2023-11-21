@@ -7,16 +7,14 @@ import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useCommandesStore from "../../../../store/commandes/useCommandes.store";
 import CommandesAPI from "../../../../api/commandes/commandes.api";
 import Commandes from "../../../../models/commandes/commandes.model";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 interface OrdersTableProps {
   orders: Commandes[];
 }
 
 const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const setOrderClient = useClientsStore((state) => state.setOrderClient);
   const setActionResultMessage = useInterfacesStore(

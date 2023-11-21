@@ -9,7 +9,6 @@ interface EmployesJSON {
   role: string;
   permissions?: { [key: string]: boolean } | string;
   token?: string;
-  accessToken?: string;
   date_ajout?: string;
 }
 
@@ -23,7 +22,6 @@ class Employes {
   role: string;
   permissions?: { [key: string]: boolean } | string;
   token?: string;
-  accessToken?: string;
   date_ajout?: Date;
 
   constructor(
@@ -36,7 +34,6 @@ class Employes {
     id?: number,
     permissions?: { [key: string]: boolean } | string,
     token?: string,
-    accessToken?: string,
     date_ajout?: Date
   ) {
     this.id = id;
@@ -48,7 +45,6 @@ class Employes {
     this.role = role;
     this.permissions = permissions;
     this.token = token;
-    this.accessToken = accessToken;
     this.date_ajout = date_ajout;
   }
 
@@ -64,7 +60,6 @@ class Employes {
       json.id,
       json.permissions,
       json.token,
-      json.accessToken,
       new Date(json.date_ajout!)
     );
   }
@@ -82,7 +77,6 @@ class Employes {
       role: this.role,
       permissions: this.permissions,
       token: this.token,
-      accessToken: this.accessToken,
       date_ajout:
         this.date_ajout != null ? this.date_ajout.toISOString() : undefined,
     };

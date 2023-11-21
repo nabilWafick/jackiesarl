@@ -5,10 +5,10 @@ import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleM
 import "../../../../assets/css/table.css";
 import PurchaseOrderStockAdding from "../../../../components/form/forms/purchase_order_stock_adding/PurchaseOrderStockAdding";
 import usePurchasesOrderStockStore from "../../../../store/stock_bon_commande/useStockBonCommande.store";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 
-const PurchaseOrderStockPage = () => {
+const PurchaseOrderStockPage: FC = () => {
   const purchasesOrderStock = usePurchasesOrderStockStore(
     (state) => state.purchasesOrderStock
   );

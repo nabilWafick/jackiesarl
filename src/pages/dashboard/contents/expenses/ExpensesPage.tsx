@@ -2,7 +2,6 @@ import ExpensesTable from "../../../../components/ui/dashboard/expenses/Expenses
 import AddingButton from "../../../../components/ui/dashboard/widgets/AddingButton.widget";
 import DateIntervall from "../../../../components/ui/dashboard/widgets/DateIntervall.widget";
 import { toggleModal } from "../../../../components/ui/dashboard/widgets/ToggleModal";
-import "../../../../assets/css/table.css";
 import ExpenseAdding from "../../../../components/form/forms/expense_adding/ExpenseAdding";
 import { FC, useEffect } from "react";
 import useDepensesStore from "../../../../store/depenses/useDepenses.store";

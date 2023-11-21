@@ -3,7 +3,8 @@ import ActivitesDepot from "../../../../models/activites_depot/activites_depot.m
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toggleModal } from "../widgets/ToggleModal";
 import ActivitesDepotAPI from "../../../../api/activites_depot/activites_depot.api";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
+
 import useActivitesDepotStore from "../../../../store/activites_depot/useActivitesDepot.store";
 import FogDetailsUpdate from "../../../form/forms/fog_details_update/FogDetailsUpdate";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
@@ -13,9 +14,7 @@ interface FogDetailsTableProps {
 }
 
 const FogDetailsTable: FC<FogDetailsTableProps> = ({ fogDetails }) => {
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
   const fetchAllActivitesDepot = useActivitesDepotStore(
     (state) => state.fetchAllActivitesDepot
   );

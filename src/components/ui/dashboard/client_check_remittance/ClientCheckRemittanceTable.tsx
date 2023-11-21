@@ -7,7 +7,7 @@ import RemiseChequeClientAPI from "../../../../api/remise_cheque_client/remise_c
 import useClientChecksRemittanceStore from "../../../../store/remise_cheque_client/useRemiseChequeClient.store";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useClientsStore from "../../../../store/clients/useClients.store";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 interface ClientChecksRemittanceTableProps {
   clientChecksRemittance: RemiseChequeClient[];
@@ -25,9 +25,7 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
   );
 
   const selectedClient = useClientsStore((state) => state.selectedClient);
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const updateCheckValidationStatus = async (check: RemiseChequeClient) => {
     const response = await RemiseChequeClientAPI.update(

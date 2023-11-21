@@ -1,9 +1,11 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../data/GlobalData";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import JSConstants from "../../utils/constants";
+import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import AuthAPI from "../../api/auth/auth.api";
 
 interface AuthProps {
   needAuth: boolean;
@@ -13,9 +15,11 @@ interface AuthProps {
 const Auth: FC<AuthProps> = ({ needAuth, children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigateTo = useNavigate();
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
+  const auth = useAuthenticatedEmployeStore(
     (state) => state.authenticatedEmploye
   );
+  authenticatedEmployee.value = auth;
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   useEffect(() => {
     if (needAuth) {
@@ -26,9 +30,7 @@ const Auth: FC<AuthProps> = ({ needAuth, children }) => {
         axios
           .get(`${JSConstants.API_BASE_URL}/auth/verify-authentication`, {
             headers: {
-              "authorization-tokens": `Bearer ${
-                authenticatedEmploye!.accessToken
-              } ${authenticatedEmploye!.token} `,
+              "authorization-token": `Bearer ${authenticatedEmploye!.token}`,
             },
           })
           .then((response) => {
@@ -45,25 +47,17 @@ const Auth: FC<AuthProps> = ({ needAuth, children }) => {
             navigateTo("/se-connecter");
           });
       }
-    } else if (!authenticatedEmploye) {
-      setIsLoading(false);
     } else {
-      axios
-        .get("http://127.0.0.1:7000/api/auth/verify-authentication", {
-          headers: {
-            "authorization-tokens": `Bearer ${
-              authenticatedEmploye!.accessToken
-            } ${authenticatedEmploye!.token} `,
-          },
-        })
-        .then((response) => {
-          if (response.status == 202) {
-            navigateTo("/");
-          }
-        })
-        .catch(() => {
+      if (!authenticatedEmploye) {
+        setIsLoading(false);
+      } else {
+        const response = AuthAPI.verifyAuthentication(authenticatedEmploye);
+        if (response!.status == 202) {
+          navigateTo("/");
+        } else {
           setIsLoading(false);
-        });
+        }
+      }
     }
   }, [authenticatedEmploye, navigateTo, needAuth]);
 

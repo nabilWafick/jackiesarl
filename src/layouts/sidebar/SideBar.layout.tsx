@@ -17,6 +17,9 @@ import { GiPayMoney, GiReceiveMoney, GiMoneyStack } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
 import { useNavigate } from "react-router-dom";
+import { authenticatedEmployee } from "../../data/GlobalData";
+import AuthAPI from "../../api/auth/auth.api";
+import { toggleModal } from "../../components/ui/dashboard/widgets/ToggleModal";
 
 const SideBar: FC = () => {
   const isOpen = useInterfacesStore((state) => state.isOpen);
@@ -34,6 +37,10 @@ const SideBar: FC = () => {
     (state) => state.setCurrentActiveSideBarSubOption
   );
 
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+
   const authenticatedEmploye = useAuthenticatedEmployeStore(
     (state) => state.authenticatedEmploye
   );
@@ -41,9 +48,16 @@ const SideBar: FC = () => {
   const navigateTo = useNavigate();
 
   const logout = async () => {
-    localStorage.removeItem("AuthenticatedEmployeStore");
-    sessionStorage.clear();
-    navigateTo("/se-connecter");
+    const response = await AuthAPI.logout(authenticatedEmployee.value!);
+
+    if (response!.status == 200) {
+      localStorage.removeItem("AuthenticatedEmployeStore");
+      sessionStorage.clear();
+      navigateTo("/se-connecter");
+    } else {
+      setActionResultMessage("Nous avons pas pu vous déconnecter");
+      toggleModal("action-result-message");
+    }
   };
 
   const sideBarData = [
@@ -271,12 +285,11 @@ const SideBar: FC = () => {
 
   return (
     <aside
-      className="fixed top-0 left-0 h-full w-[33vh] bg-slate-400 z-10"
-
+      className="fixed top-0 left-0 h-full lg:w-[33vh] md:w-[20vh] z-10 shadow-md bg-white opacity-100"
       // className="h-screen w-2/12 flex flex-col shadow-sm fixed top-0 left-0 overflow-x-hidden bg-white" previous sytle
       //style={{ width: "30vh" }}
     >
-      <div className="flex flex-col h-[20%]">
+      <div className="flex flex-col h-[15%] md:py-2 border-b border-b-primary">
         <SideBarUserInfosCard
           name={
             authenticatedEmploye != undefined
@@ -289,31 +302,101 @@ const SideBar: FC = () => {
               : "Poste Inconnu"
           }
         />
-        <p className="text-center font-bold  mb-5 text-gray-400' text-tableTextColor ">
+        {/* <p className="text-center font-bold  mb-5 text-gray-400' text-tableTextColor ">
           MENU
-        </p>
+        </p> */}
       </div>
 
-      <div className="h-[80%] w-full flex flex-col px-3 overflow-scroll sidebar overflow-x-hidden">
-        {sideBarData.map((sideBarOptionData) => (
-          <SideBarOption
-            key={sideBarOptionData.name}
-            to={sideBarOptionData.to}
-            icon={sideBarOptionData.icon}
-            name={sideBarOptionData.name}
-            index={sideBarOptionData.index}
-            isOpen={isOpen[sideBarOptionData.index]}
-            currentActiveSideBarOption={
-              sideBarOptionData.currentActiveSideBarOption
-            }
-            subOptions={sideBarOptionData.subOptions}
-            onSideBarOptionClick={sideBarOptionData.onSideBarOptionClick}
-            logout={logout}
-          />
-        ))}
+      <div className="h-[72%] w-full flex flex-col px-3 py-3 overflow-scroll sidebar overflow-x-hidden">
+        {sideBarData.map((sideBarOptionData, index) => {
+          return (
+            index != 14 &&
+            index != 15 && (
+              <SideBarOption
+                key={sideBarOptionData.name}
+                to={sideBarOptionData.to}
+                icon={sideBarOptionData.icon}
+                name={sideBarOptionData.name}
+                index={sideBarOptionData.index}
+                isOpen={isOpen[sideBarOptionData.index]}
+                currentActiveSideBarOption={
+                  sideBarOptionData.currentActiveSideBarOption
+                }
+                subOptions={sideBarOptionData.subOptions}
+                onSideBarOptionClick={sideBarOptionData.onSideBarOptionClick}
+                //  logout={logout}
+              />
+            )
+          );
+        })}
+      </div>
+      <div className="h-[13%] w-full px-3 pt-1 flex flex-col justify-center border-t border-t-primary ">
+        <SideBarOption
+          to={sideBarData[14].to}
+          icon={sideBarData[14].icon}
+          name={sideBarData[14].name}
+          index={sideBarData[14].index}
+          isOpen={isOpen[sideBarData[14].index]}
+          currentActiveSideBarOption={
+            sideBarData[14].currentActiveSideBarOption
+          }
+          subOptions={sideBarData[14].subOptions}
+          onSideBarOptionClick={sideBarData[14].onSideBarOptionClick}
+        />
+        <div
+          className={`flex flex-row ${
+            currentActiveSideBarOption == sideBarData[15].name &&
+            "bg-primary shadow-md"
+          } h-10 rounded-md items-center content-center hover:cursor-pointer group`}
+          onClick={() => {
+            logout();
+          }}
+        >
+          <div className="h-full mx-[12px] text-secondary flex justify-start items-center content-center">
+            {sideBarData[15].icon}
+          </div>
+          <div className={`w-full flex flex-row justify-between items-center`}>
+            <p className="md:text-[12px] lg:text-[15px] flex items-center text-black  group-hover:text-black md:hidden' lg:block font-medium">
+              {sideBarData[15].name}
+            </p>
+          </div>
+        </div>
       </div>
     </aside>
   );
 };
 
 export default SideBar;
+
+/*
+  useEffect(() => {
+    if (needAuth) {
+      if (!authenticatedEmploye) {
+        navigateTo("/se-connecter");
+        sessionStorage.clear();
+      } else {
+        const response = AuthAPI.verifyAuthentication(authenticatedEmploye);
+        if (response!.status == 202) {
+          console.log("response in Auth", response);
+          setIsLoading(false);
+        } else {
+          localStorage.removeItem("AuthenticatedEmployeStore");
+          sessionStorage.clear();
+          navigateTo("/se-connecter");
+        }
+      }
+    } else {
+      if (!authenticatedEmploye) {
+        setIsLoading(false);
+      } else {
+        const response = AuthAPI.verifyAuthentication(authenticatedEmploye);
+        console.log("response in Auth", response);
+        if (response!.status == 202) {
+          navigateTo("/");
+        } else {
+          setIsLoading(false);
+        }
+      }
+    }
+  }, [authenticatedEmploye, navigateTo, needAuth]);
+*/

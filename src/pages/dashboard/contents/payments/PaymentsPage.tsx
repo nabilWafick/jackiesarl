@@ -10,7 +10,6 @@ const PaymentsPage: FC = () => {
   const fetchAllClientPayments = usePaymentsStore(
     (state) => state.fetchAllClientPayments
   );
-
   const selectedSortOption = usePaymentsStore(
     (state) => state.selectedSortOption
   );

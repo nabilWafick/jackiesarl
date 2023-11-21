@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import PaiementClient from "../../models/paiement_client/paiement.model";
 import PaiementClientAPI from "../../api/paiement_client/paiement_client.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface ClientPaymentsStore {
   clientPayments: PaiementClient[];
@@ -14,8 +14,6 @@ interface ClientPaymentsStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientPayments: (clientId: number) => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -34,15 +32,11 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
       endDate: undefined,
       selectedSortOption: "new-to-old",
       isLoading: false,
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllClientPayments: async (clientId: number) => {
         set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const selectedClientPayments = await PaiementClientAPI.getAllOfClient(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -94,7 +88,7 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPayments: PaiementClient[] = [];
 
@@ -205,7 +199,7 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPayments: PaiementClient[] = [];
 
@@ -288,7 +282,7 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPayments: PaiementClient[] = [];
 
@@ -370,7 +364,7 @@ const useClientPaymentsStore = create<ClientPaymentsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPayments: PaiementClient[] = [];
 

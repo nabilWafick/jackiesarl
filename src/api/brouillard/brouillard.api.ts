@@ -25,10 +25,6 @@ class BrouillardAPI {
     authenticatedEmployee: Employes,
     data: Brouillard
   ): Promise<BrouillardPromiseRsponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -38,7 +34,7 @@ class BrouillardAPI {
     await axios
       .post(`${BrouillardAPI.baseUrl}/brouillard`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -54,10 +50,6 @@ class BrouillardAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<Brouillard | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -66,7 +58,7 @@ class BrouillardAPI {
     await axios
       .get(`${BrouillardAPI.baseUrl}/brouillard/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -83,10 +75,6 @@ class BrouillardAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Brouillard[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -97,7 +85,7 @@ class BrouillardAPI {
       await axios
         .get(`${BrouillardAPI.baseUrl}/brouillards-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -117,7 +105,7 @@ class BrouillardAPI {
         `${BrouillardAPI.baseUrl}/brouillards-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -139,10 +127,6 @@ class BrouillardAPI {
     is_current_stock_increasing: number,
     data: Brouillard
   ): Promise<BrouillardPromiseRsponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -155,7 +139,7 @@ class BrouillardAPI {
         data.toJson(),
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -172,10 +156,6 @@ class BrouillardAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<BrouillardPromiseRsponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -185,7 +165,7 @@ class BrouillardAPI {
     await axios
       .delete(`${BrouillardAPI.baseUrl}/brouillard/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

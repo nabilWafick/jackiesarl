@@ -3,13 +3,11 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import ActivitesBanque from "../../models/activites_banque/activites_banque.model";
 import ActivitesBanqueAPI from "../../api/activites_banque/activites_banque.api";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 interface ActivitesBanqueStore {
   activitesBanque: ActivitesBanque[];
   activitesBanquePerDay: Map<string, ActivitesBanque[]>;
   isLoading: boolean;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllActivitesBanque: (id_banque: number) => void;
 }
 
@@ -19,12 +17,8 @@ const useActivitesBanqueStore = create<ActivitesBanqueStore>()(
       activitesBanque: [],
       activitesBanquePerDay: new Map(),
       isLoading: false,
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllActivitesBanque: async (id_depot: number) => {
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const activitesBanqueList: ActivitesBanque[] =
           await ActivitesBanqueAPI.getAllByBanqueID(auth!, id_depot);
 

@@ -2,12 +2,10 @@ import Permissions from "../../../../components/ui/dashboard/permissions/Permiss
 import { FC, useEffect } from "react";
 import useEmployesStore from "../../../../store/employes/useEmployes.store";
 import SelectedEmployeeCard from "../../../../components/ui/dashboard/selected_employee_card/SelectedEmployeeCard";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 const AutorisationsPage: FC = () => {
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
   const employees = useEmployesStore((state) => state.employes);
   const fetchAllEmployes = useEmployesStore((state) => state.fetchAllEmployes);
   const selectedEmployee = useEmployesStore((state) => state.selectedEmploye);
@@ -15,11 +13,11 @@ const AutorisationsPage: FC = () => {
     authenticatedEmploye!.permissions as string
   );
   useEffect(() => {
-    employePermissions["admin"] && fetchAllEmployes(authenticatedEmploye!);
+    employePermissions["admin"] && fetchAllEmployes();
   }, [fetchAllEmployes, authenticatedEmploye, employePermissions]);
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full h-full flex justify-center items-center'">
       {employePermissions["admin"] ? (
         <div className="flex justify-center my-3 row-auto">
           <div className="users col-span-4 mx-5">

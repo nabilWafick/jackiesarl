@@ -3,15 +3,13 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import SoldeCourantAPI from "../../api/solde_courant/solde_courant.api";
 import SoldeCourant from "../../models/solde_courant/solde_courant.model";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface SoldeCourantStore {
   soldeCourant: SoldeCourant[];
   soldeCourantPerDay: Map<string, SoldeCourant[]>;
   selectedSoldeCourant: SoldeCourant | undefined;
   isLoading: boolean;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   setSelectedSoldeCourant: (soldeCourant: SoldeCourant) => void;
   fetchAllSoldeCourant: () => void;
 }
@@ -23,18 +21,13 @@ const useSoldeCourantStore = create<SoldeCourantStore>()(
       soldeCourantPerDay: new Map(),
       selectedSoldeCourant: undefined,
       isLoading: false,
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       setSelectedSoldeCourant: (soldeCourant: SoldeCourant) => {
         set(() => ({
           selectedSoldeCourant: soldeCourant,
         }));
       },
-
       fetchAllSoldeCourant: async () => {
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const soldeCourantList: SoldeCourant[] = await SoldeCourantAPI.getAll(
           auth!
         );

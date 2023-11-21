@@ -16,12 +16,12 @@ const TotalStockCard: FC = () => {
   }, [fetchTotalStocksBonCommande, isToday]);
 
   return (
-    <div className="h-full w-1/2 bg-slate-50 p-3 mr-1 batonnet shadow-md rounded-lg">
+    <div className="h-full w-1/2 bg-slate-50 p-3 mr-1.5 batonnet shadow-md rounded-lg">
       <div className="flex mb-3 justify-between ">
         <p className="font-medium text-lg">Stock Total</p>
         <p className="font-bold text-xl text-secondary">
           {totalStocksBonCommande[0].total_stock_restant +
-            totalStocksBonCommande[1].total_stock_restant}{" "}
+            totalStocksBonCommande[1].total_stock_restant}
           tonnes
         </p>
       </div>

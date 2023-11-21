@@ -19,10 +19,6 @@ class ModificationsAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<Modifications | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -31,7 +27,7 @@ class ModificationsAPI {
     await axios
       .get(`${ModificationsAPI.baseUrl}/modifications/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -49,10 +45,6 @@ class ModificationsAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Modifications[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -63,7 +55,7 @@ class ModificationsAPI {
       await axios
         .get(`${ModificationsAPI.baseUrl}/modifications-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -85,7 +77,7 @@ class ModificationsAPI {
         `${ModificationsAPI.baseUrl}/modifications-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )

@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClient from "../../models/achat_client/achat_client.model";
 import AchatClientAPI from "../../api/achat_client/achat_client.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface ClientPurchasesStore {
   clientPurchases: AchatClient[];
@@ -14,8 +14,6 @@ interface ClientPurchasesStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientPurchases: (clientId: number) => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -33,15 +31,12 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
+
       fetchAllClientPurchases: async (clientId: number) => {
         set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const selectedClientPurchases = await AchatClientAPI.getAllOfClient(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -88,7 +83,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         let selectedClientPurchases: AchatClient[] = [];
 
         if (get().selectedSortOption == "old-to-new") {
@@ -163,7 +158,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
       },
 
       onEndDateChange: async (date: Date | Moment) => {
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         // ======== dates setting up ===========
 
         if (get().startDate == undefined && get().endDate == undefined) {
@@ -274,7 +269,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
         // ============= TO EXECUTE ===========
       },
       resetDatesInterval: async () => {
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         set(() => ({
           startDate: undefined,
           endDate: undefined,
@@ -365,7 +360,7 @@ const useClientPurchasesStore = create<ClientPurchasesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         let selectedClientPurchases: AchatClient[] = [];
 
         if (value == "old-to-new") {

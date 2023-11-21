@@ -2,13 +2,11 @@ import { FC } from "react";
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 import EmployeeRapportsPage from "./employee/EmployeeRapportsPage";
 import FileShower from "../../../../components/ui/dashboard/widgets/FileShower";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
 import AdminRapportsPage from "./admin/AdminRapportsPage";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 const RapportsPage: FC = () => {
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
 
   const employeePermissions = JSON.parse(
     authenticatedEmploye!.permissions as string

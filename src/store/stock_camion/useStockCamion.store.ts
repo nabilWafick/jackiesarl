@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import StockCamion from "../../models/stock_camion/stock_camion.model";
 import StockCamionAPI from "../../api/stock_camion/stock_camion.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 
 interface TrucksStockStore {
   trucksStock: StockCamion[];
@@ -13,8 +13,6 @@ interface TrucksStockStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllTruckStock: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -31,14 +29,10 @@ const useTrucksStockStore = create<TrucksStockStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllTruckStock: async () => {
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const selectedtrucksStock = await StockCamionAPI.getAll(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -83,7 +77,7 @@ const useTrucksStockStore = create<TrucksStockStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const truckStocksList: StockCamion[] = await StockCamionAPI.getAll(
           auth!,
@@ -146,7 +140,7 @@ const useTrucksStockStore = create<TrucksStockStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const truckStocksList: StockCamion[] = await StockCamionAPI.getAll(
           auth!,
@@ -181,7 +175,7 @@ const useTrucksStockStore = create<TrucksStockStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         const truckStocksList: StockCamion[] = await StockCamionAPI.getAll(
           auth!,

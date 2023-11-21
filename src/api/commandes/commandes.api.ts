@@ -28,10 +28,6 @@ class CommandesAPI {
     authenticatedEmployee: Employes,
     data: Commandes
   ): Promise<CommandesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -40,7 +36,7 @@ class CommandesAPI {
     await axios
       .post(`${CommandesAPI.baseUrl}/commandes`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -56,10 +52,6 @@ class CommandesAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<Commandes | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -68,7 +60,7 @@ class CommandesAPI {
     await axios
       .get(`${CommandesAPI.baseUrl}/commande/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -85,10 +77,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -99,7 +87,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -119,7 +107,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes-default/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -140,10 +128,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -154,7 +138,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/new-to-old`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -174,7 +158,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/new-to-old/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -195,10 +179,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -209,7 +189,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/old-to-new`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -229,7 +209,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/old-to-new/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -250,10 +230,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -264,7 +240,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/most-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -284,7 +260,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -305,10 +281,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -319,7 +291,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -339,7 +311,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -360,10 +332,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -374,7 +342,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/cim-benin-most-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -394,7 +362,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/cim-benin-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -415,10 +383,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -429,7 +393,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/cim-benin-less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -449,7 +413,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/cim-benin-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -470,10 +434,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -484,7 +444,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/nocibe-most-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -504,7 +464,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/nocibe-most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -525,10 +485,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -539,7 +495,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/nocibe-less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -559,7 +515,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/nocibe-less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -580,10 +536,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -593,7 +545,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/undelivered`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -613,7 +565,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/undelivered/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -634,10 +586,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -647,7 +595,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/delivered`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -667,7 +615,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/delivered/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -688,10 +636,6 @@ class CommandesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Commandes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -701,7 +645,7 @@ class CommandesAPI {
       await axios
         .get(`${CommandesAPI.baseUrl}/commandes/destination`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -721,7 +665,7 @@ class CommandesAPI {
         `${CommandesAPI.baseUrl}/commandes/destination/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -742,10 +686,6 @@ class CommandesAPI {
     id: number,
     data: Commandes
   ): Promise<CommandesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -754,7 +694,7 @@ class CommandesAPI {
     await axios
       .put(`${CommandesAPI.baseUrl}/commandes/${id}`, data, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -770,10 +710,6 @@ class CommandesAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<CommandesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -782,7 +718,7 @@ class CommandesAPI {
     await axios
       .delete(`${CommandesAPI.baseUrl}/commandes/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

@@ -4,8 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import AchatClient from "../../models/achat_client/achat_client.model";
 import AchatClientAPI from "../../api/achat_client/achat_client.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
-
+import { authenticatedEmployee } from "../../data/GlobalData";
 interface SalesStore {
   clientPurchases: AchatClient[];
   clientPurchasesPerDay: Map<string, AchatClient[]>;
@@ -14,8 +13,6 @@ interface SalesStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllSales: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -33,15 +30,11 @@ const useSalesStore = create<SalesStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllSales: async () => {
         // set(() => ({ selectedClientId: clientId }));
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const selectedClientPurchases = await AchatClientAPI.getAll(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -86,7 +79,7 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPurchases: AchatClient[] = [];
 
@@ -169,7 +162,7 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPurchases: AchatClient[] = [];
 
@@ -226,7 +219,7 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPurchases: AchatClient[] = [];
 
@@ -279,7 +272,7 @@ const useSalesStore = create<SalesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let selectedClientPurchases: AchatClient[] = [];
 

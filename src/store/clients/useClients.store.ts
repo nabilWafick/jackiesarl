@@ -4,7 +4,7 @@ import Clients from "../../models/clients/clients.model";
 import ClientsAPI from "../../api/clients/clients.api";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
 interface ClientsStore {
   clients: Clients[];
   searchedClients: Clients[];
@@ -16,8 +16,6 @@ interface ClientsStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClients: () => void;
   searchClients: (name: string) => void;
   refreshSearchedClients: () => void;
@@ -43,14 +41,10 @@ const useClientsStore = create<ClientsStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllClients: async () => {
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const clientsList: Clients[] = await ClientsAPI.getAll(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -60,7 +54,7 @@ const useClientsStore = create<ClientsStore>()(
         set(() => ({ clients: clientsList }));
       },
       searchClients: async (name: string) => {
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const clientsMatchedName = await ClientsAPI.getAllMatched(auth!, name);
         set(() => ({ searchedClients: clientsMatchedName }));
       },
@@ -116,7 +110,7 @@ const useClientsStore = create<ClientsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let clientsList: Clients[] = [];
 
@@ -173,7 +167,7 @@ const useClientsStore = create<ClientsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let clientsList: Clients[] = [];
 
@@ -204,7 +198,7 @@ const useClientsStore = create<ClientsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let clientsList: Clients[] = [];
 
@@ -232,7 +226,7 @@ const useClientsStore = create<ClientsStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let clientsList: Clients[] = [];
 

@@ -4,7 +4,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import Commandes from "../../models/commandes/commandes.model";
 import CommandesAPI from "../../api/commandes/commandes.api";
 import { Moment } from "moment";
-import Employes from "../../models/employes/employes.model";
+import { authenticatedEmployee } from "../../data/GlobalData";
+
 interface CommandesStore {
   clientsOrders: Commandes[];
   clientsOrdersPerDay: Map<string, Commandes[]>;
@@ -12,8 +13,6 @@ interface CommandesStore {
   startDate: Date | Moment | undefined;
   endDate: Date | Moment | undefined;
   selectedSortOption: string;
-  authenticatedEmployee: Employes | undefined;
-  setAuthenticatedEmployee: (employee: Employes) => void;
   fetchAllClientsOrders: () => void;
   onStartDateChange: (date: Date | Moment) => void;
   onEndDateChange: (date: Date | Moment) => void;
@@ -30,14 +29,10 @@ const useCommandesStore = create<CommandesStore>()(
       startDate: undefined,
       endDate: undefined,
       selectedSortOption: "new-to-old",
-      authenticatedEmployee: undefined,
-      setAuthenticatedEmployee: (employee) => {
-        set(() => ({ authenticatedEmployee: employee }));
-      },
       fetchAllClientsOrders: async () => {
         const begin = get().startDate;
         const end = get().endDate;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
         const clientsOrdersList = await CommandesAPI.getAll(
           auth!,
           begin ? begin.toLocaleString() : undefined,
@@ -84,7 +79,7 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let commandesList: Commandes[] = [];
 
@@ -193,7 +188,7 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let commandesList: Commandes[] = [];
 
@@ -274,7 +269,7 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let commandesList: Commandes[] = [];
 
@@ -354,7 +349,7 @@ const useCommandesStore = create<CommandesStore>()(
           ? get().startDate!.toLocaleString()
           : undefined;
         const end = get().endDate ? get().endDate!.toLocaleString() : undefined;
-        const auth = get().authenticatedEmployee;
+        const auth = authenticatedEmployee.value;
 
         let commandesList: Commandes[] = [];
 

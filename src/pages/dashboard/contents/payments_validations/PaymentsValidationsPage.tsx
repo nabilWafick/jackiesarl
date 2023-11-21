@@ -13,7 +13,6 @@ const PaymentsValidationsPage: FC = () => {
   const fetchAllClientsPayments = usePaymentsValidationStore(
     (state) => state.fetchAllClientPayments
   );
-
   const selectedSortOption = usePaymentsValidationStore(
     (state) => state.selectedSortOption
   );

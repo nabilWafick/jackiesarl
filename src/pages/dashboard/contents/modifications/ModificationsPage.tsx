@@ -11,7 +11,6 @@ const ModificationsPage: FC = () => {
   const fetchAllModifications = useModificationsStore(
     (state) => state.fetchAllModifications
   );
-
   // const selectedSortOption = useModificationsStore(
   //   (state) => state.selectedSortOption
   // );

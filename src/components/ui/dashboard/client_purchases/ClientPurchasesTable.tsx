@@ -6,7 +6,7 @@ import ClientPurchaseUpdate from "../../../form/forms/client_purchase_update/Cli
 import AchatClientAPI from "../../../../api/achat_client/achat_client.api";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useClientPurchasesStore from "../../../../store/achat_client/useAchatClient.store";
-import useAuthenticatedEmployeStore from "../../../../store/authenticated_employe/useAuthenticatedEmploye.store";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
 
 interface ClientPurchasesTableProps {
   clientPurchases: AchatClient[];
@@ -15,9 +15,7 @@ interface ClientPurchasesTableProps {
 const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
   clientPurchases,
 }) => {
-  const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
+  const authenticatedEmploye = authenticatedEmployee.value;
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );

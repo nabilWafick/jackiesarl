@@ -7,7 +7,6 @@ import useCompanyPurchasesStore from "../../../../store/achat_entreprise/useAcha
 import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResult";
 import CompanyPurchasseAdding from "../../../../components/form/forms/company_purchase_adding/CompanyPurchaseAdding";
 import CompanyPurchasesTable from "../../../../components/ui/dashboard/company_purchases/CompanyPurchasesTable";
-
 // const categories = [
 //   { value: "cim_benin", label: "CIM BENIN" },
 //   { value: "nocibe", label: "NOCIBE" },
@@ -20,7 +19,6 @@ const PurchasesPage: FC = () => {
   const fetchAllCompanyPurchases = useCompanyPurchasesStore(
     (state) => state.fetchAllCompanyPurchases
   );
-
   // const selectedSortOption = useCompanyPurchasesStore(
   //   (state) => state.selectedSortOption
   // );

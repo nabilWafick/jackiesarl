@@ -2,8 +2,9 @@ import { BiArrowBack } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import ClientsTonnageListTable from "../../../../components/ui/dashboard/clients_tonnage_list/ClientsTonnageListTable";
 import "../../../../assets/css/table.css";
+import { FC } from "react";
 
-const ClientsTonnageListPage = () => {
+const ClientsTonnageListPage: FC = () => {
   return (
     <div className="h-full w-full flex flex-col justify-center items-center">
       <Link

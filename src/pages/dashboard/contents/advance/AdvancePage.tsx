@@ -22,7 +22,6 @@ const AdvancePage: FC = () => {
   const resetDatesInterval = useAvanceStore(
     (state) => state.resetDatesInterval
   );
-
   useEffect(() => {
     fetchAvances();
   }, [fetchAvances]);

@@ -1,71 +1,25 @@
 import NavBar from "../../layouts/navbar/NavBar.layout";
 import SideBar from "../../layouts/sidebar/SideBar.layout";
-import RapportsPage from "./contents/rapports/RapportsPage";
-import { Route, Routes } from "react-router-dom";
-import TableBord from "./contents/table_bord/TableBord";
-import ClientsListPage from "./contents/clients_list/ClientsListPage";
-import StockChartsPage from "./contents/stock_chart/StockChartPage";
-import SellingPage from "./contents/sales/SalesPage";
-import PaymentsPage from "./contents/payments/PaymentsPage";
-import AdvancePage from "./contents/advance/AdvancePage";
-import PurchasesPage from "./contents/company_purchases/CompanyPurchasesPage";
-import ModificationsPage from "./contents/modifications/ModificationsPage";
-import DebtsListPage from "./contents/debts_list/DebtListPage";
-import ExpensesPage from "./contents/expenses/ExpensesPage";
-import OrdersPage from "./contents/orders/OrdersPage";
-import CurrentsBalencePage from "./contents/current_balences_details/CurrentBalencesDetailsPage";
-import AutorisationsPage from "./contents/autorisations/AutorisationsPage";
-// import LogoutPage from "../logout/LogoutPage";
-import FogInformationsPage from "./contents/fog_details/FogDetailsPage";
-import "../../assets/css/Sidebar.css";
-import BankAccountsListPage from "./contents/bank_account_list/BankAccountsListPage";
-//import NotFoundPage from "../unfounded_page/404";
-import ClientPurchasesPage from "./contents/client_purchases/ClientPurchasesPage";
-import ClientPaymentsPage from "./contents/client_payments/ClientPaymentsPage";
-import ClientBalancePage from "./contents/client_balence/ClientBalancePage";
-import ClientCheckRemittancePage from "./contents/client_check_remittance/ClientCheckRemittancePage";
-import PurchaseOrderStockPage from "./contents/purchase_order_stock/PurchaseOrderStockPage";
-import TruckStockPage from "./contents/truck_stock/TruckStockPage";
-import SellingStatisticsPage from "./contents/sales_statistics/SalesStatisticPage";
-import PaymentsValidationsPage from "./contents/payments_validations/PaymentsValidationsPage";
-import ClientsChartPage from "./contents/clients_chart/ClientsChartPage";
-import ClientsTonnageListPage from "./contents/clients_tonnage_list/ClientsTonnageListPage";
-import ExpensesValidationsPage from "./contents/expenses_validation/ExpensesValidationPage";
-import FogPage from "./contents/fog/FogPage";
-import SelectedClientPage from "./contents/selected_client/SelectedClient";
-import SearchPage from "./contents/search/SearchPage";
 import { FC } from "react";
-import NotFoundPage from "../unfounded_page/404";
 import Auth from "../auth/Auth";
 import Main from "../../layouts/main/Main.layout";
+import ActionResult from "../../components/ui/dashboard/widgets/ActionResult";
 
 const Dashboard: FC = () => {
   return (
     <Auth needAuth={true}>
-      <div
-        className="flex flex-row h-screen w-screen"
-        // className=" h-screen w-screen flex flex-row justify-center overflow-y-visible overflow-x-auto sidebar "
-      >
-        {/*===================== SIDEBAR ====================*/}
-
+      <ActionResult />
+      <div className="flex h-screen w-screen">
         <SideBar />
-
-        {/*====================== MAIN ======================*/}
-
-        <div className="flex flex-col w-full flex-1'">
+        <div className="flex flex-col w-screen flex-1'">
           <NavBar />
           <Main />
         </div>
 
-        <div className="flex flex-row h-full w-full ">
+        {/* <div className="flex flex-row h-full w-full ">
           <div className="w-[20.1%] h-full"></div>
           <div className="flex flex-col h-full w-full ">
-            {/*==================== NAVBAR ==================*/}
-
             <NavBar />
-
-            {/*=================== CONTENT ==================*/}
-
             <div className="flex flex-col h-full w-full">
               <div className="flex mt-[80px] px-2">
                 <Routes>
@@ -135,7 +89,7 @@ const Dashboard: FC = () => {
                     Component={CurrentsBalencePage}
                   />
                   <Route path="/autorisations" Component={AutorisationsPage} />
-                  {/* <Route path="/se-deconnecter" Component={LogoutPage} /> */}
+  
                   <Route path="" Component={NotFoundPage} /> // empty ""
                   <Route path="*" Component={NotFoundPage} /> // star
                   <Route Component={NotFoundPage} /> // without path
@@ -143,7 +97,7 @@ const Dashboard: FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>  */}
       </div>
     </Auth>
   );

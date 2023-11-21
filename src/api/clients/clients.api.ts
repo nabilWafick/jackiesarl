@@ -32,10 +32,6 @@ class ClientsAPI {
     authenticatedEmployee: Employes,
     data: Clients
   ): Promise<ClientsPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -44,7 +40,7 @@ class ClientsAPI {
     await axios
       .post(`${ClientsAPI.baseUrl}/clients`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -61,10 +57,6 @@ class ClientsAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<Clients | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -73,7 +65,7 @@ class ClientsAPI {
     await axios
       .get(`${ClientsAPI.baseUrl}/client/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -89,10 +81,6 @@ class ClientsAPI {
     authenticatedEmployee: Employes,
     name: string
   ): Promise<Clients[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -101,7 +89,7 @@ class ClientsAPI {
     await axios
       .get(`${ClientsAPI.baseUrl}/clients/search/${name}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -120,10 +108,6 @@ class ClientsAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -135,7 +119,7 @@ class ClientsAPI {
       await axios
         .get(`${ClientsAPI.baseUrl}/clients-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -153,7 +137,7 @@ class ClientsAPI {
     await axios
       .get(`${ClientsAPI.baseUrl}/clients/${startDate}/${endDate}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -172,10 +156,6 @@ class ClientsAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -186,7 +166,7 @@ class ClientsAPI {
       await axios
         .get(`${ClientsAPI.baseUrl}/clients/alphabetical-order`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -206,7 +186,7 @@ class ClientsAPI {
         `${ClientsAPI.baseUrl}/clients/alphabetical-order/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -226,10 +206,6 @@ class ClientsAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -240,7 +216,7 @@ class ClientsAPI {
       await axios
         .get(`${ClientsAPI.baseUrl}/clients/old-to-new`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -258,7 +234,7 @@ class ClientsAPI {
     await axios
       .get(`${ClientsAPI.baseUrl}/clients/old-to-new/${startDate}/${endDate}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -277,10 +253,6 @@ class ClientsAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Clients[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -290,7 +262,7 @@ class ClientsAPI {
       await axios
         .get(`${ClientsAPI.baseUrl}/clients/new-to-old`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -307,7 +279,7 @@ class ClientsAPI {
     await axios
       .get(`${ClientsAPI.baseUrl}/clients/new-to-old/${startDate}/${endDate}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -326,10 +298,6 @@ class ClientsAPI {
     id: number,
     data: Clients
   ): Promise<ClientsPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -340,7 +308,7 @@ class ClientsAPI {
     await axios
       .put(`${ClientsAPI.baseUrl}/clients/${id}`, data.toJson(), {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -354,10 +322,6 @@ class ClientsAPI {
 
   /*
   static async delete(authenticatedEmployee: Employes, id: number) {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -365,7 +329,7 @@ class ClientsAPI {
     await axios
       .delete(`${ClientsAPI.baseUrl}/clients/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

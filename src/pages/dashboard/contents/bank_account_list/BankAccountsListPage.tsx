@@ -10,6 +10,7 @@ import ActionResult from "../../../../components/ui/dashboard/widgets/ActionResu
 
 const BankAccountsListPage = () => {
   const soldeCourant = useSoldeCourantStore((state) => state.soldeCourant);
+
   const fetchAllSoldeCourant = useSoldeCourantStore(
     (state) => state.fetchAllSoldeCourant
   );

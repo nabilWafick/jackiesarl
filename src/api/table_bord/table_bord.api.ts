@@ -21,10 +21,6 @@ class TableBordAPI {
   static async getWeekDailyPayments(
     authenticatedEmployee: Employes
   ): Promise<TotalPaiementsJournaliers[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -33,7 +29,7 @@ class TableBordAPI {
     await axios
       .get(`${TableBordAPI.baseUrl}/table-bord/total-paiements-hebdomadaire/`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -48,10 +44,6 @@ class TableBordAPI {
   static async getWeekDailySales(
     authenticatedEmployee: Employes
   ): Promise<TotalVentesJournaliers[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -60,7 +52,7 @@ class TableBordAPI {
     await axios
       .get(`${TableBordAPI.baseUrl}/table-bord/total-ventes-hebdomadaire/`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -75,10 +67,6 @@ class TableBordAPI {
   static async getWeekDailySalesQuantity(
     authenticatedEmployee: Employes
   ): Promise<TotalQuantitesVentesJournaliers[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -89,7 +77,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-quantites-ventes-hebdomadaire/`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -106,10 +94,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalClientsInscritsQuotidiens> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -122,7 +106,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-clients-inscrits-quotidien/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -139,10 +123,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalVenteQuotidienne> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -156,7 +136,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-ventes-quotidiennes/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -173,10 +153,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalAchatsEntrepriseQuotidiens[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -187,7 +163,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-achats-entreprise-quotidiens/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -204,10 +180,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalCommandesNonTraiteesQuotidiennes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -218,7 +190,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-commandes-non-traitees-quotidiennes/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -235,10 +207,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalCommandesTraiteesQuotidiennes[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -249,7 +217,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-commandes-traitees-quotidiennes/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -266,10 +234,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalPaiementsBanquesQuotidiens[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -280,7 +244,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-paiements-banques-quotidiens/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -297,10 +261,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalStocksBonCommandeQuotidiens[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -311,7 +271,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-stocks-bon-commande-quotidiens/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -328,10 +288,6 @@ class TableBordAPI {
     authenticatedEmployee: Employes,
     isToday: 1 | 0
   ): Promise<TotalAvancesCreancesQuotidiennes> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -345,7 +301,7 @@ class TableBordAPI {
         `${TableBordAPI.baseUrl}/table-bord/total-avances-creances-quotidiennes/${isToday}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )

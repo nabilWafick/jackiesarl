@@ -25,10 +25,6 @@ class DepensesAPI {
     authenticatedEmployee: Employes,
     data: Depenses
   ): Promise<DepensesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -39,7 +35,7 @@ class DepensesAPI {
       .post(`${DepensesAPI.baseUrl}/depenses`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -55,10 +51,6 @@ class DepensesAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<Depenses | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -67,7 +59,7 @@ class DepensesAPI {
     await axios
       .get(`${DepensesAPI.baseUrl}/depense/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -84,10 +76,6 @@ class DepensesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -98,7 +86,7 @@ class DepensesAPI {
       await axios
         .get(`${DepensesAPI.baseUrl}/depenses-default`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -116,7 +104,7 @@ class DepensesAPI {
     await axios
       .get(`${DepensesAPI.baseUrl}/depenses-default/${startDate}/${endDate}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -136,10 +124,6 @@ class DepensesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -150,7 +134,7 @@ class DepensesAPI {
       await axios
         .get(`${DepensesAPI.baseUrl}/depenses/old-to-new`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -170,7 +154,7 @@ class DepensesAPI {
         `${DepensesAPI.baseUrl}/depenses/old-to-new/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -191,10 +175,6 @@ class DepensesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -205,7 +185,7 @@ class DepensesAPI {
       await axios
         .get(`${DepensesAPI.baseUrl}/depenses/new-to-old`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -225,7 +205,7 @@ class DepensesAPI {
         `${DepensesAPI.baseUrl}/depenses/new-to-old/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -246,10 +226,6 @@ class DepensesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -260,7 +236,7 @@ class DepensesAPI {
       await axios
         .get(`${DepensesAPI.baseUrl}/depenses/most-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -280,7 +256,7 @@ class DepensesAPI {
         `${DepensesAPI.baseUrl}/depenses/most-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -301,10 +277,6 @@ class DepensesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -315,7 +287,7 @@ class DepensesAPI {
       await axios
         .get(`${DepensesAPI.baseUrl}/depenses/less-important`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -335,7 +307,7 @@ class DepensesAPI {
         `${DepensesAPI.baseUrl}/depenses/less-important/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -356,10 +328,6 @@ class DepensesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -370,7 +338,7 @@ class DepensesAPI {
       await axios
         .get(`${DepensesAPI.baseUrl}/depenses/unvalidated`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -390,7 +358,7 @@ class DepensesAPI {
         `${DepensesAPI.baseUrl}/depenses/unvalidated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -411,10 +379,6 @@ class DepensesAPI {
     startDate: string | undefined,
     endDate: string | undefined
   ): Promise<Depenses[]> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -425,7 +389,7 @@ class DepensesAPI {
       await axios
         .get(`${DepensesAPI.baseUrl}/depenses/validated`, {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         })
         .then((response) => {
@@ -445,7 +409,7 @@ class DepensesAPI {
         `${DepensesAPI.baseUrl}/depenses/validated/${startDate}/${endDate}`,
         {
           headers: {
-            "authorization-tokens": `Bearer ${accesToken} ${token} `,
+            "authorization-token": `Bearer ${token}`,
           },
         }
       )
@@ -466,10 +430,6 @@ class DepensesAPI {
     id: number,
     data: Depenses
   ): Promise<DepensesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -480,7 +440,7 @@ class DepensesAPI {
       .put(`${DepensesAPI.baseUrl}/depenses/${id}`, data.toJson(), {
         headers: {
           "Content-Type": "multipart/form-data", // Important : spécifiez le type de contenu
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -498,10 +458,6 @@ class DepensesAPI {
     authenticatedEmployee: Employes,
     id: number
   ): Promise<DepensesPromiseResponse | undefined> {
-    const accesToken =
-      authenticatedEmployee != undefined
-        ? authenticatedEmployee.accessToken
-        : "accessToken";
     const token =
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
@@ -511,7 +467,7 @@ class DepensesAPI {
     await axios
       .delete(`${DepensesAPI.baseUrl}/depenses/${id}`, {
         headers: {
-          "authorization-tokens": `Bearer ${accesToken} ${token} `,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

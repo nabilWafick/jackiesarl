@@ -12,7 +12,6 @@ const ClientBalancePage: FC = () => {
   const fetchSoldeClient = useSoldeClientStore(
     (state) => state.fetchSoldeClient
   );
-
   const startDate = useSoldeClientStore((state) => state.startDate);
   const endDate = useSoldeClientStore((state) => state.endDate);
 
