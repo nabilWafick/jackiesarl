@@ -5,7 +5,7 @@ import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import JSConstants from "../../utils/constants";
 import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
-import AuthAPI from "../../api/auth/auth.api";
+//import AuthAPI from "../../api/auth/auth.api";
 
 interface AuthProps {
   needAuth: boolean;
@@ -51,12 +51,20 @@ const Auth: FC<AuthProps> = ({ needAuth, children }) => {
       if (!authenticatedEmploye) {
         setIsLoading(false);
       } else {
-        const response = AuthAPI.verifyAuthentication(authenticatedEmploye);
-        if (response!.status == 202) {
-          navigateTo("/");
-        } else {
-          setIsLoading(false);
-        }
+        axios
+          .get(`${JSConstants.API_BASE_URL}/auth/verify-authentication`, {
+            headers: {
+              "authorization-token": `Bearer ${authenticatedEmploye!.token}`,
+            },
+          })
+          .then((response) => {
+            if (response.status == 202) {
+              navigateTo("/");
+            }
+          })
+          .catch(async () => {
+            setIsLoading(false);
+          });
       }
     }
   }, [authenticatedEmploye, navigateTo, needAuth]);

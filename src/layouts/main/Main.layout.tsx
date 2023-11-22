@@ -57,114 +57,11 @@ import useSalesStore from "../../store/vente/vente.store";
 
 */ import PaymentsPage from "../../pages/dashboard/contents/payments/PaymentsPage";
 import ExpensesPage from "../../pages/dashboard/contents/expenses/ExpensesPage";
+import FactureMECEFPage from "../../pages/dashboard/contents/factures_mecef/FactureMECEFPage";
 
 const Main: FC = () => {
-  // authenticated user
-  /* const authenticatedEmploye = useAuthenticatedEmployeStore(
-    (state) => state.authenticatedEmploye
-  );
-  const setClientPurchasesStoreAuthenticatedEmploye = useClientPurchasesStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setCompanyPurchasesListStoreAuthenticatedEmploye =
-    useCompanyPurchasesListStore((state) => state.setAuthenticatedEmployee);
-  const setActivitesBanqueStoreAuthenticatedEmploye = useActivitesBanqueStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setActivitesDepotStoreAuthenticatedEmploye = useActivitesDepotStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setAvanceStoreAuthenticatedEmploye = useAvanceStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setBrouillardStoreAuthenticatedEmploye = useBrouillardStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setClientsStoreAuthenticatedEmploye = useClientsStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setClientsTonnagesStoreAuthenticatedEmploye = useClientsTonnagesStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setCommandesStoreAuthenticatedEmploye = useCommandesStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setCreanceStoreAuthenticatedEmploye = useCreanceStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setDepensesStoreAuthenticatedEmploye = useDepensesStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setDepensesValidationStoreAuthenticatedEmploye =
-    useDepensesValidationStore((state) => state.setAuthenticatedEmployee);
-  const setModificationsStoreAuthenticatedEmploye = useModificationsStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setPaymentsStoreAuthenticatedEmploye = usePaymentsStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setPaymentsValidationStoreAuthenticatedEmploye =
-    usePaymentsValidationStore((state) => state.setAuthenticatedEmployee);
-  const setReportsStoreAuthenticatedEmploye = useReportsStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setClientChecksRemittanceStoreAuthenticatedEmploye =
-    useClientChecksRemittanceStore((state) => state.setAuthenticatedEmployee);
-  const setSoldeClientStoreAuthenticatedEmploye = useSoldeClientStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setSoldeCourantStoreAuthenticatedEmploye = useSoldeCourantStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setPurchasesOrderStockStoreAuthenticatedEmploye =
-    usePurchasesOrderStockStore((state) => state.setAuthenticatedEmployee);
-  const setTrucksStockStoreAuthenticatedEmploye = useTrucksStockStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setDashBoardStoreAuthenticatedEmploye = useDashBoardStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  const setSalesStoreAuthenticatedEmploye = useSalesStore(
-    (state) => state.setAuthenticatedEmployee
-  );
-  */
-  // set authenticated user for every store
-
-  /*
-  useEffect(() => {
-    const setStoresAuthenticatedUser = (authEmployee: Employes) => {
-      setClientPurchasesStoreAuthenticatedEmploye(authEmployee);
-      setCompanyPurchasesListStoreAuthenticatedEmploye(authEmployee);
-      setActivitesBanqueStoreAuthenticatedEmploye(authEmployee);
-      setActivitesDepotStoreAuthenticatedEmploye(authEmployee);
-      setAvanceStoreAuthenticatedEmploye(authEmployee);
-      setBrouillardStoreAuthenticatedEmploye(authEmployee);
-      setClientsStoreAuthenticatedEmploye(authEmployee);
-      setClientsTonnagesStoreAuthenticatedEmploye(authEmployee);
-      setCommandesStoreAuthenticatedEmploye(authEmployee);
-      setCreanceStoreAuthenticatedEmploye(authEmployee);
-      setDepensesStoreAuthenticatedEmploye(authEmployee);
-      setDepensesValidationStoreAuthenticatedEmploye(authEmployee);
-      setModificationsStoreAuthenticatedEmploye(authEmployee);
-      setPaymentsStoreAuthenticatedEmploye(authEmployee);
-      setPaymentsValidationStoreAuthenticatedEmploye(authEmployee);
-      setReportsStoreAuthenticatedEmploye(authEmployee);
-      setClientChecksRemittanceStoreAuthenticatedEmploye(authEmployee);
-      setSoldeClientStoreAuthenticatedEmploye(authEmployee);
-      setSoldeClientStoreAuthenticatedEmploye(authEmployee);
-      setSoldeCourantStoreAuthenticatedEmploye(authEmployee);
-      setPurchasesOrderStockStoreAuthenticatedEmploye(authEmployee);
-      setTrucksStockStoreAuthenticatedEmploye(authEmployee);
-      setDashBoardStoreAuthenticatedEmploye(authEmployee);
-      setSalesStoreAuthenticatedEmploye(authEmployee);
-    };
-
-    setStoresAuthenticatedUser(authenticatedEmploye!);
-  });
-  */
-
   return (
-    <main className="ml-[33vh] h-full pt-[14vh] overflow-y-auto flex justify-center items-center sidebar relative px-2.5">
+    <main className="ml-[33vh] h-full pt-[14vh] overflow-auto flex justify-center items-center sidebar relative px-2.5">
       <Routes>
         <Route path="/" Component={TableBord} />
         <Route path="/search" Component={SearchPage} />
@@ -210,7 +107,7 @@ const Main: FC = () => {
           Component={CurrentsBalenceDetailsPage}
         />
         <Route path="/autorisations" Component={AutorisationsPage} />
-        {/* <Route path="/se-deconnecter" Component={LogoutPage} /> */}
+        <Route path="/factures-mecef" Component={FactureMECEFPage} />
         <Route path="" Component={NotFoundPage} /> // empty ""
         <Route path="*" Component={NotFoundPage} /> // star
         <Route Component={NotFoundPage} /> // without path

@@ -12,7 +12,11 @@ import {
   BiWalletAlt,
 } from "react-icons/bi";
 import { BsHouse, BsHandbag, BsCart3, BsPersonWorkspace } from "react-icons/bs";
-import { FaMoneyBillAlt, FaShoppingBasket } from "react-icons/fa";
+import {
+  FaMoneyBillAlt,
+  FaRegMoneyBillAlt,
+  FaShoppingBasket,
+} from "react-icons/fa";
 import { GiPayMoney, GiReceiveMoney, GiMoneyStack } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
@@ -51,6 +55,7 @@ const SideBar: FC = () => {
     const response = await AuthAPI.logout(authenticatedEmployee.value!);
 
     if (response!.status == 200) {
+      // react user signal
       localStorage.removeItem("AuthenticatedEmployeStore");
       sessionStorage.clear();
       navigateTo("/se-connecter");
@@ -261,10 +266,20 @@ const SideBar: FC = () => {
       onSideBarOptionClick: onSideBarOptionClick,
     },
     {
+      to: "/factures-mecef",
+      icon: <FaRegMoneyBillAlt size={20} className=" text-gray-500" />,
+      name: "Factures MECEF",
+      index: 14,
+      isOpen: false,
+      currentActiveSideBarOption: currentActiveSideBarOption,
+      subOptions: [],
+      onSideBarOptionClick: onSideBarOptionClick,
+    },
+    {
       to: "/autorisations",
       icon: <BsPersonWorkspace size={20} className=" text-gray-500" />,
       name: "Autorisations",
-      index: 14,
+      index: 15,
       isOpen: false,
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [],
@@ -274,7 +289,7 @@ const SideBar: FC = () => {
       to: "/se-connecter",
       icon: <BiLogOut size={20} className=" text-gray-500" />,
       name: "Se Déconnecter",
-      index: 15,
+      index: 16,
       isOpen: false,
       currentActiveSideBarOption: currentActiveSideBarOption,
       subOptions: [],
@@ -310,8 +325,8 @@ const SideBar: FC = () => {
       <div className="h-[72%] w-full flex flex-col px-3 py-3 overflow-scroll sidebar overflow-x-hidden">
         {sideBarData.map((sideBarOptionData, index) => {
           return (
-            index != 14 &&
-            index != 15 && (
+            index != 15 &&
+            index != 16 && (
               <SideBarOption
                 key={sideBarOptionData.name}
                 to={sideBarOptionData.to}
@@ -332,20 +347,20 @@ const SideBar: FC = () => {
       </div>
       <div className="h-[13%] w-full px-3 pt-1 flex flex-col justify-center border-t border-t-primary ">
         <SideBarOption
-          to={sideBarData[14].to}
-          icon={sideBarData[14].icon}
-          name={sideBarData[14].name}
-          index={sideBarData[14].index}
-          isOpen={isOpen[sideBarData[14].index]}
+          to={sideBarData[15].to}
+          icon={sideBarData[15].icon}
+          name={sideBarData[15].name}
+          index={sideBarData[15].index}
+          isOpen={isOpen[sideBarData[15].index]}
           currentActiveSideBarOption={
-            sideBarData[14].currentActiveSideBarOption
+            sideBarData[15].currentActiveSideBarOption
           }
-          subOptions={sideBarData[14].subOptions}
-          onSideBarOptionClick={sideBarData[14].onSideBarOptionClick}
+          subOptions={sideBarData[15].subOptions}
+          onSideBarOptionClick={sideBarData[15].onSideBarOptionClick}
         />
         <div
           className={`flex flex-row ${
-            currentActiveSideBarOption == sideBarData[15].name &&
+            currentActiveSideBarOption == sideBarData[16].name &&
             "bg-primary shadow-md"
           } h-10 rounded-md items-center content-center hover:cursor-pointer group`}
           onClick={() => {
@@ -353,11 +368,11 @@ const SideBar: FC = () => {
           }}
         >
           <div className="h-full mx-[12px] text-secondary flex justify-start items-center content-center">
-            {sideBarData[15].icon}
+            {sideBarData[16].icon}
           </div>
           <div className={`w-full flex flex-row justify-between items-center`}>
             <p className="md:text-[12px] lg:text-[15px] flex items-center text-black  group-hover:text-black md:hidden' lg:block font-medium">
-              {sideBarData[15].name}
+              {sideBarData[16].name}
             </p>
           </div>
         </div>

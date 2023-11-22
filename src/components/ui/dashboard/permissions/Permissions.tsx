@@ -365,6 +365,27 @@ const permissionsGroupData: PermissionsGroupProps[] = [
       },*/
     ],
   },
+  {
+    permissionsGroupName: "Facture MECEF",
+    permissionsList: [
+      {
+        label: "Ajouter les données d'une facture MECEF",
+        permission: "ajouter-facture-mecef",
+      },
+      {
+        label: "Lire les données d'une facture MECEF",
+        permission: "lire-facture-mecef",
+      },
+      {
+        label: "Modifier les données d'une facture MECEF",
+        permission: "modifier-facture-mecef",
+      },
+      {
+        label: "Supprimer les données d'une facture MECEF",
+        permission: "supprimer-facture-mecef",
+      },
+    ],
+  },
 ];
 
 const Permissions: FC = () => {
