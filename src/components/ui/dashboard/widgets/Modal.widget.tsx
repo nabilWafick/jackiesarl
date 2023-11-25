@@ -8,7 +8,7 @@ interface ModalProps {
 
 const Modal: FC<ModalProps> = ({ label, children }) => {
   return (
-    <dialog id={label} className=" sidebar">
+    <dialog id={label} className=" relative sidebar bg-white">
       {children}
     </dialog>
   );

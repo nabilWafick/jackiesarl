@@ -247,8 +247,8 @@ const useOrderUpdateForm = (
           formData.category,
           parseFloat(formData.quantity),
           formData.destination,
-          new Date(formData.orderDate!.toLocaleString()),
-          new Date(formData.deliveryDate!.toLocaleString()),
+          new Date(formData.orderDate!.toISOString()),
+          new Date(formData.deliveryDate!.toISOString()),
           est_traitee,
           orderClient!.id!
         )

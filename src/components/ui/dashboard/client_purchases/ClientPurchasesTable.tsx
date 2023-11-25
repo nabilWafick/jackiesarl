@@ -19,7 +19,7 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
   const setActionResultMessage = useInterfacesStore(
     (state) => state.setActionResultMessage
   );
-  const setFileLink = useInterfacesStore((state) => state.setFileLink);
+  // const setFileLink = useInterfacesStore((state) => state.setFileLink);
   const fetchAllClientPurchases = useClientPurchasesStore(
     (state) => state.fetchAllClientPurchases
   );
@@ -66,8 +66,8 @@ const ClientPurchasesTable: FC<ClientPurchasesTableProps> = ({
                         <FaFile
                           className="text-secondary"
                           onClick={() => {
-                            setFileLink(clientPurchase.bordereau as string);
-                            toggleModal("file-shower");
+                            //  setFileLink(clientPurchase.bordereau as string);
+                            //  toggleModal("file-shower");
                           }}
                         />
                       </a>

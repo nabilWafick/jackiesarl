@@ -126,6 +126,33 @@ class AchatClientAPI {
     return achatsClientList;
   }
 
+  static async getAllWithoutBill(
+    authenticatedEmployee: Employes
+  ): Promise<AchatClient[]> {
+    const token =
+      authenticatedEmployee != undefined
+        ? authenticatedEmployee.token
+        : "token";
+    let achatsClientList: AchatClient[] = [];
+
+    await axios
+      .get(`${AchatClientAPI.baseUrl}/achats-clients/without-bill`, {
+        headers: {
+          "authorization-token": `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        achatsClientList = response.data.map((achatClient: AchatClientJSON) =>
+          AchatClient.fromJson(achatClient)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        return [] as AchatClient[];
+      });
+    return achatsClientList;
+  }
+
   static async getAllFromNewToOld(
     authenticatedEmployee: Employes,
     startDate: string | undefined,

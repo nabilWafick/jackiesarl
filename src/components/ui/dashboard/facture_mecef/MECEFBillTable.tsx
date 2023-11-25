@@ -2,10 +2,33 @@
 // import { toggleModal } from "../widgets/ToggleModal";
 
 import { FC } from "react";
+import FactureMECEF from "../../../../models/facture_mecef/facture_mecef.model";
+import { FaEdit, FaFile, FaTrash } from "react-icons/fa";
+import { toggleModal } from "../widgets/ToggleModal";
+import { authenticatedEmployee } from "../../../../data/GlobalData";
+import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import useFactureMECEFStore from "../../../../store/facture_mecef/useFactureMECEF.store";
+import FactureMECEFAPI from "../../../../api/facture_mecef/facture_mecef.api";
+import MECEFBillUpdate from "../../../form/forms/mecef_bill_update/MECEFBillUpdate";
+//import useFactureMECEFStore from "../../../../store/facture_mecef/useFactureMECEF.store";
 
-interface MECEFBillTableProps {}
+interface MECEFBillTableProps {
+  billList: FactureMECEF[];
+}
 
-const MECEFBillTable: FC<MECEFBillTableProps> = () => {
+const MECEFBillTable: FC<MECEFBillTableProps> = ({ billList }) => {
+  const authenticatedEmploye = authenticatedEmployee.value;
+
+  const setActionResultMessage = useInterfacesStore(
+    (state) => state.setActionResultMessage
+  );
+
+  const setIsUpdate = useFactureMECEFStore((state) => state.setIsUpdate);
+
+  const fetchAllClientsBill = useFactureMECEFStore(
+    (state) => state.fetchAllClientsBill
+  );
+
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -24,63 +47,116 @@ const MECEFBillTable: FC<MECEFBillTableProps> = () => {
               <td className="font-medium"></td>
             </tr>
 
-            {/* {clientPurchases.map((clientPurchase) => {
-            return (
-              <tr key={clientPurchase.id!}>
-                <td>
-                  {clientPurchase.quantite_achetee}
-                  <i> t</i>
-                </td>
-                <td>{clientPurchase.categorie}</td>
-                <td>{clientPurchase.numero_bc}</td>
-                <td>
-                  {clientPurchase.montant}
-                  <i> fcfa</i>
-                </td>
-                <td>{clientPurchase.numero_ctp}</td>
-                <td>
-                  {clientPurchase.bordereau == "" ? (
-                    ""
-                  ) : (
-                    <a
-                      href={clientPurchase.bordereau as string}
-                      target="_blank"
-                      download={true}
-                    >
-                      <FaFile
-                        className="text-secondary"
-                       
+            {billList.map((bill, index) => {
+              return (
+                <tr key={index}>
+                  <td>
+                    {bill.vente!.client!.prenoms} {bill.vente!.client!.prenoms}
+                  </td>
+                  <td>
+                    {bill.vente!.quantite_achetee}
+                    <i> t</i>
+                  </td>
+                  <td>
+                    {bill.vente!.montant} <i> fcfa</i>
+                  </td>
+                  <td>{bill.reference}</td>
+                  <td>
+                    {bill.fichier == "" ? (
+                      ""
+                    ) : (
+                      <a
+                        href={bill.fichier as string}
+                        target="_blank"
+                        download={true}
+                      >
+                        <FaFile className="text-secondary" />
+                      </a>
+                    )}
+                  </td>
+                  <td>
+                    {new Date(bill.vente!.date_achat!).toLocaleDateString(
+                      "fr-FR",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )}
+                  </td>
+                  <td>
+                    {new Date(bill.date_facture).toLocaleDateString("fr-FR", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </td>
+                  <td>
+                    <div>
+                      <MECEFBillUpdate
+                        key={Date.now() + bill!.id!}
+                        id={bill!.id! as number}
+                        id_achat={bill!.vente!.id!}
+                        reference={bill!.reference}
+                        file={bill!.fichier as string}
+                        billDate={bill!.date_facture}
+                        modalLabel={`mecef-bill-update-form-${bill!.id}`}
                       />
-                    </a>
-                  )}
-                </td>
-
-                <td>
-                  <div>
-                   
-                    <center>
-                      <FaEdit
-                        color="green"
-                        onClick={() => {
-                          toggleModal(
-                            `client-purchase-update-form-${clientPurchase.id}`
+                      <i>
+                        <FaEdit
+                          color="green"
+                          className=" hover:cursor-pointer"
+                          onClick={() => {
+                            setIsUpdate(true);
+                            toggleModal(`mecef-bill-update-form-${bill!.id}`);
+                          }}
+                        />
+                      </i>
+                    </div>
+                  </td>
+                  <td>
+                    <i>
+                      <FaTrash
+                        color="red"
+                        className=" hover:cursor-pointer"
+                        onClick={async () => {
+                          const response = await FactureMECEFAPI.delete(
+                            authenticatedEmploye!,
+                            bill.id!
                           );
+
+                          if (response!.status == 204) {
+                            setActionResultMessage(
+                              "La facture a été supprimée avec succès"
+                            );
+                            fetchAllClientsBill();
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 401) {
+                            setActionResultMessage(
+                              `Votre accès a expiré. \n Veuillez vous authentifier à nouveau`
+                            );
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 403) {
+                            setActionResultMessage(response!.error);
+                            toggleModal("action-result-message");
+                          } else if (response!.status == 404) {
+                            setActionResultMessage(
+                              "La facture n'a pas été trouvée"
+                            );
+                            toggleModal("action-result-message");
+                          } else {
+                            setActionResultMessage(
+                              "Erreur lors de la suppression de facture"
+                            );
+                            toggleModal("action-result-message");
+                          }
                         }}
                       />
-                    </center>
-                  </div>
-                </td>
-                <td>
-                  <center>
-                    <FaTrash
-                      color="red"
-                    
-                    />
-                  </center>
-                </td>
-              </tr>
-            );
-          })} */}
+                    </i>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

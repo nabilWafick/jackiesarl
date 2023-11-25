@@ -55,7 +55,7 @@ const SideBar: FC = () => {
     const response = await AuthAPI.logout(authenticatedEmployee.value!);
 
     if (response!.status == 200) {
-      // react user signal
+      authenticatedEmployee.value = undefined;
       localStorage.removeItem("AuthenticatedEmployeStore");
       sessionStorage.clear();
       navigateTo("/se-connecter");

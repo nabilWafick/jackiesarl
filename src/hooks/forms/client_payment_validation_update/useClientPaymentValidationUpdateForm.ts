@@ -190,7 +190,7 @@ const useClientPaymentValidationUpdateForm = (
     const allowedFileTypes = [
       "image/png",
       "image/jpg",
-      "application/image/jpeg",
+      "image/jpeg",
       "application/pdf",
       "application/msword",
     ];

@@ -231,6 +231,11 @@ const useClientPurchaseUpdateForm = (
       } else if (response!.status == 404) {
         errors.bcNumber = response!.error!;
         setFormErrors(errors);
+      } else if (response!.status == 400) {
+        onFormClose();
+        toggleModal(modalLabel);
+        setActionResultMessage(response!.error!);
+        toggleModal("action-result-message");
       } else if (response!.status == 401) {
         onFormClose();
         toggleModal(modalLabel);

@@ -88,7 +88,7 @@ class StockBonCommandeAPI {
     await axios
       .get(`${StockBonCommandeAPI.baseUrl}/stock-bon-commande`, {
         headers: {
-          "authorization-tokens": `Bearer ${token}`,
+          "authorization-token": `Bearer ${token}`,
         },
       })
       .then((response) => {

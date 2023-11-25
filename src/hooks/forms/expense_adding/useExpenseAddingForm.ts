@@ -96,16 +96,14 @@ const useExpenseAddingForm = ({ description, amount, piece }: FormData) => {
     const allowedFileTypes = [
       "image/png",
       "image/jpg",
-      "application/image/jpeg",
+      "image/jpeg",
       "application/pdf",
-      "application/msword",
     ];
     if (
       typeof formData.piece != "string" &&
       !allowedFileTypes.includes(formData.piece.type)
     ) {
-      errors.piece =
-        "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
+      errors.piece = "Le type de fichier doit être PNG, JPG, JPEG ou  PDF";
     }
 
     setFormErrors(errors);

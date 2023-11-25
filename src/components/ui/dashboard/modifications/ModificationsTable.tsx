@@ -25,18 +25,44 @@ const ModificationsTable: FC<ModificationsTableProps> = ({ modifications }) => {
                   </div>
                   <div>
                     <span className=" font-medium">
-                      {modification.details.split("-")[0].split("::")[0]}:
+                      {
+                        modification.details
+                          .split(
+                            "a57aa2b90d9bbb0524e51b458577767ab2823507b877e9aedfd885bb12b5d7ed980dd63abad043be6beff172d6c47678d68a502778a617e57b3e7fd0b0952f47"
+                          )[0]
+                          .split("::")[0]
+                      }
+                      :
                     </span>
                     <span>
-                      {modification.details.split("-")[0].split("::")[1]}
+                      {
+                        modification.details
+                          .split(
+                            "a57aa2b90d9bbb0524e51b458577767ab2823507b877e9aedfd885bb12b5d7ed980dd63abad043be6beff172d6c47678d68a502778a617e57b3e7fd0b0952f47"
+                          )[0]
+                          .split("::")[1]
+                      }
                     </span>
                   </div>
                   <div>
                     <span className=" font-medium">
-                      {modification.details.split("-")[1].split("::")[0]}:
+                      {
+                        modification.details
+                          .split(
+                            "a57aa2b90d9bbb0524e51b458577767ab2823507b877e9aedfd885bb12b5d7ed980dd63abad043be6beff172d6c47678d68a502778a617e57b3e7fd0b0952f47"
+                          )[1]
+                          .split("::")[0]
+                      }
+                      :
                     </span>
                     <span>
-                      {modification.details.split("-")[1].split("::")[1]}
+                      {
+                        modification.details
+                          .split(
+                            "a57aa2b90d9bbb0524e51b458577767ab2823507b877e9aedfd885bb12b5d7ed980dd63abad043be6beff172d6c47678d68a502778a617e57b3e7fd0b0952f47"
+                          )[1]
+                          .split("::")[1]
+                      }
                     </span>
                   </div>
                   <span className="flex self-end font-medium">

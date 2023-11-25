@@ -87,7 +87,7 @@ const useReportSubmittingForm = ({ report }: FormData) => {
         )
       );
       if (response!.status == 201) {
-        fetchAllOfEmployeeReports(authenticatedEmploye!.id!);
+        fetchAllOfEmployeeReports();
         setActionResultMessage("Le rapport a été soumis avec succès");
         toggleModal("action-result-message");
       } else if (response!.status == 401) {

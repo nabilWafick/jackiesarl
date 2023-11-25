@@ -172,15 +172,14 @@ const useCompanyPurchaseAddingForm = (
     const allowedFileTypes = [
       "image/png",
       "image/jpg",
-      "application/image/jpeg",
+      "image/jpeg",
       "application/pdf",
-      "application/msword",
     ];
     if (
       typeof formData.slip != "string" &&
       !allowedFileTypes.includes(formData.slip.type)
     ) {
-      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
+      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG ou PDF";
     }
 
     setFormErrors(errors);

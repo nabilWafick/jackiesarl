@@ -110,7 +110,6 @@ class AuthAPI {
       authenticatedEmployee != undefined
         ? authenticatedEmployee.token
         : "token";
-
     await axios
       .get(`${AuthAPI.baseUrl}/auth/logout`, {
         headers: {

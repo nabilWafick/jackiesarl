@@ -43,7 +43,7 @@ const DatesIntervall: FC<DatesIntervallProps> = ({
           onDateChange={onEndDateChange}
         />
         <FaHistory
-          className="text-secondary ml-3 mr-2 "
+          className="text-secondary ml-3 mr-2 hover:cursor-pointer"
           onClick={() => {
             //    forceUpdate()
             resetDatesInterval();

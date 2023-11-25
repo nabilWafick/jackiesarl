@@ -85,7 +85,7 @@ const useLoginForm = ({ email, password }: FormData) => {
         password: formData.password,
       });
 
-      console.log("response", response);
+      //  console.log("response", response);
 
       if (response!.status == 404) {
         errors.email = response!.error!;
