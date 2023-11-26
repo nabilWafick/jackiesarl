@@ -41,7 +41,7 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
 }) => {
   const selectedClient = useClientsStore((state) => state.selectedClient);
   return (
-    <div>
+    <div className="my-1.5 md:my-0">
       <Link
         to={to}
         onClick={() => {
@@ -50,28 +50,36 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
         }}
       >
         <div
-          className={`flex flex-row ${
+          className={`flex flex-col  md:flex-row lg:flex-row py-1 ${
             currentActiveSideBarOption == name && "bg-primary shadow-md"
-          } h-10 rounded-md items-center content-center hover:cursor-pointer group`}
+          } h-max md:h-10 rounded-md items-center content-center hover:cursor-pointer group py-1 w-max' md:w-full`}
         >
-          <div className="h-full mx-[12px] text-secondary flex justify-start items-center content-center">
+          <div className="h-full sm:hidden' md:block lg:block sm:mx-[1px] md:mx-[5px]  lg:mx-[12px] md:pt-[8px] lg:pt-[8px] mb-1 md:mb-2 flex justify-start items-center content-center">
             {icon}
           </div>
-          <div className={`w-full flex flex-row justify-between items-center`}>
-            <p className="md:text-[12px] lg:text-[15px] flex items-center text-black  group-hover:text-black md:hidden' lg:block">
+          <div
+            className={`w-full flex  justify-center md:justify-start items-center `}
+          >
+            <p className="text-[10px] sm:text-[10px] md:text-[12px] lg:text-[14px] flex items-center text-black  group-hover:text-black sm:pl-2 md:block lg:block text-center md:text-left">
               {name}
             </p>
-            {subOptions.length != 0 && (
-              <div className="h-[14px] w-[17px] mx-1.5">
-                {!isOpen && (
-                  <IoIosArrowDown size={17} className=" text-gray-500" />
-                )}
-                {isOpen && (
-                  <IoIosArrowUp size={17} className=" text-gray-500" />
-                )}
-              </div>
-            )}
           </div>
+          {subOptions.length != 0 && (
+            <div className="h-[14px] w-[17px] mx-1.5 hidden md:block">
+              {!isOpen && (
+                <IoIosArrowDown
+                  size={17}
+                  className=" text-gray-500 sm:h-[10px] md:h-[15px]"
+                />
+              )}
+              {isOpen && (
+                <IoIosArrowUp
+                  size={17}
+                  className=" text-gray-500 sm:h-[10px] md:h-[15px]"
+                />
+              )}
+            </div>
+          )}
         </div>
       </Link>
       {isOpen && subOptions.length != 0 && (
@@ -80,10 +88,10 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
             <Link
               to={subOption.to}
               key={subOption.name}
-              className={`md:ml-0 lg:ml-[40px] my-[2px] py-2 pl-[10px] rounded-md flex items-center md:text-[10px] lg:text-[12px] ${
+              className={`md:ml-[22px] lg:ml-[30px] md:my-[1px]' lg:my-[2px]  py-2 sm:px-auto md:pl-[17px] lg:pl-[23px]  rounded-md flex justify-center content-center md:justify-start items-center text-[8px] sm:text-[8px] md:text-[10px] lg:text-[12px] ${
                 subOption.currentActiveSideBarSubOption == subOption.name &&
                 "bg-primary"
-              } hover:cursor-pointer font-normal text-black hover:text-black`}
+              } hover:cursor-pointer font-normal text-black hover:text-black text-center md:text-left`}
               onClick={() => {
                 subOption.onSideBarSubOptionClick(subOption.name);
               }}

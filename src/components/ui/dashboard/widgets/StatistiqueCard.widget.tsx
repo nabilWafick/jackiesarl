@@ -33,13 +33,17 @@ const StatistiqueCard: FC<StatistiqueCardProps> = ({
 
           <p>{percentage}%</p>
         </div> */}
-        <p className="text-center text-[20px] font-bold mr-2">
+        <p className="text-center text-[12px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-bold mr-2">
           {supValue} {supValue != undefined && <i> t</i>}
         </p>
       </div>
 
-      <p className="text-center text-[30px] font-bold">{value}</p>
-      <p className="self-center text-lg">{name}</p>
+      <p className="text-center text-[20px] sm:text-[24px] md:text-[26px] lg:text-[30px] font-bold">
+        {value}
+      </p>
+      <p className="self-center text-[14px] sm:text-[15px] md:text-[16px]  lg:text-[17px]">
+        {name}
+      </p>
     </div>
   );
 };

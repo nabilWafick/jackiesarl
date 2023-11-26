@@ -11,11 +11,15 @@ const SideBarUserInfosCard: FC<SideBarUserInfosCardProps> = ({
   position,
 }) => {
   return (
-    <div className="h-full w-full flex lg:flex-row md:flex-col  justify-evenly content-center items-center">
+    <div className="h-full w-full flex sm:flex-col md:flex-col lg:flex-row  justify-evenly content-center items-center">
       <ProfileCard />
-      <div className="md:pt-2 lg:py-1">
-        <h2 className="md:text-[10px] lg:text-xs mb-1">{position}</h2>
-        <h3 className="md:text-[10px] lg:text-xs font-bold">{name}</h3>
+      <div className="hidden sm:block md:block  sm:pt-2 md:pt-2 lg:py-1">
+        <h2 className="sm:text-[10px] md:text-[10px] lg:text-xs mb-1">
+          {position}
+        </h2>
+        <h3 className="sm:text-[10px] md:text-[10px] lg:text-xs font-bold">
+          {name}
+        </h3>
       </div>
     </div>
   );

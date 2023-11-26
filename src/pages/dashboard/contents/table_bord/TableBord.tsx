@@ -35,30 +35,45 @@ const TableBord: FC = () => {
   setTimeout(() => {}, 1500);
 
   return (
-    <div className="h-max w-full flex flex-col justify-center items-center content-center mt-[1400px]">
+    <div className="h-max w-full flex flex-col justify-center items-center content-center">
       {/* Table de bord */}
       <div className=" p-3 w-full flex flex-row justify-between items-center ">
-        <h2 className="font-medium text-2xl">Table de bord</h2>
+        <h2 className="font-medium text-[16px] sm:text-[16px] md:text-[20px] ">
+          Table de bord
+        </h2>
         <div className="moments flex ">
           <TableBordPeriode periode={"Aujourd'hui"} periodeValue={1} />
           <TableBordPeriode periode={"Hier"} periodeValue={0} />
         </div>
       </div>
 
-      <div className="flex h-[500px] w-full my-4 justify-between items-center content-center ">
-        <TransactionChartCard />
-        <div className="h-full w-1/2 statistique grid grid-flow-row grid-cols-2 ml-3 p-">
+      <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row h-max sm:h-max md:h-max lg:h-[500px] w-full my-4 justify-between items-center content-center ">
+        <div className="h-[350px] w-full sm:h-[400px] sm:w-3/4 md:h-[500px] md:w-3/4 lg:h-full lg:w-1/2 ">
+          <TransactionChartCard />
+        </div>
+
+        <div className="h-[420px] w-full sm:h-[450px] sm:w-3/4 md:h-[500px] md:w-3/4 lg:h-full lg:w-1/2 statistique  grid grid-flow-row grid-cols-2 md:ml-0 lg:ml-3  p-">
           <div className="grid-element m-3">
             <StatistiqueCard
               name={"Avance"}
-              icon={<FaHandHoldingUsd className="text-secondary" size={40} />}
+              icon={
+                <FaHandHoldingUsd
+                  className="text-secondary h-6 sm:h-7 md:h-8 lg:h-14"
+                  size={40}
+                />
+              }
               value={totalAvancesCreances.total_avances}
             />
           </div>
           <div className="grid-element m-3">
             <StatistiqueCard
               name={"Vente"}
-              icon={<BsHandbag className="text-secondary" size={40} />}
+              icon={
+                <BsHandbag
+                  className="text-secondary h-6 sm:h-7 md:h-8"
+                  size={40}
+                />
+              }
               supValue={totalVente.total_quantite}
               value={totalVente.total_vente}
             />
@@ -66,36 +81,46 @@ const TableBord: FC = () => {
           <div className="grid-element m-3">
             <StatistiqueCard
               name={"Clients Inscrits"}
-              icon={<BiUser className="text-secondary" size={40} />}
+              icon={
+                <BiUser
+                  className="text-secondary h-6 sm:h-7 md:h-8"
+                  size={40}
+                />
+              }
               value={totalClientsIncrits.total_clients_incrits}
             />
           </div>
           <div className="grid-element m-3">
             <StatistiqueCard
               name={"Créances"}
-              icon={<GiReceiveMoney className="text-secondary" size={40} />}
+              icon={
+                <GiReceiveMoney
+                  className="text-secondary h-6 sm:h-7 md:h-8"
+                  size={40}
+                />
+              }
               value={totalAvancesCreances.total_creances}
             />
           </div>
         </div>
       </div>
 
-      <div className="flex justify-between items-center  h-[350px] w-full my-2 ">
-        <div className="h-full w-full mr-2 my-2 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 shadow-md">
+      <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row justify-between items-center h-max w-full sm:h-max sm:w-3/4 md:h-max md:w-3/4 lg:h-[370px] lg:w-full my-2">
+        <div className="h-[280px] w-full sm:h-[320px] sm:w-full md:h-[370px] md:w-full lg:w-1/2 md:mr-0 lg:mr-2 my-2 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 shadow-md">
           <DailySalesLineBarChart />
         </div>
-        <div className="h-full w-full ml-1.5 my-1.5 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 shadow-md">
+        <div className="h-[280px] w-full sm:h-[320px] sm:w-full md:h-[370px] md:w-full lg:w-1/2 ml-1.5 my-1.5 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 md:mr-0 lg:mr-2 shadow-md">
           <DailySalesQuantityLineBarChart />
         </div>
       </div>
 
-      <div className="h-[400px] w-full ml-2 flex my-4 justify-between  ">
+      <div className="h-max w-full sm:h-max sm:w-3/4 md:h-max md:w-3/4 lg:h-[400px] lg:w-full ml-2 flex flex-col sm:flex-col md:flex-col lg:flex-row my-4 lg:justify-between  ">
         <TotalStockCard />
 
         <CompanyDailyPurchasesStatCard />
       </div>
 
-      <div className=" h-[580px] w-full flex my-4 justify-between  items-center content-center ">
+      <div className="h-[500px] w-full sm:h-[500px] sm:w-3/4 md:h-[500px] md:w-3/4 lg:h-[580px] lg:w-full flex flex-col lg:flex-row my-4 lg:justify-between  items-center content-center">
         <DailyUnTraitedOrdersStatCard />
         <DailyTraitedOrdersStatCard />
         <DailyBanksPaymentsStatCard />

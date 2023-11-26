@@ -68,7 +68,7 @@ const SideBar: FC = () => {
   const sideBarData = [
     {
       to: "/",
-      icon: <BsHouse size={20} className=" text-gray-500" />,
+      icon: <BsHouse size={20} className=" text-gray-500 sm:h-5" />,
       name: "Table de bord",
       index: 0,
       isOpen: false,
@@ -78,7 +78,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/clients",
-      icon: <BiUser size={20} className=" text-gray-500" />,
+      icon: <BiUser size={20} className=" text-gray-500 sm:h-5" />,
       name: "Clients",
       index: 1,
       isOpen: false,
@@ -113,7 +113,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/stock",
-      icon: <BiPackage size={20} className=" text-gray-500" />,
+      icon: <BiPackage size={20} className=" text-gray-500 sm:h-5" />,
       name: "Stock",
       index: 2,
       isOpen: false,
@@ -136,7 +136,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/vente",
-      icon: <BsHandbag size={20} className=" text-gray-500" />,
+      icon: <BsHandbag size={20} className=" text-gray-500 sm:h-5" />,
       name: "Vente",
       index: 3,
       isOpen: false,
@@ -153,7 +153,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/paiements",
-      icon: <FaMoneyBillAlt size={20} className=" text-gray-500" />,
+      icon: <FaMoneyBillAlt size={20} className=" text-gray-500 sm:h-5" />,
       name: "Paiements",
       index: 4,
       isOpen: false,
@@ -170,7 +170,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/avances",
-      icon: <GiPayMoney size={20} className=" text-gray-500" />,
+      icon: <GiPayMoney size={20} className=" text-gray-500 sm:h-5" />,
       name: "Avances",
       index: 5,
       isOpen: false,
@@ -180,7 +180,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/achat",
-      icon: <BsCart3 size={20} className=" text-gray-500" />,
+      icon: <BsCart3 size={20} className=" text-gray-500 sm:h-5" />,
       name: "Achat",
       index: 6,
       isOpen: false,
@@ -190,7 +190,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/modifications",
-      icon: <IoMdSettings size={20} className=" text-gray-500" />,
+      icon: <IoMdSettings size={20} className=" text-gray-500 sm:h-5" />,
       name: "Modifications",
       index: 7,
       isOpen: false,
@@ -200,7 +200,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/creances",
-      icon: <GiReceiveMoney size={20} className=" text-gray-500" />,
+      icon: <GiReceiveMoney size={20} className=" text-gray-500 sm:h-5" />,
       name: "Créances",
       index: 8,
       isOpen: false,
@@ -210,7 +210,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/brouillard",
-      icon: <BiBook size={20} className=" text-gray-500" />,
+      icon: <BiBook size={20} className=" text-gray-500 sm:h-5" />,
       name: "Brouillard",
       index: 9,
       isOpen: false,
@@ -220,7 +220,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/depenses",
-      icon: <BiWalletAlt size={20} className=" text-gray-500" />,
+      icon: <BiWalletAlt size={20} className=" text-gray-500 sm:h-5" />,
       name: "Dépenses",
       index: 10,
       isOpen: false,
@@ -237,7 +237,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/rapports",
-      icon: <BiFile size={20} className=" text-gray-500" />,
+      icon: <BiFile size={20} className=" text-gray-500 sm:h-5" />,
       name: "Rapports",
       index: 11,
       isOpen: false,
@@ -247,7 +247,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/commandes",
-      icon: <FaShoppingBasket size={20} className=" text-gray-500" />,
+      icon: <FaShoppingBasket size={20} className=" text-gray-500 sm:h-5" />,
       name: "Commandes",
       index: 12,
       isOpen: false,
@@ -257,7 +257,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/soldes-courants",
-      icon: <GiMoneyStack size={20} className=" text-gray-500" />,
+      icon: <GiMoneyStack size={20} className=" text-gray-500 sm:h-5" />,
       name: "Soldes Courants",
       index: 13,
       isOpen: false,
@@ -267,7 +267,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/factures-mecef",
-      icon: <FaRegMoneyBillAlt size={20} className=" text-gray-500" />,
+      icon: <FaRegMoneyBillAlt size={20} className=" text-gray-500 sm:h-5" />,
       name: "Factures MECEF",
       index: 14,
       isOpen: false,
@@ -277,7 +277,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/autorisations",
-      icon: <BsPersonWorkspace size={20} className=" text-gray-500" />,
+      icon: <BsPersonWorkspace size={20} className=" text-gray-500 sm:h-5" />,
       name: "Autorisations",
       index: 15,
       isOpen: false,
@@ -287,7 +287,7 @@ const SideBar: FC = () => {
     },
     {
       to: "/se-connecter",
-      icon: <BiLogOut size={20} className=" text-gray-500" />,
+      icon: <BiLogOut size={20} className=" text-gray-500 sm:h-5" />,
       name: "Se Déconnecter",
       index: 16,
       isOpen: false,
@@ -300,11 +300,11 @@ const SideBar: FC = () => {
 
   return (
     <aside
-      className="fixed top-0 left-0 h-full lg:w-[33vh] md:w-[20vh] z-10 shadow-md bg-white opacity-100"
+      className="fixed top-0 left-0 h-full w-[10vh] sm:w-[13vh] md:w-[20vh] lg:w-[30vh]  z-10 shadow-md bg-white opacity-100"
       // className="h-screen w-2/12 flex flex-col shadow-sm fixed top-0 left-0 overflow-x-hidden bg-white" previous sytle
       //style={{ width: "30vh" }}
     >
-      <div className="flex flex-col h-[15%] md:py-2 border-b border-b-primary">
+      <div className="flex flex-col h-[10%] sm:h-[15%] md:h-[15%] lg:h-[15%] md:py-2 border-b border-b-primary">
         <SideBarUserInfosCard
           name={
             authenticatedEmploye != undefined
@@ -322,10 +322,9 @@ const SideBar: FC = () => {
         </p> */}
       </div>
 
-      <div className="h-[72%] w-full flex flex-col px-3 py-3 overflow-scroll sidebar overflow-x-hidden">
+      <div className="h-[83%] sm:h-[78%] w-full flex flex-col sm:px-1 md:px-2 lg:px-3  py-3 overflow-scroll sidebar overflow-x-hidden">
         {sideBarData.map((sideBarOptionData, index) => {
           return (
-            index != 15 &&
             index != 16 && (
               <SideBarOption
                 key={sideBarOptionData.name}
@@ -345,8 +344,8 @@ const SideBar: FC = () => {
           );
         })}
       </div>
-      <div className="h-[13%] w-full px-3 pt-1 flex flex-col justify-center border-t border-t-primary ">
-        <SideBarOption
+      <div className="h-[7%] w-full px-3 pt-1 flex flex-col justify-center border-t border-t-primary ">
+        {/* <SideBarOption
           to={sideBarData[15].to}
           icon={sideBarData[15].icon}
           name={sideBarData[15].name}
@@ -357,21 +356,25 @@ const SideBar: FC = () => {
           }
           subOptions={sideBarData[15].subOptions}
           onSideBarOptionClick={sideBarData[15].onSideBarOptionClick}
-        />
+        /> */}
         <div
-          className={`flex flex-row ${
+          className={`flex flex-col  md:flex-row lg:flex-row py-1 ${
             currentActiveSideBarOption == sideBarData[16].name &&
             "bg-primary shadow-md"
-          } h-10 rounded-md items-center content-center hover:cursor-pointer group`}
+          } h-max md:h-10 rounded-md items-center content-center hover:cursor-pointer group py-1 w-max' md:w-full`}
           onClick={() => {
             logout();
           }}
         >
-          <div className="h-full mx-[12px] text-secondary flex justify-start items-center content-center">
+          <div className="h-full sm:hidden' md:block lg:block sm:mx-[1px] md:mx-[5px]  lg:mx-[12px] md:pt-[8px] lg:pt-[8px] mb-1 md:mb-2 flex justify-start items-center content-center">
             {sideBarData[16].icon}
           </div>
-          <div className={`w-full flex flex-row justify-between items-center`}>
-            <p className="md:text-[12px] lg:text-[15px] flex items-center text-black  group-hover:text-black md:hidden' lg:block font-medium">
+          <div
+            className={`w-full flex  justify-center md:justify-start items-center `}
+          >
+            <p
+              className={`text-[10px] sm:text-[10px] md:text-[12px] lg:text-[14px] font-medium flex items-center text-black  group-hover:text-black sm:pl-2 md:block lg:block text-center md:text-left`}
+            >
               {sideBarData[16].name}
             </p>
           </div>

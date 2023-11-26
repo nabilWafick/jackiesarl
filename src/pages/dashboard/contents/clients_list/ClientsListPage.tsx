@@ -32,7 +32,7 @@ const ClientsListPage: FC = () => {
   }, [fetchClientList]);
 
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center content-center mt-14">
+    <div className="h-max w-full flex flex-col justify-center items-center content-center mt-14'">
       <div className="w-full flex flex-row justify-between items-center">
         <ShowStatisticsButton />
         <AddingButton
@@ -42,7 +42,7 @@ const ClientsListPage: FC = () => {
           }}
         />
       </div>
-      <div className="w-full flex justify-end items-center mt-2 content-center">
+      <div className="w-full flex justify-between items-center mt-2 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}

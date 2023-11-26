@@ -40,7 +40,7 @@ const JSDateIntervalDateTimePicker: FC<JSDateIntervalDateTimePickerProps> = ({
           placeholder: placeholder,
 
           className: `w-full text-black text-md rounded-md bg-white py-1.5 px-2 border border-secondary  border-gray-200 focus:outline-none focus:border-2 focus:border-secondary z-0`,
-          autoComplete: "",
+          autoComplete: "off",
         }}
         timeFormat="HH:mm"
         dateFormat="DD-MM-YYYY"

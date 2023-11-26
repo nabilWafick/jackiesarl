@@ -3,9 +3,9 @@ import { DailyPaymentsLineBarChart } from "./charts/DailyPaymentsLineBarChart";
 
 const TransactionChartCard: FC = () => {
   return (
-    <div className="h-full w-1/2 bg-slate-50 p-3 shadow-md rounded-xl courbe">
+    <div className="h-full w-full bg-slate-50 p-3 shadow-md rounded-xl courbe">
       <div className="flex mb-3 justify-between ">
-        <p className="font-medium text-lg">
+        <p className="font-medium text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           Statistique Hebdomadaire des Paiements
         </p>
       </div>

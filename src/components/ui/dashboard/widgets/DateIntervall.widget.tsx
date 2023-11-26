@@ -20,30 +20,37 @@ const DatesIntervall: FC<DatesIntervallProps> = ({
   resetDatesInterval,
 }) => {
   return (
-    <div className="flex justify-between items-center w-full">
-      <div className="w-max my-3 flex px-2 py-1.5 border-2 border-secondary justify-between items-center rounded-md  shadow-sm  date-config">
-        <p className="text-secondary">Période allant </p>
-        <p className="mx-2 text-secondary">du</p>
-
-        <JSDateIntervalDateTimePicker
-          id="startDate"
-          name="startDate"
-          placeholder="Date de début"
-          selectedDateTime={selectedStartDate}
-          onDateChange={onStartDateChange}
-        />
-
-        <p className="mx-2 text-secondary">au</p>
-
-        <JSDateIntervalDateTimePicker
-          id="endDate"
-          name="endDate"
-          placeholder="Date de fin"
-          selectedDateTime={selectedEndDate}
-          onDateChange={onEndDateChange}
-        />
+    <div className="w-max my-3 flex flex' px-2 py-1.5 border-2 border-secondary justify-between items-center rounded-md  shadow-sm  date-config">
+      {/* <p className=" font-medium text-secondary">Période allant</p> */}
+      <div className="flex">
+        <div className="flex flex-col'">
+          <p className="font-medium text-center flex items-center text-secondary mx-2">
+            Du
+          </p>
+          <JSDateIntervalDateTimePicker
+            id="startDate"
+            name="startDate"
+            placeholder="Date de début"
+            selectedDateTime={selectedStartDate}
+            onDateChange={onStartDateChange}
+          />
+        </div>
+        <div className="flex flex-col'">
+          <p className="font-medium text-center flex items-center mx-2 text-secondary">
+            Au
+          </p>
+          <JSDateIntervalDateTimePicker
+            id="endDate"
+            name="endDate"
+            placeholder="Date de fin"
+            selectedDateTime={selectedEndDate}
+            onDateChange={onEndDateChange}
+          />
+        </div>
+      </div>
+      <div className="mt-2">
         <FaHistory
-          className="text-secondary ml-3 mr-2 hover:cursor-pointer"
+          className="text-secondary ml-3 hover:cursor-pointer"
           onClick={() => {
             //    forceUpdate()
             resetDatesInterval();

@@ -5,8 +5,8 @@
 }
 
 .sidebar::-webkit-scrollbar{ 
-width: 7px;
-height: 7px;
+width: 5px;
+height: 5px;
 }
 
 .sidebar::-webkit-scrollbar-track{
