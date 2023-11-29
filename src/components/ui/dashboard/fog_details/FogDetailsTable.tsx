@@ -8,6 +8,7 @@ import { authenticatedEmployee } from "../../../../data/GlobalData";
 import useActivitesDepotStore from "../../../../store/activites_depot/useActivitesDepot.store";
 import FogDetailsUpdate from "../../../form/forms/fog_details_update/FogDetailsUpdate";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
+import "../../../../assets/css/Sidebar.css";
 
 interface FogDetailsTableProps {
   fogDetails: ActivitesDepot[];
@@ -40,9 +41,9 @@ const FogDetailsTable: FC<FogDetailsTableProps> = ({ fogDetails }) => {
       {/* <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2> */}
       <div
         className="
-        flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md"
+        flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar"
       >
-        <table className="table table-striped">
+        <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           <tbody>
             <tr>
               <td className="font-medium">Quantité Avant Vente</td>

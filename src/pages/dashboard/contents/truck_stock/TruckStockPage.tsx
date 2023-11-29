@@ -32,15 +32,14 @@ const TruckStockPage: FC = () => {
 
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="flex  self-end items-center">
-        <AddingButton
-          option="Ajouter un stock de camion"
-          onClick={() => {
-            toggleModal("truck-stock-adding-form");
-          }}
-        />
-      </div>
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+      <AddingButton
+        option="Ajouter un stock de camion"
+        onClick={() => {
+          toggleModal("truck-stock-adding-form");
+        }}
+      />
+
+      <div className="w-full flex flex-row justify-center items-center mt-2 my-3 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}

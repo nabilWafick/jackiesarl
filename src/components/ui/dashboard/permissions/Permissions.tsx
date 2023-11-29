@@ -334,14 +334,14 @@ const permissionsGroupData: PermissionsGroupProps[] = [
         label: "Lire les données d'une banque",
         permission: "lire-solde-courant",
       },
-      /* {
+      {
         label: "Modifier les données d'une banque",
         permission: "modifier-solde-courant",
       },
       {
         label: "Supprimer les données d'une banque",
         permission: "supprimer-solde-courant",
-      },*/
+      },
     ],
   },
   {
@@ -355,14 +355,14 @@ const permissionsGroupData: PermissionsGroupProps[] = [
         label: "Lire les données de l'activité d'une banque",
         permission: "lire-activite-banque",
       },
-      /* {
+      {
         label: "Modifier les données de l'activité d'une banque",
         permission: "modifier-activite-banque",
       },
       {
         label: "Supprimer les données de l'activité d'une banque",
         permission: "supprimer-activite-banque",
-      },*/
+      },
     ],
   },
   {

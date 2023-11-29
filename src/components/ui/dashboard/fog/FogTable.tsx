@@ -9,6 +9,7 @@ import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import FogStockUpdate from "../../../form/forms/fog_stock_increase/FogStockIncrease";
 import FogUpdate from "../../../form/forms/fog_update/FogUpdate";
 import { authenticatedEmployee } from "../../../../data/GlobalData";
+import "../../../../assets/css/Sidebar.css";
 
 interface FogTableProps {
   fogs: Brouillard[];
@@ -32,9 +33,9 @@ const FogTable: FC<FogTableProps> = ({ fogs }) => {
       {/* <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2> */}
       <div
         className="
-          flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md"
+          flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar"
       >
-        <table className="table table-striped">
+        <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           <tbody>
             <tr>
               <td className="font-medium">Dépot</td>

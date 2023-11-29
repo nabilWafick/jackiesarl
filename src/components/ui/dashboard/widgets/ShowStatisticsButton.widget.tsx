@@ -6,7 +6,7 @@ const ShowStatisticsButton: FC = () => {
   return (
     <Link to="/clients/statistiques">
       <div
-        className={`rounded-md shadow-md p-2 border-secondary  border-2 hover:border-2 text-secondary hover:border-secondary flex items-center w-max`}
+        className={`rounded-md shadow-md p-2 border-secondary  border-2 hover:border-2 text-secondary hover:border-secondary flex items-center w-max text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]`}
       >
         <div className="flex items-center font-medium">
           Voir les statistiques

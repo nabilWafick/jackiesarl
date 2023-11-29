@@ -14,7 +14,7 @@ const ClientCard: FC<ClientCardProps> = ({ client }) => {
           <BiUser className="text-secondary" />
         </div>
         <div className="flex flex-col justify-center items-start mx-4">
-          <p className="text-sm">
+          <p className="text-sm text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
             {client.prenoms} {client.nom}
           </p>
           <p className="text-sm">{client.numero_ifu}</p>

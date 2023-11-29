@@ -20,7 +20,6 @@ import {
 import { GiPayMoney, GiReceiveMoney, GiMoneyStack } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import useAuthenticatedEmployeStore from "../../store/authenticated_employe/useAuthenticatedEmploye.store";
-import { useNavigate } from "react-router-dom";
 import { authenticatedEmployee } from "../../data/GlobalData";
 import AuthAPI from "../../api/auth/auth.api";
 import { toggleModal } from "../../components/ui/dashboard/widgets/ToggleModal";
@@ -49,7 +48,7 @@ const SideBar: FC = () => {
     (state) => state.authenticatedEmploye
   );
 
-  const navigateTo = useNavigate();
+  // const navigateTo = useNavigate();
 
   const logout = async () => {
     const response = await AuthAPI.logout(authenticatedEmployee.value!);
@@ -58,7 +57,8 @@ const SideBar: FC = () => {
       authenticatedEmployee.value = undefined;
       localStorage.removeItem("AuthenticatedEmployeStore");
       sessionStorage.clear();
-      navigateTo("/se-connecter");
+      location.reload();
+      //navigateTo("/se-connecter");
     } else {
       setActionResultMessage("Nous avons pas pu vous déconnecter");
       toggleModal("action-result-message");

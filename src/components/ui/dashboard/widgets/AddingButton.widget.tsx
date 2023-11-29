@@ -8,7 +8,7 @@ interface AddingButtonProps {
 
 const AddingButton: FC<AddingButtonProps> = ({ option, onClick }) => {
   return (
-    <div className="w-full flex justify-end items-center hover:cursor-pointer">
+    <div className="w-full flex justify-end items-center hover:cursor-pointer text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
       <div
         className={` rounded-lg shadow-md p-2 border-secondary  border-2 hover:border-2 text-secondary hover:border-secondary flex items-center`}
         onClick={onClick}

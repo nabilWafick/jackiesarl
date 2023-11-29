@@ -31,11 +31,11 @@ import CurrentsBalenceDetailsPage from "../../pages/dashboard/contents/current_b
 import "../../assets/css/Sidebar.css";
 import PaymentsPage from "../../pages/dashboard/contents/payments/PaymentsPage";
 import ExpensesPage from "../../pages/dashboard/contents/expenses/ExpensesPage";
-import FactureMECEFPage from "../../pages/dashboard/contents/factures_mecef/FactureMECEFPage";
+import FactureMECEFPage from "../../pages/dashboard/contents/mecef_bill/MECEFBillPage";
 
 const Main: FC = () => {
   return (
-    <main className="ml-[10vh] sm:ml-[13vh] md:ml-[20vh] lg:ml-[30vh] h-full pt-[14vh] overflow-auto flex justify-center items-center' sidebar bg-white relative px-2.5">
+    <main className="ml-[10vh] sm:ml-[13vh] md:ml-[20vh] lg:ml-[30vh] h-full pt-[14vh] overflow-x-hidden overflow-y-auto  flex justify-center items-center' sidebar bg-white relative px-2.5">
       <Routes>
         <Route path="/" Component={TableBord} />
         <Route path="/search" Component={SearchPage} />

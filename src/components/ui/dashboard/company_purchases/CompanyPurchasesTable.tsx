@@ -8,6 +8,8 @@ import { authenticatedEmployee } from "../../../../data/GlobalData";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import AchatEntrepriseAPI from "../../../../api/achat_entreprise/achat_entreprise.api";
 import CompanyPurchasseUpdate from "../../../form/forms/company_purchase_update/CompanyPurchaseUpdate";
+import "../../../../assets/css/Sidebar.css";
+
 interface CompanyPurchasesTableProps {
   companyPurchases: AchatEntreprise[];
 }
@@ -27,8 +29,8 @@ const CompanyPurchasesTable: FC<CompanyPurchasesTableProps> = ({
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2> */}
-      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
-        <table className="table table-striped ">
+      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar">
+        <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           <tbody>
             <tr>
               <td className="font-medium">Bon de commande</td>

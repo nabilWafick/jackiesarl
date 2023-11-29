@@ -27,10 +27,12 @@ const EmployeeRapportsPage: FC = () => {
   }, [fetchAllOfEmployeeReports]);
 
   return (
-    <div className="flex flex-col justify-center items-center flex-wrap mx-40 ">
-      <p className="text-lg text-center font-medium my-7">Vos rapports</p>
+    <div className="flex flex-col h-full w-full justify-center items-center flex-wrap mx-auto">
+      <p className=" text-center font-medium my-7 text-[16px] sm:text-[17px] md:text-[19px] lg:text-[21px]">
+        Vos rapports
+      </p>
       {authEmployeeReports.length == 0 ? (
-        <div className="flex justify-center items-center text-tableTextColor text-xl font-medium">
+        <div className="flex h-max w-max justify-center items-center text-tableTextColor  font-medium text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           Aucun rapport soumis pour l'instant
         </div>
       ) : (
@@ -66,7 +68,7 @@ const EmployeeRapportsPage: FC = () => {
               </p>
             )}
           </div>
-          <button className="mt-5 font-medium text-lg text-white bg-secondary py-2 px-5 shadow-md rounded-md hover:outline-none focus:outline-none">
+          <button className="mt-5 font-medium  text-white bg-secondary py-2 px-5 shadow-md rounded-md hover:outline-none focus:outline-none text-[16px] sm:text-[17px] md:text-[19px] lg:text-[21px]">
             Uploader un rapport
           </button>
         </form>

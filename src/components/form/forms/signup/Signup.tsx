@@ -51,7 +51,7 @@ const SignupForm: FC<SignupFormProps> = ({
   return (
     <form className="flex" onSubmit={onFormSubmit}>
       <div
-        className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] px-5 py-3
+        className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] px-5 py-3 text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]
         "
       >
         <div className="input-group w-full">

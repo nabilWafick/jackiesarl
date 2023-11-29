@@ -5,6 +5,7 @@ import useClientsStore from "../../../../store/clients/useClients.store";
 import { toggleModal } from "../widgets/ToggleModal";
 import { FaEdit } from "react-icons/fa";
 import ClientUpdate from "../../../form/forms/client_update/ClientUpdate";
+import "../../../../assets/css/Sidebar.css";
 
 interface ClientsTableProps {
   clientsList: Clients[];
@@ -13,8 +14,8 @@ interface ClientsTableProps {
 const ClientsTable: FC<ClientsTableProps> = ({ clientsList }) => {
   const setSelectedClient = useClientsStore((state) => state.setSelectedClient);
   return (
-    <div className="flex flex-col justify-start w-full my-7  border-2 border-primary  rounded-lg shadow-md">
-      <table className="table table-striped">
+    <div className="flex flex-col justify-start w-full my-7  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar ">
+      <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
         <tbody className="">
           <tr>
             <td className="font-medium">Client</td>

@@ -8,6 +8,7 @@ import useClientChecksRemittanceStore from "../../../../store/remise_cheque_clie
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import useClientsStore from "../../../../store/clients/useClients.store";
 import { authenticatedEmployee } from "../../../../data/GlobalData";
+import "../../../../assets/css/Sidebar.css";
 
 interface ClientChecksRemittanceTableProps {
   clientChecksRemittance: RemiseChequeClient[];
@@ -71,8 +72,8 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
-      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
-        <table className="table table-striped ">
+      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar">
+        <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           <tbody>
             <tr>
               <td className="font-medium">Description</td>

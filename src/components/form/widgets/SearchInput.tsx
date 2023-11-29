@@ -14,7 +14,7 @@ const JSSearchInput: FC<JSSearchInputProps> = () => {
       value={searchInputData}
       onChange={onSearchInputDataChange}
       autoComplete="off"
-      className={`w-full h-full shadow-sm rounded-md bg-white border-[2px] border-secondary focus:outline-none focus:border-[3px] px-2 `}
+      className={`w-full h-full flex self-center  shadow-sm rounded-md bg-white border-[2px] border-secondary focus:outline-none focus:border-[3px] px-2 text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]`}
     />
   );
 };

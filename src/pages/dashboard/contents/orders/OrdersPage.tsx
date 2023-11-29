@@ -37,16 +37,15 @@ const OrdersPage: FC = () => {
   }, [fetchAllClientsOrders]);
   return (
     <div className="h-full w-full flex flex-col">
-      <div className="flex self-end items-center">
-        <AddingButton
-          option="Ajouter une commande"
-          onClick={() => {
-            setOrderClient(undefined);
-            toggleModal("order-adding-form");
-          }}
-        />
-      </div>
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+      <AddingButton
+        option="Ajouter une commande"
+        onClick={() => {
+          setOrderClient(undefined);
+          toggleModal("order-adding-form");
+        }}
+      />
+
+      <div className="w-full flex flex-col lg:flex-row justify-between items-center my-2 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}

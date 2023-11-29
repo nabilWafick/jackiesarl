@@ -27,9 +27,11 @@ const ClientBalancePage: FC = () => {
     fetchSoldeClient(selectedClient!.id!);
   }, [fetchSoldeClient, selectedClient]);
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center">
-      <ClientCard client={selectedClient!} />
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+    <div className="h-full w-full flex flex-col ">
+      <div className="flex justify-center mb-5">
+        <ClientCard client={selectedClient!} />
+      </div>
+      <div className="w-full flex flex-col lg:flex-row justify-between items-center my-2 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}

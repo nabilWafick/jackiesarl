@@ -46,17 +46,19 @@ const ClientCheckRemittancePage: FC = () => {
   }, [fetchAllClientChecksRemittance, selectedClient]);
 
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center">
-      <ClientCard client={selectedClient!} />
-      <div className="flex  self-end items-center">
-        <AddingButton
-          option="Ajouter une remise de chèque"
-          onClick={() => {
-            toggleModal("client-check-remittance-adding-form");
-          }}
-        />
+    <div className="h-full w-full flex flex-col">
+      <div className="flex justify-center mb-5">
+        <ClientCard client={selectedClient!} />
       </div>
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+
+      <AddingButton
+        option="Ajouter une remise de chèque"
+        onClick={() => {
+          toggleModal("client-check-remittance-adding-form");
+        }}
+      />
+
+      <div className="w-full flex flex-col lg:flex-row justify-between items-center my-2 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}

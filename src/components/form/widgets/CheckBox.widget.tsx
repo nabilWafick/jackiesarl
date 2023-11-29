@@ -34,7 +34,11 @@ const JSCheckBox: FC<JSCheckBoxProps> = ({ label, permission }) => {
   }, [selectedEmployee, permission]);
 
   return (
-    <div className={`flex flex-col ${permission == "admin" ? "bg-white" : ""}`}>
+    <div
+      className={`flex flex-col ${
+        permission == "admin" ? "bg-white" : ""
+      } text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px]`}
+    >
       <div className={`flex max-h-min`}>
         <input
           style={{ background: "blue", border: "red" }}
@@ -63,7 +67,7 @@ const JSCheckBox: FC<JSCheckBoxProps> = ({ label, permission }) => {
 
               if (response!.status == 200) {
                 setIsGranted(!isGranted);
-                fetchAllEmployes(authenticatedEmploye!);
+                fetchAllEmployes();
                 //    incrementOnce();
               }
             }
@@ -73,7 +77,7 @@ const JSCheckBox: FC<JSCheckBoxProps> = ({ label, permission }) => {
         />
         <label
           htmlFor={`permission-${permission}-checkbox`}
-          className="text-sm ml-3"
+          className="text-sm' ml-3"
         >
           {label}
         </label>

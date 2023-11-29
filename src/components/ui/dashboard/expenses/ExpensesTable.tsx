@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Depenses from "../../../../models/depenses/depenses.model";
 import { FaFile } from "react-icons/fa";
+import "../../../../assets/css/Sidebar.css";
 
 interface ExpensesTableProps {
   expensesList: Depenses[];
@@ -10,8 +11,8 @@ const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <h2 className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</h2> */}
-      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
-        <table className="table table-striped">
+      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar">
+        <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           <tbody>
             <tr>
               {/* <td className="font-medium">Date</td> */}

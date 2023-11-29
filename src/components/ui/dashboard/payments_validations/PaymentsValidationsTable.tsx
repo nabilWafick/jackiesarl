@@ -14,6 +14,7 @@ import PaiementClientAPI from "../../../../api/paiement_client/paiement_client.a
 import PaiementClient from "../../../../models/paiement_client/paiement.model";
 import usePaymentsValidationStore from "../../../../store/paiement_client_validation/usePaiementClientValidation.store";
 import { authenticatedEmployee } from "../../../../data/GlobalData";
+import "../../../../assets/css/Sidebar.css";
 
 interface ClientsPaymentsValidationsTableProps {
   clientsPaymentsValidations: PaiementClient[];
@@ -76,8 +77,8 @@ const ClientsPaymentsValidationsTable: FC<
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
-      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
-        <table className="table table-striped ">
+      <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar">
+        <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
           <tbody>
             <tr>
               <td className="font-medium">Client</td>

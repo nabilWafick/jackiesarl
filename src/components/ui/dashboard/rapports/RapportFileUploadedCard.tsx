@@ -22,14 +22,14 @@ const RapportFileUploadedCard: FC<RapportFileUploadedCardProps> = ({
   });
 
   return (
-    <div className="h-[75 px] w-52 p-2 flex flex-row bg-white justify-center  items-center content-between my-3 shadow-md mx-2">
+    <div className="h-[75 px] w-52 p-2 flex flex-row bg-white justify-center  items-center content-between my-3 shadow-md mx-2 text-[10px] sm:text-[10px] md:text-[11px] lg:text-[12px]">
       <FaFileUpload
         className="mr-2 shadow-sm flex self-start text-primary shad"
         size={65}
       />
       <div className="h-full  flex flex-col justify-between content-between">
-        <h2 className=" text-sm font-semibold">Rapport uploadé</h2>
-        <h3 className="text-xs my-1 font-light">le {date_envoi}</h3>
+        <h2 className=" text-sm' font-semibold">Rapport uploadé</h2>
+        <h3 className="text-xs' my-1 font-light">le {date_envoi}</h3>
         <a
           className="flex items-center hover:cursor-pointer"
           // href="https://images.freeimages.com/images/large-previews/add/golden-gate-1471075.jpg"
@@ -37,7 +37,7 @@ const RapportFileUploadedCard: FC<RapportFileUploadedCardProps> = ({
           target="_blank"
           download={true}
         >
-          <div className=" bg-secondary text-white text-[10px] px-[10px] py-[3px] hover:border-none rounded-sm">
+          <div className=" bg-secondary text-white text-[10px]' px-[10px] py-[3px] hover:border-none rounded-sm">
             Afficher
           </div>
         </a>

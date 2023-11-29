@@ -58,7 +58,13 @@ const FogDetailsPage: FC = () => {
       <div className="p-2 my-2 bg-secondary text-white rounded-md shadow-md   w-max">
         {selectedBrouillard!.depot}
       </div>
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+      <AddingButton
+        option="Ajouter une vente"
+        onClick={() => {
+          toggleModal("fog-details-adding-form");
+        }}
+      />
+      <div className="w-full flex flex-col lg:flex-row justify-center items-center my-2 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}
@@ -74,12 +80,6 @@ const FogDetailsPage: FC = () => {
             { value: "decreasing", label: "Ordre décroissant" },
           ]}
         /> */}
-        <AddingButton
-          option="Ajouter une vente"
-          onClick={() => {
-            toggleModal("fog-details-adding-form");
-          }}
-        />
 
         <FogDetailsAdding sale="" payment="" expense="" observation="" />
         <ActionResult />

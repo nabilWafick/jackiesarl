@@ -8,6 +8,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import useInterfacesStore from "../../../../store/interfaces/useInfacesStore";
 import BankUpdate from "../../../form/forms/bank_update/BankUpdate";
 import SoldeCourantAPI from "../../../../api/solde_courant/solde_courant.api";
+import "../../../../assets/css/Sidebar.css";
 
 interface BankAccountTableProps {
   bankAccountList: SoldeCourant[];
@@ -29,8 +30,8 @@ const BankAccountTable: FC<BankAccountTableProps> = ({ bankAccountList }) => {
   );
 
   return (
-    <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md">
-      <table className="table table-striped">
+    <div className="flex flex-col justify-start w-full my-3  border-2 border-primary  rounded-lg shadow-md overflow-auto sidebar">
+      <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
         <tbody>
           <tr>
             <td className="font-medium">Banque</td>

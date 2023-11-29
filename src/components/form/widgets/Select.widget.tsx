@@ -22,7 +22,7 @@ const JSSelect: FC<JSSelectProps> = ({
 }) => {
   return (
     <select
-      className="p-3 bg-secondary rounded-md text-white border border-gray-200 outline-none"
+      className="p-3 bg-secondary rounded-md text-white border border-gray-200 outline-none text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]"
       name={name}
       id={id}
       value={selectedOption}

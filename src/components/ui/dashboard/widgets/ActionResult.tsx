@@ -15,7 +15,7 @@ const ActionResult: FC = () => {
 
   return (
     <Modal label="action-result-message">
-      <div className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl">
+      <div className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
         <div className="p-2 mt-1 mb-4 rounded-md shadow-sm bg-secondary text-white">
           Résultat
         </div>

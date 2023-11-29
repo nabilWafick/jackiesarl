@@ -46,8 +46,10 @@ const ClientPurchasesPage: FC = () => {
   }, [navigateTo, fetchAllClientPurchases, selectedClient]);
 
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center content-center">
-      <ClientCard client={selectedClient!} />
+    <div className="h-full w-full flex flex-col ">
+      <div className="flex justify-center mb-5">
+        <ClientCard client={selectedClient!} />
+      </div>
       <div className="flex  self-end items-center">
         <AddingButton
           option="Ajouter un achat"
@@ -56,7 +58,7 @@ const ClientPurchasesPage: FC = () => {
           }}
         />
       </div>
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+      <div className="w-full flex flex-col lg:flex-row justify-between items-center my-2 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}

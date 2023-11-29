@@ -41,7 +41,7 @@ const DebtsListPage: FC = () => {
         </Link>
       </div> */}
 
-      <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
+      <div className="w-full flex flex-col lg:flex-row justify-between items-center my-2 content-center">
         <DateIntervall
           selectedStartDate={startDate}
           selectedEndDate={endDate}

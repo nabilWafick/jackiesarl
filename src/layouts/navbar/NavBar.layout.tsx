@@ -17,7 +17,7 @@ const NavBar: FC = () => {
           className=" object-contain flex items-center"
         />
       </div>
-      <div className="main-input h-12 w-full mx-7 sm:mx-8 md:mx-10 lg:mx-14 flex  items-center shadow-md opacity-100 bg-white">
+      <div className="main-input h-12 w-full mx-7 sm:mx-8 md:mx-10 lg:mx-14 flex  items-center shadow-md opacity-100 ">
         <JSSearchInput />
       </div>
       <div className="actions flex flex-row items-center text-5 sm:text-7 md:text-10 lg:text-12">

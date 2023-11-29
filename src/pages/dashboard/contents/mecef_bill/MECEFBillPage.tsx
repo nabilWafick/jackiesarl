@@ -31,27 +31,25 @@ const FactureMECEFPage: FC = () => {
   }, [fetchAllClientsBill]);
 
   return (
-    <div className="flex h-full w-full ">
-      <div className="h-full w-full flex flex-col justify-center' items-center content-center">
-        <div className="flex  self-end items-center">
-          <AddingButton
-            option="Ajouter une facture"
-            onClick={() => {
-              setIsUpdate(false);
-              toggleModal("sales-without-bill");
-            }}
-          />
-        </div>
-        <div className="w-full flex flex-row justify-between items-center mt-2 my-3 content-center">
-          <DateIntervall
-            selectedStartDate={startDate}
-            selectedEndDate={endDate}
-            onStartDateChange={onStartDateChange}
-            onEndDateChange={onEndDateChange}
-            resetDatesInterval={resetDatesInterval}
-          />
+    <div className="h-full w-full flex flex-col ">
+      <AddingButton
+        option="Ajouter une facture"
+        onClick={() => {
+          setIsUpdate(false);
+          toggleModal("sales-without-bill");
+        }}
+      />
 
-          {/* <JSSelect
+      <div className="w-full flex flex-col lg:flex-row justify-center items-center my-2 content-center">
+        <DateIntervall
+          selectedStartDate={startDate}
+          selectedEndDate={endDate}
+          onStartDateChange={onStartDateChange}
+          onEndDateChange={onEndDateChange}
+          resetDatesInterval={resetDatesInterval}
+        />
+
+        {/* <JSSelect
             id="clients-select"
             name="clients-select"
             selectedOption={selectedSortOption}
@@ -80,19 +78,11 @@ const FactureMECEFPage: FC = () => {
             onChange={onSelectedSetOptionChange}
           /> */}
 
-          {/* <ClientPurchaseAdding
-            quantity=""
-            amount=""
-            ctpNumber=""
-            slip=""
-            bcNumber=""
-          /> */}
-          <ActionResult />
-        </div>
-        <MECEFBillTable billList={facturesMECEF} />
-        <SalesWithoutBillTable />
-        <MECEFBillAdding reference="" file={""} billDate={undefined} />
+        <ActionResult />
       </div>
+      <MECEFBillTable billList={facturesMECEF} />
+      <SalesWithoutBillTable />
+      <MECEFBillAdding reference="" file={""} billDate={undefined} />
     </div>
   );
 };

@@ -20,7 +20,7 @@ const SelectedEmployeeCard: FC<SelectedEmployeeCardProps> = ({ employee }) => {
         selectedEmployee != undefined && employee.id! == selectedEmployee!.id!
           ? "bg-primary"
           : "bg-white"
-      }  content-center shadow-md items-center my-3`}
+      }  content-center shadow-md items-center m-2 text-[10px] sm:text-[10px] md:text-[11px] lg:text-[12px]`}
       onClick={() => {
         setSelectedEmployee(employee);
       }}
@@ -29,8 +29,8 @@ const SelectedEmployeeCard: FC<SelectedEmployeeCardProps> = ({ employee }) => {
         <ProfileCard height={60} width={60} iconSize={20} />
       </div>
       <div className="mr-2">
-        <p className=" text-xs mb-1">{employee.role}</p>
-        <p className="text-xs font-bold">
+        <p className=" text-xs' mb-1">{employee.role}</p>
+        <p className="text-xs' font-bold">
           {employee.prenoms} {employee.nom}
         </p>
       </div>
