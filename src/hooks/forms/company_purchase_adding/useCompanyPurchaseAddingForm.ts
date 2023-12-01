@@ -110,8 +110,7 @@ const useCompanyPurchaseAddingForm = ({
     if (!formData.bcNumber.trim()) {
       errors.bcNumber = "Le numéro de bon de commande est requis";
     } else {
-      const valeurNumériqueBcNumber = parseFloat(formData.bcNumber);
-      if (isNaN(valeurNumériqueBcNumber)) {
+      if (!/^\d*$/.test(formData.bcNumber)) {
         errors.bcNumber =
           "Le numéro de bon de commande doit être un nombre valide.";
       }
@@ -128,10 +127,7 @@ const useCompanyPurchaseAddingForm = ({
     if (!formData.purchasedQuantity.trim()) {
       errors.purchasedQuantity = "La quantité achetée est requise";
     } else {
-      const valeurNumeriquePurchasedQuantity = parseFloat(
-        formData.purchasedQuantity
-      );
-      if (isNaN(valeurNumeriquePurchasedQuantity)) {
+      if (!/^\d*$/.test(formData.purchasedQuantity)) {
         errors.purchasedQuantity =
           "La quantité achetée doit être un nombre valide.";
       }
@@ -141,8 +137,7 @@ const useCompanyPurchaseAddingForm = ({
     if (!formData.amount.trim()) {
       errors.amount = "Le amount est requis";
     } else {
-      const valeurNumériqueamount = parseFloat(formData.amount);
-      if (isNaN(valeurNumériqueamount)) {
+      if (!/^\d*$/.test(formData.amount)) {
         errors.amount = "Le amount doit être un nombre valide.";
       }
     }
@@ -160,8 +155,7 @@ const useCompanyPurchaseAddingForm = ({
     } else if (formData.check.trim().length < 10) {
       errors.check = "Le numéro de chèque doit comporter 10 chiffres";
     } else {
-      const valeurCheck = parseFloat(formData.check);
-      if (isNaN(valeurCheck)) {
+      if (!/^\d{10}$/.test(formData.check)) {
         errors.check = "Le numéro de chèque doit être un nombre valide.";
       }
     }
