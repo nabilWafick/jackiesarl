@@ -85,8 +85,7 @@ const useBankAddingForm = ({
     if (!formData.currentBalence.trim()) {
       errors.currentBalence = "Le solde actuel est requis";
     } else {
-      const numericValue = parseFloat(formData.currentBalence);
-      if (isNaN(numericValue)) {
+      if (!/^\d*$/.test(formData.currentBalence)) {
         errors.currentBalence = "Le solde actuel doit être un nombre valide.";
       }
     }

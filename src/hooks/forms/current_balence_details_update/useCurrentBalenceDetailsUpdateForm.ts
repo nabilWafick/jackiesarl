@@ -95,8 +95,7 @@ const useCurrentBalenceDetailsUpdateForm = (
     if (!formData.debit.trim()) {
       errors.debit = "La valeur du débit est requise";
     } else {
-      const valeurNumériqueDebit = parseFloat(formData.debit);
-      if (isNaN(valeurNumériqueDebit)) {
+      if (!/^\d*$/.test(formData.debit)) {
         errors.debit = "La valeur du débit doit être un nombre valide.";
       }
     }
@@ -105,14 +104,13 @@ const useCurrentBalenceDetailsUpdateForm = (
     if (!formData.credit.trim()) {
       errors.credit = "La valeur du crédit est requise";
     } else {
-      const valeurNumériqueCredit = parseFloat(formData.credit);
-      if (isNaN(valeurNumériqueCredit)) {
+      if (!/^\d*$/.test(formData.credit)) {
         errors.credit = "La valeur du crédit doit être un nombre valide.";
       }
     }
 
     // Validation pour currentBalence (nombre)
-    if (!formData.currentBalence.trim()) {
+    /* if (!formData.currentBalence.trim()) {
       errors.currentBalence = "La valeur du solde actuel est requise";
     } else {
       const valeurNumériqueCurrentBalence = parseFloat(formData.currentBalence);
@@ -120,7 +118,8 @@ const useCurrentBalenceDetailsUpdateForm = (
         errors.currentBalence =
           "La valeur du solde actuel doit être un nombre valide.";
       }
-    }
+    }*/
+
     setFormErrors(errors);
 
     return (

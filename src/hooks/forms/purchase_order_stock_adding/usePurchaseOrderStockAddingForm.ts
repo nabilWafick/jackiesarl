@@ -83,7 +83,7 @@ FormData) => {
 
     if (!formData.bcNumber.trim()) {
       errors.bcNumber = "Le bon de commande est requis";
-    } else if (isNaN(Number(formData.bcNumber.trim()))) {
+    } else if (!/^\d*$/.test(formData.bcNumber)) {
       errors.bcNumber = "Le bon de commande n'est pas acceptable";
     }
 
@@ -104,7 +104,7 @@ FormData) => {
     // Validation pour initialStock (chaîne de caractères)
     if (!formData.initialStock.trim()) {
       errors.initialStock = "Le stock initial est requis";
-    } else if (isNaN(Number(formData.initialStock.trim()))) {
+    } else if (!/^\d*$/.test(formData.initialStock)) {
       errors.initialStock = "Le stock initial n'est pas acceptable";
     }
 

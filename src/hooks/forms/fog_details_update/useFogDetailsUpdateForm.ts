@@ -116,8 +116,7 @@ const useFogDetailsUpdateForm = (
     if (!formData.sale.trim()) {
       errors.sale = "La valeur de la vente est requise";
     } else {
-      const valeurNumeriqueSale = parseFloat(formData.sale);
-      if (isNaN(valeurNumeriqueSale)) {
+      if (!/^\d*$/.test(formData.sale)) {
         errors.sale = "La valeur de la vente doit être un nombre valide.";
       }
     }
@@ -140,8 +139,7 @@ const useFogDetailsUpdateForm = (
     if (!formData.payment.trim()) {
       errors.payment = "La valeur du versement est requise";
     } else {
-      const valeurNumeriquePayment = parseFloat(formData.payment);
-      if (isNaN(valeurNumeriquePayment)) {
+      if (!/^\d*$/.test(formData.payment)) {
         errors.payment = "La valeur du versement doit être un nombre valide.";
       }
     }
@@ -150,8 +148,7 @@ const useFogDetailsUpdateForm = (
     if (!formData.expense.trim()) {
       errors.expense = "La valeur de la dépense est requise";
     } else {
-      const valeurNumeriqueExpense = parseFloat(formData.expense);
-      if (isNaN(valeurNumeriqueExpense)) {
+      if (!/^\d*$/.test(formData.expense)) {
         errors.expense = "La valeur de la dépense doit être un nombre valide.";
       }
     }

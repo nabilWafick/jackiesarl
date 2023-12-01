@@ -106,8 +106,7 @@ const useClientCheckRemittanceUpdateForm = (
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
     } else {
-      const numericAmount = parseFloat(formData.amount);
-      if (isNaN(numericAmount)) {
+      if (!/^\d*$/.test(formData.amount)) {
         errors.amount = "Le montant doit être un nombre valide.";
       }
     }
@@ -115,8 +114,7 @@ const useClientCheckRemittanceUpdateForm = (
     if (!formData.rest.trim()) {
       errors.rest = "Le reste est requis";
     } else {
-      const numericRest = parseFloat(formData.rest);
-      if (isNaN(numericRest)) {
+      if (!/^\d*$/.test(formData.rest)) {
         errors.rest = "Le reste doit être un nombre valide.";
       }
     }

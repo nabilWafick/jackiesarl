@@ -98,8 +98,7 @@ const useClientPurchaseAddingForm = ({
     if (!formData.quantity.trim()) {
       errors.quantity = "La quantité est requise";
     } else {
-      const numericQuantity = parseFloat(formData.quantity);
-      if (isNaN(numericQuantity)) {
+      if (!/^\d*$/.test(formData.quantity)) {
         errors.quantity = "La quantité doit être un nombre valide.";
       }
     }
@@ -117,8 +116,7 @@ const useClientPurchaseAddingForm = ({
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
     } else {
-      const numericAmount = parseFloat(formData.amount);
-      if (isNaN(numericAmount)) {
+      if (!/^\d*$/.test(formData.amount)) {
         errors.amount = "Le montant doit être un nombre valide.";
       }
     }
@@ -140,13 +138,12 @@ const useClientPurchaseAddingForm = ({
       "image/jpg",
       "image/jpeg",
       "application/pdf",
-      "application/msword",
     ];
     if (
       typeof formData.slip != "string" &&
       !allowedFileTypes.includes(formData.slip.type)
     ) {
-      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
+      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG ou PDF";
     }
     // }
 

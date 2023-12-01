@@ -138,8 +138,7 @@ const useOrderAddingForm = ({
     if (!formData.quantity.trim()) {
       errors.quantity = "La quantité est requise";
     } else {
-      const numValue = Number(quantity);
-      if (isNaN(numValue)) {
+      if (!/^\d*$/.test(formData.quantity)) {
         errors.quantity = "La quantité doit être un nombre";
       }
     }

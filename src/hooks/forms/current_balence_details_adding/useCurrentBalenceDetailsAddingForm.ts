@@ -93,19 +93,17 @@ FormData) => {
       errors.credit = "La valeur du crédit ou débit est requise";
       errors.debit = "La valeur du crédit ou débit est requise";
     } else {
-      const valeurNumeriqueDebit = parseFloat(formData.debit);
-      if (formData.debit.trim() && isNaN(valeurNumeriqueDebit)) {
+      // const valeurNumeriqueDebit = parseFloat(formData.debit);
+      if (formData.debit.trim() && !/^\d*$/.test(formData.debit)) {
         errors.debit = "La valeur du débit doit être un nombre valide.";
-      } else if (valeurNumeriqueDebit == 0) {
+      } else if (parseInt(formData.debit) == 0) {
         errors.debit = "La valeur du débit doit être différent de 0.";
       }
 
       // Validation pour credit (nombre)
-
-      const valeurNumeriqueCredit = parseFloat(formData.credit);
-      if (formData.credit.trim() && isNaN(valeurNumeriqueCredit)) {
+      if (formData.credit.trim() && !/^\d*$/.test(formData.credit)) {
         errors.credit = "La valeur du crédit doit être un nombre valide.";
-      } else if (valeurNumeriqueCredit == 0) {
+      } else if (parseInt(formData.credit) == 0) {
         errors.credit = "La valeur du crédit doit être différent de 0.";
       }
     }

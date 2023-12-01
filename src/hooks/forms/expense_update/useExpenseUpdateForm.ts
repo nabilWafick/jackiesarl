@@ -98,8 +98,7 @@ const useExpenseUpdateForm = (
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
     } else {
-      const numericValue = parseFloat(formData.amount);
-      if (isNaN(numericValue)) {
+      if (!/^\d*$/.test(formData.amount)) {
         errors.amount = "Le montant doit être un nombre valide.";
       }
     }

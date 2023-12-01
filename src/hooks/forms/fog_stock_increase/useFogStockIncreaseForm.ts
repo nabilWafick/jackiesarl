@@ -65,8 +65,7 @@ const useFogAddingForm = (
     if (!formData.newStock.trim()) {
       errors.newStock = "Le stock à ajouter actuel n'est pas acceptable";
     } else {
-      const valeurNumeriquenewStock = parseFloat(formData.newStock);
-      if (isNaN(valeurNumeriquenewStock)) {
+      if (!/^\d*$/.test(formData.newStock)) {
         errors.newStock = "Le stock à ajouter doit être un nombre valide.";
       }
     }

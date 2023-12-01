@@ -113,8 +113,7 @@ const useClientPaymentUpdateForm = (
     if (!formData.bcNumber.trim()) {
       errors.bcNumber = "Le bon de commande est requis";
     } else {
-      const numericBcNumber = parseFloat(formData.bcNumber);
-      if (isNaN(numericBcNumber)) {
+      if (!/^\d*$/.test(formData.bcNumber)) {
         errors.bcNumber = "Le bon de commande doit être un nombre valide.";
       }
     }
@@ -128,8 +127,7 @@ const useClientPaymentUpdateForm = (
     if (!formData.amount.trim()) {
       errors.amount = "Le montant est requis";
     } else {
-      const numericAmount = parseFloat(formData.amount);
-      if (isNaN(numericAmount)) {
+      if (!/^\d*$/.test(formData.amount)) {
         errors.amount = "Le montant doit être un nombre valide.";
       }
     }
@@ -154,13 +152,12 @@ const useClientPaymentUpdateForm = (
       "image/jpg",
       "image/jpeg",
       "application/pdf",
-      "application/msword",
     ];
     if (
       typeof formData.slip != "string" &&
       !allowedFileTypes.includes(formData.slip.type)
     ) {
-      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG, PDF ou Word.";
+      errors.slip = "Le type de fichier doit être PNG, JPG, JPEG ou PDF";
     }
 
     setFormErrors(errors);

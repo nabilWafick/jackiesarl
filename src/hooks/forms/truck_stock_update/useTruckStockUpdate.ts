@@ -109,14 +109,14 @@ const useTruckStockUpdateForm = (
     // Validation pour bcNumber (nombre)
     if (!formData.bcNumber.trim()) {
       errors.bcNumber = "Le bon de commande est requis";
-    } else if (isNaN(Number(formData.bcNumber.trim()))) {
+    } else if (!/^\d*$/.test(formData.bcNumber)) {
       errors.bcNumber = "Le bon de commande doit être un nombre valide";
     }
 
     // Validation pour quantity (nombre)
     if (!formData.quantity.trim()) {
       errors.quantity = "La quantité est requise";
-    } else if (isNaN(Number(formData.quantity.trim()))) {
+    } else if (!/^\d*$/.test(formData.quantity)) {
       errors.quantity = "La quantité doit être un nombre valide";
     }
 

@@ -78,8 +78,7 @@ const useFogUpdateForm = (
     if (!formData.currentStock.trim()) {
       errors.currentStock = "Le stock actuel n'est pas acceptable";
     } else {
-      const valeurNumeriqueCurrentStock = parseFloat(formData.currentStock);
-      if (isNaN(valeurNumeriqueCurrentStock)) {
+      if (!/^\d*$/.test(formData.currentStock)) {
         errors.currentStock = "Le stock actuel doit être un nombre valide.";
       }
     }
