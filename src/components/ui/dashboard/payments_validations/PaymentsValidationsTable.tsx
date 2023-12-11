@@ -88,6 +88,7 @@ const ClientsPaymentsValidationsTable: FC<
               <td className="font-medium">Categorie </td>
               <td className="font-medium">Bon de commande </td>
               <td className="font-medium">Bordereau</td>
+              <td className="font-medium">Date de paiement</td>
               <td></td>
               <td></td>
               <td></td>
@@ -114,10 +115,20 @@ const ClientsPaymentsValidationsTable: FC<
                       href={clientsPaymentValidation.bordereau as string}
                       target="_blank"
                       download={true}
+                      className="flex justify-center self-center"
                     >
                       <FaFile className="text-secondary" onClick={() => {}} />
                     </a>
                   )}
+                </td>
+                <td>
+                  {new Date(
+                    clientsPaymentValidation.date_paiement!
+                  )!.toLocaleDateString("fr-FR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </td>
                 <td className="w-min">
                   {clientsPaymentValidation.est_valide == 1 ? (

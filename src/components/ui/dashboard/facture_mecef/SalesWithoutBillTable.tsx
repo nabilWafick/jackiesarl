@@ -24,7 +24,7 @@ const SalesWithoutBillTable: FC = () => {
 
   return (
     <Modal label="sales-without-bill">
-      <div className="flex flex-row justify-between items-start w-max bg-white pl-7">
+      <div className="flex flex-row justify-between items-start w-max pl-7">
         <div className="flex flex-col justify-start w-full my-3 border-2 border-primary  rounded-lg shadow-md ">
           <table className="table table-striped text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
             <tbody>
@@ -36,6 +36,7 @@ const SalesWithoutBillTable: FC = () => {
                 <td className="font-medium">Montant</td>
                 <td className="font-medium">Numéro CTP</td>
                 <td className="font-medium">Bordereau </td>
+                <td className="font-medium">Date de vente</td>
                 <td className="font-medium"></td>
               </tr>
               {purchasesWithoutBill.map((purchaseWithoutBill, index) => {
@@ -64,6 +65,7 @@ const SalesWithoutBillTable: FC = () => {
                           href={purchaseWithoutBill.bordereau as string}
                           target="_blank"
                           download={true}
+                          className="flex justify-center self-center"
                         >
                           <FaFile
                             className="text-secondary"
@@ -74,6 +76,15 @@ const SalesWithoutBillTable: FC = () => {
                           />
                         </a>
                       )}
+                    </td>
+                    <td>
+                      {new Date(
+                        purchaseWithoutBill.date_achat!
+                      )!.toLocaleDateString("fr-FR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </td>
                     <td>
                       <FaPlusCircle

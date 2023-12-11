@@ -106,10 +106,10 @@ const TableBord: FC = () => {
       </div>
 
       <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row justify-between items-center h-max w-full sm:h-max sm:w-3/4 md:h-max md:w-3/4 lg:h-[370px] lg:w-full my-2">
-        <div className="h-[280px] w-full sm:h-[320px] sm:w-full md:h-[370px] md:w-full lg:w-1/2 md:mr-0 lg:mr-2 my-2 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 shadow-md">
+        <div className="h-[280px] w-full sm:h-[320px] sm:w-full md:h-[370px] md:w-full lg:w-1/2 md:mr-0 lg:mr-2 my-2 rounded-md pt-5 pb-2 pr-5 pl-5 shadow-md">
           <DailySalesLineBarChart />
         </div>
-        <div className="h-[280px] w-full sm:h-[320px] sm:w-full md:h-[370px] md:w-full lg:w-1/2 ml-1.5 my-1.5 rounded-md bg-slate-50 pt-5 pb-2 pr-5 pl-5 md:mr-0 lg:mr-2 shadow-md">
+        <div className="h-[280px] w-full sm:h-[320px] sm:w-full md:h-[370px] md:w-full lg:w-1/2 ml-1.5 my-1.5 rounded-md pt-5 pb-2 pr-5 pl-5 md:mr-0 lg:mr-2 shadow-md">
           <DailySalesQuantityLineBarChart />
         </div>
       </div>

@@ -3,7 +3,7 @@ import { DailyAvailableStockVerticalBarChart } from "../../../../components/ui/d
 const StockChartsPage = () => {
   return (
     <div className="h-full w-full flex ">
-      <div className="h-[500px] w-full my-16 flex justify-center object-cover">
+      <div className="h-[400px] w-full  flex justify-center ">
         <DailyAvailableStockVerticalBarChart />
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { FC } from "react";
 import AchatClient from "../../../../models/achat_client/achat_client.model";
 import "../../../../assets/css/Sidebar.css";
+import { FaFile } from "react-icons/fa";
 
 interface SalesTableProps {
   sales: AchatClient[];
@@ -19,6 +20,8 @@ const SalesTable: FC<SalesTableProps> = ({ sales }) => {
               <td className="font-medium">Montant</td>
               <td className="font-medium">Bon de Commande</td>
               <td className="font-medium">Categorie</td>
+              <td className="font-medium">Bordereau</td>
+              <td className="font-medium">Date de vente</td>
             </tr>
 
             {sales.map((sale) => {
@@ -36,6 +39,33 @@ const SalesTable: FC<SalesTableProps> = ({ sales }) => {
                   </td>
                   <td>{sale.numero_bc}</td>
                   <td>{sale.categorie}</td>
+                  <td>
+                    {sale.bordereau == "" ? (
+                      ""
+                    ) : (
+                      <a
+                        href={sale.bordereau as string}
+                        target="_blank"
+                        download={true}
+                        className="flex justify-center self-center"
+                      >
+                        <FaFile
+                          className="text-secondary"
+                          onClick={() => {
+                            //  setFileLink(sale.bordereau as string);
+                            //  toggleModal("file-shower");
+                          }}
+                        />
+                      </a>
+                    )}
+                  </td>
+                  <td>
+                    {new Date(sale.date_achat!)!.toLocaleDateString("fr-FR", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </td>
                 </tr>
               );
             })}

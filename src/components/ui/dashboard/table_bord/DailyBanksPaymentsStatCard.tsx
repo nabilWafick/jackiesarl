@@ -25,7 +25,7 @@ const DailyBanksPaymentsStatCard: FC = () => {
 
   return (
     <div
-      className={`h-[700px] md:h-full lg:h-full w-full sm:w-full md:w-full lg:w-1/3 bg-slate-50 my-4  lg:my-0 ml-0 sm:ml-0 md:ml-0 lg:ml-1.5 p-3 doughnut shadow-md rounded-lg `}
+      className={`h-[700px] md:h-full lg:h-full w-full sm:w-full md:w-full lg:w-1/3  my-4  lg:my-0 ml-0 sm:ml-0 md:ml-0 lg:ml-1.5 p-3 doughnut shadow-md rounded-lg `}
     >
       <div className="flex mb-3 justify-between text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] ">
         <p className="font-medium">Paiements Bancaires</p>

@@ -6,7 +6,7 @@ import Auth from "../auth/Auth";
 const LoginPage: FC = () => {
   return (
     <Auth needAuth={false}>
-      <div className=" h-screen w-screen flex items-center justify-center content-center">
+      <div className=" h-screen w-screen flex items-center justify-center content-center bg-backgroundColor">
         <div className="w-[350px] shadow-lg flex flex-col p-7 rounded-sm">
           <h3 className="text-bold text-[24px] sm:text-[26px] md:text-[28px] lg:text-[30px] mb-7 flex justify-center text-center text-black">
             Se connecter

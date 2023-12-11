@@ -10,7 +10,7 @@ const CompanyDailyPurchasesStatCard: FC = () => {
 
   return (
     <div
-      className={`h-[500px] w-full sm:h-[500px] sm:w-full  md:h-[400px] md:w-full lg:h-full  lg:w-1/2 mt-4 lg:mt-0 bg-slate-50 md:ml-0 lg:ml-1.5 p-3 doughnut shadow-md rounded-lg `}
+      className={`h-[500px] w-full sm:h-[500px] sm:w-full  md:h-[400px] md:w-full lg:h-full  lg:w-1/2 mt-4 lg:mt-0 md:ml-0 lg:ml-1.5 p-3 doughnut shadow-md rounded-lg `}
     >
       <div className="flex mb-3 justify-between text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] ">
         <p className="font-medium ">Achat Entreprise</p>

@@ -8,13 +8,6 @@ interface ClientsPaymentsTableProps {
 }
 
 const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
-  const openSlipFile = (file: string) => {
-    try {
-      window.open(file, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div className="flex flex-col justify-start w-full ">
       {/* <p className=" text-sm my-3 p-2 bg-primary w-max">01-04-2025</p> */}
@@ -29,6 +22,7 @@ const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
               <td className="font-medium">Categorie </td>
               <td className="font-medium">Bon de commande </td>
               <td className="font-medium">Bordereau</td>
+              <td className="font-medium">Date de paiement</td>
             </tr>
             {clientsPayments.map((clientsPayment) => {
               if (clientsPayment.est_valide == 1) {
@@ -45,17 +39,35 @@ const PaymentsTable: FC<ClientsPaymentsTableProps> = ({ clientsPayments }) => {
                     <td>{clientsPayment.reference}</td>
                     <td>{clientsPayment.categorie}</td>
                     <td>{clientsPayment.numero_bc}</td>
+
                     <td>
                       {clientsPayment.bordereau == "" ? (
                         ""
                       ) : (
-                        <FaFile
-                          className="text-secondary"
-                          onClick={() =>
-                            openSlipFile(clientsPayment.bordereau.toString())
-                          }
-                        />
+                        <a
+                          href={clientsPayment.bordereau as string}
+                          target="_blank"
+                          download={true}
+                          className="flex justify-center self-center"
+                        >
+                          <FaFile
+                            className="text-secondary"
+                            onClick={() => {
+                              //  setFileLink(clientsPayment.bordereau as string);
+                              //  toggleModal("file-shower");
+                            }}
+                          />
+                        </a>
                       )}
+                    </td>
+                    <td>
+                      {new Date(
+                        clientsPayment.date_paiement!
+                      )!.toLocaleDateString("fr-FR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </td>
                   </tr>
                 );

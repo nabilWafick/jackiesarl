@@ -1,5 +1,4 @@
 //import "./assets/css/App.css";
-import "./assets/css/Sidebar.css";
 import { Route, Routes } from "react-router-dom";
 import SplashPage from "./pages/splash/SplashPage";
 import LoginPage from "./pages/login/LoginPage";
@@ -13,7 +12,7 @@ const App: FC = () => {
   // const [count, setCount] = useState(0);
 
   return (
-    <div className=" h-screen w-screen flex justify-center items-center sidebar">
+    <div className=" h-screen w-screen flex justify-center items-center sidebar bg-backgroundColor">
       <Routes>
         <Route path="/jackie-sarl" Component={SplashPage} />
         <Route path="/creer-un-compte" Component={SignupPage} />

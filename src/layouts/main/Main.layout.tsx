@@ -35,7 +35,7 @@ import FactureMECEFPage from "../../pages/dashboard/contents/mecef_bill/MECEFBil
 
 const Main: FC = () => {
   return (
-    <main className="ml-[10vh] sm:ml-[13vh] md:ml-[20vh] lg:ml-[30vh] h-full pt-[14vh] overflow-x-hidden overflow-y-auto  flex justify-center items-center' sidebar bg-white relative px-2.5">
+    <main className="ml-[10vh] sm:ml-[13vh] md:ml-[20vh] lg:ml-[30vh] h-full pt-[14vh] overflow-x-hidden overflow-y-auto  flex justify-center items-center' sidebar relative px-2.5">
       <Routes>
         <Route path="/" Component={TableBord} />
         <Route path="/search" Component={SearchPage} />

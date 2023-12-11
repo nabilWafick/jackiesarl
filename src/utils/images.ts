@@ -6,14 +6,12 @@ import comptable from "./../assets/images/comptable.png";
 import secretaire from "./../assets/images/secretaire.png";
 import autres from "./../assets/images/autres.png";
 
-export  const JSImages={
-    logo:logo,
-    administrateur:administrateur,
-    chargeClientele:chargeClientele,
-    chargeRecouvrement:chargeRecouvrement,
-    comptable:comptable,
-    secretaire:secretaire,
-    autres:autres,
+export const JSImages = {
+  logo: logo,
+  administrateur: administrateur,
+  chargeClientele: chargeClientele,
+  chargeRecouvrement: chargeRecouvrement,
+  comptable: comptable,
+  secretaire: secretaire,
+  autres: autres,
 };
-
-

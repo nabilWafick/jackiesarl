@@ -35,6 +35,7 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
               <td className="font-medium">Num Chauffeur</td>
               <td className="font-medium">Bon Commande</td>
               <td className="font-medium">Quantite</td>
+              <td className=" font-medium">Date d'approvisionnement</td>
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
@@ -49,6 +50,15 @@ const TruckStockTable: FC<TruckStockTableProps> = ({ trucksStock }) => {
                   <td>
                     {truckStock.quantite}
                     <i> t</i>
+                  </td>
+                  <td>
+                    {new Date(
+                      truckStock.date_approvisionnement!
+                    )!.toLocaleDateString("fr-FR", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </td>
                   <td>
                     <div>

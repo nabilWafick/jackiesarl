@@ -24,6 +24,7 @@ export default {
         primary: "#FAE5E5",
         secondary: "#D55F5A",
         tableTextColor: "#454545",
+        backgroundColor: "#F5F5F5",
       },
     },
   },

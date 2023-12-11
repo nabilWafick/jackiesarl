@@ -71,6 +71,7 @@ const MECEFBillTable: FC<MECEFBillTableProps> = ({ billList }) => {
                         href={bill.fichier as string}
                         target="_blank"
                         download={true}
+                        className="flex justify-center self-center"
                       >
                         <FaFile className="text-secondary" />
                       </a>

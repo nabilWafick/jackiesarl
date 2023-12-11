@@ -40,6 +40,7 @@ const CompanyPurchasesTable: FC<CompanyPurchasesTableProps> = ({
               <td className="font-medium">Banque</td>
               <td className="font-medium">Chèque</td>
               <td className="font-medium">Bordereau</td>
+              <td className="font-medium">Date d'achat</td>
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
@@ -65,9 +66,20 @@ const CompanyPurchasesTable: FC<CompanyPurchasesTableProps> = ({
                       href={companyPurchase.bordereau as string}
                       target="_blank"
                       download={true}
+                      className="flex justify-center self-center"
                     >
                       <FaFile className="text-secondary" />
                     </a>
+                  )}
+                </td>
+                <td>
+                  {new Date(companyPurchase.date_achat!)!.toLocaleDateString(
+                    "fr-FR",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
                   )}
                 </td>
                 <td>

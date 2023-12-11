@@ -19,6 +19,7 @@ const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
               <td className="font-medium">Description</td>
               <td className="font-medium">Montant</td>
               <td className="font-medium">Pièce</td>
+              <td className="font-medium">Date de dépense</td>
             </tr>
 
             {expensesList.map((expense) => {
@@ -38,9 +39,20 @@ const ExpensesTable: FC<ExpensesTableProps> = ({ expensesList }) => {
                           href={expense.piece as string}
                           target="_blank"
                           download={true}
+                          className="flex justify-center self-center"
                         >
                           <FaFile className="text-secondary" />
                         </a>
+                      )}
+                    </td>
+                    <td>
+                      {new Date(expense.date_depense!)!.toLocaleDateString(
+                        "fr-FR",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
                       )}
                     </td>
                   </tr>

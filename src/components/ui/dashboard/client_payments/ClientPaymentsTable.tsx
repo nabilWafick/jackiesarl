@@ -29,6 +29,7 @@ const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
               <td className="font-medium">Banque</td>
               <td className="font-medium">Reference</td>
               <td className="font-medium">Bordereau</td>
+              <td className=" font-medium">Date de paiement</td>
               {/* <td className="font-medium"></td>
               <td className="font-medium"></td> */}
             </tr>
@@ -52,10 +53,20 @@ const ClientPaymentsTable: FC<ClientPaymentsTableProps> = ({
                           href={clientPayment.bordereau as string}
                           target="_blank"
                           download={true}
+                          className="flex justify-center self-center"
                         >
                           <FaFile className="text-secondary" />
                         </a>
                       )}
+                    </td>
+                    <td>
+                      {new Date(
+                        clientPayment.date_paiement!
+                      )!.toLocaleDateString("fr-FR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </td>
                     {/* <td>
                     <center className="flex items-center justify-center">

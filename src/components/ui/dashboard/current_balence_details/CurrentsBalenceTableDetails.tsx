@@ -41,6 +41,7 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
               <td className="font-medium">Débit</td>
               <td className="font-medium">Crédit</td>
               <td className="font-medium">Solde Actuel</td>
+              <td className="font-medium">Date d'écriture</td>
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
@@ -56,6 +57,16 @@ const CurrentsBalenceTable: FC<CurrentsBalenceDetailsTableProps> = ({
                 </td>
                 <td>
                   {currentBalence.solde_actuel} <i> fcfa</i>
+                </td>
+                <td>
+                  {new Date(currentBalence.date_activite!)!.toLocaleDateString(
+                    "fr-FR",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
                 </td>
                 <td>
                   <div>

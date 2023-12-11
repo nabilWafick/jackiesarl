@@ -16,7 +16,7 @@ const TotalStockCard: FC = () => {
   }, [fetchTotalStocksBonCommande, isToday]);
 
   return (
-    <div className="h-[500px] w-full sm:h-[500px] sm:w-full md:h-[500px] md:w-full lg:h-full lg:w-1/2 bg-slate-50 p-3 mr-1.5 batonnet shadow-md rounded-lg">
+    <div className="h-[500px] w-full sm:h-[500px] sm:w-full md:h-[500px] md:w-full lg:h-full lg:w-1/2 p-3 mr-1.5 batonnet shadow-md rounded-lg">
       <div className="flex mb-3 justify-between text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px]">
         <p className="font-medium ">Stock Total</p>
         <p className="font-bold text-secondary">

@@ -80,7 +80,8 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
               <td className="font-medium">Banque</td>
               <td className="font-medium">Montant</td>
               <td className="font-medium">Reste</td>
-              <td> </td>
+              <td className="font-medium">Date de remise</td>
+              <td></td>
               <td></td>
               <td></td>
             </tr>
@@ -95,6 +96,15 @@ const ClientChecksRemittanceTable: FC<ClientChecksRemittanceTableProps> = ({
                 </td>
                 <td>
                   {clientCheckRemittance.reste} <i> fcfa</i>
+                </td>
+                <td>
+                  {new Date(
+                    clientCheckRemittance.date_remise!
+                  )!.toLocaleDateString("fr-FR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </td>
                 <td>
                   <i className="flex justify-end">

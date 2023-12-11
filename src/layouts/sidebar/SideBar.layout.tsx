@@ -300,7 +300,7 @@ const SideBar: FC = () => {
 
   return (
     <aside
-      className="fixed top-0 left-0 h-full w-[10vh] sm:w-[13vh] md:w-[20vh] lg:w-[30vh]  z-10 shadow-md bg-white opacity-100"
+      className="fixed top-0 left-0 h-full w-[10vh] sm:w-[13vh] md:w-[20vh] lg:w-[30vh]  z-10 shadow-md opacity-100"
       // className="h-screen w-2/12 flex flex-col shadow-sm fixed top-0 left-0 overflow-x-hidden bg-white" previous sytle
       //style={{ width: "30vh" }}
     >

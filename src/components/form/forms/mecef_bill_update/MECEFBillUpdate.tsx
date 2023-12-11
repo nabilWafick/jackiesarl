@@ -52,7 +52,7 @@ const MECEFBillUpdate: FC<MECEFBillUpdateProps> = ({
     <Modal label={modalLabel}>
       <form onSubmit={onFormSubmit}>
         <div
-          className="flex flex-col self-center justify-center bg-white items-center my-10' w-[300px] p-3 shadow-xl
+          className="flex flex-col self-center justify-center items-center my-10' w-[300px] p-3 shadow-xl
         "
         >
           <div className="p-2 mt-1 mb-4 rounded-md shadow-md bg-secondary text-white">

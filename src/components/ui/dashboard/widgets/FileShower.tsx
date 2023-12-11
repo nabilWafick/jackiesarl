@@ -18,8 +18,8 @@ const FileShower: FC = () => {
 
   return (
     <Modal label="file-shower">
-      <div className="flex flex-col self-center justify-center bg-white items-center min-w-min max-w-[700px] p-3 shadow-xl relative overflow-auto ">
-        <div className=" flex flex-col justify-between items-center fixed top-5 right-[358.8px] bg-white px-2 py-3">
+      <div className="flex flex-col self-center justify-center  items-center min-w-min max-w-[700px] p-3 shadow-xl relative overflow-auto ">
+        <div className=" flex flex-col justify-between items-center fixed top-5 right-[358.8px]  px-2 py-3">
           <FaWindowClose
             size={20}
             className="text-secondary hover:cursor-pointer"

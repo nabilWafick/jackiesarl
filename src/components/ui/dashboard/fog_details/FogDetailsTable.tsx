@@ -52,6 +52,7 @@ const FogDetailsTable: FC<FogDetailsTableProps> = ({ fogDetails }) => {
               <td className="font-medium">Versement</td>
               <td className="font-medium">Dépense</td>
               <td className="font-medium">Observation</td>
+              <td className="font-medium">Date de remplissage</td>
               <td className="font-medium"></td>
               <td className="font-medium"></td>
             </tr>
@@ -77,6 +78,16 @@ const FogDetailsTable: FC<FogDetailsTableProps> = ({ fogDetails }) => {
                   {fogDetail.depense} <i> fcfa</i>
                 </td>
                 <td>{fogDetail.observation}</td>
+                <td>
+                  {new Date(fogDetail.date_remplissage!)!.toLocaleDateString(
+                    "fr-FR",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
+                </td>
                 <td>
                   <FogDetailsUpdate
                     key={Date.now() + fogDetail.id!}

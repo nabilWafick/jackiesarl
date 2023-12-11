@@ -22,6 +22,7 @@ const ClientsTable: FC<ClientsTableProps> = ({ clientsList }) => {
             <td className="font-medium">Numero IFU</td>
             <td className="font-medium">Numero de telephone</td>
             <td className="font-medium">Adresse Email</td>
+            <td className="font-medium">Date d'ajout</td>
             <td className="font-medium"></td>
           </tr>
 
@@ -62,6 +63,19 @@ const ClientsTable: FC<ClientsTableProps> = ({ clientsList }) => {
                     to="/client"
                   >
                     {client.email}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    className="text-tableTextColor font-normal hover:text-tableTextColor focus:text-tableTextColor"
+                    onClick={() => setSelectedClient(client)}
+                    to="/client"
+                  >
+                    {new Date(client.date_ajout!)!.toLocaleDateString("fr-FR", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </Link>
                 </td>
                 <td>
